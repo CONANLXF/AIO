@@ -186,7 +186,7 @@ using TargetSelector = PortAIO.TSManager; namespace ezEvade
                 Console.WriteLine(e);
             }
         }
-        private static SpellTester spellTester;
+        //private static SpellTester spellTester;
         public static Menu miscMenu, keyMenu, mainMenu;
 
         public static bool getCheckBoxItem(Menu m, string item)
