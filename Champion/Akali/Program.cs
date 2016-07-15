@@ -9,7 +9,7 @@ using EloBuddy.SDK.Menu.Values;
 using LeagueSharp.Common;
 using Damage = LeagueSharp.Common.Damage;
 using Spell = LeagueSharp.Common.Spell;
-using TargetSelector = PortAIO.TSManager;
+
 
 namespace PortAIO.Champion.Akali
 {
@@ -160,12 +160,12 @@ namespace PortAIO.Champion.Akali
 
             PortAIO.OrbwalkerManager.SetAttack(true);
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 Combo();
             }
 
-            if (PortAIO.OrbwalkerManager.isHarassActive ||
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass) ||
                 getKeyBindItem(HarassMenu, "HarassUseQT"))
             {
                 var vEnergy = getSliderItem(HarassMenu, "HarassEnergy");
@@ -173,7 +173,7 @@ namespace PortAIO.Champion.Akali
                     Harass();
             }
 
-            var lc = PortAIO.OrbwalkerManager.isLaneClearActive;
+            var lc = Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear);
             if (lc)
             {
                 Farm(lc);

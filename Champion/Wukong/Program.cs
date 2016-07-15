@@ -14,7 +14,7 @@ using Spell = LeagueSharp.Common.Spell;
 
 #endregion
 
-using TargetSelector = PortAIO.TSManager; namespace Wukong
+ namespace Wukong
 {
     internal class Program
     {
@@ -197,19 +197,19 @@ using TargetSelector = PortAIO.TSManager; namespace Wukong
                     break;
             }
 
-            if (PortAIO.OrbwalkerManager.isComboActive && (int) Game.Time > ultUsed + 4)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) && (int) Game.Time > ultUsed + 4)
             {
                 Combo();
             }
 
-            if (PortAIO.OrbwalkerManager.isHarassActive && (int) Game.Time > ultUsed + 4)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass) && (int) Game.Time > ultUsed + 4)
             {
                 var vMana = getSliderItem(menuHarass, "HarassMana");
                 if (Player.ManaPercent >= vMana)
                     Harass();
             }
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 var clearMana = getSliderItem(menuLane, "LaneClearMana");
                 if (Player.ManaPercent >= clearMana)

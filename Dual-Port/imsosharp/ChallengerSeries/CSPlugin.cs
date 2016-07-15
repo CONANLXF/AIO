@@ -19,7 +19,7 @@ using SharpDX;
 using Color = System.Drawing.Color;
 using LeagueSharp.Data.Enumerations;
 
-using TargetSelector = PortAIO.TSManager; namespace Challenger_Series
+ namespace Challenger_Series
 {
     using EloBuddy;
     using EloBuddy.SDK;

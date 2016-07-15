@@ -1,4 +1,4 @@
-﻿using TargetSelector = PortAIO.TSManager; namespace ElEasy.Plugins
+﻿ namespace ElEasy.Plugins
 {
     using System;
     using System.Collections.Generic;

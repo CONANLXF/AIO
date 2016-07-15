@@ -19,7 +19,7 @@ using System.Linq;
 using System.Security.AccessControl;
 using System;
 using System.Speech.Synthesis;
-using TargetSelector = PortAIO.TSManager;
+
 
 namespace HeavenStrikeAzir
 {
@@ -33,8 +33,8 @@ namespace HeavenStrikeAzir
 
         private static void Game_OnUpdate(EventArgs args)
         {
-            if (!PortAIO.OrbwalkerManager.isLastHitActive &&
-                !PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (!Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LastHit) &&
+                !Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
                 return;
         }
     }

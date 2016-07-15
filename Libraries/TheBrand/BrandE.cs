@@ -22,15 +22,15 @@ namespace TheBrand
         public override void Initialize(ComboProvider combo)
         {
             _brandQ = combo.GetSkill<BrandQ>();
-            PortAIO.OrbwalkerManager.LSOrbwalker.OnNonKillableMinion += OnMinionUnkillable;
-            LSEvents.BeforeAttack += Orbwalking_BeforeAttack;
+            Orbwalker.OnUnkillableMinion += OnMinionUnkillable;
+            Orbwalker.OnPreAttack += Orbwalking_BeforeAttack;
             base.Initialize(combo);
         }
 
-        private void Orbwalking_BeforeAttack(BeforeAttackArgs args)
+        private void Orbwalking_BeforeAttack(AttackableUnit target, Orbwalker.PreAttackArgs args)
         {
             _recentFarmTarget = args.Target.Type == GameObjectType.obj_AI_Base
-                ? (Obj_AI_Base) args.Target
+                ? (Obj_AI_Base)args.Target
                 : _recentFarmTarget;
         }
 
@@ -49,7 +49,7 @@ namespace TheBrand
         public override void Execute(AIHeroClient target)
         {
             var distance = target.LSDistance(ObjectManager.Player);
-                //Todo: make him use fireminions even in range, just for showoff and potential AOE. Check if hes on fire too though
+            //Todo: make him use fireminions even in range, just for showoff and potential AOE. Check if hes on fire too though
             if (distance < 950 && distance > 650 && Program.getMiscMenuCB("eMinion"))
             {
                 var fireMinion =
@@ -89,14 +89,14 @@ namespace TheBrand
             Cast(bestMinion);
         }
 
-        private void OnMinionUnkillable(AttackableUnit minion)
+        private void OnMinionUnkillable(Obj_AI_Base target, Orbwalker.UnkillableMinionArgs args)
         {
             if (!Program.getMiscMenuCB("eFarmAssist")) return;
-            if (!PortAIO.OrbwalkerManager.isComboActive &&
-                minion.Position.LSDistance(ObjectManager.Player.Position) < 650 &&
-                (_recentFarmTarget == null || minion.NetworkId != _recentFarmTarget.NetworkId))
+            if (!Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) &&
+                target.Position.LSDistance(ObjectManager.Player.Position) < 650 &&
+                (_recentFarmTarget == null || target.NetworkId != _recentFarmTarget.NetworkId))
             {
-                Cast(minion as Obj_AI_Base);
+                Cast(target);
             }
         }
 

@@ -9,7 +9,7 @@ using LeagueSharp.Common;
 using SharpDX;
 using EloBuddy;
 
-using TargetSelector = PortAIO.TSManager; namespace ezEvade.SpecialSpells
+ namespace ezEvade.SpecialSpells
 {
     class Viktor : ChampionPlugin
     {

@@ -12,7 +12,7 @@ using EloBuddy.SDK.Menu;
 using EloBuddy.SDK.Menu.Values;
 using EloBuddy.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace Irelia.Modes
+ namespace Irelia.Modes
 {
     internal class DangerousSpells
     {
@@ -132,7 +132,7 @@ using TargetSelector = PortAIO.TSManager; namespace Irelia.Modes
         private static void GameOnOnUpdate(EventArgs args)
         {
             JumpTarget = TargetSelector.GetTarget(Q.Range*3, DamageType.Physical);
-            if (!PortAIO.OrbwalkerManager.isComboActive)
+            if (!Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 return;
             }

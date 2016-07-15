@@ -2,7 +2,7 @@
 using EloBuddy.SDK.Menu.Values;
 using LeagueSharp.Common;
 
-using TargetSelector = PortAIO.TSManager; namespace Dark_Star_Thresh
+ namespace Dark_Star_Thresh
 {
     class MenuConfig : Core.Core
     {

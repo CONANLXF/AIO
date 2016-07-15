@@ -8,7 +8,7 @@ using EloBuddy;
 
 #endregion
 
-using TargetSelector = PortAIO.TSManager; namespace Swiftly_Teemo.Draw
+ namespace Swiftly_Teemo.Draw
 {
     internal class Drawings : Core
     {

@@ -6,7 +6,7 @@ using LeagueSharp.SDK;
 using LeagueSharp.SDK.Core.Utils;
 using LeagueSharp.SDK.Enumerations;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Caitlyn
+ namespace ExorAIO.Champions.Caitlyn
 {
     /// <summary>
     ///     The logics class.

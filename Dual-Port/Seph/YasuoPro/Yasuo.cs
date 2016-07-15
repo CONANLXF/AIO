@@ -8,7 +8,7 @@ using EloBuddy.SDK;
 using System.Collections.Generic;
 using Valvrave_Sharp.Evade;
 
-using TargetSelector = PortAIO.TSManager; namespace YasuoPro
+ namespace YasuoPro
 {
 
     //Credits to Kortatu/Esk0r for his work on Evade which this assembly relies on heavily!
@@ -89,7 +89,7 @@ using TargetSelector = PortAIO.TSManager; namespace YasuoPro
                 return;
             }
 
-            Fleeing = PortAIO.OrbwalkerManager.isFleeActive;
+            Fleeing = Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Flee);
 
             if (GetBool("Killsteal.Enabled", YasuoMenu.KillstealM) && !Fleeing)
             {
@@ -101,31 +101,31 @@ using TargetSelector = PortAIO.TSManager; namespace YasuoPro
                 Harass();
             }
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 PortAIO.OrbwalkerManager.SetAttack(true);
                 Combo();
             }
 
-            if (PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 PortAIO.OrbwalkerManager.SetAttack(true);
                 Mixed();
             }
 
-            if (PortAIO.OrbwalkerManager.isLastHitActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LastHit))
             {
                 PortAIO.OrbwalkerManager.SetAttack(true);
                 LHSkills();
             }
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 PortAIO.OrbwalkerManager.SetAttack(true);
                 Waveclear();
             }
 
-            if (PortAIO.OrbwalkerManager.isFleeActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Flee))
             {
                 Flee();
             }
@@ -137,7 +137,7 @@ using TargetSelector = PortAIO.TSManager; namespace YasuoPro
             {
                 return;
             }
-            if (GetBool("Combo.UseR", YasuoMenu.ComboM) && PortAIO.OrbwalkerManager.isComboActive)
+            if (GetBool("Combo.UseR", YasuoMenu.ComboM) && Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 CastR(GetSliderInt("Combo.RMinHit", YasuoMenu.ComboM));
             }
@@ -435,7 +435,7 @@ using TargetSelector = PortAIO.TSManager; namespace YasuoPro
                     var endpos = args.EndPos;
                     if (SpellSlot.Q.IsReady())
                     {
-                        if (PortAIO.OrbwalkerManager.isComboActive || PortAIO.OrbwalkerManager.isHarassActive)
+                        if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
                         {
                             if (TornadoReady)
                             {
@@ -466,7 +466,7 @@ using TargetSelector = PortAIO.TSManager; namespace YasuoPro
                             }
                         }
 
-                        else if (!PortAIO.OrbwalkerManager.isNoneActive)
+                        else if (!Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.None))
                         {
                             if (endpos.To3D().MinionsInRange(QRadius) >= 1 ||
                                 endpos.To3D().LSCountEnemiesInRange(QRadius) >= 1)
@@ -551,7 +551,7 @@ using TargetSelector = PortAIO.TSManager; namespace YasuoPro
 
             if (FleeMode == FleeType.ToCursor)
             {
-                PortAIO.OrbwalkerManager.MoveA(Game.CursorPos);
+                Orbwalker.MoveTo(Game.CursorPos);
 
                 var smart = GetBool("Flee.Smart", YasuoMenu.MiscM);
 
@@ -651,7 +651,7 @@ using TargetSelector = PortAIO.TSManager; namespace YasuoPro
                 var nexus = shop;
                 if (nexus != null)
                 {
-                    PortAIO.OrbwalkerManager.MoveA(nexus.Position);
+                    Orbwalker.MoveTo(nexus.Position);
                     var bestminion = ObjectManager.Get<Obj_AI_Base>().Where(x => x.IsDashable()).MinOrDefault(x => GetDashPos(x).LSDistance(nexus.Position));
                     if (bestminion != null && (!GetBool("Flee.Smart", YasuoMenu.MiscM) || GetDashPos(bestminion).LSDistance(nexus.Position) < Yasuo.LSDistance(nexus.Position)))
                     {
@@ -677,7 +677,7 @@ using TargetSelector = PortAIO.TSManager; namespace YasuoPro
 
                 if (bestally != null)
                 {
-                    PortAIO.OrbwalkerManager.MoveA(bestally.ServerPosition);
+                    Orbwalker.MoveTo(bestally.ServerPosition);
                     if (Spells[E].IsReady())
                     {
                         var besttarget =
@@ -700,7 +700,7 @@ using TargetSelector = PortAIO.TSManager; namespace YasuoPro
                     var nexus = shop;
                     if (nexus != null)
                     {
-                        PortAIO.OrbwalkerManager.MoveA(nexus.Position);
+                        Orbwalker.MoveTo(nexus.Position);
                         var bestminion = ObjectManager.Get<Obj_AI_Base>().Where(x => x.IsDashable()).MinOrDefault(x => GetDashPos(x).LSDistance(nexus.Position));
                         if (bestminion != null && GetDashPos(bestminion).LSDistance(nexus.Position) < Yasuo.LSDistance(nexus.Position))
                         {

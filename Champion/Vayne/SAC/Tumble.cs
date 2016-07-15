@@ -8,7 +8,7 @@ using Vayne1;
 using Geometry = LeagueSharp.Common.Geometry;
 using Utility = LeagueSharp.Common.Utility;
 
-using TargetSelector = PortAIO.TSManager; namespace SAutoCarry.Champions.Helpers
+ namespace SAutoCarry.Champions.Helpers
 {
     public static class Tumble
     {

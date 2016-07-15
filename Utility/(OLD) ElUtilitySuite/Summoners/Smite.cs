@@ -1,4 +1,4 @@
-﻿using TargetSelector = PortAIO.TSManager; namespace ElUtilitySuite.Summoners
+﻿ namespace ElUtilitySuite.Summoners
 {
     using System;
     using System.Collections.Generic;
@@ -336,7 +336,7 @@
         {
             get
             {
-                return Entry.getComboMenu() || PortAIO.OrbwalkerManager.isComboActive;
+                return Entry.getComboMenu() || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo);
             }
         }
 

@@ -4,7 +4,7 @@ using LeagueSharp;
 using LeagueSharp.Common;
 using EloBuddy;
 
-using TargetSelector = PortAIO.TSManager; namespace Activators.Items.Offensives
+ namespace Activators.Items.Offensives
 {
     class _3043 : CoreItem
     {

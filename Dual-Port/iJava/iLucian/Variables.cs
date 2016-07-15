@@ -9,7 +9,7 @@ using LeagueSharp.Common;
 using EloBuddy.SDK.Menu;
 using EloBuddy;
 
-using TargetSelector = PortAIO.TSManager; namespace iLucian
+ namespace iLucian
 {
     internal class Variables
     {

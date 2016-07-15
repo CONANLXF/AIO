@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-using TargetSelector = PortAIO.TSManager; namespace YasuoSharpV2
+ namespace YasuoSharpV2
 {
     static class Program
     {

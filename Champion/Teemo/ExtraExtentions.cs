@@ -1,7 +1,7 @@
 ﻿using EloBuddy;
 using EloBuddy.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace PortAIO.Champion.Teemo
+ namespace PortAIO.Champion.Teemo
 {
     internal static class ExtraExtensions
     {

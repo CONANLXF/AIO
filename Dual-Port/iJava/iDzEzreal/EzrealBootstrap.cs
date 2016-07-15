@@ -8,7 +8,7 @@ using LeagueSharp;
 using iDZEzreal.MenuHelper;
 using EloBuddy;
 
-using TargetSelector = PortAIO.TSManager; namespace iDZEzreal
+ namespace iDZEzreal
 {
     class EzrealBootstrap
     {

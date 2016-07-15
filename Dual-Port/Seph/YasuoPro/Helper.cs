@@ -10,7 +10,7 @@ using EloBuddy.SDK.Menu.Values;
 using EloBuddy.SDK.Menu;
 using EloBuddy.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace YasuoPro
+ namespace YasuoPro
 {
     class Helper
     {

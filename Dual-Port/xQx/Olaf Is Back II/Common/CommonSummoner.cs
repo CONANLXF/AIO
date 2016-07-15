@@ -10,7 +10,7 @@ using EloBuddy.SDK;
 using EloBuddy.SDK.Menu.Values;
 using EloBuddy.SDK.Menu;
 
-using TargetSelector = PortAIO.TSManager; namespace OlafxQx.Common
+ namespace OlafxQx.Common
 {
     internal class CommonSummoner
     {
@@ -74,7 +74,7 @@ using TargetSelector = PortAIO.TSManager; namespace OlafxQx.Common
 
         private static void Game_OnUpdate(EventArgs args)
         {
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
                 UseSpells();
         }
 

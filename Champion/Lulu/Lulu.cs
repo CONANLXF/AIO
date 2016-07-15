@@ -11,7 +11,7 @@ using TreeLib.Core;
 using TreeLib.Core.Extensions;
 using TreeLib.Managers;
 
-using TargetSelector = PortAIO.TSManager; namespace LuluLicious
+ namespace LuluLicious
 {
     internal class Lulu : TreeLib.Objects.Champion
     {
@@ -243,7 +243,7 @@ using TargetSelector = PortAIO.TSManager; namespace LuluLicious
         private static bool PixCombo()
         {
             string s = "";
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 s = "Combo";
             }
@@ -262,7 +262,7 @@ using TargetSelector = PortAIO.TSManager; namespace LuluLicious
                 return;
             }
 
-            var condition = PortAIO.OrbwalkerManager.isLaneClearActive ? getCheckBoxItem(qMenu, "QLC") : getCheckBoxItem(qMenu, "QLH");
+            var condition = Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear) ? getCheckBoxItem(qMenu, "QLC") : getCheckBoxItem(qMenu, "QLH");
 
             if (qMenu["QLC"] == null || qMenu["QLH"] == null || !condition)
             {
@@ -286,7 +286,7 @@ using TargetSelector = PortAIO.TSManager; namespace LuluLicious
                 return;
             }
 
-            if (PortAIO.OrbwalkerManager.isLastHitActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LastHit))
             {
                 return;
             }
@@ -322,7 +322,7 @@ using TargetSelector = PortAIO.TSManager; namespace LuluLicious
                 return;
             }
 
-            if (Flee() || PortAIO.OrbwalkerManager.isFleeActive)
+            if (Flee() || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Flee))
             {
                 return;
             }
@@ -496,7 +496,7 @@ using TargetSelector = PortAIO.TSManager; namespace LuluLicious
 
         private static bool Flee()
         {
-            if (!getKeyBindItem(fleeMenu, "Flee") || !PortAIO.OrbwalkerManager.isFleeActive)
+            if (!getKeyBindItem(fleeMenu, "Flee") || !Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Flee))
             {
                 return false;
             }
@@ -610,7 +610,7 @@ using TargetSelector = PortAIO.TSManager; namespace LuluLicious
             }
         }
 
-        public override void Orbwalking_BeforeAttack(BeforeAttackArgs args)
+        public override void Orbwalking_BeforeAttack(AttackableUnit target, Orbwalker.PreAttackArgs args)
         {
             if (!getCheckBoxItem(miscMenu, "Support") ||
                 !HeroManager.Allies.Any(x => x.LSIsValidTarget(1000, false) && !x.IsMe))
@@ -618,7 +618,7 @@ using TargetSelector = PortAIO.TSManager; namespace LuluLicious
                 return;
             }
 
-            if (!PortAIO.OrbwalkerManager.isHarassActive && !PortAIO.OrbwalkerManager.isLastHitActive)
+            if (!Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass) && !Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LastHit))
             {
                 return;
             }

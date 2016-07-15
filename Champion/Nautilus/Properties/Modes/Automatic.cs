@@ -1,6 +1,6 @@
 using System;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Nautilus
+ namespace ExorAIO.Champions.Nautilus
 {
     /// <summary>
     ///     The logics class.

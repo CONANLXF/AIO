@@ -6,7 +6,7 @@ using SharpDX;
 using SCommon.Database;
 using EloBuddy;
 
-using TargetSelector = PortAIO.TSManager; namespace xSLx_Orbwalker
+ namespace xSLx_Orbwalker
 {
     public static class Utility
     {

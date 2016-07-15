@@ -12,7 +12,7 @@ using EloBuddy.SDK.Menu;
 using EloBuddy.SDK.Menu.Values;
 using EloBuddy.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace ezEvade
+ namespace ezEvade
 {
     internal class Evade
     {
@@ -97,7 +97,7 @@ using TargetSelector = PortAIO.TSManager; namespace ezEvade
 
                 Game.OnEnd += Game_OnGameEnd;
                 SpellDetector.OnProcessDetectedSpells += SpellDetector_OnProcessDetectedSpells;
-                LSEvents.BeforeAttack += Orbwalking_BeforeAttack;
+                Orbwalker.OnPreAttack += Orbwalking_BeforeAttack;
 
                 /*Console.WriteLine("<font color=\"#66CCFF\" >Yomie's </font><font color=\"#CCFFFF\" >ezEvade</font> - " +
                    "<font color=\"#FFFFFF\" >Version " + Assembly.GetExecutingAssembly().GetName().Version + "</font>");
@@ -556,7 +556,7 @@ using TargetSelector = PortAIO.TSManager; namespace ezEvade
             }
         }
 
-        private void Orbwalking_BeforeAttack(BeforeAttackArgs args)
+        private void Orbwalking_BeforeAttack(AttackableUnit target, Orbwalker.PreAttackArgs args)
         {
             if (isDodging)
             {

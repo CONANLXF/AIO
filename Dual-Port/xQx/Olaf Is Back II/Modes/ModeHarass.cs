@@ -12,7 +12,7 @@ using EloBuddy;
 using EloBuddy.SDK.Menu.Values;
 using EloBuddy.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace OlafxQx.Modes
+ namespace OlafxQx.Modes
 {
     internal static class ModeHarass
     {
@@ -36,7 +36,7 @@ using TargetSelector = PortAIO.TSManager; namespace OlafxQx.Modes
         
         private static void OnUpdate(EventArgs args)
         {
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 return;
             }
@@ -46,7 +46,7 @@ using TargetSelector = PortAIO.TSManager; namespace OlafxQx.Modes
                 return;
             }
 
-            if (PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 ExecuteHarass();
             }

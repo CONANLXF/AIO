@@ -4,8 +4,9 @@ using ExorAIO.Utilities;
 using EloBuddy;
 using LeagueSharp.SDK;
 using LeagueSharp.SDK.Core.Utils;
+using EloBuddy.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Diana
+namespace ExorAIO.Champions.Diana
 
 {
     /// <summary>

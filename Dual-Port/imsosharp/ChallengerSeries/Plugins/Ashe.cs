@@ -13,7 +13,7 @@ using EloBuddy.SDK.Menu;
 using EloBuddy.SDK.Menu.Values;
 using LeagueSharp.SDK.Enumerations;
 
-using TargetSelector = PortAIO.TSManager; namespace Challenger_Series.Plugins
+ namespace Challenger_Series.Plugins
 {
     public class Ashe : CSPlugin
     {
@@ -29,16 +29,16 @@ using TargetSelector = PortAIO.TSManager; namespace Challenger_Series.Plugins
             R.SetSkillshot(0.25f, 100f, 1600f, false, SkillshotType.SkillshotLine);
             InitMenu();
             AIHeroClient.OnSpellCast += OnDoCast;
-            LeagueSharp.Common.LSEvents.BeforeAttack += Orbwalker_OnPreAttack;
+            Orbwalker.OnPreAttack += Orbwalker_OnPreAttack;
             DelayedOnUpdate += OnUpdate;
             Drawing.OnDraw += OnDraw;
             Events.OnGapCloser += EventsOnOnGapCloser;
             Events.OnInterruptableTarget += OnInterruptableTarget;
         }
         
-        private void Orbwalker_OnPreAttack(LeagueSharp.Common.BeforeAttackArgs args)
+        private void Orbwalker_OnPreAttack(AttackableUnit target, Orbwalker.PreAttackArgs args)
         {
-            if (Q.IsReady() && args.Target is AIHeroClient && PortAIO.OrbwalkerManager.isComboActive && UseQCombo)
+            if (Q.IsReady() && args.Target is AIHeroClient && Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) && UseQCombo)
             {
                 Q.Cast();
             }
@@ -77,7 +77,7 @@ using TargetSelector = PortAIO.TSManager; namespace Challenger_Series.Plugins
         void WLogic()
         {
             var wTarget = TargetSelector.GetTarget(1100, DamageType.Physical);
-            if (wTarget != null && !PortAIO.OrbwalkerManager.isNoneActive && UseWHarass && !ValidTargets.Any(e => e.InAutoAttackRange()))
+            if (wTarget != null && !Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.None) && UseWHarass && !ValidTargets.Any(e => e.InAutoAttackRange()))
             {
                 var pred = W.GetPrediction(wTarget);
                 if (!pred.CollisionObjects.Any() &&
@@ -92,7 +92,7 @@ using TargetSelector = PortAIO.TSManager; namespace Challenger_Series.Plugins
         void RLogic()
         {
             var rTarget = TargetSelector.GetTarget(1400, DamageType.Physical);
-            if (rTarget != null && R.IsReady() && PortAIO.OrbwalkerManager.isComboActive && UseRCombo)
+            if (rTarget != null && R.IsReady() && Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) && UseRCombo)
             {
                 var pred = R.GetPrediction(rTarget);
                 if (pred.Hitchance >= HitChance.High)
@@ -102,7 +102,7 @@ using TargetSelector = PortAIO.TSManager; namespace Challenger_Series.Plugins
 
         void ELogic()
         {
-            if (E.IsReady() && !PortAIO.OrbwalkerManager.isComboActive && !PortAIO.OrbwalkerManager.isNoneActive && ValidTargets.Count(e => e.InAutoAttackRange()) == 0)
+            if (E.IsReady() && !Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) && !Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.None) && ValidTargets.Count(e => e.InAutoAttackRange()) == 0)
             {
                 switch (ScoutMode)
                 {
@@ -185,7 +185,7 @@ using TargetSelector = PortAIO.TSManager; namespace Challenger_Series.Plugins
                 var target = args.Target as AIHeroClient;
                 if (name.Contains("AsheBasicAttack") || name.Contains("AsheCritAttack"))
                 {
-                    if (PortAIO.OrbwalkerManager.isComboActive && UseWCombo && target.ServerPosition.Distance(ObjectManager.Player.ServerPosition) > 300)
+                    if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) && UseWCombo && target.ServerPosition.Distance(ObjectManager.Player.ServerPosition) > 300)
                     {
                         var pred = W.GetPrediction(target);
                         if (pred.UnitPosition.Distance(ObjectManager.Player.ServerPosition) < 1000 &&

@@ -10,7 +10,7 @@ using static Firestorm_AIO.Champions.Anivia.ObjManager;
 using static Firestorm_AIO.Helpers.Helpers;
 using EloBuddy.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace Firestorm_AIO.Champions.Anivia
+ namespace Firestorm_AIO.Champions.Anivia
 {
     public class Anivia : Bases.ChampionBase
     {

@@ -7,7 +7,7 @@ using Spell = LeagueSharp.SDK.Spell;
 
 #endregion
 
-using TargetSelector = PortAIO.TSManager; namespace Spirit_Karma.Core
+ namespace Spirit_Karma.Core
 {
     internal class Spells
     {

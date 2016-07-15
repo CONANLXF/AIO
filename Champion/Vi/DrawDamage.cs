@@ -4,7 +4,7 @@ using System.Linq;
 using EloBuddy;
 using LeagueSharp.Common;
 
-using TargetSelector = PortAIO.TSManager; namespace ElVi
+ namespace ElVi
 {
     internal class DrawDamage //by xSalice
     {

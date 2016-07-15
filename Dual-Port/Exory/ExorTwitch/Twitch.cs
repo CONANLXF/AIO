@@ -7,7 +7,7 @@ using LeagueSharp.SDK.Core.Utils;
 using EloBuddy;
 using EloBuddy.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Twitch
+ namespace ExorAIO.Champions.Twitch
 {
     /// <summary>
     ///     The champion class.
@@ -66,17 +66,17 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Twitch
                 return;
             }
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 Logics.Combo(args);
             }
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 Logics.Harass(args);
             }
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 Logics.Clear(args);
             }
@@ -92,12 +92,12 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Twitch
             if (sender.IsMe &&
                 AutoAttack.IsAutoAttack(args.SData.Name))
             {
-                if (PortAIO.OrbwalkerManager.isComboActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
                 {
                     Logics.Weaving(sender, args);
                 }
 
-                if (PortAIO.OrbwalkerManager.isLaneClearActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
                 {
                     Logics.JungleClear(sender, args);
                     Logics.BuildingClear(sender, args);
@@ -125,7 +125,7 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Twitch
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="args">The <see cref="OrbwalkingActionArgs" /> instance containing the event data.</param>
-        public static void OnAction(LeagueSharp.Common.BeforeAttackArgs args)
+        public static void OnAction(AttackableUnit target, Orbwalker.PreAttackArgs args)
         {
             if (!GameObjects.Player.IsUnderEnemyTurret() &&
                 GameObjects.Player.HasBuff("TwitchHideInShadows"))

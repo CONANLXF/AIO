@@ -7,7 +7,7 @@ using LeagueSharp.Data.Enumerations;
 using EloBuddy;
 using LeagueSharp.SDK.Core.Utils;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Karma
+ namespace ExorAIO.Champions.Karma
 {
     /// <summary>
     ///     The logics class.

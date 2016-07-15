@@ -12,7 +12,7 @@ using Geometry = LeagueSharp.Common.Geometry;
 using ItemData = LeagueSharp.Common.Data.ItemData;
 using Spell = LeagueSharp.Common.Spell;
 
-using TargetSelector = PortAIO.TSManager; namespace GFUELTalon
+ namespace GFUELTalon
 {
     internal class Talon
     {
@@ -54,7 +54,7 @@ using TargetSelector = PortAIO.TSManager; namespace GFUELTalon
                 Game.OnUpdate += OnUpdate;
                 Drawing.OnDraw += OnDraw;
                 AntiGapcloser.OnEnemyGapcloser += AntiGapcloser_OnEnemyGapcloser;
-                LSEvents.AfterAttack += OrbwalkingAfterAttack;
+                Orbwalker.OnPostAttack += OrbwalkingAfterAttack;
             }
             catch (Exception exception)
             {
@@ -653,17 +653,17 @@ using TargetSelector = PortAIO.TSManager; namespace GFUELTalon
                     return;
                 }
 
-                if (PortAIO.OrbwalkerManager.isComboActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
                 {
                     DoCombo();
                 }
 
-                if (PortAIO.OrbwalkerManager.isHarassActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
                 {
                     DoHarass();
                 }
 
-                if (PortAIO.OrbwalkerManager.isLaneClearActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
                 {
                     DoJungleclear();
                     DoLaneclear();
@@ -680,20 +680,20 @@ using TargetSelector = PortAIO.TSManager; namespace GFUELTalon
             }
         }
 
-        private static void OrbwalkingAfterAttack(AfterAttackArgs args)
+        private static void OrbwalkingAfterAttack(AttackableUnit target, EventArgs args)
         {
             try
             {
-                var enemy = args.Target as Obj_AI_Base;
-                if (enemy == null || !(args.Target is AIHeroClient))
+                var enemy = target as Obj_AI_Base;
+                if (enemy == null || !(target is AIHeroClient))
                 {
                     return;
                 }
 
-                if (PortAIO.OrbwalkerManager.isComboActive
-                    || PortAIO.OrbwalkerManager.isHarassActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo)
+                    || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
                 {
-                    if (args.Target.LSIsValidTarget(Q.Range))
+                    if (target.LSIsValidTarget(Q.Range))
                     {
                         Q.Cast();
                     }

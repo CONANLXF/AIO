@@ -5,7 +5,7 @@ using LeagueSharp.SDK;
 using LeagueSharp.SDK.Core.Utils;
 using EloBuddy;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Udyr
+ namespace ExorAIO.Champions.Udyr
 {
     /// <summary>
     ///     The logics class.

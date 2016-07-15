@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-using TargetSelector = PortAIO.TSManager; namespace Mordekaiser
+ namespace Mordekaiser
 {
     internal class Items
     {

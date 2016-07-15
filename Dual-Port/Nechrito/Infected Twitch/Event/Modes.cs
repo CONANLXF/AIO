@@ -10,7 +10,7 @@ using static Infected_Twitch.Core.Spells;
 using EloBuddy.SDK;
 #endregion
 
-using TargetSelector = PortAIO.TSManager; namespace Infected_Twitch.Event
+ namespace Infected_Twitch.Event
 {
     internal class Modes : Core.Core
     {
@@ -20,15 +20,15 @@ using TargetSelector = PortAIO.TSManager; namespace Infected_Twitch.Event
             AutoE();
 
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 Combo();
             }
-            if (PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 Harass();
             }
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 Lane();
                 Jungle();
@@ -114,7 +114,7 @@ using TargetSelector = PortAIO.TSManager; namespace Infected_Twitch.Event
 
         private static void Combo()
         {
-            if (PortAIO.OrbwalkerManager.isComboActive) return;
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo)) return;
 
             if (!SafeTarget(Target)) return;
 

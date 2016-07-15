@@ -9,7 +9,7 @@ using EloBuddy.SDK;
 using EloBuddy.SDK.Menu;
 using EloBuddy.SDK.Menu.Values;
 
-using TargetSelector = PortAIO.TSManager; namespace OneKeyToWin_AIO_Sebby
+ namespace OneKeyToWin_AIO_Sebby
 {
     class Quinn
     {
@@ -77,9 +77,9 @@ using TargetSelector = PortAIO.TSManager; namespace OneKeyToWin_AIO_Sebby
             Game.OnUpdate += Game_OnGameUpdate;
             AntiGapcloser.OnEnemyGapcloser += AntiGapcloser_OnEnemyGapcloser;
             Drawing.OnDraw += Drawing_OnDraw;
-            LSEvents.AfterAttack += afterAttack;
+            Orbwalker.OnPostAttack += afterAttack;
             Interrupter2.OnInterruptableTarget += Interrupter2_OnInterruptableTarget;
-            LSEvents.BeforeAttack += Orbwalking_BeforeAttack;
+            Orbwalker.OnPreAttack += Orbwalking_BeforeAttack;
         }
 
         public static bool getCheckBoxItem(Menu m, string item)
@@ -103,7 +103,7 @@ using TargetSelector = PortAIO.TSManager; namespace OneKeyToWin_AIO_Sebby
         }
         
 
-        private static void Orbwalking_BeforeAttack(BeforeAttackArgs args)
+        private static void Orbwalking_BeforeAttack(AttackableUnit target, Orbwalker.PreAttackArgs args)
         {
             if (args.Target.Type == GameObjectType.AIHeroClient && getCheckBoxItem(miscMenu, "focusP") && args.Target.HealthPercent > 40)
             {
@@ -112,9 +112,9 @@ using TargetSelector = PortAIO.TSManager; namespace OneKeyToWin_AIO_Sebby
                 {
                     var best = Program.Enemies.FirstOrDefault(enemy => enemy.LSIsValidTarget() && SebbyLib.Orbwalking.InAutoAttackRange(enemy) && enemy.HasBuff("quinnw"));
                     if (best != null)
-                        PortAIO.OrbwalkerManager.ForcedTarget(best);
+                        Orbwalker.ForcedTarget =(best);
                     else
-                        PortAIO.OrbwalkerManager.ForcedTarget(null);
+                        Orbwalker.ForcedTarget =(null);
                 }
             }
             else if (Program.LaneClear && args.Target.Type == GameObjectType.obj_AI_Minion && getCheckBoxItem(farmMenu, "farmP"))
@@ -122,7 +122,7 @@ using TargetSelector = PortAIO.TSManager; namespace OneKeyToWin_AIO_Sebby
                 var bestMinion = Cache.GetMinions(Player.Position, Player.AttackRange).FirstOrDefault(minion => minion.LSIsValidTarget() && SebbyLib.Orbwalking.InAutoAttackRange(minion) && minion.HasBuff("quinnw"));
 
                 if (bestMinion != null)
-                    PortAIO.OrbwalkerManager.ForcedTarget(bestMinion);
+                    Orbwalker.ForcedTarget =(bestMinion);
             }
         }
 
@@ -168,9 +168,8 @@ using TargetSelector = PortAIO.TSManager; namespace OneKeyToWin_AIO_Sebby
                 E.CastOnUnit(sender);
         }
 
-        private static void afterAttack(AfterAttackArgs args)
+        private static void afterAttack(AttackableUnit target, EventArgs args)
         {
-            var target = args.Target;
             if (target.Type == GameObjectType.AIHeroClient)
             {
                 var t = target as AIHeroClient;

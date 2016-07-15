@@ -5,7 +5,7 @@ using LeagueSharp;
 using LeagueSharp.Common;
 using System;
 
-using TargetSelector = PortAIO.TSManager; namespace HastaKalistaBaby
+ namespace HastaKalistaBaby
 {
     internal class AutoLevel
     {

@@ -7,7 +7,7 @@ using LeagueSharp;
 using LeagueSharp.Common;
 using EloBuddy;
 
-using TargetSelector = PortAIO.TSManager; namespace EvadeA
+ namespace EvadeA
 {
     static class Helpers
     {

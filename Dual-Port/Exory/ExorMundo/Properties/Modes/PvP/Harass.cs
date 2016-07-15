@@ -5,7 +5,7 @@ using LeagueSharp;
 using LeagueSharp.SDK;
 using LeagueSharp.SDK.Core.Utils;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.DrMundo
+ namespace ExorAIO.Champions.DrMundo
 {
     /// <summary>
     ///     The logics class.

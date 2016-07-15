@@ -5,7 +5,7 @@ using LeagueSharp.Common;
 using LeagueSharp.Common.Data;
 using TreeLib.Extensions;
 
-using TargetSelector = PortAIO.TSManager; namespace jesuisFiora
+ namespace jesuisFiora
 {
     internal static class ItemManager
     {
@@ -67,12 +67,12 @@ using TargetSelector = PortAIO.TSManager; namespace jesuisFiora
         public static bool IsActive()
         {
             string s = "";
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 s = "Combo";
             }
 
-            if (PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 s = "Harass";
             }

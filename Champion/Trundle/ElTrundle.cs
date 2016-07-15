@@ -11,7 +11,7 @@ using Color = System.Drawing.Color;
 using Damage = LeagueSharp.Common.Damage;
 using Spell = LeagueSharp.Common.Spell;
 
-using TargetSelector = PortAIO.TSManager; namespace ElTrundle
+ namespace ElTrundle
 {
     internal enum Spells
     {
@@ -382,18 +382,18 @@ using TargetSelector = PortAIO.TSManager; namespace ElTrundle
                 return;
             }
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 OnCombo();
             }
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 Laneclear();
                 Jungleclear();
             }
 
-            if (PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 OnHarass();
             }

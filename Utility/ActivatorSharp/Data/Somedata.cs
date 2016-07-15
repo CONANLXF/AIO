@@ -16,7 +16,7 @@ using System.Collections.Generic;
 using LeagueSharp.Data.Enumerations;
 using EloBuddy;
 
-using TargetSelector = PortAIO.TSManager; namespace Activators.Data
+ namespace Activators.Data
 {
     public class Somedata
     {

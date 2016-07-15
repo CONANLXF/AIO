@@ -11,7 +11,7 @@ using LeagueSharp.Common.Data;
 using ItemData = LeagueSharp.Common.Data.ItemData;
 using FioraProject.Evade;
 using EloBuddy;
-using TargetSelector = PortAIO.TSManager;
+
 namespace FioraProject
 {
     class HINH1

@@ -13,7 +13,7 @@ using LeagueSharp;
 using LeagueSharp.Common;
 using EloBuddy;
 
-using TargetSelector = PortAIO.TSManager; namespace Activators.Base
+ namespace Activators.Base
 {
     public enum PrimaryRole
     {

@@ -10,7 +10,7 @@ using EloBuddy.SDK.Menu;
 using EloBuddy;
 using EloBuddy.SDK.Menu.Values;
 
-using TargetSelector = PortAIO.TSManager;
+
 using EloBuddy.SDK;
 
 namespace ezEvade

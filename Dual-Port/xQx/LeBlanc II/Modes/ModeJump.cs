@@ -9,14 +9,15 @@ using Leblanc.Common;
 using EloBuddy.SDK.Menu.Values;
 using EloBuddy;
 using EloBuddy.SDK.Menu;
+using EloBuddy.SDK;
 
 namespace Leblanc.Modes
 {
     internal class ModeJump
     {
         public static Menu MenuLocal { get; private set; }
-        private static Spell W => Champion.PlayerSpells.W;
-        private static Spell W2 => Champion.PlayerSpells.W2;
+        private static LeagueSharp.Common.Spell W => Champion.PlayerSpells.W;
+        private static LeagueSharp.Common.Spell W2 => Champion.PlayerSpells.W2;
         public static void Init(Menu ParentMenu)
         {
 
@@ -34,7 +35,7 @@ namespace Leblanc.Modes
 
         private static void GameOnOnUpdate(EventArgs args)
         {
-            if (PortAIO.OrbwalkerManager.isLastHitActive &&
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LastHit) &&
                 MenuLocal["W.Return.Lasthist"].Cast<CheckBox>().CurrentValue)
             {
                 if (W.StillJumped())
@@ -48,7 +49,7 @@ namespace Leblanc.Modes
                 }
             }
 
-            if (PortAIO.OrbwalkerManager.isLastHitActive &&
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LastHit) &&
                 MenuLocal["W.Return.Freeze"].Cast<CheckBox>().CurrentValue)
             {
                 if (W.StillJumped())
@@ -62,7 +63,7 @@ namespace Leblanc.Modes
                 }
             }
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive &&
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear) &&
                 MenuLocal["W.Return.Laneclear"].Cast<CheckBox>().CurrentValue)
             {
                 if (W.StillJumped())
@@ -77,7 +78,7 @@ namespace Leblanc.Modes
             }
 
 
-            if (PortAIO.OrbwalkerManager.isHarassActive &&
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass) &&
                 MenuLocal["W.Return.Harass"].Cast<CheckBox>().CurrentValue)
             {
                 if (W.StillJumped())
@@ -91,7 +92,7 @@ namespace Leblanc.Modes
                 }
             }
 
-            if (PortAIO.OrbwalkerManager.isComboActive &&
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) &&
                 MenuLocal["W.Return.Combo"].Cast<CheckBox>().CurrentValue)
             {
                 if (W.StillJumped())

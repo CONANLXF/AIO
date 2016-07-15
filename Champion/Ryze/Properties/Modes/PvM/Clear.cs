@@ -3,7 +3,7 @@ using System.Linq;
 using ExorAIO.Utilities;
 using LeagueSharp.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Ryze
+ namespace ExorAIO.Champions.Ryze
 {
     /// <summary>
     ///     The logics class.

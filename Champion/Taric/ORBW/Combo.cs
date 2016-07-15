@@ -1,4 +1,4 @@
-﻿using TargetSelector = PortAIO.TSManager; namespace SkyLv_Taric
+﻿ namespace SkyLv_Taric
 {
     using System;
     using System.Linq;
@@ -86,7 +86,7 @@
             var MinimumStackSelfQCombo = getSliderItem(SkyLv_Taric.Combo, "Taric.MinimumStackSelfQCombo");
             var MinimumHpPercentSelfQCombo = getSliderItem(SkyLv_Taric.Combo, "Taric.MinimumHpPercentSelfQCombo");
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                var target = TargetSelector.GetTarget(E.Range, DamageType.Physical);
 

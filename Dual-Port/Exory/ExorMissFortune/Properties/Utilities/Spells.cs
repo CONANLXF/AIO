@@ -5,7 +5,7 @@ using LeagueSharp.SDK;
 using LeagueSharp.SDK.Enumerations;
 using Spell = LeagueSharp.SDK.Spell;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.MissFortune
+ namespace ExorAIO.Champions.MissFortune
 {
     /// <summary>
     ///     The spell class.

@@ -5,7 +5,7 @@ using LeagueSharp.Common;
 using SharpDX;
 using VayneHunter_Reborn.Utility.MenuUtility;
 
-using TargetSelector = PortAIO.TSManager; namespace VayneHunter_Reborn.Skills.Condemn
+ namespace VayneHunter_Reborn.Skills.Condemn
 {
     static class CondemnExtensions
     {

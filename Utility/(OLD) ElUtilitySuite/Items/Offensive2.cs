@@ -5,7 +5,7 @@ using System.Reflection;
 using EloBuddy;
 using EloBuddy.SDK.Menu;
 
-using TargetSelector = PortAIO.TSManager; namespace ElUtilitySuite.Items
+ namespace ElUtilitySuite.Items
 {
     internal class Offensive2 : IPlugin
     {
@@ -24,7 +24,7 @@ using TargetSelector = PortAIO.TSManager; namespace ElUtilitySuite.Items
                     .GetTypes()
                     .Where(
                         x =>
-                        x.using TargetSelector = PortAIO.TSManager; namespace != null && x.using TargetSelector = PortAIO.TSManager; namespace.Contains("OffensiveItems") && x.IsClass
+                        x. namespace != null && x. namespace.Contains("OffensiveItems") && x.IsClass
                         && typeof(Item).IsAssignableFrom(x))
                     .Select(x => (Item)Activator.CreateInstance(x))
                     .ToList();

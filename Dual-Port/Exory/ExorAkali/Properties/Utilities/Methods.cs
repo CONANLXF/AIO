@@ -1,7 +1,7 @@
 using EloBuddy;
 using LeagueSharp;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Akali
+ namespace ExorAIO.Champions.Akali
 {
     /// <summary>
     ///     The methods class.

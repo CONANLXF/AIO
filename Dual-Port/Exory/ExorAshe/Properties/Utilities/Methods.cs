@@ -2,7 +2,7 @@ using EloBuddy;
 using LeagueSharp;
 using LeagueSharp.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Ashe
+ namespace ExorAIO.Champions.Ashe
 {
     /// <summary>
     ///     The methods class.

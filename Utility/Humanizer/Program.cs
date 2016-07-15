@@ -12,7 +12,7 @@ using EloBuddy.SDK.Menu.Values;
 
 #endregion
 
-using TargetSelector = PortAIO.TSManager; namespace Humanizer
+ namespace Humanizer
 {
     public class Program
     {

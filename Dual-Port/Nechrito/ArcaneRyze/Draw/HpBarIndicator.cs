@@ -8,7 +8,7 @@ using Color = System.Drawing.Color;
 
 #endregion
 
-using TargetSelector = PortAIO.TSManager; namespace Arcane_Ryze.Draw
+ namespace Arcane_Ryze.Draw
 {
     internal class HpBarDraw
     {

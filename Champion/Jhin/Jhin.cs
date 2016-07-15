@@ -5,7 +5,7 @@ using EloBuddy;
 using EloBuddy.SDK;
 using Jhin___The_Virtuoso.Extensions;
 using Jhin___The_Virtuoso.Modes;
-using TargetSelector = PortAIO.TSManager;
+
 using LeagueSharp.Common;
 
 namespace Jhin___The_Virtuoso
@@ -33,23 +33,23 @@ namespace Jhin___The_Virtuoso
         {
             #region Orbwalker & Modes 
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 Combo.ExecuteCombo();
             }
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 Jungle.ExecuteJungle();
                 Clear.ExecuteClear();
             }
 
-            if (PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 Mixed.ExecuteHarass();
             }
 
-            if (PortAIO.OrbwalkerManager.isNoneActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.None))
             {
                 None.ImmobileExecute();
                 None.KillSteal();

@@ -17,7 +17,7 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
-using TargetSelector = PortAIO.TSManager; namespace IKalista
+ namespace IKalista
 {
     using System;
     using System.Linq;

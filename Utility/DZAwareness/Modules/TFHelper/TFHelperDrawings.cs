@@ -12,7 +12,7 @@ using EloBuddy.SDK.Menu.Values;
 using EloBuddy.SDK.Menu;
 using EloBuddy;
 
-using TargetSelector = PortAIO.TSManager; namespace DZAwarenessAIO.Modules.TFHelper
+ namespace DZAwarenessAIO.Modules.TFHelper
 {
     class TFHelperDrawings
     {

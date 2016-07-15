@@ -12,7 +12,7 @@ using Damage = LeagueSharp.Common.Damage;
 using Environment = UnderratedAIO.Helpers.Environment;
 using Spell = LeagueSharp.Common.Spell;
 
-using TargetSelector = PortAIO.TSManager;
+
 namespace UnderratedAIO.Champions
 {
     internal class Kennen
@@ -31,14 +31,14 @@ namespace UnderratedAIO.Champions
             InitMenu();
             Game.OnUpdate += Game_OnGameUpdate;
             Drawing.OnDraw += Game_OnDraw;
-            LSEvents.OnAttack += Orbwalker_OnAttack;
+            Orbwalker.OnAttack += Orbwalker_OnAttack;
         }
 
-        private void Orbwalker_OnAttack(OnAttackArgs args)
+        private void Orbwalker_OnAttack(AttackableUnit target, EventArgs args)
         {
-            if (args.Target is Obj_AI_Minion)
+            if (target is Obj_AI_Minion)
             {
-                LastAttackedminiMinion = (Obj_AI_Minion)args.Target;
+                LastAttackedminiMinion = (Obj_AI_Minion)target;
                 LastAttackedminiMinionTime = Utils.GameTimeTickCount;
             }
         }
@@ -58,17 +58,17 @@ namespace UnderratedAIO.Champions
             var target = getTarget();
 
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 Combo();
             }
 
-            if (PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 Harass();
             }
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 Clear();
             }
@@ -95,7 +95,7 @@ namespace UnderratedAIO.Champions
             }
             if (getKeyBindItem(autoHarassMenu, "KenAutoQ") && Q.IsReady() &&
                 getSliderItem(autoHarassMenu, "KenminmanaaQ") < player.ManaPercent &&
-                !PortAIO.OrbwalkerManager.isComboActive &&
+                !Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) &&
                 !player.UnderTurret(true))
             {
                 if (target != null && Q.CanCast(target) && target.LSIsValidTarget())
@@ -167,7 +167,7 @@ namespace UnderratedAIO.Champions
                             (m.NetworkId == LastAttackedminiMinion.NetworkId &&
                              Utils.GameTimeTickCount - LastAttackedminiMinionTime > 700)))
                 {
-                    if (target.LSDistance(player) < Orbwalking.GetRealAutoAttackRange(target) && !ObjectManager.Player.Spellbook.IsAutoAttacking && PortAIO.OrbwalkerManager.CanMove(0))
+                    if (target.LSDistance(player) < Orbwalking.GetRealAutoAttackRange(target) && !ObjectManager.Player.Spellbook.IsAutoAttacking && Orbwalker.CanMove)
                     {
                         if (Q.Cast(target, getCheckBoxItem(config, "packets")).IsCasted())
                         {

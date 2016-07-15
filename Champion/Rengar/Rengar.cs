@@ -1,4 +1,4 @@
-﻿using TargetSelector = PortAIO.TSManager; namespace ElRengarRevamped
+﻿ namespace ElRengarRevamped
 {
     using System;
     using System.Collections.Generic;
@@ -57,8 +57,8 @@
                 CustomEvents.Unit.OnDash += OnDash;
                 Drawing.OnEndScene += OnDrawEndScene;
                 Obj_AI_Base.OnProcessSpellCast += OnProcessSpellCast;
-                LSEvents.AfterAttack += AfterAttack;
-                LSEvents.BeforeAttack += BeforeAttack;
+                Orbwalker.OnPostAttack += AfterAttack;
+                Orbwalker.OnPreAttack += BeforeAttack;
             }
             catch (Exception e)
             {
@@ -70,18 +70,18 @@
 
         #region Methods
         
-        private static void AfterAttack(AfterAttackArgs args)
+        private static void AfterAttack(AttackableUnit target, EventArgs args)
         {
             try
             {
-                var enemy = args.Target as Obj_AI_Base;
-                if (enemy == null || !(args.Target is AIHeroClient))
+                var enemy = target as Obj_AI_Base;
+                if (enemy == null || !(target is AIHeroClient))
                 {
                     return;
                 }
 
-                if (PortAIO.OrbwalkerManager.isComboActive ||
-                    PortAIO.OrbwalkerManager.isHarassActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) ||
+                    Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
                 {
                     if (Player.LSCountEnemiesInRange(Player.AttackRange + Player.BoundingRadius + 100) != 0)
                     {
@@ -96,7 +96,7 @@
             }
         }
 
-        private static void BeforeAttack(BeforeAttackArgs args)
+        private static void BeforeAttack(AttackableUnit target, Orbwalker.PreAttackArgs args)
         {
             try
             {
@@ -105,7 +105,7 @@
                     return;
                 }
 
-                if (PortAIO.OrbwalkerManager.isComboActive && !HasPassive &&
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) && !HasPassive &&
                 spells[Spells.Q].IsReady() &&
                 !(MenuInit.getBoxItem(MenuInit.comboMenu, "Combo.Prio") == 0 ||
                   MenuInit.getBoxItem(MenuInit.comboMenu, "Combo.Prio") == 1 && Ferocity == 5))
@@ -196,7 +196,7 @@
         {
             try
             {
-                if (!sender.IsMe || PortAIO.OrbwalkerManager.isComboActive)
+                if (!sender.IsMe || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
                 {
                     return;
                 }
@@ -429,18 +429,18 @@
                     return;
                 }
 
-                if (PortAIO.OrbwalkerManager.isComboActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
                 {
                     ActiveModes.Combo();
                 }
 
-                if (PortAIO.OrbwalkerManager.isLaneClearActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
                 {
                     ActiveModes.Laneclear();
                     ActiveModes.Jungleclear();
                 }
 
-                if (PortAIO.OrbwalkerManager.isHarassActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
                 {
                     ActiveModes.Harass();
                 }

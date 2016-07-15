@@ -8,7 +8,7 @@ using SharpDX.Direct3D9;
 using Font = SharpDX.Direct3D9.Font;
 using EloBuddy;
 
-using TargetSelector = PortAIO.TSManager; namespace Leblanc.Common
+ namespace Leblanc.Common
 {
 
     public static class CommonBuffs

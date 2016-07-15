@@ -3,7 +3,7 @@ using System.Drawing;
 using EloBuddy;
 using LeagueSharp.Common;
 
-using TargetSelector = PortAIO.TSManager; namespace ElSejuani
+ namespace ElSejuani
 {
     internal class Drawings
     {

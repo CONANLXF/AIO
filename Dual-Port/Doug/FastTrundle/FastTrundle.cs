@@ -10,7 +10,7 @@ using EloBuddy.SDK.Menu.Values;
 using EloBuddy.SDK;
 using EloBuddy.SDK.Menu;
 
-using TargetSelector = PortAIO.TSManager; namespace FastTrundle
+ namespace FastTrundle
 {
     internal enum Spells
     {
@@ -105,32 +105,32 @@ using TargetSelector = PortAIO.TSManager; namespace FastTrundle
             if (!sender.IsMe || !Orbwalking.IsAutoAttack(args.SData.Name)) return;
             if (args.Target == null || !args.Target.IsValid) return;
 
-            if (PortAIO.OrbwalkerManager.isComboActive || PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
-                if (PortAIO.OrbwalkerManager.LastTarget() == null) return;
+                if (Orbwalker.LastTarget == null) return;
 
                 if (allowQAfterAA && !(args.Target is Obj_AI_Turret || args.Target is Obj_Barracks || args.Target is Obj_BarracksDampener || args.Target is Obj_Building) && spells[Spells.Q].IsReady())
                 {
                     spells[Spells.Q].Cast();
-                    PortAIO.OrbwalkerManager.ResetAutoAttackTimer();
+                    Orbwalker.ResetAutoAttack();
                     return;
                 }
                 if (allowItemsAfterAA && getCheckBoxItem(itemMenu, "FastTrundle.Items.Titanic") && Items.HasItem(3748) && Items.CanUseItem(3748)) // Titanic
                 {
                     Items.UseItem(3748);
-                    PortAIO.OrbwalkerManager.ResetAutoAttackTimer();
+                    Orbwalker.ResetAutoAttack();
                     return;
                 }
                 if (allowItemsAfterAA && getCheckBoxItem(itemMenu, "FastTrundle.Items.Hydra") && Items.HasItem(3077) && Items.CanUseItem(3077))
                 {
                     Items.UseItem(3077);
-                    PortAIO.OrbwalkerManager.ResetAutoAttackTimer();
+                    Orbwalker.ResetAutoAttack();
                     return;
                 }
                 if (allowItemsAfterAA && getCheckBoxItem(itemMenu, "FastTrundle.Items.Hydra") && Items.HasItem(3074) && Items.CanUseItem(3074))
                 {
                     Items.UseItem(3074);
-                    PortAIO.OrbwalkerManager.ResetAutoAttackTimer();
+                    Orbwalker.ResetAutoAttack();
                     return;
                 }
             }
@@ -237,23 +237,23 @@ using TargetSelector = PortAIO.TSManager; namespace FastTrundle
             allowQAfterAA = allowItemsAfterAA = false;
             if (Player.IsDead || Player.LSIsRecalling() || MenuGUI.IsChatOpen || Shop.IsOpen) return;
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 Combo();
             }
 
-            if (PortAIO.OrbwalkerManager.isLastHitActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LastHit))
             {
                 LastHit();
             }
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 LaneClear();
                 JungleClear();
             }
 
-            if (PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 Harass();
             }
@@ -311,7 +311,7 @@ using TargetSelector = PortAIO.TSManager; namespace FastTrundle
                 {
                     if (minion.Health <= QDamage(minion)
                         && (minion.Health > Player.LSGetAutoAttackDamage(minion) ||
-                            (!Player.Spellbook.IsAutoAttacking && !PortAIO.OrbwalkerManager.CanAttack()))) // don't overkill with Q unless we need AA reset to get it
+                            (!Player.Spellbook.IsAutoAttacking && !Orbwalker.CanAutoAttack))) // don't overkill with Q unless we need AA reset to get it
                     {
                         spells[Spells.Q].Cast();
                         EloBuddy.Player.IssueOrder(GameObjectOrder.AttackUnit, minion);
@@ -340,7 +340,7 @@ using TargetSelector = PortAIO.TSManager; namespace FastTrundle
                 && minion.LSIsValidTarget(spells[Spells.Q].Range)
                 && minion.Health <= QDamage(minion)
                 && (minion.Health > Player.LSGetAutoAttackDamage(minion) ||
-                    (!Player.Spellbook.IsAutoAttacking && !PortAIO.OrbwalkerManager.CanAttack()))) // don't overkill with Q unless we need AA reset to get it
+                    (!Player.Spellbook.IsAutoAttacking && !Orbwalker.CanAutoAttack))) // don't overkill with Q unless we need AA reset to get it
             {
                 spells[Spells.Q].Cast();
                 EloBuddy.Player.IssueOrder(GameObjectOrder.AttackUnit, minion);

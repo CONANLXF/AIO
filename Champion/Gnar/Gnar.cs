@@ -10,7 +10,7 @@ using SharpDX;
 using Color = System.Drawing.Color;
 using Prediction = LeagueSharp.Common.Prediction;
 using Utility = LeagueSharp.Common.Utility;
-using TargetSelector = PortAIO.TSManager;
+
 namespace Slutty_Gnar_Reworked
 {
     internal class Gnar : MenuConfig
@@ -49,7 +49,7 @@ namespace Slutty_Gnar_Reworked
             CreateMenu();
             Game.OnUpdate += Game_OnUpdate;
             CustomEvents.Unit.OnDash += Unit_OnDash;
-            LSEvents.AfterAttack += AfterAttack;
+            Orbwalker.OnPostAttack += AfterAttack;
             Drawing.OnDraw += Drawing_OnDraw;
             Interrupter2.OnInterruptableTarget += GnarInterruptableSpell;
             AntiGapcloser.OnEnemyGapcloser += OnGapCloser;
@@ -124,7 +124,7 @@ namespace Slutty_Gnar_Reworked
             #endregion
         }
 
-        private static void AfterAttack(AfterAttackArgs args)
+        private static void AfterAttack(AttackableUnit target, EventArgs args)
         {
             #region After attack
 
@@ -132,7 +132,7 @@ namespace Slutty_Gnar_Reworked
                 return;
 
             var targets = TargetSelector.GetTarget(GnarSpells.QMini.Range, DamageType.Physical);
-            if (Player.LSDistance(args.Target) <= 450)
+            if (Player.LSDistance(target) <= 450)
             {
                 if (GnarSpells.QnMini.IsReady())
                     GnarSpells.QnMini.Cast(targets);
@@ -205,23 +205,23 @@ namespace Slutty_Gnar_Reworked
 
             KillSteal();
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 Combo();
             }
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 LaneClear();
                 JungleClear();
             }
 
-            if (PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 Mixed();
             }
 
-            if (getKeyBindItem(miscMenu, "fleekey") || PortAIO.OrbwalkerManager.isFleeActive)
+            if (getKeyBindItem(miscMenu, "fleekey") || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Flee))
                 Flee();
 
             #region force target
@@ -232,11 +232,11 @@ namespace Slutty_Gnar_Reworked
                                                         en.Buffs.Any(buff => buff.Name == "gnarwproc" && buff.Count == 2));
             if (qSpell && target != null)
             {
-                PortAIO.OrbwalkerManager.ForcedTarget(target);
+                Orbwalker.ForcedTarget =(target);
             }
             else
             {
-                PortAIO.OrbwalkerManager.ForcedTarget(null);
+                Orbwalker.ForcedTarget =(null);
             }
 
             #endregion

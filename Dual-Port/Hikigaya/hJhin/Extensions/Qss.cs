@@ -8,7 +8,7 @@ using LeagueSharp.SDK;
 using EloBuddy.SDK.Menu.Values;
 using EloBuddy.SDK.Menu;
 
-using TargetSelector = PortAIO.TSManager; namespace hJhin.Extensions
+ namespace hJhin.Extensions
 {
     class Qss
     {

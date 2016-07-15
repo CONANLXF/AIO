@@ -24,7 +24,7 @@ using EloBuddy;
 
 #endregion
 
-using TargetSelector = PortAIO.TSManager; namespace Mastery_Badge_Spammer
+ namespace Mastery_Badge_Spammer
 {
     public static class SpellDatabase
     {

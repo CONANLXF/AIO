@@ -4,7 +4,7 @@ using LeagueSharp;
 using LeagueSharp.Common;
 using Color = SharpDX.Color;
 
-using TargetSelector = PortAIO.TSManager; namespace Marksman.Common
+ namespace Marksman.Common
 {
     using EloBuddy;
     using EloBuddy.SDK.Menu;

@@ -7,7 +7,7 @@ using EloBuddy.SDK.Menu;
 using EloBuddy.SDK.Menu.Values;
 using LeagueSharp.Common;
 using Damage = LeagueSharp.Common.Damage;
-using TargetSelector = PortAIO.TSManager;
+
 namespace Mundo
 {
     internal class Mundo : Spells
@@ -24,7 +24,7 @@ namespace Mundo
             InitializeMenu();
 
             Game.OnUpdate += OnUpdate;
-            LSEvents.AfterAttack += AfterAttack;
+            Orbwalker.OnPostAttack += AfterAttack;
             Drawing.OnDraw += OnDraw;
         }
 
@@ -46,10 +46,9 @@ namespace Mundo
             }
         }
 
-        private static void AfterAttack(AfterAttackArgs args)
+        private static void AfterAttack(AttackableUnit target, EventArgs args)
         {
-            var target = args.Target;
-            if (PortAIO.OrbwalkerManager.isComboActive || PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 if (getCheckBoxItem(comboMenu, "useE") && e.IsReady() && target is AIHeroClient && target.LSIsValidTarget(e.Range))
                 {
@@ -57,7 +56,7 @@ namespace Mundo
                 }
             }
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 if (getCheckBoxItem(clearMenu, "useEj") && e.IsReady() && target is Obj_AI_Minion && target.LSIsValidTarget(e.Range))
                 {
@@ -65,8 +64,8 @@ namespace Mundo
                 }
             }
 
-            if (PortAIO.OrbwalkerManager.isComboActive ||
-                PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) ||
+                Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 if ((getCheckBoxItem(miscMenu, "titanicC") || getCheckBoxItem(miscMenu, "ravenousC") ||
                      getCheckBoxItem(miscMenu, "tiamatC")) && !e.IsReady() && target is AIHeroClient &&
@@ -76,7 +75,7 @@ namespace Mundo
                 }
             }
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 if ((getCheckBoxItem(miscMenu, "titanicF") || getCheckBoxItem(miscMenu, "ravenousF") ||
                      getCheckBoxItem(miscMenu, "tiamatF")) && !e.IsReady() && target is Obj_AI_Minion &&
@@ -173,29 +172,29 @@ namespace Mundo
             if (CommonUtilities.Player.IsDead)
                 return;
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 ExecuteCombo();
             }
 
-            if (PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 LastHit();
                 ExecuteHarass();
             }
 
-            if (PortAIO.OrbwalkerManager.isLastHitActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LastHit))
             {
                 LastHit();
             }
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 LaneClear();
                 JungleClear();
             }
 
-            if (PortAIO.OrbwalkerManager.isNoneActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.None))
             {
                 BurningManager();
             }

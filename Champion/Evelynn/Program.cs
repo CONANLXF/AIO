@@ -10,7 +10,7 @@ using EloBuddy.SDK.Menu;
 using EloBuddy.SDK.Menu.Values;
 using LeagueSharp.Common;
 using Spell = LeagueSharp.Common.Spell;
-using TargetSelector = PortAIO.TSManager;
+
 #endregion
 
 namespace Evelynn
@@ -105,13 +105,13 @@ namespace Evelynn
 
         private static void Game_OnGameUpdate(EventArgs args)
         {
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 Combo();
                 return;
             }
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 LaneClear();
                 JungleFarm();

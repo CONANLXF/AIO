@@ -1,7 +1,7 @@
 ﻿using System;
 using LeagueSharp;
 
-using TargetSelector = PortAIO.TSManager; namespace Firestorm_AIO.Enums
+ namespace Firestorm_AIO.Enums
 {
     public enum Champion
     {

@@ -9,7 +9,7 @@ using EloBuddy.SDK.Menu;
 using EloBuddy.SDK.Menu.Values;
 using EloBuddy.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace OneKeyToWin_AIO_Sebby.Champions
+ namespace OneKeyToWin_AIO_Sebby.Champions
 {
     class Corki
     {
@@ -67,7 +67,7 @@ using TargetSelector = PortAIO.TSManager; namespace OneKeyToWin_AIO_Sebby.Champi
 
             Game.OnUpdate += Game_OnGameUpdate;
             Drawing.OnDraw += Drawing_OnDraw;
-            LSEvents.BeforeAttack += BeforeAttack;
+            Orbwalker.OnPreAttack += BeforeAttack;
         }
 
         public static bool getCheckBoxItem(Menu m, string item)
@@ -90,7 +90,7 @@ using TargetSelector = PortAIO.TSManager; namespace OneKeyToWin_AIO_Sebby.Champi
             return m[item].Cast<ComboBox>().CurrentValue;
         }
 
-        private static void BeforeAttack(BeforeAttackArgs args)
+        private static void BeforeAttack(AttackableUnit target, Orbwalker.PreAttackArgs args)
         {
             if (E.IsReady() && Sheen() && args.Target.IsValid<AIHeroClient>())
             {
@@ -275,7 +275,7 @@ using TargetSelector = PortAIO.TSManager; namespace OneKeyToWin_AIO_Sebby.Champi
 
         private static bool Sheen()
         {
-            var target = PortAIO.OrbwalkerManager.LastTarget();
+            var target = Orbwalker.LastTarget;
 
             if (target.LSIsValidTarget() && Player.HasBuff("sheen"))
             {

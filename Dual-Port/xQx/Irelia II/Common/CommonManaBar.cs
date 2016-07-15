@@ -6,7 +6,7 @@ using LeagueSharp.Common;
 using SharpDX;
 using SharpDX.Direct3D9;
 
-using TargetSelector = PortAIO.TSManager; namespace Irelia.Common
+ namespace Irelia.Common
 {
     using EloBuddy.SDK.Menu;
     using System.Linq;

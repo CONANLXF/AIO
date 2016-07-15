@@ -24,7 +24,7 @@ using Evade;
 
 #endregion
 
-using TargetSelector = PortAIO.TSManager; namespace EvadeB
+ namespace EvadeB
 {
     internal class EvadeSpellDatabase
     {

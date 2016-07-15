@@ -24,7 +24,7 @@ using EloBuddy;
 
 #endregion
 
-using TargetSelector = PortAIO.TSManager; namespace GosuMechanicsYasuo
+ namespace GosuMechanicsYasuo
 {
     public static class SpellDatabase
     {

@@ -15,7 +15,7 @@ using EloBuddy.SDK;
 
 #endregion
 
-using TargetSelector = PortAIO.TSManager; namespace LeblancOLD
+ namespace LeblancOLD
 {
     internal class Program
     {
@@ -724,7 +724,7 @@ using TargetSelector = PortAIO.TSManager; namespace LeblancOLD
 
         private static void LaneClear()
         {
-            if (!PortAIO.OrbwalkerManager.CanMove(0))
+            if (!Orbwalker.CanMove)
                 return;
 
             if (!LeBlancStillJumped)
@@ -807,7 +807,7 @@ using TargetSelector = PortAIO.TSManager; namespace LeblancOLD
         
         private static void DoToggleHarass()
         {
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 return;
             }
@@ -903,15 +903,15 @@ using TargetSelector = PortAIO.TSManager; namespace LeblancOLD
             if (getKeyBindItem(runMenu, "RunActive"))
                 Run();
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
                 Combo();
 
             DoToggleHarass();
 
-            if (PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
                 Harass();
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 if (ObjectManager.Player.ManaPercent >= getSliderItem(laneClearMenu, "LaneClearMana"))
                     LaneClear();

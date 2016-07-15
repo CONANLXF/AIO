@@ -10,7 +10,7 @@ using SharpDX;
 using EloBuddy;
 using Azir_Free_elo_Machine.Math;
 
-using TargetSelector = PortAIO.TSManager; namespace Azir_Creator_of_Elo
+ namespace Azir_Creator_of_Elo
 {
     class Spells
     {

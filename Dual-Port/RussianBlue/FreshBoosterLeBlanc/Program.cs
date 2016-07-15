@@ -12,7 +12,7 @@ using EloBuddy.SDK.Menu.Values;
 using EloBuddy.SDK;
 using Spell = LeagueSharp.Common.Spell;
 
-using TargetSelector = PortAIO.TSManager; namespace FreshBooster.Champion
+ namespace FreshBooster.Champion
 {
     class Leblanc
     {
@@ -266,7 +266,7 @@ using TargetSelector = PortAIO.TSManager; namespace FreshBooster.Champion
             AntiGapcloser.OnEnemyGapcloser += AntiGapcloser_OnEnemyGapcloser;
             Obj_AI_Base.OnProcessSpellCast += OnProcessSpell;
             Interrupter2.OnInterruptableTarget += Interrupter2_OnInterruptableTarget;
-            LSEvents.BeforeAttack += Orbwalking_BeforeAttack;
+            Orbwalker.OnPreAttack += Orbwalking_BeforeAttack;
             EloBuddy.Player.OnIssueOrder += Obj_AI_Base_OnIssueOrder;
         }
         
@@ -376,7 +376,7 @@ using TargetSelector = PortAIO.TSManager; namespace FreshBooster.Champion
                     }
                 }
 
-                if (PortAIO.OrbwalkerManager.isComboActive) // Combo
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo)) // Combo
                 {
                     var QTarget = TargetSelector.GetTarget(_Q.Range, DamageType.Magical);
                     var WTarget = TargetSelector.GetTarget(_W.Range, DamageType.Magical);
@@ -485,7 +485,7 @@ using TargetSelector = PortAIO.TSManager; namespace FreshBooster.Champion
                     }
 
                 }
-                if ((PortAIO.OrbwalkerManager.isHarassActive || getCheckBoxItem(Harass, "Leblanc_AHToggle"))
+                if ((Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass) || getCheckBoxItem(Harass, "Leblanc_AHToggle"))
                     && getSliderItem(Harass, "Leblanc_AManarate") < Player.ManaPercent) // Harass
                 {
 
@@ -607,7 +607,7 @@ using TargetSelector = PortAIO.TSManager; namespace FreshBooster.Champion
             }
 
         }
-        public void Orbwalking_BeforeAttack(BeforeAttackArgs args)
+        public void Orbwalking_BeforeAttack(AttackableUnit target, Orbwalker.PreAttackArgs args)
         {
             try
             {

@@ -14,7 +14,7 @@ using EloBuddy;
 using LeagueSharp;
 using LeagueSharp.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace Challenger_Series
+ namespace Challenger_Series
 {
     class Program
     {

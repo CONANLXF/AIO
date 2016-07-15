@@ -4,7 +4,7 @@ using ExorAIO.Utilities;
 using LeagueSharp.SDK;
 using LeagueSharp.SDK.Core.UI;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Amumu
+ namespace ExorAIO.Champions.Amumu
 {
     /// <summary>
     ///     The logics class.

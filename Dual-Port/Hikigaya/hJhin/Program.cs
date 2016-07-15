@@ -7,7 +7,7 @@ using hJhin.Champions;
 using EloBuddy;
 using LeagueSharp.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace hJhin
+ namespace hJhin
 {
     class Program
     {

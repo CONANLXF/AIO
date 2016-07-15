@@ -15,7 +15,7 @@ using Prediction = LeagueSharp.Common.Prediction;
 using Spell = LeagueSharp.Common.Spell;
 using Utility = LeagueSharp.Common.Utility;
 
-using TargetSelector = PortAIO.TSManager; namespace UnderratedAIO.Champions
+ namespace UnderratedAIO.Champions
 {
     internal class Rumble
     {
@@ -88,17 +88,17 @@ using TargetSelector = PortAIO.TSManager; namespace UnderratedAIO.Champions
         
         private void Game_OnGameUpdate(EventArgs args)
         {
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 Combo();
             }
 
-            if (PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 Harass();
             }
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 Clear();
             }

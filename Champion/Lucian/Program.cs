@@ -10,7 +10,7 @@ using SharpDX;
 using Geometry = LeagueSharp.Common.Geometry;
 using Prediction = LeagueSharp.Common.Prediction;
 
-using TargetSelector = PortAIO.TSManager; namespace LCS_Lucian
+ namespace LCS_Lucian
 {
     internal class Program
     {
@@ -113,7 +113,7 @@ using TargetSelector = PortAIO.TSManager; namespace LCS_Lucian
                     if (!LucianSpells.E.IsReady() && LucianSpells.Q.IsReady() &&
                         getCheckBoxItem(comboMenu, "lucian.q.combo") &&
                         ObjectManager.Player.LSDistance(args.Target.Position) < LucianSpells.Q.Range &&
-                        PortAIO.OrbwalkerManager.isComboActive &&
+                        Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) &&
                         ObjectManager.Player.Buffs.Any(buff => buff.Name != "lucianpassivebuff") && LucianSpells.Q.IsInRange((AIHeroClient)args.Target))
                     {
                         LucianSpells.Q.CastOnUnit((AIHeroClient)args.Target);
@@ -122,7 +122,7 @@ using TargetSelector = PortAIO.TSManager; namespace LCS_Lucian
                     if (!LucianSpells.E.IsReady() && LucianSpells.W.IsReady() &&
                         getCheckBoxItem(comboMenu, "lucian.w.combo") &&
                         ObjectManager.Player.LSDistance(args.Target.Position) < LucianSpells.W.Range &&
-                        PortAIO.OrbwalkerManager.isComboActive &&
+                        Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) &&
                         ObjectManager.Player.Buffs.Any(buff => buff.Name != "lucianpassivebuff"))
                     {
                         if (LucianSpells.W.GetDamage((AIHeroClient)args.Target) >= ((AIHeroClient)args.Target).Health)
@@ -149,7 +149,7 @@ using TargetSelector = PortAIO.TSManager; namespace LCS_Lucian
                     }
                     if (LucianSpells.E.IsReady() && getCheckBoxItem(comboMenu, "lucian.e.combo") &&
                         ObjectManager.Player.LSDistance(args.Target.Position) < LucianSpells.Q2.Range &&
-                        PortAIO.OrbwalkerManager.isComboActive &&
+                        Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) &&
                         ObjectManager.Player.Buffs.Any(buff => buff.Name != "lucianpassivebuff"))
                     {
                         switch (getBoxItem(comboMenu, "lucian.e.mode"))
@@ -167,14 +167,14 @@ using TargetSelector = PortAIO.TSManager; namespace LCS_Lucian
                 {
                     if (LucianSpells.Q.IsReady() && getCheckBoxItem(comboMenu, "lucian.q.combo") &&
                         ObjectManager.Player.LSDistance(args.Target.Position) < LucianSpells.Q.Range &&
-                        PortAIO.OrbwalkerManager.isComboActive &&
+                        Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) &&
                         ObjectManager.Player.Buffs.Any(buff => buff.Name != "lucianpassivebuff") && LucianSpells.Q.IsInRange((AIHeroClient)args.Target))
                     {
                         LucianSpells.Q.CastOnUnit((AIHeroClient)args.Target);
                     }
                     if (LucianSpells.W.IsReady() && getCheckBoxItem(comboMenu, "lucian.w.combo") &&
                         ObjectManager.Player.LSDistance(args.Target.Position) < LucianSpells.W.Range &&
-                        PortAIO.OrbwalkerManager.isComboActive &&
+                        Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) &&
                         ObjectManager.Player.Buffs.Any(buff => buff.Name != "lucianpassivebuff")
                         && LucianSpells.W.GetPrediction((AIHeroClient)args.Target).Hitchance >= HitChance.Medium)
                     {
@@ -182,7 +182,7 @@ using TargetSelector = PortAIO.TSManager; namespace LCS_Lucian
                     }
                     if (LucianSpells.E.IsReady() && getCheckBoxItem(comboMenu, "lucian.e.combo") &&
                         ObjectManager.Player.LSDistance(args.Target.Position) < LucianSpells.Q2.Range &&
-                        PortAIO.OrbwalkerManager.isComboActive &&
+                        Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) &&
                         ObjectManager.Player.Buffs.Any(buff => buff.Name != "lucianpassivebuff"))
                     {
                         switch (getBoxItem(comboMenu, "lucian.e.mode"))
@@ -203,21 +203,21 @@ using TargetSelector = PortAIO.TSManager; namespace LCS_Lucian
             {
                 if (LucianSpells.Q.IsReady() && getCheckBoxItem(jungleMenu, "lucian.q.jungle") &&
                     ObjectManager.Player.LSDistance(args.Target.Position) < LucianSpells.Q.Range &&
-                    PortAIO.OrbwalkerManager.isLaneClearActive &&
+                    Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear) &&
                     ObjectManager.Player.Buffs.Any(buff => buff.Name != "lucianpassivebuff"))
                 {
                     LucianSpells.Q.CastOnUnit((Obj_AI_Minion)args.Target);
                 }
                 if (LucianSpells.W.IsReady() && getCheckBoxItem(jungleMenu, "lucian.w.jungle") &&
                     ObjectManager.Player.LSDistance(args.Target.Position) < LucianSpells.W.Range &&
-                    PortAIO.OrbwalkerManager.isLaneClearActive &&
+                    Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear) &&
                     ObjectManager.Player.Buffs.Any(buff => buff.Name != "lucianpassivebuff"))
                 {
                     LucianSpells.W.Cast(((Obj_AI_Minion)args.Target).Position);
                 }
                 if (LucianSpells.E.IsReady() && getCheckBoxItem(jungleMenu, "lucian.e.jungle") &&
                     ((Obj_AI_Minion)args.Target).LSIsValidTarget(1000) &&
-                    PortAIO.OrbwalkerManager.isLaneClearActive &&
+                    Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear) &&
                     ObjectManager.Player.Buffs.Any(buff => buff.Name != "lucianpassivebuff"))
                 {
                     LucianSpells.E.Cast(Game.CursorPos);
@@ -227,12 +227,12 @@ using TargetSelector = PortAIO.TSManager; namespace LCS_Lucian
 
         private static void LucianOnUpdate(EventArgs args)
         {
-            if (PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 Harass();
             }
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 Clear();
             }

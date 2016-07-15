@@ -1,6 +1,6 @@
 using System;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Ryze
+ namespace ExorAIO.Champions.Ryze
 {
     /// <summary>
     ///     The logics class.

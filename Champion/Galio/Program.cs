@@ -11,7 +11,7 @@ using Color = System.Drawing.Color;
 using Damage = LeagueSharp.Common.Damage;
 using Spell = LeagueSharp.Common.Spell;
 using Utility = LeagueSharp.Common.Utility;
-using TargetSelector = PortAIO.TSManager;
+
 
 namespace UnderratedAIO.Champions
 {
@@ -89,17 +89,17 @@ namespace UnderratedAIO.Champions
                 FlashCombo();
             }
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 Combo();
             }
 
-            if (PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 Harass();
             }
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 Clear();
             }
@@ -140,7 +140,7 @@ namespace UnderratedAIO.Champions
             {
                 if (!justR)
                 {
-                    PortAIO.OrbwalkerManager.MoveA(Game.CursorPos);
+                    Orbwalker.MoveTo(Game.CursorPos);
                     Combo();
                 }
             }

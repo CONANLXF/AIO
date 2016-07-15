@@ -2,7 +2,7 @@
 using LeagueSharp.SDK;
 using Spell = LeagueSharp.SDK.Spell;
 
-using TargetSelector = PortAIO.TSManager; namespace hVayne.Extensions
+ namespace hVayne.Extensions
 {
     class Spells
     {

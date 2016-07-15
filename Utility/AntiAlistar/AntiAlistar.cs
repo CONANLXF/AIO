@@ -1,4 +1,4 @@
-﻿using TargetSelector = PortAIO.TSManager; namespace AntiAlistar
+﻿ namespace AntiAlistar
 {
     using System;
     using System.Linq;

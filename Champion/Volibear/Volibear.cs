@@ -10,7 +10,7 @@ using UnderratedAIO.Helpers;
 using Damage = LeagueSharp.Common.Damage;
 using Spell = LeagueSharp.Common.Spell;
 
-using TargetSelector = PortAIO.TSManager; namespace UnderratedAIO.Champions
+ namespace UnderratedAIO.Champions
 {
     internal class Volibear
     {
@@ -56,17 +56,17 @@ using TargetSelector = PortAIO.TSManager; namespace UnderratedAIO.Champions
                 passivetime = 0f;
             }
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 Combo();
             }
 
-            if (PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 Harass();
             }
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 Clear();
             }
@@ -151,8 +151,8 @@ using TargetSelector = PortAIO.TSManager; namespace UnderratedAIO.Champions
             }
             if (getCheckBoxItem(menuC, "selected"))
             {
-                target = CombatHelper.SetTarget(target, (AIHeroClient) PortAIO.OrbwalkerManager.LastTarget());
-                PortAIO.OrbwalkerManager.ForcedTarget(target);
+                target = CombatHelper.SetTarget(target, (AIHeroClient) Orbwalker.LastTarget);
+                Orbwalker.ForcedTarget =(target);
             }
             if (getCheckBoxItem(menuC, "useq") && Q.IsReady() && !QEnabled &&
                 player.LSDistance(target) >= getSliderItem(menuC, "useqmin") &&

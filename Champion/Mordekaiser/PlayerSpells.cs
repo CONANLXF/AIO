@@ -7,7 +7,7 @@ using LeagueSharp.Common;
 using Damage = LeagueSharp.Common.Damage;
 using Utility = LeagueSharp.Common.Utility;
 
-using TargetSelector = PortAIO.TSManager; namespace Mordekaiser
+ namespace Mordekaiser
 {
     internal class PlayerSpells
     {
@@ -87,7 +87,7 @@ using TargetSelector = PortAIO.TSManager; namespace Mordekaiser
 
         private static void Game_OnUpdate(EventArgs args)
         {
-            if (PortAIO.OrbwalkerManager.isComboActive) UseSpells();
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo)) UseSpells();
 
             if (SmiteSlot != SpellSlot.Unknown && Program.Player.Spellbook.CanUseSpell(SmiteSlot) == SpellState.Ready)
             {

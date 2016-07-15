@@ -1,7 +1,7 @@
 using EloBuddy;
 using LeagueSharp;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Caitlyn
+ namespace ExorAIO.Champions.Caitlyn
 {
     /// <summary>
     ///     The logics class.

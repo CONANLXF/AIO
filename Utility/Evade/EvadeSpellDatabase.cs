@@ -24,7 +24,7 @@ using EloBuddy;
 
 #endregion
 
-using TargetSelector = PortAIO.TSManager; namespace EvadeSharp
+ namespace EvadeSharp
 {
     internal class EvadeSpellDatabase
     {

@@ -12,7 +12,7 @@ using EloBuddy;
 using EloBuddy.SDK.Menu;
 using EloBuddy.SDK.Menu.Values;
 
-using TargetSelector = PortAIO.TSManager; namespace iDZEzreal.Modules
+ namespace iDZEzreal.Modules
 {
     public class QKSModule : IModule
     {

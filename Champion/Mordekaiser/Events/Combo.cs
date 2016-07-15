@@ -4,7 +4,7 @@ using EloBuddy;
 using EloBuddy.SDK;
 using LeagueSharp.Common;
 
-using TargetSelector = PortAIO.TSManager; namespace Mordekaiser.Events
+ namespace Mordekaiser.Events
 {
     internal class Combo
     {
@@ -14,7 +14,7 @@ using TargetSelector = PortAIO.TSManager; namespace Mordekaiser.Events
         public Combo()
         {
             Game.OnUpdate += Game_OnUpdate;
-            LSEvents.BeforeAttack += Orbwalker_OnPreAttack;
+            Orbwalker.OnPreAttack += Orbwalker_OnPreAttack;
         }
 
         private static AIHeroClient GetTarget
@@ -43,9 +43,9 @@ using TargetSelector = PortAIO.TSManager; namespace Mordekaiser.Events
             }
         }
 
-        private void Orbwalker_OnPreAttack(BeforeAttackArgs args)
+        private void Orbwalker_OnPreAttack(AttackableUnit target, Orbwalker.PreAttackArgs args)
         {
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 var hero = args.Target as AIHeroClient;
                 isAttackingToTarget = hero != null;
@@ -58,7 +58,7 @@ using TargetSelector = PortAIO.TSManager; namespace Mordekaiser.Events
             if (Utils.Player.Self.IsDead)
                 return;
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 ExecuteQ();
                 ExecuteW();
@@ -105,7 +105,7 @@ using TargetSelector = PortAIO.TSManager; namespace Mordekaiser.Events
             if (!Spells.Q.IsReady())
                 return;
 
-            if (!PortAIO.OrbwalkerManager.isComboActive)
+            if (!Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 return;
             }

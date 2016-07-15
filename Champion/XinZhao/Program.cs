@@ -13,7 +13,7 @@ using Spell = LeagueSharp.Common.Spell;
 
 #endregion
 
-using TargetSelector = PortAIO.TSManager; namespace XinZhao
+ namespace XinZhao
 {
     internal class Program
     {
@@ -89,7 +89,7 @@ using TargetSelector = PortAIO.TSManager; namespace XinZhao
             miscMenu.Add("BlockR", new CheckBox("Block R if it won't hit", false));
 
             Game.OnUpdate += Game_OnUpdate;
-            LSEvents.BeforeAttack += OrbwalkingBeforeAttack;
+            Orbwalker.OnPreAttack += OrbwalkingBeforeAttack;
             Interrupter2.OnInterruptableTarget += Interrupter2_OnInterruptableTarget;
             Spellbook.OnCastSpell += Spellbook_OnCastSpell;
             Drawing.OnDraw += Drawing_OnDraw;
@@ -116,9 +116,9 @@ using TargetSelector = PortAIO.TSManager; namespace XinZhao
         }
         
 
-        private static void OrbwalkingBeforeAttack(BeforeAttackArgs args)
+        private static void OrbwalkingBeforeAttack(AttackableUnit target, Orbwalker.PreAttackArgs args)
         {
-            if (!(args.Target is AIHeroClient) || !PortAIO.OrbwalkerManager.isComboActive)
+            if (!(args.Target is AIHeroClient) || !Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 return;
             }
@@ -164,12 +164,12 @@ using TargetSelector = PortAIO.TSManager; namespace XinZhao
 
         private static void Game_OnUpdate(EventArgs args)
         {
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 Combo();
             }
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 var existsMana = Player.MaxMana/100*getSliderItem(mLane, "Lane.Mana");
                 if (Player.Mana >= existsMana)

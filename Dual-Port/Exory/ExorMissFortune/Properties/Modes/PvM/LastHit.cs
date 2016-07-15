@@ -1,6 +1,6 @@
 using System;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.MissFortune
+ namespace ExorAIO.Champions.MissFortune
 {
     /// <summary>
     ///     The logics class.

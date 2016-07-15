@@ -1,6 +1,6 @@
 using System;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Twitch
+ namespace ExorAIO.Champions.Twitch
 {
     /// <summary>
     ///     The logics class.

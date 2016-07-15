@@ -5,7 +5,7 @@ using EloBuddy.SDK.Menu;
 using EloBuddy;
 using EloBuddy.SDK.Menu.Values;
 
-using TargetSelector = PortAIO.TSManager; namespace URF_Spell_Spammer
+ namespace URF_Spell_Spammer
 {
     internal class Program
     {

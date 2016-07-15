@@ -1,6 +1,6 @@
 using System;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Lucian
+ namespace ExorAIO.Champions.Lucian
 {
     /// <summary>
     ///     The logics class.

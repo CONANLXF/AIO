@@ -8,7 +8,7 @@ using EloBuddy.SDK.Menu;
 using EloBuddy.SDK;
 using EloBuddy.SDK.Menu.Values;
 
-using TargetSelector = PortAIO.TSManager; namespace OneKeyToWin_AIO_Sebby.Champions
+ namespace OneKeyToWin_AIO_Sebby.Champions
 {
     class Kindred
     {
@@ -69,7 +69,7 @@ using TargetSelector = PortAIO.TSManager; namespace OneKeyToWin_AIO_Sebby.Champi
 
             Drawing.OnDraw += Drawing_OnDraw;
             Game.OnUpdate += Game_OnGameUpdate;
-            LSEvents.AfterAttack += Orbwalker_AfterAttack;
+            Orbwalker.OnPostAttack += Orbwalker_AfterAttack;
         }
 
         public static bool getCheckBoxItem(Menu m, string item)
@@ -93,9 +93,8 @@ using TargetSelector = PortAIO.TSManager; namespace OneKeyToWin_AIO_Sebby.Champi
         }
 
 
-        public static void Orbwalker_AfterAttack(AfterAttackArgs args)
+        public static void Orbwalker_AfterAttack(AttackableUnit target, EventArgs args)
         {
-            var target = args.Target;
             if (target.Type != GameObjectType.AIHeroClient)
                 return;
 
@@ -138,7 +137,7 @@ using TargetSelector = PortAIO.TSManager; namespace OneKeyToWin_AIO_Sebby.Champi
         {
             if (Program.Combo && Player.Mana > RMANA + QMANA)
             {
-                if (PortAIO.OrbwalkerManager.LastTarget() != null)
+                if (Orbwalker.LastTarget != null)
                     return;
                 var dashPos = Dash.CastDash();
                 if (!dashPos.IsZero && dashPos.CountEnemiesInRange(500) > 0)
@@ -181,7 +180,7 @@ using TargetSelector = PortAIO.TSManager; namespace OneKeyToWin_AIO_Sebby.Champi
 
         private static void LogicE()
         {
-            var torb = PortAIO.OrbwalkerManager.LastTarget();
+            var torb = Orbwalker.LastTarget;
             if (torb == null || torb.Type != GameObjectType.AIHeroClient)
                 return;
             else

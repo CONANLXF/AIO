@@ -22,7 +22,7 @@ using System.Speech.Synthesis;
 using Nechrito_Nidalee.Drawings;
 using Nechrito_Nidalee.Handlers;
 
-using TargetSelector = PortAIO.TSManager; namespace Nechrito_Nidalee
+ namespace Nechrito_Nidalee
 {
     class Program : Core
     {
@@ -47,17 +47,17 @@ using TargetSelector = PortAIO.TSManager; namespace Nechrito_Nidalee
             Killsteal.KillSteal();
             Modes.Flee();
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 Modes.Combo();
             }
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 Modes.Harass();
             }
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 Modes.Lane();
                 Modes.Jungle();

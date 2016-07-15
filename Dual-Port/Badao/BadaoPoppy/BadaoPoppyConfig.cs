@@ -11,7 +11,7 @@ using EloBuddy;
 using EloBuddy.SDK.Menu;
 using EloBuddy.SDK.Menu.Values;
 
-using TargetSelector = PortAIO.TSManager; namespace BadaoKingdom.BadaoChampion.BadaoPoppy
+ namespace BadaoKingdom.BadaoChampion.BadaoPoppy
 {
     public static class BadaoPoppyConfig
     {

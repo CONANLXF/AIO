@@ -3,7 +3,7 @@ using Firestorm_AIO.Bases;
 using LeagueSharp;
 using EloBuddy;
 
-using TargetSelector = PortAIO.TSManager; namespace Firestorm_AIO.Champions.Anivia
+ namespace Firestorm_AIO.Champions.Anivia
 {
     public class ObjManager
     {

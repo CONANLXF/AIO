@@ -7,7 +7,7 @@ using EloBuddy;
 using SharpDX;
 using EloBuddy.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Jax
+ namespace ExorAIO.Champions.Jax
 {
     /// <summary>
     ///     The logics class.

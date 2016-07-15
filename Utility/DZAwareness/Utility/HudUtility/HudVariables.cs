@@ -11,7 +11,7 @@ using EloBuddy.SDK.Menu;
 using EloBuddy.SDK.Menu.Values;
 using PortAIO.Properties;
 
-using TargetSelector = PortAIO.TSManager; namespace DZAwarenessAIO.Utility.HudUtility
+ namespace DZAwarenessAIO.Utility.HudUtility
 {
     /// <summary>
     /// The Hud Variables class

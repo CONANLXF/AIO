@@ -6,7 +6,7 @@ using LeagueSharp.SDK;
 using EloBuddy;
 using EloBuddy.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Olaf
+ namespace ExorAIO.Champions.Olaf
 {
     /// <summary>
     ///     The targets class.

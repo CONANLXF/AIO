@@ -5,7 +5,7 @@ using LeagueSharp.SDK;
 using EloBuddy;
 using EloBuddy.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Sivir
+ namespace ExorAIO.Champions.Sivir
 {
     /// <summary>
     ///     The champion class.
@@ -64,12 +64,12 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Sivir
                 return;
             }
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 Logics.Combo(args);
             }
 
-            if (PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 Logics.Harass(args);
             }
@@ -89,12 +89,12 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Sivir
                 /// </summary>
                 /// 
 
-                if (PortAIO.OrbwalkerManager.isComboActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
                 {
                     Logics.Weaving(sender, args);
                 }
 
-                if (PortAIO.OrbwalkerManager.isLaneClearActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
                 {
                     Logics.Clear(sender, args);
                     Logics.BuildingClear(sender, args);

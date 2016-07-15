@@ -23,7 +23,7 @@ using LeagueSharp.Common;
 
 #endregion
 
-using TargetSelector = PortAIO.TSManager; namespace SDKPredictioner
+ namespace SDKPredictioner
 {
     public class SpellData
     {

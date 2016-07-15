@@ -4,7 +4,7 @@ using EloBuddy.SDK;
 using Jhin___The_Virtuoso.Extensions;
 using LeagueSharp.Common;
 using Spell = LeagueSharp.Common.Spell;
-using TargetSelector = PortAIO.TSManager;
+
 
 namespace Jhin___The_Virtuoso.Modes
 {

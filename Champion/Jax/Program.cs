@@ -11,7 +11,7 @@ using EloBuddy.SDK.Menu.Values;
 using LeagueSharp.Common;
 using Damage = LeagueSharp.Common.Damage;
 using Spell = LeagueSharp.Common.Spell;
-using TargetSelector = PortAIO.TSManager;
+
 #endregion
 
 namespace JaxQx
@@ -143,8 +143,8 @@ namespace JaxQx
             Drawing.OnDraw += Drawing_OnDraw;
             Obj_AI_Base.OnProcessSpellCast += Obj_AI_Base_OnProcessSpellCast;
             Interrupter2.OnInterruptableTarget += Interrupter2_OnInterruptableTarget;
-            LSEvents.BeforeAttack += OrbwalkingBeforeAttack;
-            LSEvents.AfterAttack += Orbwalking_AfterAttack;
+            Orbwalker.OnPreAttack += OrbwalkingBeforeAttack;
+            Orbwalker.OnPostAttack += Orbwalking_AfterAttack;
 
             Obj_AI_Base.OnBuffLose += (sender, eventArgs) =>
             {
@@ -173,30 +173,30 @@ namespace JaxQx
             };
         }
 
-        private static void Orbwalking_AfterAttack(AfterAttackArgs args)
+        private static void Orbwalking_AfterAttack(AttackableUnit target, EventArgs args)
         {
             AIHeroClient t = TargetSelector.GetTarget(1100, DamageType.Physical);
             if (!W.IsReady() || !t.IsValidTarget() || !t.IsEnemy)
             {
                 return;
             }
-            if (PortAIO.OrbwalkerManager.isComboActive && t is AIHeroClient &&
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) && t is AIHeroClient &&
                 getCheckBoxItem(miscMenu, "Misc.AutoW") && t != null && t.NetworkId == t.NetworkId)
             {
                 W.Cast();
-                PortAIO.OrbwalkerManager.ResetAutoAttackTimer();
+                Orbwalker.ResetAutoAttack();
             }
-            if ((PortAIO.OrbwalkerManager.isLaneClearActive) && !(t is AIHeroClient) &&
+            if ((Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear)) && !(t is AIHeroClient) &&
                 getCheckBoxItem(laneClearMenu, "UseWLaneClear") &&
                 MinionManager.GetMinions(Orbwalking.GetRealAutoAttackRange(t), MinionTypes.All, MinionTeam.NotAlly)
                     .Count(m => m.Health > Player.GetAutoAttackDamage((Obj_AI_Base)t, true)) > 0)
             {
                 W.Cast();
-                PortAIO.OrbwalkerManager.ResetAutoAttackTimer();
+                Orbwalker.ResetAutoAttack();
             }
         }
 
-        private static void OrbwalkingBeforeAttack(BeforeAttackArgs args)
+        private static void OrbwalkingBeforeAttack(AttackableUnit target, Orbwalker.PreAttackArgs args)
         {
             if (args.Target is AIHeroClient)
             {
@@ -248,7 +248,7 @@ namespace JaxQx
                 return;
             }
 
-            if (arg.Slot == SpellSlot.Q && PortAIO.OrbwalkerManager.isComboActive && E.IsReady() && arg.Target.IsValid<AIHeroClient>())
+            if (arg.Slot == SpellSlot.Q && Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) && E.IsReady() && arg.Target.IsValid<AIHeroClient>())
             {
                 if (getBoxItem(comboMenu, "Combo.CastE") == 0)
                 {
@@ -280,12 +280,12 @@ namespace JaxQx
                 Jumper.wardJump(Game.CursorPos.LSTo2D());
             }
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 Combo();
             }
 
-            if (PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 var existsMana = Player.MaxMana/100*getSliderItem(harassMenu, "HarassMana");
                 if (Player.Mana >= existsMana)
@@ -294,7 +294,7 @@ namespace JaxQx
                 }
             }
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 var existsManalc = Player.MaxMana/100*getSliderItem(laneClearMenu, "LaneClearMana");
                 if (Player.Mana >= existsManalc)

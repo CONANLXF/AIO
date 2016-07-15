@@ -1,4 +1,4 @@
-﻿using TargetSelector = PortAIO.TSManager; namespace SkyLv_Taric
+﻿ namespace SkyLv_Taric
 {
     using System;
 
@@ -111,7 +111,7 @@
 
             if (getCheckBoxItem(SkyLv_Taric.Draw, "DrawOrbwalkTarget"))
             {
-                var orbT = PortAIO.OrbwalkerManager.LastTarget();
+                var orbT = Orbwalker.LastTarget;
                 if (orbT.LSIsValidTarget())
                     Render.Circle.DrawCircle(orbT.Position, 100, System.Drawing.Color.Pink, getSliderItem(SkyLv_Taric.Draw, "OrbwalkDraw.Radius"));
             }

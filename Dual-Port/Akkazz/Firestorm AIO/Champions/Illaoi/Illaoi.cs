@@ -12,7 +12,7 @@ using static Firestorm_AIO.Helpers.Helpers;
 using EloBuddy;
 using EloBuddy.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace Firestorm_AIO.Champions.Illaoi
+ namespace Firestorm_AIO.Champions.Illaoi
 {
     public class Illaoi : Bases.ChampionBase
     {
@@ -26,12 +26,12 @@ using TargetSelector = PortAIO.TSManager; namespace Firestorm_AIO.Champions.Illa
             Q.SetSkillshot(0.75f, 100f, float.MaxValue, false, SkillshotType.SkillshotLine);
             E.SetSkillshot(0.25f, 50f, 1900f, true, SkillshotType.SkillshotLine);
 
-            LeagueSharp.Common.LSEvents.AfterAttack += Orbwalker_OnPostAttack;
+            Orbwalker.OnPostAttack += Orbwalker_OnPostAttack;
         }
 
-        private void Orbwalker_OnPostAttack(LeagueSharp.Common.AfterAttackArgs args)
+        private void Orbwalker_OnPostAttack(AttackableUnit target, EventArgs args)
         {
-            var Target = args.Target;
+            var Target = target;
             //AA Cancel
             if (Target != null && Target.LSIsValidTarget(Me.GetRealAutoAttackRange()))
             {

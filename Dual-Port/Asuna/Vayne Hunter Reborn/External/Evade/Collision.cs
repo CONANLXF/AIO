@@ -23,7 +23,7 @@ using LeagueSharp.Common;
 using SharpDX;
 using EloBuddy;
 
-using TargetSelector = PortAIO.TSManager; namespace VayneHunter_Reborn.External.Evade
+ namespace VayneHunter_Reborn.External.Evade
 {
     public enum CollisionObjectTypes
     {

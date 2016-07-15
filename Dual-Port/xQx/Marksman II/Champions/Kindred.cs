@@ -12,7 +12,7 @@ using Font = SharpDX.Direct3D9.Font;
 
 #endregion
 
-using TargetSelector = PortAIO.TSManager; namespace Marksman.Champions
+ namespace Marksman.Champions
 {
     using EloBuddy;
     using EloBuddy.SDK;
@@ -24,7 +24,7 @@ using TargetSelector = PortAIO.TSManager; namespace Marksman.Champions
 
     internal interface IKindred
     {
-        void Orbwalking_AfterAttack(AfterAttackArgs args);
+        void Orbwalking_AfterAttack(AttackableUnit target, EventArgs args);
         void Drawing_OnDraw(EventArgs args);
         void Game_OnGameUpdate(EventArgs args);
         bool ComboMenu(Menu config);
@@ -90,7 +90,7 @@ using TargetSelector = PortAIO.TSManager; namespace Marksman.Champions
         {
         }
 
-        public override void Orbwalking_AfterAttack(AfterAttackArgs args)
+        public override void Orbwalking_AfterAttack(AttackableUnit target, EventArgs args)
         {
         }
 
@@ -180,7 +180,7 @@ using TargetSelector = PortAIO.TSManager; namespace Marksman.Champions
         }
         
 
-        public override void Orbwalking_BeforeAttack(BeforeAttackArgs args)
+        public override void Orbwalking_BeforeAttack(AttackableUnit target, Orbwalker.PreAttackArgs args)
         {
             foreach (
                 var targetA in
@@ -189,7 +189,7 @@ using TargetSelector = PortAIO.TSManager; namespace Marksman.Champions
                             e.IsValid && e.LSDistance(ObjectManager.Player) < Orbwalking.GetRealAutoAttackRange(null) + 65 &&
                             e.IsVisible).Where(targetA => targetA.HasBuff("kindredcharge")))
             {
-                PortAIO.OrbwalkerManager.ForcedTarget(targetA);
+                Orbwalker.ForcedTarget =(targetA);
             }
         }
 

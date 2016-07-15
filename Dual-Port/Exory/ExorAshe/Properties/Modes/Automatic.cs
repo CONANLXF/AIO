@@ -7,7 +7,7 @@ using LeagueSharp.SDK.Core.Utils;
 using EloBuddy;
 using EloBuddy.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Ashe
+ namespace ExorAIO.Champions.Ashe
 {
     /// <summary>
     ///     The logics class.
@@ -49,7 +49,7 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Ashe
             ///     The Automatic E Logic.
             /// </summary>
             if (Vars.E.IsReady() &&
-                PortAIO.OrbwalkerManager.isNoneActive &&
+                Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.None) &&
                 GameObjects.Player.CountEnemyHeroesInRange(1000f) == 0 &&
                 GameObjects.Player.ManaPercent >
                     ManaManager.GetNeededMana(Vars.E.Slot, Vars.getSliderItem(Vars.EMenu, "vision")) &&

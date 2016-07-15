@@ -13,7 +13,7 @@ using Spell = LeagueSharp.Common.Spell;
 using EloBuddy.SDK.Menu.Values;
 using EloBuddy.SDK.Menu;
 
-using TargetSelector = PortAIO.TSManager;
+
 using LeagueSharp.SDK.Core.Utils;
 
 namespace TophSharp
@@ -144,19 +144,19 @@ namespace TophSharp
         private static void OnGameUpdate(EventArgs args)
         {
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 Combo();
             }
-            if (PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 Mixed();
             }
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 LaneClear();
             }
-            if (PortAIO.OrbwalkerManager.isLastHitActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LastHit))
             {
                 LastHit();
             }          

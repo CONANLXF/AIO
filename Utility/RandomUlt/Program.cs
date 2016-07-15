@@ -9,7 +9,7 @@ using LeagueSharp.Common;
 using RandomUlt.Helpers;
 using EloBuddy;
 
-using TargetSelector = PortAIO.TSManager; namespace RandomUlt
+ namespace RandomUlt
 {
     internal class Program
     {

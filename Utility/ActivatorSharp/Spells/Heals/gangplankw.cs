@@ -2,7 +2,7 @@
 using Activators.Base;
 using LeagueSharp.Common;
 
-using TargetSelector = PortAIO.TSManager; namespace Activators.Spells.Heals
+ namespace Activators.Spells.Heals
 {
     class gangplankw : CoreSpell
     {

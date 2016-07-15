@@ -13,7 +13,7 @@ using EloBuddy.SDK;
 
 #endregion
 
-using TargetSelector = PortAIO.TSManager; namespace Spirit_Karma.Event
+ namespace Spirit_Karma.Event
 {
     internal class Mode : Core.Core
     {
@@ -59,25 +59,25 @@ using TargetSelector = PortAIO.TSManager; namespace Spirit_Karma.Event
         
         private static void OrbHandler()
         {
-            if (PortAIO.OrbwalkerManager.isFleeActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Flee))
             {
                 Flee();
             }
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 Combo();
             }
-            if (PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 Mixed();
             }
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 Lane();
                 Jungle();
             }
-            if (PortAIO.OrbwalkerManager.isLastHitActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LastHit))
             {
                 LastHit();
             }
@@ -273,7 +273,7 @@ using TargetSelector = PortAIO.TSManager; namespace Spirit_Karma.Event
         private static void Flee()
         {
            EloBuddy.Player.IssueOrder(GameObjectOrder.MoveTo, Game.CursorPos);
-            if (!PortAIO.OrbwalkerManager.isFleeActive)
+            if (!Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Flee))
             {
                 return;
             }

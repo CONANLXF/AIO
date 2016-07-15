@@ -6,7 +6,7 @@ using NechritoRiven.Core;
 using NechritoRiven.Menus;
 using System;
 
-using TargetSelector = PortAIO.TSManager; namespace NechritoRiven.Event
+ namespace NechritoRiven.Event
 {
     class Anim : Core.Core
     {
@@ -45,8 +45,8 @@ using TargetSelector = PortAIO.TSManager; namespace NechritoRiven.Event
                     t = 170;
                     break;
                 case "Spell3":
-                    if (MenuConfig.Burst || PortAIO.OrbwalkerManager.isComboActive ||
-                        MenuConfig.FastHarass || PortAIO.OrbwalkerManager.isFleeActive)
+                    if (MenuConfig.Burst || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) ||
+                        MenuConfig.FastHarass || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Flee))
                         Usables.CastYoumoo();
                     break;
                 case "Spell4a":
@@ -60,12 +60,12 @@ using TargetSelector = PortAIO.TSManager; namespace NechritoRiven.Event
                     break;
             }
 
-            if (a != 0 && (!PortAIO.OrbwalkerManager.isNoneActive))
+            if (a != 0 && (!Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.None)))
             {
                 LeagueSharp.Common.Utility.DelayAction.Add(a, () =>
                 {
                     Console.WriteLine(b);
-                    PortAIO.OrbwalkerManager.ResetAutoAttackTimer();
+                    Orbwalker.ResetAutoAttack();
                     EloBuddy.Player.DoEmote(Emote.Dance);
                 });
             }
@@ -73,12 +73,12 @@ using TargetSelector = PortAIO.TSManager; namespace NechritoRiven.Event
         
         private static void CancelAnimation()
         {
-            PortAIO.OrbwalkerManager.ResetAutoAttackTimer();
+            Orbwalker.ResetAutoAttack();
             if (MenuConfig.QReset)
             {
                 EloBuddy.Player.DoEmote(Emote.Dance);
             }
-            else if (MenuConfig.Qstrange && !PortAIO.OrbwalkerManager.isNoneActive)
+            else if (MenuConfig.Qstrange && !Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.None))
             {
                 if (MenuConfig.AnimDance) EloBuddy.Player.DoEmote(Emote.Dance);
                 if (MenuConfig.AnimLaugh) EloBuddy.Player.DoEmote(Emote.Laugh);

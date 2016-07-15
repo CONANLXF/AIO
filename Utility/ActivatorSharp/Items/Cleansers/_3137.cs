@@ -6,7 +6,7 @@ using LeagueSharp.Common;
 using EloBuddy.SDK.Menu.Values;
 using EloBuddy;
 
-using TargetSelector = PortAIO.TSManager; namespace Activators.Items.Cleansers
+ namespace Activators.Items.Cleansers
 {
     class _3137 : CoreItem
     {

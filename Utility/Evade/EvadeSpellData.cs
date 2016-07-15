@@ -24,7 +24,7 @@ using LeagueSharp.Common;
 
 #endregion
 
-using TargetSelector = PortAIO.TSManager; namespace EvadeSharp
+ namespace EvadeSharp
 {
     public enum SpellValidTargets
     {

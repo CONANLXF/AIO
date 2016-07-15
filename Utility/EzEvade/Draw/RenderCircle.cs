@@ -10,7 +10,7 @@ using LeagueSharp;
 using LeagueSharp.Common;
 using SharpDX;
 
-using TargetSelector = PortAIO.TSManager; namespace ezEvade.Draw
+ namespace ezEvade.Draw
 {
     class RenderCircle : RenderObject
     {

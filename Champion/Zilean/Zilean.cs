@@ -1,4 +1,4 @@
-﻿using TargetSelector = PortAIO.TSManager; namespace ElZilean
+﻿ namespace ElZilean
 {
     using System;
     using System.Linq;
@@ -198,7 +198,7 @@
                 Drawing.OnDraw += OnDraw;
                 Interrupter2.OnInterruptableTarget += OnInterruptableTarget;
                 Obj_AI_Base.OnProcessSpellCast += OnProcessSpellCast;
-                LSEvents.BeforeAttack += BeforeAttack;
+                Orbwalker.OnPreAttack += BeforeAttack;
             }
             catch (Exception exception)
             {
@@ -321,11 +321,11 @@
         ///     
         /// </summary>
         /// <param name="args"></param>
-        private static void BeforeAttack(BeforeAttackArgs args)
+        private static void BeforeAttack(AttackableUnit target, Orbwalker.PreAttackArgs args)
         {
             if (getCheckBoxItem(miscMenu, "ElZilean.Combo.AA"))
             {
-                if (PortAIO.OrbwalkerManager.isComboActive || PortAIO.OrbwalkerManager.isHarassActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
                 {
                     if (Q.IsReady())
                     {
@@ -673,23 +673,23 @@
 
                     if (passiveTarget != null)
                     {
-                        PortAIO.OrbwalkerManager.ForcedTarget(passiveTarget);
+                        Orbwalker.ForcedTarget =(passiveTarget);
                     }
                     else
                     {
-                        PortAIO.OrbwalkerManager.ForcedTarget(null);
+                        Orbwalker.ForcedTarget =(null);
                     }
                 }
 
-                if (PortAIO.OrbwalkerManager.isComboActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
                 {
                     OnCombo();
                 }
-                if (PortAIO.OrbwalkerManager.isHarassActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
                 {
                     OnHarass();
                 }
-                if (PortAIO.OrbwalkerManager.isLaneClearActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
                 {
                     OnLaneclear();
                 }
@@ -704,7 +704,7 @@
                     MouseCombo();
                 }
 
-                if (PortAIO.OrbwalkerManager.isFleeActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Flee))
                 {
                     OnFlee();
                 }

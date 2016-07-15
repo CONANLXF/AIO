@@ -14,7 +14,7 @@ using Prediction = Challenger_Series.Utils.Prediction;
 using Challenger_Series.Utils;
 using LeagueSharp.SDK.Enumerations;
 
-using TargetSelector = PortAIO.TSManager; namespace Challenger_Series.Plugins
+ namespace Challenger_Series.Plugins
 {
     public class Caitlyn : CSPlugin
     {
@@ -37,8 +37,8 @@ using TargetSelector = PortAIO.TSManager; namespace Challenger_Series.Plugins
             R.SetSkillshot(3.00f, 50f, 1000f, false, SkillshotType.SkillshotLine);
 
             InitMenu();
-            LeagueSharp.Common.LSEvents.AfterAttack += Orbwalker_OnPostAttack;
-            LeagueSharp.Common.LSEvents.BeforeAttack += Orbwalker_OnPreAttack;
+            Orbwalker.OnPostAttack += Orbwalker_OnPostAttack;
+            Orbwalker.OnPreAttack += Orbwalker_OnPreAttack;
             DelayedOnUpdate += OnUpdate;
             Drawing.OnDraw += OnDraw;
             Obj_AI_Base.OnProcessSpellCast += OnProcessSpellCast;
@@ -143,7 +143,7 @@ using TargetSelector = PortAIO.TSManager; namespace Challenger_Series.Plugins
             }
         }
 
-        private void Orbwalker_OnPreAttack(LeagueSharp.Common.BeforeAttackArgs args)
+        private void Orbwalker_OnPreAttack(AttackableUnit target, Orbwalker.PreAttackArgs args)
         {
             /*if (orbwalkingActionArgs.Target is Obj_AI_Minion && HasPassive && FocusOnHeadShotting &&
                 Orbwalker.ActiveMode == OrbwalkingMode.LaneClear)
@@ -161,9 +161,9 @@ using TargetSelector = PortAIO.TSManager; namespace Challenger_Series.Plugins
             }*/
         }
 
-        private void Orbwalker_OnPostAttack(LeagueSharp.Common.AfterAttackArgs args)
+        private void Orbwalker_OnPostAttack(AttackableUnit target, EventArgs args)
         {
-            PortAIO.OrbwalkerManager.ForcedTarget(null);
+            Orbwalker.ForcedTarget =(null);
             if (E.IsReady() && this.UseECombo)
             {
                 if (!OnlyUseEOnMelees)
@@ -259,7 +259,7 @@ using TargetSelector = PortAIO.TSManager; namespace Challenger_Series.Plugins
         
         void QLogic()
         {
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 if (UseQCombo && Q.IsReady() && ObjectManager.Player.CountEnemyHeroesInRange(800) == 0
                     && ObjectManager.Player.CountEnemyHeroesInRange(1100) > 0)
@@ -279,7 +279,7 @@ using TargetSelector = PortAIO.TSManager; namespace Challenger_Series.Plugins
                     }
                 }
             }
-            if (!PortAIO.OrbwalkerManager.isNoneActive && !PortAIO.OrbwalkerManager.isComboActive
+            if (!Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.None) && !Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo)
                 && ObjectManager.Player.CountEnemyHeroesInRange(850) == 0)
             {
                 var qHarassMode = QHarassMode;

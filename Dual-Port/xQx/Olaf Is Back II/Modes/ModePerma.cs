@@ -9,7 +9,7 @@ using EloBuddy;
 using EloBuddy.SDK;
 using EloBuddy.SDK.Menu.Values;
 
-using TargetSelector = PortAIO.TSManager; namespace OlafxQx.Modes
+ namespace OlafxQx.Modes
 {
     internal class ModePerma
     {
@@ -24,7 +24,7 @@ using TargetSelector = PortAIO.TSManager; namespace OlafxQx.Modes
         
         private static void GameOnOnUpdate(EventArgs args)
         {
-            if (!PortAIO.OrbwalkerManager.isComboActive && !ObjectManager.Player.LSIsRecalling())
+            if (!Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) && !ObjectManager.Player.LSIsRecalling())
             {
                 if (Modes.ModeSettings.MenuLocal["Settings.E.Auto"].Cast<ComboBox>().CurrentValue == 1)
                 {

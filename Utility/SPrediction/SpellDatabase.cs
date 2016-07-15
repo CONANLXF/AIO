@@ -25,7 +25,7 @@ using EloBuddy;
 
 #endregion
 
-using TargetSelector = PortAIO.TSManager; namespace SPredictioner
+ namespace SPredictioner
 {
     public static class SpellDatabase
     {

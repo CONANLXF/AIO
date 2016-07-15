@@ -7,7 +7,7 @@ using EloBuddy;
 using LeagueSharp.SDK.Core.Utils;
 using EloBuddy.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Amumu
+ namespace ExorAIO.Champions.Amumu
 {
     /// <summary>
     ///     The targets class.

@@ -6,7 +6,7 @@ using Swiftly_Teemo.Main;
 
 #endregion
 
-using TargetSelector = PortAIO.TSManager; namespace Swiftly_Teemo.Handler
+ namespace Swiftly_Teemo.Handler
 {
     internal class Dmg : Core
     {

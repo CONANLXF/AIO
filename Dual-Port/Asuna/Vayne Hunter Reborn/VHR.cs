@@ -8,7 +8,7 @@ using VayneHunter_Reborn.Skills.Tumble.VHRQ;
 using VayneHunter_Reborn.Utility;
 using EloBuddy;
 
-using TargetSelector = PortAIO.TSManager; namespace VayneHunter_Reborn
+ namespace VayneHunter_Reborn
 {
     class VHR
     {

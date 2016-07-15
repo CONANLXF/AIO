@@ -12,7 +12,7 @@ using Color = SharpDX.Color;
 using EloBuddy.SDK.Menu;
 using EloBuddy.SDK.Menu.Values;
 
-using TargetSelector = PortAIO.TSManager; namespace OlafxQx.Modes
+ namespace OlafxQx.Modes
 {
     internal class ModeConfig
     {

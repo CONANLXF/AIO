@@ -13,7 +13,7 @@ using EloBuddy;
 
 #endregion
 
-using TargetSelector = PortAIO.TSManager; namespace Leblanc
+ namespace Leblanc
 {
     internal class Leblanc
     {

@@ -7,7 +7,7 @@ using LeagueSharp;
 using EloBuddy;
 using EloBuddy.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace NechritoRiven.Event
+ namespace NechritoRiven.Event
 {
     class QSpell
     {
@@ -16,7 +16,7 @@ using TargetSelector = PortAIO.TSManager; namespace NechritoRiven.Event
         {
             if (args.Slot == SpellSlot.Q)
             {
-                PortAIO.OrbwalkerManager.ResetAutoAttackTimer();
+                Orbwalker.ResetAutoAttack();
             }
         }
     }

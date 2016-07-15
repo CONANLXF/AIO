@@ -6,7 +6,7 @@ using SharpDX;
 using SharpDX.Direct3D9;
 using EloBuddy;
 
-using TargetSelector = PortAIO.TSManager; namespace DZAwarenessAIO.Utility.HudUtility.HudElements
+ namespace DZAwarenessAIO.Utility.HudUtility.HudElements
 {
     /// <summary>
     /// The Parent Hud Panel class

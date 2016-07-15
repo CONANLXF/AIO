@@ -27,7 +27,7 @@ using EloBuddy.SDK.Menu.Values;
 
 #endregion
 
-using TargetSelector = PortAIO.TSManager; namespace EvadeA
+ namespace EvadeA
 {
     public enum CollisionObjectTypes
     {

@@ -3,7 +3,7 @@ using System.Linq;
 using ExorAIO.Utilities;
 using LeagueSharp.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Quinn
+ namespace ExorAIO.Champions.Quinn
 {
     /// <summary>
     ///     The logics class.

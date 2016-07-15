@@ -28,7 +28,7 @@ using LeagueSharp.Common;
 
 #endregion
 
-using TargetSelector = PortAIO.TSManager; namespace yol0Thresh
+ namespace yol0Thresh
 {
     public delegate void OnPosibleToInterruptH(Obj_AI_Base unit, InterruptableSpell spell);
     public delegate void OnPossibleToInterruptH(Obj_AI_Base unit, InterruptableSpell spell);

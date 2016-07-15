@@ -11,7 +11,7 @@ using EloBuddy.SDK;
 using Spell = LeagueSharp.Common.Spell;
 
 
-using TargetSelector = PortAIO.TSManager; namespace VayneHunter_Reborn.Modules.ModuleList.Condemn
+ namespace VayneHunter_Reborn.Modules.ModuleList.Condemn
 {
     using Utility = LeagueSharp.Common.Utility;
 

@@ -6,7 +6,7 @@ using EloBuddy.SDK.Menu.Values;
 using LeagueSharp.Common;
 using PortAIO.Properties;
 using TheBrand;
-using TargetSelector = PortAIO.TSManager;
+
 namespace PortAIO.Champion.Brand
 {
     internal class Program

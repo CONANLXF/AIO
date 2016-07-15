@@ -12,7 +12,7 @@ using EloBuddy.SDK.Menu.Values;
 using Spell = LeagueSharp.Common.Spell;
 using Utility = LeagueSharp.Common.Utility;
 
-using TargetSelector = PortAIO.TSManager; namespace Jinx_Genesis
+ namespace Jinx_Genesis
 {
     class Program
     {
@@ -92,7 +92,7 @@ using TargetSelector = PortAIO.TSManager; namespace Jinx_Genesis
             }
 
             Game.OnUpdate += Game_OnGameUpdate;
-            LSEvents.BeforeAttack += BeforeAttack;
+            Orbwalker.OnPreAttack += BeforeAttack;
             AntiGapcloser.OnEnemyGapcloser += AntiGapcloser_OnEnemyGapcloser;
             Drawing.OnDraw += Drawing_OnDraw;
             Obj_AI_Base.OnProcessSpellCast += Obj_AI_Base_OnProcessSpellCast;
@@ -224,7 +224,7 @@ using TargetSelector = PortAIO.TSManager; namespace Jinx_Genesis
             }
         }
         
-        private static void BeforeAttack(BeforeAttackArgs args)
+        private static void BeforeAttack(AttackableUnit target, Orbwalker.PreAttackArgs args)
         {
             if (!FishBoneActive)
                 return;
@@ -241,7 +241,7 @@ using TargetSelector = PortAIO.TSManager; namespace Jinx_Genesis
             if (!Combo && args.Target is Obj_AI_Minion)
             {
                 var t = (Obj_AI_Minion)args.Target;
-                if (PortAIO.OrbwalkerManager.isLaneClearActive && Player.ManaPercent > getSliderItem(manaMenu, "QmanaLC") && CountMinionsInRange(250, t.Position) >= getSliderItem(qMenu, "Qlaneclear"))
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear) && Player.ManaPercent > getSliderItem(manaMenu, "QmanaLC") && CountMinionsInRange(250, t.Position) >= getSliderItem(qMenu, "Qlaneclear"))
                 {
                     
                 }
@@ -316,7 +316,7 @@ using TargetSelector = PortAIO.TSManager; namespace Jinx_Genesis
                 bool cast = false;
                 
 
-                if (getCheckBoxItem(rMenu, "RoverAA") && (!PortAIO.OrbwalkerManager.CanAttack() || Player.Spellbook.IsAutoAttacking))
+                if (getCheckBoxItem(rMenu, "RoverAA") && (!Orbwalker.CanAutoAttack || Player.Spellbook.IsAutoAttacking))
                     return;
 
                 foreach (var target in Enemies.Where(target => target.LSIsValidTarget(R.Range) && ValidUlt(target) && target.IsVisible && target.IsHPBarRendered))
@@ -506,7 +506,7 @@ using TargetSelector = PortAIO.TSManager; namespace Jinx_Genesis
                 {
                     CastSpell(W, t);
                 }
-                else if (Farm && PortAIO.OrbwalkerManager.CanAttack() && !Player.Spellbook.IsAutoAttacking && getCheckBoxItem(wMenu, "Wharass") && Player.ManaPercent > getSliderItem(manaMenu, "WmanaHarass"))
+                else if (Farm && Orbwalker.CanAutoAttack && !Player.Spellbook.IsAutoAttacking && getCheckBoxItem(wMenu, "Wharass") && Player.ManaPercent > getSliderItem(manaMenu, "WmanaHarass"))
                 {
                     if (getBoxItem(wMenu, "Wts") == 0)
                     {
@@ -527,19 +527,19 @@ using TargetSelector = PortAIO.TSManager; namespace Jinx_Genesis
         {
             if (FishBoneActive)
             {
-                var orbT = PortAIO.OrbwalkerManager.LastTarget();
-                if (PortAIO.OrbwalkerManager.isLaneClearActive && Player.ManaPercent > getSliderItem(manaMenu, "QmanaLC") && orbT.IsValid<Obj_AI_Minion>())
+                var orbT = Orbwalker.LastTarget;
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear) && Player.ManaPercent > getSliderItem(manaMenu, "QmanaLC") && orbT.IsValid<Obj_AI_Minion>())
                 {
                     
                 }
                 else if (getBoxItem(qMenu, "Qchange") == 0 && orbT.IsValid<AIHeroClient>())
                 {
-                    var t = (AIHeroClient)PortAIO.OrbwalkerManager.LastTarget();
+                    var t = (AIHeroClient)Orbwalker.LastTarget;
                     FishBoneToMiniGun(t);
                 }  
                 else
                 {
-                    if (!Combo && PortAIO.OrbwalkerManager.isNoneActive)
+                    if (!Combo && Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.None))
                         Q.Cast();
                 }
             }
@@ -554,7 +554,7 @@ using TargetSelector = PortAIO.TSManager; namespace Jinx_Genesis
                         {
                             Q.Cast();
                         }
-                        if (Farm && PortAIO.OrbwalkerManager.CanAttack() && !Player.Spellbook.IsAutoAttacking && getCheckBoxItem(qMenu, "harasQ" + t.ChampionName) && getCheckBoxItem(qMenu, "Qharass") && (Player.ManaPercent > getSliderItem(manaMenu, "QmanaHarass") || Player.LSGetAutoAttackDamage(t) * getSliderItem(qMenu, "QmanaIgnore") > t.Health))
+                        if (Farm && Orbwalker.CanAutoAttack && !Player.Spellbook.IsAutoAttacking && getCheckBoxItem(qMenu, "harasQ" + t.ChampionName) && getCheckBoxItem(qMenu, "Qharass") && (Player.ManaPercent > getSliderItem(manaMenu, "QmanaHarass") || Player.LSGetAutoAttackDamage(t) * getSliderItem(qMenu, "QmanaIgnore") > t.Health))
                         {
                             Q.Cast();
                         }
@@ -566,19 +566,19 @@ using TargetSelector = PortAIO.TSManager; namespace Jinx_Genesis
                     {
                         Q.Cast();
                     }
-                    else if (Farm && !Player.Spellbook.IsAutoAttacking && getCheckBoxItem(qMenu, "farmQout") && PortAIO.OrbwalkerManager.CanAttack())
+                    else if (Farm && !Player.Spellbook.IsAutoAttacking && getCheckBoxItem(qMenu, "farmQout") && Orbwalker.CanAutoAttack)
                     {
                         foreach (var minion in MinionManager.GetMinions(Q.Range + 30).Where(
                         minion => !Orbwalking.InAutoAttackRange(minion) && minion.Health < Player.LSGetAutoAttackDamage(minion) * 1.2 && GetRealPowPowRange(minion) < GetRealDistance(minion) && Q.Range < GetRealDistance(minion)))
                         {
-                            PortAIO.OrbwalkerManager.ForcedTarget(minion);
+                            Orbwalker.ForcedTarget =(minion);
                             Q.Cast();
                             return;
                         }
                     }
-                    if(PortAIO.OrbwalkerManager.isLaneClearActive && Player.ManaPercent > getSliderItem(manaMenu, "QmanaLC"))
+                    if(Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear) && Player.ManaPercent > getSliderItem(manaMenu, "QmanaLC"))
                     {
-                        var orbT = PortAIO.OrbwalkerManager.LastTarget();
+                        var orbT = Orbwalker.LastTarget;
                         if (orbT.IsValid<Obj_AI_Minion>() && CountMinionsInRange(250, orbT.Position) >= getSliderItem(qMenu, "Qlaneclear"))
                         {
                             Q.Cast();
@@ -586,7 +586,7 @@ using TargetSelector = PortAIO.TSManager; namespace Jinx_Genesis
                     }
                 }
             }
-            PortAIO.OrbwalkerManager.ForcedTarget(null);
+            Orbwalker.ForcedTarget =(null);
         }
 
         private static int CountMinionsInRange(float range, Vector3 pos)
@@ -786,15 +786,15 @@ using TargetSelector = PortAIO.TSManager; namespace Jinx_Genesis
             else
                 FishBoneActive = false;
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
                 Combo = true;
             else
                 Combo = false;
 
             if (
-                (PortAIO.OrbwalkerManager.isLaneClearActive && getCheckBoxItem(harassMenu, "LaneClearHarass")) ||
-                (PortAIO.OrbwalkerManager.isLastHitActive && getCheckBoxItem(harassMenu, "LastHitHarass")) || 
-                (PortAIO.OrbwalkerManager.isHarassActive && getCheckBoxItem(harassMenu, "MixedHarass"))
+                (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear) && getCheckBoxItem(harassMenu, "LaneClearHarass")) ||
+                (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LastHit) && getCheckBoxItem(harassMenu, "LastHitHarass")) || 
+                (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass) && getCheckBoxItem(harassMenu, "MixedHarass"))
                )
                 Farm = true;
             else

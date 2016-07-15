@@ -1,4 +1,4 @@
-﻿using TargetSelector = PortAIO.TSManager; namespace DZAwarenessAIO.Utility.HudUtility.HudElements
+﻿ namespace DZAwarenessAIO.Utility.HudUtility.HudElements
 {
     /// <summary>
     /// The Hud Element base class

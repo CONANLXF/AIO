@@ -6,7 +6,7 @@ using LeagueSharp.SDK;
 using EloBuddy;
 using EloBuddy.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Akali
+ namespace ExorAIO.Champions.Akali
 {
     /// <summary>
     ///     The logics class.
@@ -56,8 +56,8 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Akali
         /// <param name="args">The args.</param>
         public static void JungleClear(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
-            if (PortAIO.OrbwalkerManager.LastTarget() as Obj_AI_Minion == null ||
-                !Targets.JungleMinions.Contains(PortAIO.OrbwalkerManager.LastTarget() as Obj_AI_Minion))
+            if (Orbwalker.LastTarget as Obj_AI_Minion == null ||
+                !Targets.JungleMinions.Contains(Orbwalker.LastTarget as Obj_AI_Minion))
             {
                 return;
             }

@@ -17,7 +17,7 @@ using Environment = UnderratedAIO.Helpers.Environment;
 using Prediction = LeagueSharp.Common.Prediction;
 using EloBuddy.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace UnderratedAIO.Champions
+ namespace UnderratedAIO.Champions
 {
     internal class Hecarim
     {
@@ -60,17 +60,17 @@ using TargetSelector = PortAIO.TSManager; namespace UnderratedAIO.Champions
         
         private void Game_OnUpdate(EventArgs args)
         {
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 Combo();
             }
 
-            if (PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 Harass();
             }
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 Clear();
             }
@@ -112,7 +112,7 @@ using TargetSelector = PortAIO.TSManager; namespace UnderratedAIO.Champions
             var Qminis = MinionManager.GetMinions(Q.Range, MinionTypes.All, MinionTeam.NotAlly);
             if (getCheckBoxItem(farmMenu, "useqLC") && Q.IsReady() &&
                 (Qminis.Count >= getSliderItem(farmMenu, "qMinHit") || jungleMobQ != null ||
-                 (Qminis.Count(m => m.Health < Q.GetDamage(m)) > 0 && !PortAIO.OrbwalkerManager.CanAttack())))
+                 (Qminis.Count(m => m.Health < Q.GetDamage(m)) > 0 && !Orbwalker.CanAutoAttack)))
             {
                 Q.Cast();
             }

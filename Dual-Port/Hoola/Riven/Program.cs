@@ -6,7 +6,10 @@ using ItemData = LeagueSharp.Common.Data.ItemData;
 using EloBuddy.SDK.Menu.Values;
 using EloBuddy.SDK.Menu;
 
-using TargetSelector = PortAIO.TSManager; namespace HoolaRiven
+
+using EloBuddy.SDK;
+
+namespace HoolaRiven
 {
     public class Program
     {
@@ -17,7 +20,7 @@ using TargetSelector = PortAIO.TSManager; namespace HoolaRiven
         private const string IsFirstR = "RivenFengShuiEngine";
         private const string IsSecondR = "RivenIzunaBlade";
         private static readonly EloBuddy.SpellSlot Flash = Player.GetSpellSlot("summonerFlash");
-        private static Spell Q, W, E, R;
+        private static LeagueSharp.Common.Spell Q, W, E, R;
         private static int QStack = 1;
         public static Render.Text Timer, Timer2;
         private static bool forceQ;
@@ -35,10 +38,10 @@ using TargetSelector = PortAIO.TSManager; namespace HoolaRiven
             if (Player.ChampionName != "Riven") return;
             EloBuddy.Chat.Print("Hoola Riven - Loaded Successfully, Good Luck! :):)");
             EloBuddy.Chat.Print("Hoola Riven - Change Keys Bind in Orbwalk Menu");
-            Q = new Spell(EloBuddy.SpellSlot.Q);
-            W = new Spell(EloBuddy.SpellSlot.W);
-            E = new Spell(EloBuddy.SpellSlot.E, 300);
-            R = new Spell(EloBuddy.SpellSlot.R, 900);
+            Q = new LeagueSharp.Common.Spell(EloBuddy.SpellSlot.Q);
+            W = new LeagueSharp.Common.Spell(EloBuddy.SpellSlot.W);
+            E = new LeagueSharp.Common.Spell(EloBuddy.SpellSlot.E, 300);
+            R = new LeagueSharp.Common.Spell(EloBuddy.SpellSlot.R, 900);
             R.SetSkillshot(0.25f, 45, 1600, false, SkillshotType.SkillshotCone);
 
             OnMenuLoad();
@@ -65,7 +68,7 @@ using TargetSelector = PortAIO.TSManager; namespace HoolaRiven
             if (Items.HasItem(3748) && Items.CanUseItem(3748))
             {
                 Items.UseItem(3748);
-                PortAIO.OrbwalkerManager.ResetAutoAttackTimer();
+                Orbwalker.ResetAutoAttack();
             }
         }
         private static void Drawing_OnEndScene(EventArgs args)
@@ -90,7 +93,7 @@ using TargetSelector = PortAIO.TSManager; namespace HoolaRiven
             QTarget = (EloBuddy.Obj_AI_Base)args.Target;
             if (args.Target is EloBuddy.Obj_AI_Minion)
             {
-                if (PortAIO.OrbwalkerManager.isLaneClearActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
                 {
                     var Minions = MinionManager.GetMinions(70 + 120 + Player.BoundingRadius);
                     if (HasTitan())
@@ -127,7 +130,7 @@ using TargetSelector = PortAIO.TSManager; namespace HoolaRiven
 
             if (args.Target is EloBuddy.Obj_AI_Minion)
             {
-                if (PortAIO.OrbwalkerManager.isLaneClearActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
                 {
                     var Mobs = MinionManager.GetMinions(120 + 70 + Player.BoundingRadius, MinionTypes.All,
                         MinionTeam.Neutral, MinionOrderTypes.MaxHealth);
@@ -155,13 +158,13 @@ using TargetSelector = PortAIO.TSManager; namespace HoolaRiven
                     }
                 }
             }
-            if (args.Target is EloBuddy.Obj_AI_Turret || args.Target is EloBuddy.Obj_Barracks || args.Target is EloBuddy.Obj_BarracksDampener || args.Target is EloBuddy.Obj_Building) if (args.Target.IsValid && args.Target != null && Q.IsReady() && LaneQ && PortAIO.OrbwalkerManager.isLaneClearActive) ForceCastQ((EloBuddy.Obj_AI_Base)args.Target);
+            if (args.Target is EloBuddy.Obj_AI_Turret || args.Target is EloBuddy.Obj_Barracks || args.Target is EloBuddy.Obj_BarracksDampener || args.Target is EloBuddy.Obj_Building) if (args.Target.IsValid && args.Target != null && Q.IsReady() && LaneQ && Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear)) ForceCastQ((EloBuddy.Obj_AI_Base)args.Target);
             if (args.Target is EloBuddy.AIHeroClient)
             {
                 var target = (EloBuddy.AIHeroClient)args.Target;
                 if (KillstealR && R.IsReady() && R.Instance.Name == IsSecondR) if (target.Health < (Rdame(target, target.Health) + Player.LSGetAutoAttackDamage(target)) && target.Health > Player.LSGetAutoAttackDamage(target)) R.Cast(target.Position);
                 if (KillstealW && W.IsReady()) if (target.Health < (W.GetDamage(target) + Player.LSGetAutoAttackDamage(target)) && target.Health > Player.LSGetAutoAttackDamage(target)) W.Cast();
-                if (PortAIO.OrbwalkerManager.isComboActive && target != null)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) && target != null)
                 {
                     if (HasTitan())
                     {
@@ -181,7 +184,7 @@ using TargetSelector = PortAIO.TSManager; namespace HoolaRiven
                     else if (E.IsReady() && !Orbwalking.InAutoAttackRange(target)) E.Cast(target.Position);
                 }
 
-                if (PortAIO.OrbwalkerManager.isHarassActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
                 {
                     if (HasTitan())
                     {
@@ -317,10 +320,10 @@ using TargetSelector = PortAIO.TSManager; namespace HoolaRiven
             UseRMaxDam();
             AutoUseW();
             Killsteal();
-            if (PortAIO.OrbwalkerManager.isComboActive) Combo();
-            if (PortAIO.OrbwalkerManager.isLaneClearActive) Jungleclear();
-            if (PortAIO.OrbwalkerManager.isHarassActive) Harass();
-            if (PortAIO.OrbwalkerManager.isFleeActive) Flee();
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo)) Combo();
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear)) Jungleclear();
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass)) Harass();
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Flee)) Flee();
             if (Utils.GameTimeTickCount - LastQ >= 3650 && QStack != 1 && !Player.LSIsRecalling() && KeepQ && Q.IsReady()) Q.Cast(EloBuddy.Game.CursorPos);
         }
 
@@ -417,7 +420,7 @@ using TargetSelector = PortAIO.TSManager; namespace HoolaRiven
             var targetR = LSTargetSelector.GetTarget(250 + Player.AttackRange + 70, EloBuddy.DamageType.Physical);
             if (targetR != null)
             {
-                if (R.IsReady() && R.Instance.Name == IsFirstR && LSOrbwalker.InAutoAttackRange(targetR) && AlwaysR && targetR != null) ForceR();
+                if (R.IsReady() && R.Instance.Name == IsFirstR && Orbwalking.InAutoAttackRange(targetR) && AlwaysR && targetR != null) ForceR();
                 if (R.IsReady() && R.Instance.Name == IsFirstR && W.IsReady() && InWRange(targetR) && ComboW && AlwaysR && targetR != null)
                 {
                     ForceR();
@@ -538,7 +541,7 @@ using TargetSelector = PortAIO.TSManager; namespace HoolaRiven
                     Utility.DelayAction.Add(1, ForceW);
                 }
             }
-            if (Q.IsReady() && E.IsReady() && QStack == 3 && !PortAIO.OrbwalkerManager.CanAttack() && PortAIO.OrbwalkerManager.CanMove(5))
+            if (Q.IsReady() && E.IsReady() && QStack == 3 && !Orbwalker.CanAutoAttack && Orbwalker.CanMove)
             {
                 var epos = Player.ServerPosition +
                           (Player.ServerPosition - target.ServerPosition).LSNormalized() * 300;
@@ -569,25 +572,25 @@ using TargetSelector = PortAIO.TSManager; namespace HoolaRiven
             {
                 case "Spell1a":
                     LastQ = Utils.GameTimeTickCount;
-                    if (Qstrange && !PortAIO.OrbwalkerManager.isNoneActive) EloBuddy.Chat.Say("/d");
+                    if (Qstrange && !Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.None)) EloBuddy.Chat.Say("/d");
                     QStack = 2;
-                    if (!PortAIO.OrbwalkerManager.isNoneActive && !PortAIO.OrbwalkerManager.isLastHitActive && !PortAIO.OrbwalkerManager.isFleeActive) Utility.DelayAction.Add((QD * 10) + 1, Reset);
+                    if (!Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.None) && !Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LastHit) && !Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Flee)) Utility.DelayAction.Add((QD * 10) + 1, Reset);
                     break;
                 case "Spell1b":
                     LastQ = Utils.GameTimeTickCount;
-                    if (Qstrange && !PortAIO.OrbwalkerManager.isNoneActive) EloBuddy.Chat.Say("/d");
+                    if (Qstrange && !Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.None)) EloBuddy.Chat.Say("/d");
                     QStack = 3;
-                    if (!PortAIO.OrbwalkerManager.isNoneActive && !PortAIO.OrbwalkerManager.isLastHitActive && !PortAIO.OrbwalkerManager.isFleeActive) Utility.DelayAction.Add((QD * 10) + 1, Reset);
+                    if (!Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.None) && !Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LastHit) && !Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Flee)) Utility.DelayAction.Add((QD * 10) + 1, Reset);
                     break;
                 case "Spell1c":
                     LastQ = Utils.GameTimeTickCount;
-                    if (Qstrange && !PortAIO.OrbwalkerManager.isNoneActive) EloBuddy.Chat.Say("/d");
+                    if (Qstrange && !Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.None)) EloBuddy.Chat.Say("/d");
                     QStack = 1;
-                    if (!PortAIO.OrbwalkerManager.isNoneActive && !PortAIO.OrbwalkerManager.isLastHitActive && !PortAIO.OrbwalkerManager.isFleeActive) Utility.DelayAction.Add((QLD * 10) + 3, Reset);
+                    if (!Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.None) && !Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LastHit) && !Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Flee)) Utility.DelayAction.Add((QLD * 10) + 3, Reset);
                     break;
                 case "Spell3":
-                    if (( PortAIO.OrbwalkerManager.isComboActive ||
-                        PortAIO.OrbwalkerManager.isFleeActive) && Youmu) CastYoumoo();
+                    if (( Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) ||
+                        Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Flee)) && Youmu) CastYoumoo();
                     break;
                 case "Spell4a":
                     LastR = Utils.GameTimeTickCount;
@@ -612,7 +615,7 @@ using TargetSelector = PortAIO.TSManager; namespace HoolaRiven
 
         private static void Reset()
         {
-            PortAIO.OrbwalkerManager.ResetAutoAttackTimer();
+            Orbwalker.ResetAutoAttack();
             EloBuddy.Chat.Say("/d");
             EloBuddy.Player.IssueOrder(EloBuddy.GameObjectOrder.MoveTo, Player.Position.LSExtend(EloBuddy.Game.CursorPos, Player.LSDistance(EloBuddy.Game.CursorPos) + 10));
         }
@@ -674,7 +677,7 @@ using TargetSelector = PortAIO.TSManager; namespace HoolaRiven
         private static void CastYoumoo() { if (ItemData.Youmuus_Ghostblade.GetItem().IsReady()) ItemData.Youmuus_Ghostblade.GetItem().Cast(); }
         private static void OnCasting(EloBuddy.Obj_AI_Base sender, EloBuddy.GameObjectProcessSpellCastEventArgs args)
         {
-            if (sender.IsEnemy && sender.Type == Player.Type && (AutoShield || (Shield && PortAIO.OrbwalkerManager.isLastHitActive)))
+            if (sender.IsEnemy && sender.Type == Player.Type && (AutoShield || (Shield && Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LastHit))))
             {
                 var epos = Player.ServerPosition +
                           (Player.ServerPosition - sender.ServerPosition).LSNormalized() * 300;
@@ -687,7 +690,7 @@ using TargetSelector = PortAIO.TSManager; namespace HoolaRiven
 
                             if (args.Target.NetworkId == Player.NetworkId)
                             {
-                                if (PortAIO.OrbwalkerManager.isLastHitActive && !args.SData.Name.Contains("NasusW"))
+                                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LastHit) && !args.SData.Name.Contains("NasusW"))
                                 {
                                     if (E.IsReady()) E.Cast(epos);
                                 }
@@ -696,7 +699,7 @@ using TargetSelector = PortAIO.TSManager; namespace HoolaRiven
                             break;
                         case EloBuddy.SpellDataTargetType.SelfAoe:
 
-                            if (PortAIO.OrbwalkerManager.isLastHitActive)
+                            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LastHit))
                             {
                                 if (E.IsReady()) E.Cast(epos);
                             }

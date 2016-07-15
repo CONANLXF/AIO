@@ -9,7 +9,7 @@ using EloBuddy;
 using EloBuddy.SDK.Menu.Values;
 using EloBuddy.SDK.Menu;
 using EloBuddy.SDK;
-using TargetSelector = PortAIO.TSManager;
+
 
 namespace OneKeyToWin_AIO_Sebby
 {
@@ -39,7 +39,7 @@ namespace OneKeyToWin_AIO_Sebby
 
             LoadMenuOKTW();
             Game.OnUpdate += Game_OnUpdate;
-            LSEvents.BeforeAttack += BeforeAttack;
+            Orbwalker.OnPreAttack += BeforeAttack;
             Obj_AI_Base.OnProcessSpellCast += Obj_AI_Base_OnProcessSpellCast;
             AntiGapcloser.OnEnemyGapcloser += AntiGapcloser_OnEnemyGapcloser;
             Drawing.OnDraw += Drawing_OnDraw;
@@ -91,7 +91,7 @@ namespace OneKeyToWin_AIO_Sebby
 
         }
 
-        private void BeforeAttack(BeforeAttackArgs args)
+        private void BeforeAttack(AttackableUnit target, Orbwalker.PreAttackArgs args)
         {
             if (!Q.IsReady() || !qMenu["autoQ"].Cast<CheckBox>().CurrentValue || !FishBoneActive)
                 return;
@@ -193,7 +193,7 @@ namespace OneKeyToWin_AIO_Sebby
 
         private void LogicQ()
         {
-            if (Program.Farm && !FishBoneActive && !ObjectManager.Player.Spellbook.IsAutoAttacking && PortAIO.OrbwalkerManager.LastTarget() == null && SebbyLib.Orbwalking.CanAttack() && farmMenu["farmQout"].Cast<CheckBox>().CurrentValue && Player.Mana > RMANA + WMANA + EMANA + 10)
+            if (Program.Farm && !FishBoneActive && !ObjectManager.Player.Spellbook.IsAutoAttacking && Orbwalker.LastTarget == null && SebbyLib.Orbwalking.CanAttack() && farmMenu["farmQout"].Cast<CheckBox>().CurrentValue && Player.Mana > RMANA + WMANA + EMANA + 10)
             {
                 foreach (var minion in Cache.GetMinions(Player.Position, bonusRange() + 30).Where(
                 minion => !SebbyLib.Orbwalking.InAutoAttackRange(minion) && GetRealPowPowRange(minion) < GetRealDistance(minion) && bonusRange() < GetRealDistance(minion)))
@@ -201,7 +201,7 @@ namespace OneKeyToWin_AIO_Sebby
                     var hpPred = SebbyLib.HealthPrediction.GetHealthPrediction(minion, 400, 70);
                     if (hpPred < Player.GetAutoAttackDamage(minion) * 1.1 && hpPred > 5)
                     {
-                        PortAIO.OrbwalkerManager.ForcedTarget(minion);
+                        Orbwalker.ForcedTarget =(minion);
                         Q.Cast();
                         return;
                     }
@@ -211,7 +211,7 @@ namespace OneKeyToWin_AIO_Sebby
             var t = TargetSelector.GetTarget(bonusRange() + 60, DamageType.Physical);
             if (t.LSIsValidTarget())
             {
-                if (!FishBoneActive && (!SebbyLib.Orbwalking.InAutoAttackRange(t) || t.CountEnemiesInRange(250) > 2) && PortAIO.OrbwalkerManager.LastTarget() == null)
+                if (!FishBoneActive && (!SebbyLib.Orbwalking.InAutoAttackRange(t) || t.CountEnemiesInRange(250) > 2) && Orbwalker.LastTarget == null)
                 {
                     var distance = GetRealDistance(t);
                     if (Program.Combo && (Player.Mana > RMANA + WMANA + 10 || Player.GetAutoAttackDamage(t) * 3 > t.Health))
@@ -226,7 +226,7 @@ namespace OneKeyToWin_AIO_Sebby
                 Q.Cast();
             else if (FishBoneActive && Program.Combo && Player.LSCountEnemiesInRange(2000) == 0)
                 Q.Cast();
-            else if (FishBoneActive && (Program.Farm || PortAIO.OrbwalkerManager.isLastHitActive))
+            else if (FishBoneActive && (Program.Farm || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LastHit)))
             {
                 Q.Cast();
             }

@@ -12,7 +12,7 @@ using Damage = LeagueSharp.Common.Damage;
 using Environment = UnderratedAIO.Helpers.Environment;
 using Spell = LeagueSharp.Common.Spell;
 
-using TargetSelector = PortAIO.TSManager; namespace UnderratedAIO.Champions
+ namespace UnderratedAIO.Champions
 {
     internal class Nocturne
     {
@@ -47,17 +47,17 @@ using TargetSelector = PortAIO.TSManager; namespace UnderratedAIO.Champions
         {
             var target = TargetSelector.GetTarget(Q.Range, DamageType.Physical);
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 Combo();
             }
 
-            if (PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 Harass(target);
             }
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 Clear();
             }

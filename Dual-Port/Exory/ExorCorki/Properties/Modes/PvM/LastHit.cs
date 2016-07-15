@@ -1,6 +1,6 @@
 using System;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Corki
+ namespace ExorAIO.Champions.Corki
 {
     /// <summary>
     ///     The logics class.

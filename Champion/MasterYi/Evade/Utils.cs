@@ -27,7 +27,7 @@ using Color = System.Drawing.Color;
 
 #endregion
 
-using TargetSelector = PortAIO.TSManager; namespace MasterSharp
+ namespace MasterSharp
 {
     public static class Utils
     {

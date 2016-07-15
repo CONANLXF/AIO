@@ -1,4 +1,4 @@
-﻿using TargetSelector = PortAIO.TSManager; namespace ElXerath
+﻿ namespace ElXerath
 {
     using System;
     using System.Collections.Generic;
@@ -564,17 +564,17 @@
             var utarget = TargetSelector.GetTarget(spells[Spells.R].Range, DamageType.Magical);
             spells[Spells.R].Range = 2000 + spells[Spells.R].Level * 1200;
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 Combo();
             }
 
-            if (PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 Harass();
             }
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 LaneClear();
                 JungleClear();

@@ -8,7 +8,7 @@ using EloBuddy.SDK.Menu;
 using EloBuddy.SDK.Menu.Values;
 using EloBuddy;
 
-using TargetSelector = PortAIO.TSManager; namespace DZAwarenessAIO.Modules.WardTracker
+ namespace DZAwarenessAIO.Modules.WardTracker
 {
     /// <summary>
     /// The Ward Tracker base class

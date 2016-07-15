@@ -19,7 +19,7 @@ using EloBuddy.SDK.Menu.Values;
 //https://github.com/TheSaltyWaffle/LeagueSharp/blob/master/UniversalMinimapHack/ImageLoader.cs
 //Ily Waffle
 
-using TargetSelector = PortAIO.TSManager; namespace DZAwarenessAIO.Utility.HudUtility
+ namespace DZAwarenessAIO.Utility.HudUtility
 {
     /// <summary>
     /// The image loading class

@@ -1,7 +1,7 @@
 using EloBuddy.SDK.Menu.Values;
 using ExorAIO.Utilities;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Tryndamere
+ namespace ExorAIO.Champions.Tryndamere
 {
     /// <summary>
     ///     The menu class.

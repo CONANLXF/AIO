@@ -9,7 +9,7 @@ using Geometry = ExorAIO.Utilities.Geometry;
 using EloBuddy;
 using EloBuddy.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.MissFortune
+ namespace ExorAIO.Champions.MissFortune
 {
     /// <summary>
     ///     The logics class.

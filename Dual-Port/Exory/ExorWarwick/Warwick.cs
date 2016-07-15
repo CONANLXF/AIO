@@ -7,7 +7,7 @@ using LeagueSharp.SDK.Core.Utils;
 using EloBuddy;
 using EloBuddy.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Warwick
+ namespace ExorAIO.Champions.Warwick
 {
     /// <summary>
     ///     The champion class.
@@ -64,12 +64,12 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Warwick
             /// <summary>
             ///     Initializes the orbwalkingmodes.
             /// </summary>
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 Logics.Combo(args);
             }
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 Logics.Clear(args);
             }

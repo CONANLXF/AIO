@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Linq;
-using TargetSelector = PortAIO.TSManager;
+
 using EloBuddy;
 using LeagueSharp.Common;
 using EloBuddy.SDK;

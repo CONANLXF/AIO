@@ -12,7 +12,7 @@ using EloBuddy.SDK.Menu;
 using EloBuddy.SDK.Menu.Values;
 using Spell = LeagueSharp.Common.Spell;
 
-using TargetSelector = PortAIO.TSManager; namespace FreshBooster.Champion
+ namespace FreshBooster.Champion
 {
     class Bard
     {
@@ -204,7 +204,7 @@ using TargetSelector = PortAIO.TSManager; namespace FreshBooster.Champion
             AntiGapcloser.OnEnemyGapcloser += AntiGapcloser_OnEnemyGapcloser;
             Obj_AI_Base.OnProcessSpellCast += OnProcessSpell;
             Interrupter2.OnInterruptableTarget += Interrupter2_OnInterruptableTarget;
-            LSEvents.BeforeAttack += Orbwalking_BeforeAttack;
+            Orbwalker.OnPreAttack += Orbwalking_BeforeAttack;
             EloBuddy.Player.OnIssueOrder += Obj_AI_Base_OnIssueOrder;
             GameObject.OnCreate += GameObject_OnCreate;
             GameObject.OnDelete += GameObject_OnDelete;
@@ -255,7 +255,7 @@ using TargetSelector = PortAIO.TSManager; namespace FreshBooster.Champion
                 }
 
                 // Combo
-                if (PortAIO.OrbwalkerManager.isComboActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
                 {
                     if (getCheckBoxItem(comboMenu, "Bard_CUse_Q") && _Q.IsReady() && QTarget != null)
                     {
@@ -278,7 +278,7 @@ using TargetSelector = PortAIO.TSManager; namespace FreshBooster.Champion
                 }
 
                 // Harass
-                if (PortAIO.OrbwalkerManager.isHarassActive || getCheckBoxItem(harassMenu, "Bard_Auto_HEnable"))
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass) || getCheckBoxItem(harassMenu, "Bard_Auto_HEnable"))
                 {
                     if (getCheckBoxItem(harassMenu, "Bard_HUse_Q") && _Q.IsReady() && QTarget != null && getSliderItem(harassMenu, "Bard_AManarate") < Player.ManaPercent)
                     {
@@ -376,7 +376,7 @@ using TargetSelector = PortAIO.TSManager; namespace FreshBooster.Champion
             }
 
         }
-        public static void Orbwalking_BeforeAttack(BeforeAttackArgs args)
+        public static void Orbwalking_BeforeAttack(AttackableUnit target, Orbwalker.PreAttackArgs args)
         {
             try
             {

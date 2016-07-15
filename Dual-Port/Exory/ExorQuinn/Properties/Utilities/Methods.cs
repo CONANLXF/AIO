@@ -3,7 +3,7 @@ using EloBuddy.SDK;
 using LeagueSharp;
 using LeagueSharp.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Quinn
+ namespace ExorAIO.Champions.Quinn
 {
     /// <summary>
     ///     The methods class.
@@ -18,7 +18,7 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Quinn
             Game.OnUpdate += Quinn.OnUpdate;
             Events.OnGapCloser += Quinn.OnGapCloser;
             Events.OnInterruptableTarget += Quinn.OnInterruptableTarget;
-            LeagueSharp.Common.LSEvents.BeforeAttack += Quinn.Orbwalker_OnPreAttack;
+            Orbwalker.OnPreAttack += Quinn.Orbwalker_OnPreAttack;
         }
     }
 }

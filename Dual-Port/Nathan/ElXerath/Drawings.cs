@@ -1,4 +1,4 @@
-﻿using TargetSelector = PortAIO.TSManager; namespace ElXerath
+﻿ namespace ElXerath
 {
     using System;
 

@@ -6,7 +6,7 @@ using LeagueSharp.SDK;
 using EloBuddy.SDK;
 using EloBuddy;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Karma
+ namespace ExorAIO.Champions.Karma
 {
     /// <summary>
     ///     The champion class.
@@ -65,17 +65,17 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Karma
                 return;
             }
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 Logics.Combo(args);
             }
 
-            if (PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 Logics.Harass(args);
             }
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 Logics.Clear(args);
             }
@@ -138,9 +138,9 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Karma
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="args">The <see cref="OrbwalkingActionArgs" /> instance containing the event data.</param>
-        public static void OnAction(LeagueSharp.Common.BeforeAttackArgs args)
+        public static void OnAction(AttackableUnit target, Orbwalker.PreAttackArgs args)
         {
-            if (PortAIO.OrbwalkerManager.isHarassActive || PortAIO.OrbwalkerManager.isLastHitActive || PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LastHit) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 /// <summary>
                 ///     The 'Support Mode' Logic.

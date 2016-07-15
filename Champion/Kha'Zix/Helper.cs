@@ -6,7 +6,7 @@ using SharpDX;
 using System.Linq;
 using EloBuddy;
 
-using TargetSelector = PortAIO.TSManager;
+
 namespace SephKhazix
 {
     class Helper

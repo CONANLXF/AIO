@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using LeagueSharp.SDK;
 using SharpDX;
 
-using TargetSelector = PortAIO.TSManager; namespace Tyler1
+ namespace Tyler1
 {
     public static class Utils
     {

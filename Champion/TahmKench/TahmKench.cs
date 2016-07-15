@@ -12,7 +12,7 @@ using Environment = UnderratedAIO.Helpers.Environment;
 using Spell = LeagueSharp.Common.Spell;
 using Utility = LeagueSharp.Common.Utility;
 
-using TargetSelector = PortAIO.TSManager; namespace UnderratedAIO.Champions
+ namespace UnderratedAIO.Champions
 {
     internal class TahmKench
     {
@@ -80,17 +80,17 @@ using TargetSelector = PortAIO.TSManager; namespace UnderratedAIO.Champions
                 EatAlly();
             }
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 Combo();
             }
 
-            if (PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 Harass();
             }
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 Clear();
             }
@@ -334,7 +334,7 @@ using TargetSelector = PortAIO.TSManager; namespace UnderratedAIO.Champions
 
         private void handeQ(AIHeroClient target, HitChance hitChance)
         {
-            if (player.LSDistance(target) <= Orbwalking.GetRealAutoAttackRange(target) && !PortAIO.OrbwalkerManager.CanAttack() &&
+            if (player.LSDistance(target) <= Orbwalking.GetRealAutoAttackRange(target) && !Orbwalker.CanAutoAttack &&
                 target.GetBuffCount("TahmKenchPDebuffCounter") != 2)
             {
                 Q.CastIfHitchanceEquals(target, hitChance, getCheckBoxItem(config, "packets"));

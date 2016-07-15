@@ -12,7 +12,7 @@ using EloBuddy.SDK;
 using EloBuddy.SDK.Menu.Values;
 using EloBuddy.SDK.Menu;
 
-using TargetSelector = PortAIO.TSManager; namespace VayneHunter_Reborn.Skills.Condemn.Methods
+ namespace VayneHunter_Reborn.Skills.Condemn.Methods
 {
     class VHReborn
     {
@@ -65,8 +65,8 @@ using TargetSelector = PortAIO.TSManager; namespace VayneHunter_Reborn.Skills.Co
                 var numberOfChecks = (float)Math.Ceiling(pushDistance / 30f);
 
 
-                if (getCheckBoxItem(MenuGenerator.miscMenu, "dz191.vhr.misc.condemn.onlystuncurrent") && PortAIO.OrbwalkerManager.LastTarget() != null &&
-                            !target.NetworkId.Equals(PortAIO.OrbwalkerManager.LastTarget().NetworkId))
+                if (getCheckBoxItem(MenuGenerator.miscMenu, "dz191.vhr.misc.condemn.onlystuncurrent") && Orbwalker.LastTarget != null &&
+                            !target.NetworkId.Equals(Orbwalker.LastTarget.NetworkId))
                 {
                     continue;
                 }

@@ -8,7 +8,7 @@ using SharpDX;
 using PortAIO.Properties;
 using EloBuddy;
 
-using TargetSelector = PortAIO.TSManager; namespace DZAwarenessAIO.Utility.HudUtility.HudElements
+ namespace DZAwarenessAIO.Utility.HudUtility.HudElements
 {
     /// <summary>
     /// The Hud Button class

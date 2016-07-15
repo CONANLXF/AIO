@@ -7,7 +7,7 @@ using EloBuddy;
 using EloBuddy.SDK.Menu.Values;
 using LeagueSharp.SDK.Enumerations;
 
-using TargetSelector = PortAIO.TSManager; namespace NabbActivator
+ namespace NabbActivator
 {
     /// <summary>
     ///     The activator class.

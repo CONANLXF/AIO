@@ -8,7 +8,7 @@ using Utility = LeagueSharp.Common.Utility;
 using EloBuddy.SDK.Menu;
 using EloBuddy.SDK.Menu.Values;
 
-using TargetSelector = PortAIO.TSManager;
+
 namespace D_Corki
 {
     internal class Program
@@ -135,7 +135,7 @@ namespace D_Corki
                 "<font color='#f2f21d'>If You like my work and want to support me,  plz donate via paypal in </font> <font color='#00e6ff'>ssssssssssmith@hotmail.com</font> (10) S");
             Game.OnUpdate += Game_OnGameUpdate;
             Drawing.OnDraw += Drawing_OnDraw;
-            LSEvents.AfterAttack += Orbwalking_AfterAttack;
+            Orbwalker.OnPostAttack += Orbwalking_AfterAttack;
         }
 
 
@@ -163,19 +163,19 @@ namespace D_Corki
         {
             _r.Range = _player.HasBuff("CorkiMissileBarrageCounterBig") ? _r2.Range : _r1.Range;
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 Combo();
             }
 
-            if ((PortAIO.OrbwalkerManager.isHarassActive
+            if ((Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass)
                  || getKeyBindItem(harassMenu, "harasstoggle"))
                 && (100 * (_player.Mana / _player.MaxMana)) > getSliderItem(harassMenu, "Harrasmana"))
             {
                 Harass();
             }
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
 
                 if ((100 * (_player.Mana / _player.MaxMana)) > getSliderItem(jungleMenu, "Junglemana"))
@@ -187,7 +187,7 @@ namespace D_Corki
                     Laneclear();
             }
 
-            if (PortAIO.OrbwalkerManager.isLastHitActive
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LastHit)
                 && (100 * (_player.Mana / _player.MaxMana)) > getSliderItem(lasthitMenu, "Lastmana"))
             {
                 LastHit();
@@ -206,7 +206,7 @@ namespace D_Corki
         {
             if (_player.IsDead
                 || (getBoxItem(itemMenu, "Cleansemode") == 1)
-                    && !PortAIO.OrbwalkerManager.isComboActive)
+                    && !Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
                 return;
             if (Cleanse(_player) && getCheckBoxItem(itemMenu, "useqss"))
             {
@@ -376,15 +376,15 @@ namespace D_Corki
             }
         }
 
-        private static void Orbwalking_AfterAttack(AfterAttackArgs args)
+        private static void Orbwalking_AfterAttack(AttackableUnit target, EventArgs args)
         {
-            var combo = PortAIO.OrbwalkerManager.isComboActive;
+            var combo = Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo);
             var useQ = getCheckBoxItem(comboMenu, "UseQC");
             var useE = getCheckBoxItem(comboMenu, "UseEC");
             var useR = getCheckBoxItem(comboMenu, "UseRC");
             var Qdelay = Environment.TickCount - Qcast;
             var Rdelay = Environment.TickCount - Rcast;
-            if (combo && args.Target.IsMe && (args.Target is AIHeroClient))
+            if (combo && target.IsMe && (target is AIHeroClient))
             {
                 {
                     if (useQ && _q.IsReady() && Rdelay >= getSliderItem(miscMenu, "delaycombo"))
@@ -649,7 +649,7 @@ namespace D_Corki
             if (_player.InFountain() || ObjectManager.Player.HasBuff("Recall")) return;
 
             if (ObjectManager.Player.CountEnemiesInRange(800) > 0
-                || (mobs.Count > 0 && PortAIO.OrbwalkerManager.isLaneClearActive))
+                || (mobs.Count > 0 && Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear)))
             {
                 if (iusepotionhp && iusehppotion
                     && !(ObjectManager.Player.HasBuff("RegenerationPotion")

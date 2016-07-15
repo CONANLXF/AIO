@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using LeagueSharp;
 using EloBuddy;
 
-using TargetSelector = PortAIO.TSManager; namespace BlackFeeder.SRShopAI
+ namespace BlackFeeder.SRShopAI
 {
     public class CustomEvents
     {

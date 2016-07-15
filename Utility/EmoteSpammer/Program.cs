@@ -14,7 +14,7 @@ using EloBuddy.SDK.Menu.Values;
 using EloBuddy.SDK;
 #endregion
 
-using TargetSelector = PortAIO.TSManager; namespace EmoteSpammer
+ namespace EmoteSpammer
 {
     internal class Program
     {

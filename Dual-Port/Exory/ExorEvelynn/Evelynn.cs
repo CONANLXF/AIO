@@ -4,7 +4,7 @@ using LeagueSharp.SDK;
 using LeagueSharp.SDK.Enumerations;
 using EloBuddy.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Evelynn
+ namespace ExorAIO.Champions.Evelynn
 {
     /// <summary>
     ///     The champion class.
@@ -62,22 +62,22 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Evelynn
             /// <summary>
             ///     Initializes the orbwalkingmodes.
             /// </summary>
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 Logics.Combo(args);
             }
 
-            if (PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 Logics.Harass(args);
             }
 
-            if (PortAIO.OrbwalkerManager.isLastHitActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LastHit))
             {
                 Logics.LastHit(args);
             }
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 Logics.Clear(args);
             }

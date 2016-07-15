@@ -6,7 +6,7 @@ using EloBuddy.SDK.Menu.Values;
 
 #endregion
 
-using TargetSelector = PortAIO.TSManager; namespace Spirit_Karma.Menus
+ namespace Spirit_Karma.Menus
 {
     internal class MenuConfig
     {

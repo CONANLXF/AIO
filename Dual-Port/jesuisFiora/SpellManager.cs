@@ -6,7 +6,7 @@ using LeagueSharp;
 using LeagueSharp.Common;
 using TreeLib.Extensions;
 
-using TargetSelector = PortAIO.TSManager; namespace jesuisFiora
+ namespace jesuisFiora
 {
     internal static class SpellManager
     {
@@ -61,17 +61,17 @@ using TargetSelector = PortAIO.TSManager; namespace jesuisFiora
             }
 
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 s = "LaneClear";
             }
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 s = "Combo";
             }
 
-            if (PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 s = "Harass";
             }

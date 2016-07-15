@@ -15,7 +15,7 @@ using Marksman.Common;
 
 #endregion
 
-using TargetSelector = PortAIO.TSManager; namespace Marksman.Champions
+ namespace Marksman.Champions
 {
     using EloBuddy;
     using EloBuddy.SDK;
@@ -57,9 +57,9 @@ using TargetSelector = PortAIO.TSManager; namespace Marksman.Champions
             Utils.PrintMessage("Ezreal loaded");
         }
 
-        public override void Orbwalking_AfterAttack(AfterAttackArgs args)
+        public override void Orbwalking_AfterAttack(AttackableUnit target, EventArgs args)
         {
-            var t = args.Target as AIHeroClient;
+            var t = target as AIHeroClient;
             if (t != null && (ComboActive || HarassActive) && !t.HasKindredUltiBuff())
             {
                 var useQ = ComboActive ? Program.combo["UseQC"].Cast<CheckBox>().CurrentValue : Program.harass["UseQH"].Cast<CheckBox>().CurrentValue;
@@ -159,7 +159,7 @@ using TargetSelector = PortAIO.TSManager; namespace Marksman.Champions
             Console.WriteLine(Q.GetHitchance().ToString());
             haveIceBorn = ObjectManager.Player.InventoryItems.Any(i => i.Id == ItemId.Iceborn_Gauntlet);
 
-            if (Program.misc["ChargeR.Enable"].Cast<CheckBox>().CurrentValue && !PortAIO.OrbwalkerManager.isComboActive)
+            if (Program.misc["ChargeR.Enable"].Cast<CheckBox>().CurrentValue && !Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 var rCooldown = Program.misc["ChargeR.Cooldown"].Cast<Slider>().CurrentValue;
                 var rMinMana = Program.misc["ChargeR.MinMana"].Cast<Slider>().CurrentValue;
@@ -236,7 +236,7 @@ using TargetSelector = PortAIO.TSManager; namespace Marksman.Champions
                 var useW = ComboActive ? Program.combo["UseWC"].Cast<CheckBox>().CurrentValue : Program.harass["UseWH"].Cast<CheckBox>().CurrentValue;
                 var useR = Program.combo["UseRC"].Cast<CheckBox>().CurrentValue;
 
-                if (PortAIO.OrbwalkerManager.CanMove(0) && !t.HasKindredUltiBuff())
+                if (Orbwalker.CanMove && !t.HasKindredUltiBuff())
                 {
                     if (useQ && Q.IsReady() && t.LSIsValidTarget(Q.Range))
                     {

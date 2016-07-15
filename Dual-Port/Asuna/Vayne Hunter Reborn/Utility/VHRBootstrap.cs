@@ -2,7 +2,7 @@
 using LeagueSharp;
 using VayneHunter_Reborn.Utility.MenuUtility;
 
-using TargetSelector = PortAIO.TSManager; namespace VayneHunter_Reborn.Utility
+ namespace VayneHunter_Reborn.Utility
 {
     class VHRBootstrap
     {

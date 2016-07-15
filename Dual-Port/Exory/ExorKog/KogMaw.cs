@@ -5,7 +5,7 @@ using LeagueSharp.SDK.Enumerations;
 using LeagueSharp.SDK.Core.Utils;
 using EloBuddy.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.KogMaw
+ namespace ExorAIO.Champions.KogMaw
 {
     /// <summary>
     ///     The champion class.
@@ -67,17 +67,17 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.KogMaw
             /// <summary>
             ///     Initializes the orbwalkingmodes.
             /// </summary>
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 Logics.Combo(args);
             }
 
-            if (PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 Logics.Harass(args);
             }
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 Logics.Clear(args);
             }

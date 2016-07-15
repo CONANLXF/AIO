@@ -6,7 +6,7 @@ using EloBuddy.SDK.Menu.Values;
 using EloBuddy;
 using EloBuddy.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace NabbActivator
+ namespace NabbActivator
 {
     /// <summary>
     ///     The activator class.
@@ -21,7 +21,7 @@ using TargetSelector = PortAIO.TSManager; namespace NabbActivator
         {
             if (!Targets.Target.LSIsValidTarget() ||
                 !Vars.TypesMenu["offensives"].Cast<CheckBox>().CurrentValue ||
-                !PortAIO.OrbwalkerManager.isComboActive)
+                !Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 return;
             }

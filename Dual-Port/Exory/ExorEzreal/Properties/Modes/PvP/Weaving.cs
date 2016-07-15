@@ -4,7 +4,7 @@ using LeagueSharp;
 using EloBuddy;
 using LeagueSharp.SDK.Core.Utils;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Ezreal
+ namespace ExorAIO.Champions.Ezreal
 {
     /// <summary>
     ///     The logics class.

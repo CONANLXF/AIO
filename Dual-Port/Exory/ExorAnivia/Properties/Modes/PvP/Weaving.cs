@@ -3,7 +3,7 @@ using ExorAIO.Utilities;
 using LeagueSharp;
 using LeagueSharp.SDK.Core.Utils;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Anivia
+ namespace ExorAIO.Champions.Anivia
 {
     /// <summary>
     ///     The logics class.

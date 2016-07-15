@@ -12,7 +12,7 @@ using EloBuddy.SDK.Menu;
 using Spell = LeagueSharp.Common.Spell;
 using Utility = LeagueSharp.Common.Utility;
 using Damage = LeagueSharp.Common.Damage;
-using TargetSelector = PortAIO.TSManager;
+
 
 
 namespace KurisuRiven
@@ -234,7 +234,7 @@ namespace KurisuRiven
             {
                 if ((args.Slot == SpellSlot.W) && sender.IsMe)
                 {
-                    PortAIO.OrbwalkerManager.ResetAutoAttackTimer();
+                    Orbwalker.ResetAutoAttack();
                 }
 
                 if (sender.IsMe && args.SData.IsAutoAttack())
@@ -265,11 +265,11 @@ namespace KurisuRiven
                                 Item.UseItem(3074);
                             if (Item.CanUseItem(3748))
                                 Item.UseItem(3748);
-                            PortAIO.OrbwalkerManager.ResetAutoAttackTimer();
+                            Orbwalker.ResetAutoAttack();
                         }
                     }
 
-                    if (PortAIO.OrbwalkerManager.isComboActive)
+                    if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
                     {
                         if (riventarget().LSIsValidTarget(e.Range + 200))
                         {
@@ -286,7 +286,7 @@ namespace KurisuRiven
                                             Item.UseItem(3074);
                                         if (Item.CanUseItem(3748))
                                             Item.UseItem(3748);
-                                        PortAIO.OrbwalkerManager.ResetAutoAttackTimer();
+                                        Orbwalker.ResetAutoAttack();
                                     }
                                     else
                                     {
@@ -297,14 +297,14 @@ namespace KurisuRiven
                                             Item.UseItem(3074);
                                         if (Item.CanUseItem(3748))
                                             Item.UseItem(3748);
-                                        PortAIO.OrbwalkerManager.ResetAutoAttackTimer();
+                                        Orbwalker.ResetAutoAttack();
                                     }
                                 }
                             }
                         }
                     }
 
-                    if (PortAIO.OrbwalkerManager.isComboActive)
+                    if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
                     {
                         if (Utils.GameTimeTickCount - lasthd < 1600)
                         {
@@ -317,7 +317,7 @@ namespace KurisuRiven
                                     Item.UseItem(3074);
                                 if (Item.CanUseItem(3748))
                                     Item.UseItem(3748);
-                                PortAIO.OrbwalkerManager.ResetAutoAttackTimer();
+                                Orbwalker.ResetAutoAttack();
                             }
                         }
 
@@ -331,12 +331,12 @@ namespace KurisuRiven
                                     Item.UseItem(3074);
                                 if (Item.CanUseItem(3748))
                                     Item.UseItem(3748);
-                                PortAIO.OrbwalkerManager.ResetAutoAttackTimer();
+                                Orbwalker.ResetAutoAttack();
                             }
                         }
                     }
 
-                    else if (PortAIO.OrbwalkerManager.isLaneClearActive)
+                    else if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
                     {
                         if (!player.UnderTurret(true) || !HeroManager.Enemies.Any(x => x.LSIsValidTarget(1400)))
                         {
@@ -345,7 +345,7 @@ namespace KurisuRiven
                                 if (w.IsReady() && args.Target.Position.LSDistance(player.ServerPosition) <= w.Range + 25)
                                 {
                                     w.Cast();
-                                    PortAIO.OrbwalkerManager.ResetAutoAttackTimer();
+                                    Orbwalker.ResetAutoAttack();
                                 }
                             }
 
@@ -357,7 +357,7 @@ namespace KurisuRiven
                                     Item.UseItem(3074);
                                 if (Item.CanUseItem(3748))
                                     Item.UseItem(3748);
-                                PortAIO.OrbwalkerManager.ResetAutoAttackTimer();
+                                Orbwalker.ResetAutoAttack();
                             }
                         }
                     }
@@ -383,7 +383,7 @@ namespace KurisuRiven
         private static void Game_OnUpdate(EventArgs args)
         {
             // harass active
-            didhs = PortAIO.OrbwalkerManager.isHarassActive;
+            didhs = Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass);
 
             // ulti check
             uo = player.GetSpell(SpellSlot.R).Name != "RivenFengShuiEngine";
@@ -403,7 +403,7 @@ namespace KurisuRiven
 
             if (!canmv && didq)
             {
-                if (PortAIO.OrbwalkerManager.isNoneActive ||
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.None) ||
                     Getkeybindvalue(keybindsMenu, "shycombo"))
                 {
                 }
@@ -436,7 +436,7 @@ namespace KurisuRiven
 
             if (riventarget().LSIsValidTarget())
             {
-                if (PortAIO.OrbwalkerManager.isComboActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
                 {
                     ComboTarget(riventarget());
                     TryIgnote(riventarget());
@@ -455,7 +455,7 @@ namespace KurisuRiven
                     {
                         checkr();
                         w.Cast();
-                        PortAIO.OrbwalkerManager.ResetAutoAttackTimer();
+                        Orbwalker.ResetAutoAttack();
                     }
 
                     else if (q.IsReady() && riventarget().LSDistance(player.ServerPosition) <= truerange + 100)
@@ -484,13 +484,13 @@ namespace KurisuRiven
                 HarassTarget(riventarget());
             }
 
-            if (player.IsValid && PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (player.IsValid && Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 Clear();
                 Wave();
             }
 
-            if (player.IsValid && PortAIO.OrbwalkerManager.isFleeActive)
+            if (player.IsValid && Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Flee))
             {
                 Flee();
             }
@@ -760,7 +760,7 @@ namespace KurisuRiven
                             Item.UseItem(3074);
                         if (Item.CanUseItem(3748))
                             Item.UseItem(3748);
-                        PortAIO.OrbwalkerManager.ResetAutoAttackTimer();
+                        Orbwalker.ResetAutoAttack();
                     }
                 }
             }
@@ -784,7 +784,7 @@ namespace KurisuRiven
                                 Item.UseItem(3074);
                             if (Item.CanUseItem(3748))
                                 Item.UseItem(3748);
-                            PortAIO.OrbwalkerManager.ResetAutoAttackTimer();
+                            Orbwalker.ResetAutoAttack();
                         }
                     }
 
@@ -797,7 +797,7 @@ namespace KurisuRiven
                             Item.UseItem(3074);
                         if (Item.CanUseItem(3748))
                             Item.UseItem(3748);
-                        PortAIO.OrbwalkerManager.ResetAutoAttackTimer();
+                        Orbwalker.ResetAutoAttack();
                     }
                 }
 
@@ -811,7 +811,7 @@ namespace KurisuRiven
                             Item.UseItem(3077);
                         if (Item.CanUseItem(3074))
                             Item.UseItem(3074);
-                        PortAIO.OrbwalkerManager.ResetAutoAttackTimer();
+                        Orbwalker.ResetAutoAttack();
                     }
                 }
 
@@ -821,7 +821,7 @@ namespace KurisuRiven
                         Item.UseItem(3077);
                     if (Item.CanUseItem(3074))
                         Item.UseItem(3074);
-                    PortAIO.OrbwalkerManager.ResetAutoAttackTimer();
+                    Orbwalker.ResetAutoAttack();
                 }
             }
 
@@ -839,7 +839,7 @@ namespace KurisuRiven
                              Getcheckboxvalue(wMenu, "w" + target.ChampionName))
                         {
                             w.Cast();
-                            PortAIO.OrbwalkerManager.ResetAutoAttackTimer();
+                            Orbwalker.ResetAutoAttack();
                         }
                     }
                 }
@@ -877,7 +877,7 @@ namespace KurisuRiven
                                 Item.UseItem(3074);
                             if (Item.CanUseItem(3748))
                                 Item.UseItem(3748);
-                            PortAIO.OrbwalkerManager.ResetAutoAttackTimer();
+                            Orbwalker.ResetAutoAttack();
                         }
                     }
 
@@ -890,7 +890,7 @@ namespace KurisuRiven
                             Item.UseItem(3074);
                         if (Item.CanUseItem(3748))
                             Item.UseItem(3748);
-                        PortAIO.OrbwalkerManager.ResetAutoAttackTimer();
+                        Orbwalker.ResetAutoAttack();
                     }
                 }
             }
@@ -910,7 +910,7 @@ namespace KurisuRiven
                                 Item.UseItem(3074);
                             if (Item.CanUseItem(3748))
                                 Item.UseItem(3748);
-                            PortAIO.OrbwalkerManager.ResetAutoAttackTimer();
+                            Orbwalker.ResetAutoAttack();
                         }
                     }
                 }
@@ -931,7 +931,7 @@ namespace KurisuRiven
                                 Item.UseItem(3074);
                             if (Item.CanUseItem(3748))
                                 Item.UseItem(3748);
-                            PortAIO.OrbwalkerManager.ResetAutoAttackTimer();
+                            Orbwalker.ResetAutoAttack();
                         }
                     }
                 }
@@ -1036,7 +1036,7 @@ namespace KurisuRiven
                     if (Getcheckboxvalue(harassMenu, "useharassw") && canw)
                     {
                         w.Cast();
-                        PortAIO.OrbwalkerManager.ResetAutoAttackTimer();
+                        Orbwalker.ResetAutoAttack();
                     }
                 }
             }
@@ -1200,7 +1200,7 @@ namespace KurisuRiven
                             Item.UseItem(3077);
                         if (Item.CanUseItem(3074))
                             Item.UseItem(3074);
-                        PortAIO.OrbwalkerManager.ResetAutoAttackTimer();
+                        Orbwalker.ResetAutoAttack();
                     }
                 }
 
@@ -1218,7 +1218,7 @@ namespace KurisuRiven
                     if (unit.LSDistance(player.ServerPosition) <= w.Range + 25)
                     {
                         w.Cast();
-                        PortAIO.OrbwalkerManager.ResetAutoAttackTimer();
+                        Orbwalker.ResetAutoAttack();
                     }
                 }
 
@@ -1267,7 +1267,7 @@ namespace KurisuRiven
                             if (Item.CanUseItem(3074))
                                 Item.UseItem(3074);
                             w.Cast();
-                            PortAIO.OrbwalkerManager.ResetAutoAttackTimer();
+                            Orbwalker.ResetAutoAttack();
                         }
                     }
                 }
@@ -1327,7 +1327,7 @@ namespace KurisuRiven
             {
                 if (w.IsReady())
                     w.Cast();
-                PortAIO.OrbwalkerManager.ResetAutoAttackTimer();
+                Orbwalker.ResetAutoAttack();
             }
 
             if (ssfl)
@@ -1375,18 +1375,18 @@ namespace KurisuRiven
                     if (q.IsReady() && Utils.GameTimeTickCount - lastaa < 1200 && qtarg != null)
                     {
                         if (qtarg.LSIsValidTarget(q.Range + 100) &&
-                            !PortAIO.OrbwalkerManager.isLaneClearActive &&
-                            !PortAIO.OrbwalkerManager.isHarassActive &&
-                            !PortAIO.OrbwalkerManager.isComboActive &&
+                            !Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear) &&
+                            !Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass) &&
+                            !Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) &&
                             !Getkeybindvalue(keybindsMenu, "shycombo"))
                         {
                             if (qtarg.IsValid<AIHeroClient>() && !qtarg.UnderTurret(true))
                                 q.Cast(qtarg.ServerPosition);
                         }
 
-                        if (!PortAIO.OrbwalkerManager.isHarassActive &&
-                            !PortAIO.OrbwalkerManager.isLaneClearActive &&
-                            !PortAIO.OrbwalkerManager.isComboActive &&
+                        if (!Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass) &&
+                            !Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear) &&
+                            !Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) &&
                             !Getkeybindvalue(keybindsMenu, "shycombo"))
                         {
                             if (qtarg.LSIsValidTarget(q.Range + 100) && !qtarg.Name.Contains("Mini"))
@@ -1523,7 +1523,7 @@ namespace KurisuRiven
 
                         if (getBoxItem(r2Menu, "wsmode") == 1 || Getkeybindvalue(keybindsMenu, "shycombo"))
                         {
-                            if (PortAIO.OrbwalkerManager.isComboActive)
+                            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
                             {
                                 if (canburst() && uo)
                                 {
@@ -1559,9 +1559,9 @@ namespace KurisuRiven
 
                         Utility.DelayAction.Add(dd[Math.Max(cc, 1) - 1], () =>
                         {
-                            PortAIO.OrbwalkerManager.ResetAutoAttackTimer();
+                            Orbwalker.ResetAutoAttack();
 
-                            if (!PortAIO.OrbwalkerManager.isNoneActive ||
+                            if (!Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.None) ||
                                 Getkeybindvalue(keybindsMenu, "shycombo"))
                                 Chat.Say("/d");
 
@@ -1591,7 +1591,7 @@ namespace KurisuRiven
                         laste = Utils.GameTimeTickCount;
                         cane = false;
 
-                        if (PortAIO.OrbwalkerManager.isFleeActive)
+                        if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Flee))
                         {
                             if (uo && r.IsReady() && cc == 2 && q.IsReady())
                             {
@@ -1612,7 +1612,7 @@ namespace KurisuRiven
                             }
                         }
 
-                        if (PortAIO.OrbwalkerManager.isComboActive)
+                        if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
                         {
                             if (cc == 2 && !uo && r.IsReady() && riventarget() != null)
                             {
@@ -1643,7 +1643,7 @@ namespace KurisuRiven
                         if (w.IsReady() && riventarget().LSIsValidTarget(w.Range + 55))
                         {
                             w.Cast();
-                            PortAIO.OrbwalkerManager.ResetAutoAttackTimer();
+                            Orbwalker.ResetAutoAttack();
                         }
 
                         else if (q.IsReady() && riventarget().LSIsValidTarget())
@@ -1655,7 +1655,7 @@ namespace KurisuRiven
                                 Item.UseItem(3074);
                             if (Item.CanUseItem(3748))
                                 Item.UseItem(3748);
-                            PortAIO.OrbwalkerManager.ResetAutoAttackTimer();
+                            Orbwalker.ResetAutoAttack();
                         }
 
                         break;
@@ -1862,7 +1862,7 @@ namespace KurisuRiven
                 if (Getkeybindvalue(keybindsMenu, "shycombo"))
                 {
                     if (target.LSIsValidTarget(truerange + 100))
-                        PortAIO.OrbwalkerManager.MoveA(Game.CursorPos);
+                        Orbwalker.MoveTo(Game.CursorPos);
 
                     else
                         Player.IssueOrder(GameObjectOrder.MoveTo, Game.CursorPos);

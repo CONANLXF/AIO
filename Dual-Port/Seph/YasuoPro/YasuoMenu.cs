@@ -6,7 +6,7 @@ using EloBuddy.SDK;
 using Valvrave_Sharp.Core;
 using Valvrave_Sharp.Evade;
 
-using TargetSelector = PortAIO.TSManager; namespace YasuoPro
+ namespace YasuoPro
 {
     internal static class YasuoMenu
     {

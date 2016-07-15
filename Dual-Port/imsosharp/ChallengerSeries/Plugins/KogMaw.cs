@@ -25,7 +25,7 @@ using EloBuddy.SDK.Menu;
 using EloBuddy.SDK.Menu.Values;
 using LeagueSharp.SDK.Enumerations;
 
-using TargetSelector = PortAIO.TSManager; namespace Challenger_Series.Plugins
+ namespace Challenger_Series.Plugins
 {
     public class Humanizer
     {
@@ -65,7 +65,7 @@ using TargetSelector = PortAIO.TSManager; namespace Challenger_Series.Plugins
             InitializeMenu();
             DelayedOnUpdate += OnUpdate;
             Drawing.OnDraw += OnDraw;
-            LeagueSharp.Common.LSEvents.AfterAttack += OnAction;
+            Orbwalker.OnPostAttack += OnAction;
             AIHeroClient.OnSpellCast += OnDoCast;
             _rand = new Random();
         }
@@ -83,9 +83,9 @@ using TargetSelector = PortAIO.TSManager; namespace Challenger_Series.Plugins
         private Random _rand;
         
 
-        private void OnAction(LeagueSharp.Common.AfterAttackArgs args)
+        private void OnAction(AttackableUnit targetA, EventArgs args)
         {
-            var asd = args.Target;
+            var asd = targetA;
             if (asd is AIHeroClient)
             {
                 var target = asd as AIHeroClient;
@@ -102,7 +102,7 @@ using TargetSelector = PortAIO.TSManager; namespace Challenger_Series.Plugins
             if (asd is Obj_AI_Minion)
             {
                 var tg = asd as Obj_AI_Base;
-                if (GetJungleCampsOnCurrentMap() != null && (PortAIO.OrbwalkerManager.isLaneClearActive))
+                if (GetJungleCampsOnCurrentMap() != null && (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear)))
                 {
                     var targetName = (asd as Obj_AI_Minion).CharData.BaseSkinName;
 
@@ -131,7 +131,7 @@ using TargetSelector = PortAIO.TSManager; namespace Challenger_Series.Plugins
             {
                 RLogic();
             }
-            if (Q.IsReady() && getCheckBoxItem(ComboMenu, "koggieuseq") && PortAIO.OrbwalkerManager.isComboActive && ObjectManager.Player.Mana > GetQMana() + GetWMana())
+            if (Q.IsReady() && getCheckBoxItem(ComboMenu, "koggieuseq") && Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) && ObjectManager.Player.Mana > GetQMana() + GetWMana())
             {
                 foreach (var enemy in ValidTargets.Where(t => t.Distance(ObjectManager.Player) < 800).OrderBy(e => e.Distance(ObjectManager.Player)))
                 {
@@ -211,7 +211,7 @@ using TargetSelector = PortAIO.TSManager; namespace Challenger_Series.Plugins
             if (!getCheckBoxItem(HumanizerMenu, "koggiehumanizerenabled")) return true;
             if (IsWActive() && ObjectManager.Player.AttackSpeedMod / 2 > _rand.Next(167, 230) / 100)
             {
-                if ((PortAIO.OrbwalkerManager.isComboActive && ObjectManager.Player.CountEnemyHeroesInRange(GetAttackRangeAfterWIsApplied() - 25) < 1) || (!PortAIO.OrbwalkerManager.isNoneActive && !PortAIO.OrbwalkerManager.isComboActive && (!GameObjects.EnemyMinions.Any(m => m.IsHPBarRendered && m.Distance(ObjectManager.Player) < GetAttackRangeAfterWIsApplied() - 25) && !GameObjects.Jungle.Any(m => m.IsHPBarRendered && m.Distance(ObjectManager.Player) < GetAttackRangeAfterWIsApplied() - 25))))
+                if ((Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) && ObjectManager.Player.CountEnemyHeroesInRange(GetAttackRangeAfterWIsApplied() - 25) < 1) || (!Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.None) && !Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) && (!GameObjects.EnemyMinions.Any(m => m.IsHPBarRendered && m.Distance(ObjectManager.Player) < GetAttackRangeAfterWIsApplied() - 25) && !GameObjects.Jungle.Any(m => m.IsHPBarRendered && m.Distance(ObjectManager.Player) < GetAttackRangeAfterWIsApplied() - 25))))
                 {
                     return true;
                 }
@@ -269,7 +269,7 @@ using TargetSelector = PortAIO.TSManager; namespace Challenger_Series.Plugins
 
         private void QLogic(AIHeroClient target)
         {
-            if (!getCheckBoxItem(ComboMenu, "koggieuseq") || !Q.IsReady() || !PortAIO.OrbwalkerManager.isComboActive) return;
+            if (!getCheckBoxItem(ComboMenu, "koggieuseq") || !Q.IsReady() || !Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo)) return;
             if (getCheckBoxItem(MainMenu, "koggiesavewmana") && ObjectManager.Player.Mana < GetQMana() + GetWMana()) return;
             var prediction = Q.GetPrediction(target);
             if (target.LSIsValidTarget() && (int)prediction.Hitchance > (int)HitChance.Medium)
@@ -279,7 +279,7 @@ using TargetSelector = PortAIO.TSManager; namespace Challenger_Series.Plugins
         }
         private void WLogic()
         {
-            if (W.IsReady() && !IsWActive() && ValidTargets.Any(h => h.Health > 1 && h.Distance(ObjectManager.Player.ServerPosition) < GetAttackRangeAfterWIsApplied() && h.LSIsValidTarget()) && PortAIO.OrbwalkerManager.isComboActive)
+            if (W.IsReady() && !IsWActive() && ValidTargets.Any(h => h.Health > 1 && h.Distance(ObjectManager.Player.ServerPosition) < GetAttackRangeAfterWIsApplied() && h.LSIsValidTarget()) && Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 W.Cast();
             }
@@ -287,7 +287,7 @@ using TargetSelector = PortAIO.TSManager; namespace Challenger_Series.Plugins
 
         private void ELogic(AIHeroClient target)
         {
-            if (!getCheckBoxItem(ComboMenu, "koggieusee") || !E.IsReady() || !PortAIO.OrbwalkerManager.isComboActive) return;
+            if (!getCheckBoxItem(ComboMenu, "koggieusee") || !E.IsReady() || !Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo)) return;
             if (getCheckBoxItem(MainMenu, "koggiesavewmana") && ObjectManager.Player.Mana < GetEMana() + GetQMana()) return;
             var prediction = E.GetPrediction(target);
             if (target.LSIsValidTarget() && (int)prediction.Hitchance >= (int)HitChance.Medium)
@@ -310,12 +310,12 @@ using TargetSelector = PortAIO.TSManager; namespace Challenger_Series.Plugins
                 }
             }
             if (GetRStacks() >= getSliderItem(MainMenu, "koggiermaxstacks")) return;
-            if ((!PortAIO.OrbwalkerManager.isComboActive && !getCheckBoxItem(HarassMenu, "koggieuserharass"))) return;
+            if ((!Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) && !getCheckBoxItem(HarassMenu, "koggieuserharass"))) return;
 
             foreach (var enemy in ValidTargets.Where(h => h.Distance(myPos) < R.Range && h.LSIsValidTarget() && h.HealthPercent < 35))
             {
                 var dist = enemy.Distance(ObjectManager.Player.ServerPosition);
-                if (PortAIO.OrbwalkerManager.CanAttack() && dist < 550) continue;
+                if (Orbwalker.CanAutoAttack && dist < 550) continue;
                 var prediction = R.GetPrediction(enemy, true);
                 if ((int)prediction.Hitchance > (int)HitChance.Medium)
                 {

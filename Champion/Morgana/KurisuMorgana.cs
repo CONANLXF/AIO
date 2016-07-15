@@ -10,7 +10,7 @@ using Damage = LeagueSharp.Common.Damage;
 using Spell = LeagueSharp.Common.Spell;
 using Utility = LeagueSharp.Common.Utility;
 
-using TargetSelector = PortAIO.TSManager; namespace KurisuMorgana
+ namespace KurisuMorgana
 {
     internal class KurisuMorgana
     {
@@ -78,7 +78,7 @@ using TargetSelector = PortAIO.TSManager; namespace KurisuMorgana
             Drawing.OnDraw += Drawing_OnDraw;
             Game.OnUpdate += Game_OnGameUpdate;
             AntiGapcloser.OnEnemyGapcloser += AntiGapcloser_OnEnemyGapcloser;
-            LSEvents.BeforeAttack += Orbwalker_OnPreAttack;
+            Orbwalker.OnPreAttack += Orbwalker_OnPreAttack;
 
             try
             {
@@ -111,12 +111,12 @@ using TargetSelector = PortAIO.TSManager; namespace KurisuMorgana
             return m[item].Cast<ComboBox>().CurrentValue;
         }
         
-        private void Orbwalker_OnPreAttack(BeforeAttackArgs args)
+        private void Orbwalker_OnPreAttack(AttackableUnit target, Orbwalker.PreAttackArgs args)
         {
             if (getCheckBoxItem(miscMenu, "support"))
             {
-                if (PortAIO.OrbwalkerManager.isHarassActive ||
-                    PortAIO.OrbwalkerManager.isLastHitActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass) ||
+                    Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LastHit))
                 {
                     var minion = args.Target as Obj_AI_Base;
                     if (minion != null && minion.IsMinion && minion.LSIsValidTarget())
@@ -143,18 +143,18 @@ using TargetSelector = PortAIO.TSManager; namespace KurisuMorgana
 
             AutoCast(getCheckBoxItem(menuQ, "useqdash"), getCheckBoxItem(menuQ, "useqauto"), getCheckBoxItem(menuW, "usewauto"));
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 Combo(getCheckBoxItem(menuQ, "useqcombo"), getCheckBoxItem(menuW, "usewcombo"),
                     getCheckBoxItem(menuR, "usercombo"));
             }
 
-            if (PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 Harass(getCheckBoxItem(menuQ, "useharassq"), getCheckBoxItem(menuW, "useharassw"));
             }
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 if (getCheckBoxItem(wwmenu, "farmw") && _w.IsReady())
                 {

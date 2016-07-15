@@ -19,7 +19,7 @@
 //   Sprite Handler
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-using TargetSelector = PortAIO.TSManager; namespace IKalista
+ namespace IKalista
 {
     using System.Linq;
 

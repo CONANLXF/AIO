@@ -8,7 +8,7 @@ using EloBuddy;
 using EloBuddy.SDK;
 using LeagueSharp.SDK.Core.Utils;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Ezreal
+ namespace ExorAIO.Champions.Ezreal
 {
     /// <summary>
     ///     The logics class.
@@ -31,7 +31,7 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Ezreal
             ///     The Q LastHit Logic.
             /// </summary>
             if (Vars.Q.IsReady() &&
-                !PortAIO.OrbwalkerManager.isComboActive &&
+                !Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) &&
                 GameObjects.Player.ManaPercent >
                     ManaManager.GetNeededMana(Vars.Q.Slot, Vars.getSliderItem(Vars.QMenu, "farmhelper")) &&
                 Vars.getSliderItem(Vars.QMenu, "farmhelper") != 101)
@@ -59,7 +59,7 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Ezreal
             if (Vars.Q.IsReady() &&
                 !Targets.Minions.Any() &&
                 Bools.HasTear(GameObjects.Player) &&
-                PortAIO.OrbwalkerManager.isNoneActive &&
+                Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.None) &&
                 GameObjects.Player.CountEnemyHeroesInRange(1500) == 0 &&
                 GameObjects.Player.ManaPercent >
                     ManaManager.GetNeededMana(Vars.Q.Slot, Vars.getSliderItem(Vars.MiscMenu, "tear")) &&
@@ -78,19 +78,19 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Ezreal
             /// </summary>
             /// 
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
-                if (!(PortAIO.OrbwalkerManager.LastTarget() is AIHeroClient))
+                if (!(Orbwalker.LastTarget is AIHeroClient))
                 {
                     return;
                 }
             }
 
-            else if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            else if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
-                if (!(PortAIO.OrbwalkerManager.LastTarget() is Obj_HQ) &&
-                    !(PortAIO.OrbwalkerManager.LastTarget() is Obj_AI_Turret) &&
-                    !(PortAIO.OrbwalkerManager.LastTarget() is Obj_BarracksDampener))
+                if (!(Orbwalker.LastTarget is Obj_HQ) &&
+                    !(Orbwalker.LastTarget is Obj_AI_Turret) &&
+                    !(Orbwalker.LastTarget is Obj_BarracksDampener))
                 {
                     return;
                 }
@@ -98,11 +98,11 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Ezreal
 
             else
             {
-                if (!GameObjects.Jungle.Contains(PortAIO.OrbwalkerManager.LastTarget()) &&
-                    !(PortAIO.OrbwalkerManager.LastTarget() is Obj_HQ) &&
-                    !(PortAIO.OrbwalkerManager.LastTarget() is AIHeroClient) &&
-                    !(PortAIO.OrbwalkerManager.LastTarget() is Obj_AI_Turret) &&
-                    !(PortAIO.OrbwalkerManager.LastTarget() is Obj_BarracksDampener))
+                if (!GameObjects.Jungle.Contains(Orbwalker.LastTarget) &&
+                    !(Orbwalker.LastTarget is Obj_HQ) &&
+                    !(Orbwalker.LastTarget is AIHeroClient) &&
+                    !(Orbwalker.LastTarget is Obj_AI_Turret) &&
+                    !(Orbwalker.LastTarget is Obj_BarracksDampener))
                 {
                     return;
                 }

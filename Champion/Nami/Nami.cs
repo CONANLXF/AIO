@@ -9,7 +9,7 @@ using LeagueSharp.Common;
 using vSupport_Series.Core.Plugins;
 using Spell = LeagueSharp.Common.Spell;
 
-using TargetSelector = PortAIO.TSManager; namespace vSupport_Series.Champions
+ namespace vSupport_Series.Champions
 {
     public class Nami : Helper
     {
@@ -132,12 +132,12 @@ using TargetSelector = PortAIO.TSManager; namespace vSupport_Series.Champions
 
         private static void NamiOnUpdate(EventArgs args)
         {
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 Combo();
             }
 
-            if (PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 Harass();
             }

@@ -1,6 +1,6 @@
 using LeagueSharp;
 
-using TargetSelector = PortAIO.TSManager; namespace OlafxQx
+ namespace OlafxQx
 {
     internal class Program
     {

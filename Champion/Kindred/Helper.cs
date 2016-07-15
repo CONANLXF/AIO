@@ -10,7 +10,7 @@ using Geometry = LeagueSharp.Common.Geometry;
 using Prediction = LeagueSharp.Common.Prediction;
 using Spell = LeagueSharp.Common.Spell;
 
-using TargetSelector = PortAIO.TSManager; namespace Kindred___YinYang
+ namespace Kindred___YinYang
 {
     internal class Helper
     {
@@ -213,7 +213,7 @@ using TargetSelector = PortAIO.TSManager; namespace Kindred___YinYang
             {
                 if (Program.Q.IsReady() && getCheckBoxItem(Language.comboMenu, "q.combo") &&
                     ObjectManager.Player.LSDistance(args.Target.Position) < Program.Q.Range &&
-                    PortAIO.OrbwalkerManager.isComboActive)
+                    Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
                 {
                     AdvancedQ(Program.Q, (AIHeroClient) args.Target, 3);
                 }

@@ -1,4 +1,4 @@
-﻿using TargetSelector = PortAIO.TSManager; namespace iTwitch
+﻿ namespace iTwitch
 {
     using System;
     using System.Linq;

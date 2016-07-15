@@ -3,7 +3,7 @@ using System.Linq;
 using LeagueSharp.SDK;
 using LeagueSharp.SDK.Enumerations;
 
-using TargetSelector = PortAIO.TSManager; namespace Firestorm_AIO.Helpers
+ namespace Firestorm_AIO.Helpers
 {
     public static class AntiGapcloser
     {

@@ -7,7 +7,7 @@ using LeagueSharp.SDK.Core.Utils;
 using EloBuddy.SDK;
 using EloBuddy;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Tristana
+ namespace ExorAIO.Champions.Tristana
 {
     /// <summary>
     ///     The targets class.

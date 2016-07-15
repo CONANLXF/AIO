@@ -6,7 +6,7 @@ using ExorAIO.Utilities;
 using EloBuddy;
 using EloBuddy.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Renekton
+ namespace ExorAIO.Champions.Renekton
 {
     /// <summary>
     ///     The logics class.
@@ -31,7 +31,7 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Renekton
                 Vars.getCheckBoxItem(Vars.QMenu, "logical"))
             {
                 if (GameObjects.Player.HasBuff("RenektonPreExecute") ||
-                    PortAIO.OrbwalkerManager.isComboActive)
+                    Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
                 {
                     return;
                 }

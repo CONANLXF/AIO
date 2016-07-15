@@ -9,7 +9,7 @@ using EloBuddy;
 
 #endregion
 
-using TargetSelector = PortAIO.TSManager; namespace Infected_Twitch.Event
+ namespace Infected_Twitch.Event
 {
     internal class Killsteal : Core.Core
     {

@@ -4,7 +4,7 @@ using EloBuddy.SDK;
 using LeagueSharp.Common;
 using SharpDX;
 
-using TargetSelector = PortAIO.TSManager; namespace SephLissandra
+ namespace SephLissandra
 {
     internal class LissUtils
     {

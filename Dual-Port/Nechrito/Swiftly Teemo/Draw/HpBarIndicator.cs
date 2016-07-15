@@ -4,7 +4,7 @@ using SharpDX;
 using SharpDX.Direct3D9;
 using Color = System.Drawing.Color;
 
-using TargetSelector = PortAIO.TSManager; namespace Swiftly_Teemo.Draw
+ namespace Swiftly_Teemo.Draw
 {
     internal class HpBarDraw
     {

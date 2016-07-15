@@ -20,7 +20,7 @@ using System.Security.AccessControl;
 using System;
 using System.Speech.Synthesis;
 using SAutoCarry.Champions.Helpers;
-using TargetSelector = PortAIO.TSManager;
+
 namespace HeavenStrikeAzir
 {
     class Program

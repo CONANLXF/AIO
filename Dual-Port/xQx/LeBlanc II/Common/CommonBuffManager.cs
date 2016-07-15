@@ -11,7 +11,7 @@ using Color = System.Drawing.Color;
 using EloBuddy;
 using EloBuddy.SDK.Menu.Values;
 
-using TargetSelector = PortAIO.TSManager; namespace Leblanc.Common
+ namespace Leblanc.Common
 {
 
     public class CommonBuffManager

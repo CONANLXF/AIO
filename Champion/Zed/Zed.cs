@@ -1,4 +1,4 @@
-﻿using TargetSelector = PortAIO.TSManager; namespace Valvrave_Sharp.Plugin
+﻿ namespace Valvrave_Sharp.Plugin
 {
     #region
 
@@ -282,7 +282,7 @@
                 {
                     extraRange += Q.Width / 2;
                 }
-                if (PortAIO.OrbwalkerManager.isComboActive
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo)
                     && getKeyBindItem(comboMenu, "R") && RState == 0)
                 {
                     var targetR = EntityManager.Heroes.Enemies.Where(i => i.IsInRange(Player, Q.Range + extraRange) && i.LSIsValidTarget()).OrderByDescending(i => TargetSelector.GetPriority(i)).ThenBy(i => i.DistanceToPlayer()).FirstOrDefault(i => getCheckBoxItem(comboMenu, "RCast" + i.NetworkId));
@@ -872,26 +872,26 @@
             }
             KillSteal();
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 Combo();
             }
 
-            if (PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 Hybrid();
             }
 
-            if (PortAIO.OrbwalkerManager.isLastHitActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LastHit))
             {
                 LastHit();
             }
 
-            if (PortAIO.OrbwalkerManager.isNoneActive || PortAIO.OrbwalkerManager.isFleeActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.None) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Flee))
             {
                 if (getKeyBindItem(miscMenu, "FleeW"))
                 {
-                    PortAIO.OrbwalkerManager.MoveA(Game.CursorPos);
+                    Orbwalker.MoveTo(Game.CursorPos);
                     if (WState == 0)
                     {
                         W.Cast(Game.CursorPos);
@@ -903,13 +903,13 @@
                 }
             }
 
-            if (!PortAIO.OrbwalkerManager.isComboActive)
+            if (!Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 if (getCheckBoxItem(hybridMenu, "AutoE"))
                 {
                     CastE();
                 }
-                if (!PortAIO.OrbwalkerManager.isHarassActive)
+                if (!Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
                 {
                     AutoQ();
                 }
@@ -1073,7 +1073,7 @@
             {
                 Hydra.Cast();
             }
-            if (Titanic.IsReady() && !Player.Spellbook.IsAutoAttacking && PortAIO.OrbwalkerManager.LastTarget() != null)
+            if (Titanic.IsReady() && !Player.Spellbook.IsAutoAttacking && Orbwalker.LastTarget != null)
             {
                 Titanic.Cast();
             }

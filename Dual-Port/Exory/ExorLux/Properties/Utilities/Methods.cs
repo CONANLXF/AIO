@@ -3,7 +3,7 @@ using EloBuddy.SDK;
 using LeagueSharp;
 using LeagueSharp.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Lux
+ namespace ExorAIO.Champions.Lux
 {
     /// <summary>
     ///     The methods class.
@@ -20,7 +20,7 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Lux
             GameObject.OnDelete += Lux.OnDelete;
             Events.OnGapCloser += Lux.OnGapCloser;
             Obj_AI_Base.OnProcessSpellCast += Lux.OnProcessSpellCast;
-            LeagueSharp.Common.LSEvents.BeforeAttack += Lux.OnAction;
+            Orbwalker.OnPreAttack += Lux.OnAction;
         }
     }
 }

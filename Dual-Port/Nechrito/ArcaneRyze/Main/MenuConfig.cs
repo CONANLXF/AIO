@@ -8,7 +8,7 @@ using EloBuddy.SDK.Menu.Values;
 
 #endregion
 
-using TargetSelector = PortAIO.TSManager; namespace Arcane_Ryze.Main
+ namespace Arcane_Ryze.Main
 {
     internal class MenuConfig
     {

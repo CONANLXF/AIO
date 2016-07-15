@@ -2,7 +2,7 @@ using EloBuddy;
 using LeagueSharp;
 using LeagueSharp.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Jhin
+ namespace ExorAIO.Champions.Jhin
 {
     /// <summary>
     ///     The methods class.

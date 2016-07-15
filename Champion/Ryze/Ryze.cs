@@ -7,7 +7,7 @@ using LeagueSharp.SDK.Core.Utils;
 using EloBuddy.SDK;
 using System.Linq;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Ryze
+ namespace ExorAIO.Champions.Ryze
 {
     /// <summary>
     ///     The champion class.
@@ -66,17 +66,17 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Ryze
                 return;
             }
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 Logics.Combo(args);
             }
 
-            if (PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 Logics.Harass(args);
             }
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 Logics.Clear(args);
             }
@@ -105,7 +105,7 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Ryze
         /// <param name="args">The <see cref="OrbwalkingActionArgs" /> instance containing the event data.</param>
         public static void OnAction(AttackableUnit target, Orbwalker.PreAttackArgs args)
         {
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 if (Vars.getCheckBoxItem(Vars.MiscMenu, "noaacombo"))
                 {
@@ -120,7 +120,7 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Ryze
                 }
             }
 
-            if (PortAIO.OrbwalkerManager.isHarassActive || PortAIO.OrbwalkerManager.isLastHitActive || PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LastHit) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 if (Vars.getCheckBoxItem(Vars.MiscMenu, "support"))
                 {

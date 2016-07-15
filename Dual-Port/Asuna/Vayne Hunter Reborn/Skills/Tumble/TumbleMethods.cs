@@ -12,7 +12,7 @@ using EloBuddy.SDK;
 using EloBuddy.SDK.Menu;
 using EloBuddy.SDK.Menu.Values;
 
-using TargetSelector = PortAIO.TSManager; namespace VayneHunter_Reborn.Skills.Tumble
+ namespace VayneHunter_Reborn.Skills.Tumble
 {
     class TumbleMethods
     {
@@ -55,11 +55,11 @@ using TargetSelector = PortAIO.TSManager; namespace VayneHunter_Reborn.Skills.Tu
         {
             if (!target.LSIsValidTarget(ObjectManager.Player.AttackRange + 65f + 65f + 300f))
             {
-                PortAIO.OrbwalkerManager.ForcedTarget(null);
+                Orbwalker.ForcedTarget =(null);
                 return;
             }
 
-            var menuOption = PortAIO.OrbwalkerManager.isComboActive ? MenuGenerator.comboMenu["dz191.vhr.combo.q.2wstacks"] : MenuGenerator.harassMenu["dz191.vhr.mixed.q.2wstacks"];
+            var menuOption = Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) ? MenuGenerator.comboMenu["dz191.vhr.combo.q.2wstacks"] : MenuGenerator.harassMenu["dz191.vhr.mixed.q.2wstacks"];
 
             var TwoWQ = menuOption != null ? menuOption.Cast<CheckBox>().CurrentValue : false;
 
@@ -104,16 +104,16 @@ using TargetSelector = PortAIO.TSManager; namespace VayneHunter_Reborn.Skills.Tu
                 if (afterTumblePosition.LSDistance(firstMinion.ServerPosition) <= Orbwalking.GetRealAutoAttackRange(null))
                 {
                     DefaultQCast(Game.CursorPos, firstMinion);
-                    PortAIO.OrbwalkerManager.ForcedTarget(firstMinion);
+                    Orbwalker.ForcedTarget =(firstMinion);
                 }
                 else
                 {
-                    PortAIO.OrbwalkerManager.ForcedTarget(null);
+                    Orbwalker.ForcedTarget =(null);
                 }
             }
             else
             {
-                PortAIO.OrbwalkerManager.ForcedTarget(null);
+                Orbwalker.ForcedTarget =(null);
             }
 
         }
@@ -238,7 +238,7 @@ using TargetSelector = PortAIO.TSManager; namespace VayneHunter_Reborn.Skills.Tu
                 }
             }
 
-            if (Variables.spells[SpellSlot.R].IsEnabledAndReady(PortAIO.OrbwalkerManager.GetActiveMode()) && PortAIO.OrbwalkerManager.isComboActive)
+            if (Variables.spells[SpellSlot.R].IsEnabledAndReady(PortAIO.OrbwalkerManager.GetActiveMode()) && Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 if (ObjectManager.Player.CountEnemiesInRange(750f) >= getSliderItem(MenuGenerator.comboMenu, "dz191.vhr.combo.r.minenemies"))
                 {

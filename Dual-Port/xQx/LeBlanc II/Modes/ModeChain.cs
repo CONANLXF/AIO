@@ -12,7 +12,7 @@ using EloBuddy.SDK.Menu;
 using EloBuddy;
 using EloBuddy.SDK.Menu.Values;
 
-using TargetSelector = PortAIO.TSManager; namespace Leblanc.Modes
+ namespace Leblanc.Modes
 {
     internal static class ModeChain
     {

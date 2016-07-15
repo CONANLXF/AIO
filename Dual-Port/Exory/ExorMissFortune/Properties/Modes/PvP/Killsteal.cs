@@ -8,7 +8,7 @@ using LeagueSharp.Data.Enumerations;
 using SharpDX;
 using Geometry = ExorAIO.Utilities.Geometry;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.MissFortune
+ namespace ExorAIO.Champions.MissFortune
 {
     /// <summary>
     ///     The logics class.

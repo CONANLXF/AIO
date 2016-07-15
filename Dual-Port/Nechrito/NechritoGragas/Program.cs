@@ -6,7 +6,7 @@ using SharpDX;
 using SPrediction;
 using EloBuddy.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace Nechrito_Gragas
+ namespace Nechrito_Gragas
 {
     class Program
     {
@@ -62,17 +62,17 @@ using TargetSelector = PortAIO.TSManager; namespace Nechrito_Gragas
             SmiteCombo();
             Killsteal();
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 Mode.ComboLogic();
             }
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 Mode.JungleLogic();
             }
 
-            if (PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 Mode.HarassLogic();
             }
@@ -84,7 +84,7 @@ using TargetSelector = PortAIO.TSManager; namespace Nechrito_Gragas
 
             if (args.Target is Obj_AI_Minion)
             {
-                if (PortAIO.OrbwalkerManager.isLaneClearActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
                 {
                     var minions = MinionManager.GetMinions(Player.ServerPosition, 600);
                     {

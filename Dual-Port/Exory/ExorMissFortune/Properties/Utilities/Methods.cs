@@ -2,7 +2,7 @@ using EloBuddy;
 using EloBuddy.SDK;
 using LeagueSharp.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.MissFortune
+ namespace ExorAIO.Champions.MissFortune
 {
     /// <summary>
     ///     The methods class.
@@ -18,7 +18,7 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.MissFortun
             Obj_AI_Base.OnSpellCast += MissFortune.OnDoCast;
             Events.OnGapCloser += MissFortune.OnGapCloser;
             Player.OnIssueOrder += MissFortune.Player_OnIssueOrder;
-            LeagueSharp.Common.LSEvents.BeforeAttack += MissFortune.Orbwalker_OnPreAttack;
+            Orbwalker.OnPreAttack += MissFortune.Orbwalker_OnPreAttack;
         }
     }
 }

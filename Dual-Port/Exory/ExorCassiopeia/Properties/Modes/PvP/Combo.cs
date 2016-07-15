@@ -6,7 +6,7 @@ using LeagueSharp.SDK;
 using EloBuddy;
 using LeagueSharp.SDK.Core.Utils;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Cassiopeia
+ namespace ExorAIO.Champions.Cassiopeia
 {
     /// <summary>
     ///     The logics class.

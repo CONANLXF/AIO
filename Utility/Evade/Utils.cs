@@ -28,7 +28,7 @@ using EloBuddy;
 
 #endregion
 
-using TargetSelector = PortAIO.TSManager; namespace EvadeSharp
+ namespace EvadeSharp
 {
     public static class Utils
     {

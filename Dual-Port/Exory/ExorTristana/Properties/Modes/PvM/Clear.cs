@@ -7,7 +7,7 @@ using LeagueSharp.SDK.Core.Utils;
 using EloBuddy;
 using EloBuddy.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Tristana
+ namespace ExorAIO.Champions.Tristana
 {
     /// <summary>
     ///     The logics class.
@@ -21,7 +21,7 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Tristana
         public static void Clear(EventArgs args)
         {
             if (Bools.HasSheenBuff() ||
-                !(PortAIO.OrbwalkerManager.LastTarget() as Obj_AI_Minion).LSIsValidTarget())
+                !(Orbwalker.LastTarget as Obj_AI_Minion).LSIsValidTarget())
             {
                 return;
             }
@@ -50,7 +50,7 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Tristana
                         ManaManager.GetNeededMana(Vars.E.Slot, Vars.getSliderItem(Vars.EMenu, "jungleclear")) &&
                     Vars.getSliderItem(Vars.EMenu, "jungleclear") != 101)
                 {
-                    Vars.E.CastOnUnit(PortAIO.OrbwalkerManager.LastTarget() as Obj_AI_Minion);
+                    Vars.E.CastOnUnit(Orbwalker.LastTarget as Obj_AI_Minion);
                 }
 
                 /// <summary>
@@ -87,9 +87,9 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Tristana
                                 ManaManager.GetNeededMana(Vars.E.Slot, Vars.getSliderItem(Vars.EMenu, "laneclear")) &&
                             Vars.getSliderItem(Vars.EMenu, "laneclear") != 101)
                         {
-                            if (Targets.Minions.Count(m => m.Distance(PortAIO.OrbwalkerManager.LastTarget() as Obj_AI_Minion) < 150f) >= 3)
+                            if (Targets.Minions.Count(m => m.Distance(Orbwalker.LastTarget as Obj_AI_Minion) < 150f) >= 3)
                             {
-                                Vars.E.CastOnUnit(PortAIO.OrbwalkerManager.LastTarget() as Obj_AI_Minion);
+                                Vars.E.CastOnUnit(Orbwalker.LastTarget as Obj_AI_Minion);
                             }
                         }
                     }
@@ -103,7 +103,7 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Tristana
         /// <param name="args">The <see cref="EventArgs" /> instance containing the event data.</param>
         public static void BuildingClear(EventArgs args)
         {
-            if (!(PortAIO.OrbwalkerManager.LastTarget() is Obj_AI_Turret))
+            if (!(Orbwalker.LastTarget is Obj_AI_Turret))
             {
                 return;
             }
@@ -116,7 +116,7 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Tristana
                     ManaManager.GetNeededMana(Vars.E.Slot, Vars.getSliderItem(Vars.EMenu, "buildings")) &&
                 Vars.getSliderItem(Vars.EMenu, "buildings") != 101)
             {
-                Vars.E.CastOnUnit(PortAIO.OrbwalkerManager.LastTarget() as Obj_AI_Turret);
+                Vars.E.CastOnUnit(Orbwalker.LastTarget as Obj_AI_Turret);
             }
         }
     }

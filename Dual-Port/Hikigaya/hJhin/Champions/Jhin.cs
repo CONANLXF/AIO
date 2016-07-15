@@ -11,7 +11,7 @@ using LeagueSharp.SDK;
 using EloBuddy.SDK.Menu;
 using EloBuddy.SDK.Menu.Values;
 
-using TargetSelector = PortAIO.TSManager; namespace hJhin.Champions
+ namespace hJhin.Champions
 {
     public class Jhin
     {
@@ -48,19 +48,19 @@ using TargetSelector = PortAIO.TSManager; namespace hJhin.Champions
         {
             if (!ObjectManager.Player.IsActive(Spells.R))
             {
-                if (PortAIO.OrbwalkerManager.isComboActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
                 {
                     Combo.Execute();
                 }
-                if (PortAIO.OrbwalkerManager.isLaneClearActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
                 {
                     Clear.Execute();
                 }
-                if (PortAIO.OrbwalkerManager.isLaneClearActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
                 {
                     Jungle.Execute();
                 }
-                if (PortAIO.OrbwalkerManager.isHarassActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
                 {
                     Harass.Execute();
                 }
@@ -80,7 +80,7 @@ using TargetSelector = PortAIO.TSManager; namespace hJhin.Champions
 
             if (getKeyBindItem(Config.SemiManualUlt, "semi.manual.ult") && !ObjectManager.Player.IsActive(Spells.R))
             {
-                PortAIO.OrbwalkerManager.MoveA(Game.CursorPos);
+                Orbwalker.MoveTo(Game.CursorPos);
             }
 
             if (Spells.R.IsReady() && getKeyBindItem(Config.SemiManualUlt, "semi.manual.ult"))

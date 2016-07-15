@@ -13,7 +13,7 @@ using KL = KurisuNidalee.KurisuLib;
 using Spell = LeagueSharp.Common.Spell;
 using Utility = LeagueSharp.Common.Utility;
 
-using TargetSelector = PortAIO.TSManager; namespace KurisuNidalee
+ namespace KurisuNidalee
 {
     internal class KurisuNidalee
     {
@@ -209,7 +209,7 @@ using TargetSelector = PortAIO.TSManager; namespace KurisuNidalee
                         {
                             if (!Player.Spellbook.IsChanneling && !Player.IsRecalling())
                             {
-                                if (PortAIO.OrbwalkerManager.isNoneActive ||
+                                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.None) ||
                                     ally.Health/ally.MaxHealth*100 <= 20 || !KL.CatForm())
                                 {
                                     if (Player.Mana/Player.MaxMana*100 <
@@ -393,22 +393,22 @@ using TargetSelector = PortAIO.TSManager; namespace KurisuNidalee
                 Combo2();
             }
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 Combo();
             }
 
-            if (PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 Harass();
             }
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 Clear();
             }
 
-            if (PortAIO.OrbwalkerManager.isFleeActive || getKeyBindItem(Root, "flee"))
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Flee) || getKeyBindItem(Root, "flee"))
             {
                 Flee();
             }
@@ -422,7 +422,7 @@ using TargetSelector = PortAIO.TSManager; namespace KurisuNidalee
             {
                 if (!Player.Spellbook.IsChanneling && !Player.IsRecalling())
                 {
-                    if ((getKeyBindItem(Root, "flee") || PortAIO.OrbwalkerManager.isFleeActive) &&
+                    if ((getKeyBindItem(Root, "flee") || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Flee)) &&
                         KL.CatForm())
                         return;
 
@@ -433,7 +433,7 @@ using TargetSelector = PortAIO.TSManager; namespace KurisuNidalee
                                      KL.Spells["Primalsurge"].IsInRange(h) &&
                                      h.HealthPercent < getSliderItem(eHMenu, "zz" + h.NetworkId)))
                     {
-                        if (PortAIO.OrbwalkerManager.isNoneActive || hero.HealthPercent <= 20 || !KL.CatForm())
+                        if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.None) || hero.HealthPercent <= 20 || !KL.CatForm())
                         {
                             if (Player.ManaPercent < getSliderItem(eHMenu, "ndhemana") && !(hero.HealthPercent <= 20))
                                 return;
@@ -457,7 +457,7 @@ using TargetSelector = PortAIO.TSManager; namespace KurisuNidalee
         {
             if (target != null && target.IsHPBarRendered && target.IsEnemy)
             {
-                PortAIO.OrbwalkerManager.MoveA(Game.CursorPos);
+                Orbwalker.MoveTo(Game.CursorPos);
             }
         }
 
@@ -685,13 +685,13 @@ using TargetSelector = PortAIO.TSManager; namespace KurisuNidalee
 
                 if (!jumpTriggered)
                 {
-                    PortAIO.OrbwalkerManager.MoveA(Game.CursorPos);
+                    Orbwalker.MoveTo(Game.CursorPos);
                 }
             }
 
             else
             {
-                PortAIO.OrbwalkerManager.MoveA(Game.CursorPos);
+                Orbwalker.MoveTo(Game.CursorPos);
                 if (KL.CatForm() && KL.SpellTimer["Pounce"].IsReady())
                     KL.Spells["Pounce"].Cast(Game.CursorPos);
             }

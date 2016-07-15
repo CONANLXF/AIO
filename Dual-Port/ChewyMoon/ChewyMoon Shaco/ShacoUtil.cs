@@ -8,7 +8,7 @@ using EloBuddy;
 
 #endregion
 
-using TargetSelector = PortAIO.TSManager; namespace ChewyMoonsShaco
+ namespace ChewyMoonsShaco
 {
     internal class ShacoUtil
     {

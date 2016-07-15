@@ -9,7 +9,7 @@ using EloBuddy;
 using EloBuddy.SDK;
 using EloBuddy.SDK.Menu.Values;
 
-using TargetSelector = PortAIO.TSManager; namespace VayneHunter_Reborn.Skills.Tumble.VHRQ
+ namespace VayneHunter_Reborn.Skills.Tumble.VHRQ
 {
     class VHRQLogic
     {
@@ -77,9 +77,9 @@ using TargetSelector = PortAIO.TSManager; namespace VayneHunter_Reborn.Skills.Tu
 
         public static AIHeroClient GetClosestEnemy(Vector3 from)
         {
-            if (PortAIO.OrbwalkerManager.LastTarget() is AIHeroClient)
+            if (Orbwalker.LastTarget is AIHeroClient)
             {
-                var owAI = PortAIO.OrbwalkerManager.LastTarget() as AIHeroClient;
+                var owAI = Orbwalker.LastTarget as AIHeroClient;
                 if (owAI.LSIsValidTarget(Orbwalking.GetRealAutoAttackRange(null) + 120f, true, from))
                 {
                     return owAI;

@@ -1,7 +1,7 @@
 using EloBuddy.SDK.Menu.Values;
 using ExorAIO.Utilities;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Olaf
+ namespace ExorAIO.Champions.Olaf
 {
     /// <summary>
     ///     The menu class.

@@ -1,4 +1,4 @@
-﻿using TargetSelector = PortAIO.TSManager; namespace AntiStealth
+﻿ namespace AntiStealth
 {
     using System;
     using System.Collections.Generic;

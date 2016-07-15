@@ -16,7 +16,7 @@ using EloBuddy.SDK.Menu;
 using EloBuddy.SDK;
 using LeagueSharp.SDK.Enumerations;
 
-using TargetSelector = PortAIO.TSManager; namespace Tyler1
+ namespace Tyler1
 {
     class Program
     {
@@ -144,14 +144,14 @@ using TargetSelector = PortAIO.TSManager; namespace Tyler1
             {
                 if (target != null)
                 {
-                    if (PortAIO.OrbwalkerManager.isComboActive)
+                    if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
                     {
                         Combo();
                         RCombo();
                     }
                 }
 
-                if (PortAIO.OrbwalkerManager.isLaneClearActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
                     Farm();
 
                 CatchAxes();
@@ -357,10 +357,10 @@ using TargetSelector = PortAIO.TSManager; namespace Tyler1
                         }
                         return;
                     }
-                    if (AXE.Distance(Player.ServerPosition) > 60 && PortAIO.OrbwalkerManager.CanMove(0))
+                    if (AXE.Distance(Player.ServerPosition) > 60 && Orbwalker.CanMove)
                     {
                         PortAIO.OrbwalkerManager.SetMovement(true);
-                        PortAIO.OrbwalkerManager.MoveA(AXE.Position.Randomize());
+                        Orbwalker.MoveTo(AXE.Position.Randomize());
                         PortAIO.OrbwalkerManager.SetMovement(false);
                     }
                     if (AXE.Distance(Player.ServerPosition) <= 70)

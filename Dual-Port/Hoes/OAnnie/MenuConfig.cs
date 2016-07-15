@@ -8,7 +8,7 @@ using LeagueSharp.Common;
 using EloBuddy.SDK.Menu;
 using EloBuddy.SDK.Menu.Values;
 
-using TargetSelector = PortAIO.TSManager; namespace OAnnie
+ namespace OAnnie
 {
     internal class MenuConfig
     {

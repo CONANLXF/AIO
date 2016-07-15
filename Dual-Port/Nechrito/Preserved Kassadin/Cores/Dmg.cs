@@ -2,7 +2,7 @@
 using EloBuddy;
 using LeagueSharp.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace Preserved_Kassadin.Cores
+ namespace Preserved_Kassadin.Cores
 {
     class Dmg : Coree
     {

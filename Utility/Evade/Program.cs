@@ -32,7 +32,7 @@ using EloBuddy.SDK.Menu;
 
 #endregion
 
-using TargetSelector = PortAIO.TSManager; namespace EvadeSharp
+ namespace EvadeSharp
 {
     internal class Program
     {

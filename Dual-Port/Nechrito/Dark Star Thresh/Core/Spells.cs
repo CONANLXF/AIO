@@ -2,7 +2,7 @@
 using LeagueSharp;
 using LeagueSharp.Common;
 
-using TargetSelector = PortAIO.TSManager; namespace Dark_Star_Thresh.Core
+ namespace Dark_Star_Thresh.Core
 {
     class Spells 
     {

@@ -3,7 +3,7 @@ using LeagueSharp;
 using LeagueSharp.SDK;
 using LeagueSharp.SDK.Enumerations;
 
-using TargetSelector = PortAIO.TSManager; namespace AsunaCondemn
+ namespace AsunaCondemn
 {
     /// <summary>
     ///     The settings class.

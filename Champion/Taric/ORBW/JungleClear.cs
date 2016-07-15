@@ -1,4 +1,4 @@
-﻿using TargetSelector = PortAIO.TSManager; namespace SkyLv_Taric
+﻿ namespace SkyLv_Taric
 {
     using System;
     using System.Linq;
@@ -91,7 +91,7 @@
 
             var MinionN = MinionManager.GetMinions(E.Range, MinionTypes.All, MinionTeam.Neutral, MinionOrderTypes.MaxHealth).FirstOrDefault();
 
-            if (MinionN.LSIsValidTarget() && (PortAIO.OrbwalkerManager.isLaneClearActive))
+            if (MinionN.LSIsValidTarget() && (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear)))
             {
                 if (getCheckBoxItem(SkyLv_Taric.Misc, "Taric.SafeJungleClear") && Player.CountEnemiesInRange(1500) > 0) return;
 

@@ -3,7 +3,7 @@ using System.Linq;
 using ExorAIO.Utilities;
 using LeagueSharp.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Ezreal
+ namespace ExorAIO.Champions.Ezreal
 {
     /// <summary>
     ///     The logics class.

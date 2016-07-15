@@ -1,4 +1,4 @@
-﻿using TargetSelector = PortAIO.TSManager; namespace ElLux
+﻿ namespace ElLux
 {
     using System;
     using System.Linq;

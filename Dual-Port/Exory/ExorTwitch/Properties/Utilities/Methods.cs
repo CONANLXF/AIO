@@ -3,7 +3,7 @@ using EloBuddy.SDK;
 using LeagueSharp;
 using LeagueSharp.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Twitch
+ namespace ExorAIO.Champions.Twitch
 {
     /// <summary>
     ///     The methods class.
@@ -18,7 +18,7 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Twitch
             Game.OnUpdate += Twitch.OnUpdate;
             Obj_AI_Base.OnSpellCast += Twitch.OnDoCast;
             Spellbook.OnCastSpell += Twitch.OnCastSpell;
-            LeagueSharp.Common.LSEvents.BeforeAttack += Twitch.OnAction;
+            Orbwalker.OnPreAttack += Twitch.OnAction;
         }
     }
 }

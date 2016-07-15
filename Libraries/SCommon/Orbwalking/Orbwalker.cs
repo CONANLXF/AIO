@@ -393,43 +393,6 @@ namespace SCommon.Orbwalking
         /// <param name="point">Orbwalk point</param>
         public void Orbwalk(AttackableUnit target, Vector3 point)
         {
-            if (!m_attackInProgress)
-            {
-                if (CanOrbwalkTarget(target))
-                {
-                    if (CanAttack())
-                    {
-                        BeforeAttackArgs args = Events.FireBeforeAttack(this, target);
-                        if (args.Process)
-                        {
-                            if (!m_Configuration.DisableAA || target.Type != GameObjectType.AIHeroClient)
-                                Attack(target);
-                        }
-                        else
-                        {
-                            if (CanMove())
-                            {
-                                if (m_Configuration.DontMoveInRange && target.Type == GameObjectType.AIHeroClient)
-                                    return;
-
-                                if ((m_Configuration.LegitMode && !ObjectManager.Player.IsMelee) || !m_Configuration.LegitMode)
-                                    Move(point);
-                            }
-                        }
-                    }
-                    else if (CanMove())
-                    {
-                        if (m_Configuration.DontMoveInRange && target.Type == GameObjectType.AIHeroClient)
-                            return;
-
-                        if ((m_Configuration.LegitMode && !ObjectManager.Player.IsMelee) || !m_Configuration.LegitMode)
-                            Move(point);
-                    }
-                }
-                else
-                    Move(point);
-            }
-            Move(point);
         }
 
         /// <summary>
@@ -534,7 +497,7 @@ namespace SCommon.Orbwalking
             m_attackReset = false;
             m_attackInProgress = false;
             m_lastMoveTick = 0;
-            Events.FireAfterAttack(this, target);
+            //Events.FireAfterAttack(this, target);
         }
 
         private Obj_AI_Minion _prevMinion;
@@ -1127,51 +1090,6 @@ namespace SCommon.Orbwalking
         /// <param name="args">The args.</param>
         private void Obj_AI_Base_OnProcessSpellCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
-            if (sender.IsMe)
-            {
-                if (Utility.IsAutoAttack(args.SData.Name))
-                {
-                    m_IslastCastedAA = true;
-                    OnAttackArgs onAttackArgs = Events.FireOnAttack(this, args.Target as AttackableUnit);
-                    if (!onAttackArgs.Cancel)
-                    {
-                        m_lastAATick = Utils.TickCount - Game.Ping / 2;
-                        m_lastWindUpTime = (int)Math.Round(sender.AttackCastDelay * 1000);
-                        m_lastAttackCooldown = (int)Math.Round(sender.AttackDelay * 1000);
-                        m_lastAttackCompletesAt = m_lastAATick + m_lastWindUpTime;
-                        m_lastAttackPos = ObjectManager.Player.ServerPosition.LSTo2D();
-                        m_attackInProgress = true;
-                    }
-                    if (m_baseAttackSpeed == 0.5f)
-                        SetOrbwalkValues();
-                }
-                else
-                {
-                    m_IslastCastedAA = false;
-                    if (Utility.IsAutoAttackReset(args.SData.Name))
-                    {
-                        ResetAATimer();
-                    }
-                    else if (!Utility.IsAutoAttackReset(args.SData.Name))
-                    {
-                        if (m_attackInProgress)
-                            ResetAATimer();
-                    }
-                    else if (args.SData.Name == "AspectOfTheCougar")
-                    {
-                        ResetOrbwalkValues();
-                    }
-                }
-            }
-            else
-            {
-                if (sender.Type == GameObjectType.obj_AI_Turret && args.Target.Type == GameObjectType.obj_AI_Minion && sender.Team == ObjectManager.Player.Team && args.Target.Position.LSDistance(ObjectManager.Player.ServerPosition) <= 2000)
-                {
-                    m_towerTarget = args.Target as Obj_AI_Base;
-                    m_sourceTower = sender;
-                    m_towerAttackTick = Utils.TickCount - Game.Ping / 2;
-                }
-            }
         }
 
         /// <summary>
@@ -1183,7 +1101,7 @@ namespace SCommon.Orbwalking
         {
             if (sender.IsMe && args.IsDash && sender.CharData.BaseSkinName == "Rengar")
             {
-                Events.FireOnAttack(this, m_lastTarget);
+                //Events.FireOnAttack(this, m_lastTarget);
                 m_lastAATick = Utils.TickCount - Game.Ping / 2;
                 m_lastWindUpTime = (int)(sender.AttackCastDelay * 1000);
                 m_lastAttackCooldown = (int)(sender.AttackDelay * 1000);

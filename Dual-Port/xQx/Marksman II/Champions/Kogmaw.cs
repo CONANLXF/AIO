@@ -14,7 +14,7 @@ using EloBuddy.SDK;
 
 #endregion
 
-using TargetSelector = PortAIO.TSManager; namespace Marksman.Champions
+ namespace Marksman.Champions
 {
     internal class Kogmaw : Champion
     {
@@ -79,7 +79,7 @@ using TargetSelector = PortAIO.TSManager; namespace Marksman.Champions
             }
         }
 
-        public override void Orbwalking_BeforeAttack(BeforeAttackArgs args)
+        public override void Orbwalking_BeforeAttack(AttackableUnit target, Orbwalker.PreAttackArgs args)
         {
             if (!W.IsReady())
             {
@@ -143,7 +143,7 @@ using TargetSelector = PortAIO.TSManager; namespace Marksman.Champions
                     CastR(hero);
             //R.Cast(hero, false, true);
 
-            if ((!ComboActive && !HarassActive) || (!PortAIO.OrbwalkerManager.CanMove(0) &&
+            if ((!ComboActive && !HarassActive) || (!Orbwalker.CanMove &&
                  !(ObjectManager.Player.BaseAbilityDamage + ObjectManager.Player.FlatMagicDamageMod > 100)))
             {
                 return;
@@ -184,9 +184,9 @@ using TargetSelector = PortAIO.TSManager; namespace Marksman.Champions
             }
         }
 
-        public override void Orbwalking_AfterAttack(AfterAttackArgs args)
+        public override void Orbwalking_AfterAttack(AttackableUnit targetA, EventArgs args)
         {
-            var target = args.Target;
+            var target = targetA;
             if (target != null && (!ComboActive && !HarassActive) || !(target is AIHeroClient))
             {
                 return;

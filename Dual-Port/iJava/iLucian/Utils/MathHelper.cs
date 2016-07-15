@@ -8,7 +8,7 @@ using LeagueSharp.Common;
 using SharpDX;
 using EloBuddy;
 
-using TargetSelector = PortAIO.TSManager; namespace iLucian.Utils
+ namespace iLucian.Utils
 {
     public class MathHelper
     {

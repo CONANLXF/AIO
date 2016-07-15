@@ -3,7 +3,7 @@ using EloBuddy.SDK;
 using LeagueSharp.Common;
 using Damage = LeagueSharp.Common.Damage;
 
-using TargetSelector = PortAIO.TSManager; namespace Mordekaiser
+ namespace Mordekaiser
 {
     internal class DamageCalc
     {

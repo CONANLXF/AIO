@@ -11,7 +11,7 @@ using Color = SharpDX.Color;
 using EloBuddy.SDK.Menu;
 using EloBuddy.SDK.Menu.Values;
 
-using TargetSelector = PortAIO.TSManager; namespace Irelia.Modes
+ namespace Irelia.Modes
 {
     internal class ModeSettings
     {

@@ -7,7 +7,7 @@ using EloBuddy;
 using LeagueSharp.SDK.Core.Utils;
 using EloBuddy.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Anivia
+ namespace ExorAIO.Champions.Anivia
 {
     /// <summary>
     ///     The logics class.
@@ -79,7 +79,7 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Anivia
                 GameObjects.Player.Spellbook.GetSpell(SpellSlot.Q).ToggleState != 1)
             {
 
-                if (PortAIO.OrbwalkerManager.isLaneClearActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
                 {
                     /// <summary>
                     ///     The Q Clear Logic.
@@ -122,7 +122,7 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Anivia
                 GameObjects.Player.Spellbook.GetSpell(SpellSlot.R).ToggleState != 1)
             {
 
-                if (PortAIO.OrbwalkerManager.isLaneClearActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
                 {
                     /// <summary>
                     ///     The R Clear Logic.

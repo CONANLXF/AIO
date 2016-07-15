@@ -13,7 +13,7 @@ using Azir_Creator_of_Elo;
 using EloBuddy.SDK;
 using EloBuddy.SDK.Menu.Values;
 
-using TargetSelector = PortAIO.TSManager; namespace Azir_Free_elo_Machine
+ namespace Azir_Free_elo_Machine
 {
     class Insec
     {
@@ -108,7 +108,7 @@ using TargetSelector = PortAIO.TSManager; namespace Azir_Free_elo_Machine
 
             if (!insecPoint.IsValid())
                 return;
-            var target = TargetSelector.GetSelectedTarget();
+            var target = TargetSelector.SelectedTarget;
             if (!target.IsValidTarget() || target.IsZombie)
             {
 

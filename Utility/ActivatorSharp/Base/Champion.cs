@@ -12,7 +12,7 @@ using System.Collections.Generic;
 using LeagueSharp;
 using EloBuddy;
 
-using TargetSelector = PortAIO.TSManager; namespace Activators.Base
+ namespace Activators.Base
 {
     public class Champion
     {

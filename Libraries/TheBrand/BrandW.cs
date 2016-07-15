@@ -36,7 +36,7 @@ namespace TheBrand
             try
             {
                 var target = Provider.Target;
-                if (PortAIO.OrbwalkerManager.isComboActive || target == null) return;
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) || target == null) return;
                 var prediction = GetPrediction(target, true);
                 if (prediction.CastPosition.LSDistance(ObjectManager.Player.Position) < 900)
                     Render.Circle.DrawCircle(prediction.CastPosition, 240f, PredictedWColor);

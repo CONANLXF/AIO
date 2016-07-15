@@ -6,7 +6,7 @@ using EloBuddy.SDK;
 using SharpDX;
 using LeagueSharp.Common;
 
-using TargetSelector = PortAIO.TSManager; namespace SOLOVayne
+ namespace SOLOVayne
 {
     internal class YasuoWall
     {

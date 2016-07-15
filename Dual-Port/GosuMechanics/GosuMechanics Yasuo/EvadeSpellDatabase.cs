@@ -25,7 +25,7 @@ using EloBuddy;
 
 #endregion
 
-using TargetSelector = PortAIO.TSManager; namespace GosuMechanicsYasuo
+ namespace GosuMechanicsYasuo
 {
     internal class EvadeSpellDatabase
     {

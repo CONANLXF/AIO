@@ -1,6 +1,6 @@
 using System;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.KogMaw
+ namespace ExorAIO.Champions.KogMaw
 {
     /// <summary>
     ///     The logics class.

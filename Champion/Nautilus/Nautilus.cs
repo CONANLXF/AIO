@@ -7,7 +7,7 @@ using LeagueSharp.SDK.Core.Utils;
 using EloBuddy.SDK;
 using System.Linq;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Nautilus
+ namespace ExorAIO.Champions.Nautilus
 {
     /// <summary>
     ///     The champion class.
@@ -61,17 +61,17 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Nautilus
                 return;
             }
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 Logics.Combo(args);
             }
 
-            if (PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 Logics.Harass(args);
             }
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 Logics.Clear(args);
             }
@@ -88,12 +88,12 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Nautilus
                 AutoAttack.IsAutoAttack(args.SData.Name))
             {
 
-                if (PortAIO.OrbwalkerManager.isComboActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
                 {
                     Logics.Weaving(sender, args);
                 }
 
-                if (PortAIO.OrbwalkerManager.isLaneClearActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
                 {
                     Logics.JungleClear(sender, args);
                     Logics.BuildingClear(sender, args);
@@ -106,9 +106,9 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Nautilus
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="args">The <see cref="OrbwalkingActionArgs" /> instance containing the event data.</param>
-        public static void OnAction(LeagueSharp.Common.BeforeAttackArgs args)
+        public static void OnAction(AttackableUnit target, Orbwalker.PreAttackArgs args)
         {
-            if (PortAIO.OrbwalkerManager.isHarassActive || PortAIO.OrbwalkerManager.isLastHitActive || PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LastHit) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 if (Vars.getCheckBoxItem(Vars.MiscMenu, "support"))
                 {

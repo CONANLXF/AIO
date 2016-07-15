@@ -5,7 +5,7 @@ using LeagueSharp.SDK;
 using LeagueSharp.SDK.Enumerations;
 using EloBuddy;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Cassiopeia
+ namespace ExorAIO.Champions.Cassiopeia
 {
     /// <summary>
     ///     The spells class.

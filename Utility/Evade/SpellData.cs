@@ -21,7 +21,7 @@ using LeagueSharp;
 
 #endregion
 
-using TargetSelector = PortAIO.TSManager; namespace EvadeSharp
+ namespace EvadeSharp
 {
     public class SpellData
     {

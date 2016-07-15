@@ -7,7 +7,7 @@ using Marksman.Common;
 using SharpDX;
 using Color = System.Drawing.Color;
 
-using TargetSelector = PortAIO.TSManager; namespace Marksman.Common
+ namespace Marksman.Common
 {
     public class CommonObjectDetector
     {

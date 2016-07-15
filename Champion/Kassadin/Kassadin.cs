@@ -9,7 +9,7 @@ using Damage = LeagueSharp.Common.Damage;
 using Geometry = LeagueSharp.Common.Geometry;
 using Spell = LeagueSharp.Common.Spell;
 using Utility = LeagueSharp.Common.Utility;
-using TargetSelector = PortAIO.TSManager;
+
 
 namespace Kassawin
 {
@@ -175,7 +175,7 @@ namespace Kassawin
 
             if (!usew) return;
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 var minions = MinionManager.GetMinions(Player.Position, 300);
 
@@ -184,14 +184,14 @@ namespace Kassawin
                     if (((Obj_AI_Base)args.Target).Health > Player.GetAutoAttackDamage((Obj_AI_Base)args.Target) + 50)
                     {
                         W.Cast();
-                        PortAIO.OrbwalkerManager.ResetAutoAttackTimer();
+                        Orbwalker.ResetAutoAttack();
                     }
                     foreach (var min in minions.Where(x => x.NetworkId != ((Obj_AI_Base)args.Target).NetworkId))
                     {
                         if (((Obj_AI_Base)args.Target).Health > Player.GetAutoAttackDamage((Obj_AI_Base)args.Target))
                         {
                             W.Cast();
-                            PortAIO.OrbwalkerManager.ResetAutoAttackTimer();
+                            Orbwalker.ResetAutoAttack();
                         }
                     }
                 }
@@ -206,7 +206,7 @@ namespace Kassawin
 
             var target = (AIHeroClient)args.Target;
             var usew = getCheckBoxItem(comboMenu, "usew");
-            if (!PortAIO.OrbwalkerManager.isComboActive) return;
+            if (!Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo)) return;
 
             if (args.SData.IsAutoAttack())
             {
@@ -215,7 +215,7 @@ namespace Kassawin
                     if (W.IsReady() && usew)
                     {
                         W.Cast();
-                        PortAIO.OrbwalkerManager.ResetAutoAttackTimer();
+                        Orbwalker.ResetAutoAttack();
                     }
                 }
             }
@@ -248,28 +248,28 @@ namespace Kassawin
 
         private static void OnUpdate(EventArgs args)
         {
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 Combo();
             }
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 LaneClear();
                 JungleClear();
             }
 
-            if (PortAIO.OrbwalkerManager.isLastHitActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LastHit))
             {
                 LastHit();
             }
 
-            if (PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 Harass();
             }
 
-            if (getKeyBindItem(miscMenu, "fleemode") || PortAIO.OrbwalkerManager.isFleeActive)
+            if (getKeyBindItem(miscMenu, "fleemode") || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Flee))
             {
                 fleeMode();
             }

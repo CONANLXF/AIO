@@ -8,7 +8,7 @@ using EloBuddy.SDK.Menu.Values;
 using LeagueSharp.Common;
 using vSupport_Series.Core.Plugins;
 using Spell = LeagueSharp.Common.Spell;
-using TargetSelector = PortAIO.TSManager;
+
 namespace vSupport_Series.Champions
 {
     public class Sona : Helper
@@ -137,12 +137,12 @@ namespace vSupport_Series.Champions
 
         private static void SonaOnUpdate(EventArgs args)
         {
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 Combo();
             }
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 Harass();
             }

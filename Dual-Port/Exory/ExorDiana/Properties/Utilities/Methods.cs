@@ -1,7 +1,7 @@
 using EloBuddy;
 using LeagueSharp.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Diana
+ namespace ExorAIO.Champions.Diana
 {
     /// <summary>
     ///     The methods class.

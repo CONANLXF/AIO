@@ -5,7 +5,7 @@ using LeagueSharp.Common;
 using SharpDX;
 using SharpDX.Direct3D9;
 
-using TargetSelector = PortAIO.TSManager; namespace OlafxQx.Common
+ namespace OlafxQx.Common
 {
     using EloBuddy;
     using EloBuddy.SDK.Menu;

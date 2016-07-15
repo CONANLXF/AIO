@@ -13,7 +13,7 @@ using HealthPrediction = SebbyLib.HealthPrediction;
 using Spell = LeagueSharp.Common.Spell;
 using Utility = LeagueSharp.Common.Utility;
 using EloBuddy.SDK;
-using TargetSelector = PortAIO.TSManager;
+
 
 namespace OneKeyToWin_AIO_Sebby.Champions
 {
@@ -343,7 +343,7 @@ namespace OneKeyToWin_AIO_Sebby.Champions
 
         private static void LogicE()
         {
-            if (PortAIO.OrbwalkerManager.isComboActive || PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 if (Player.HasBuff("KarthusDefile"))
                 {

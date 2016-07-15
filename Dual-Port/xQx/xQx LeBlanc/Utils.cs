@@ -17,7 +17,7 @@ using Texture = SharpDX.Direct3D9.Texture;
 using EloBuddy;
 using PortAIO.Properties;
 
-using TargetSelector = PortAIO.TSManager; namespace LeblancOLD
+ namespace LeblancOLD
 {
     static class CommonL
     {

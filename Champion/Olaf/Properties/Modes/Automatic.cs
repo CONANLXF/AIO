@@ -2,7 +2,7 @@ using System;
 using ExorAIO.Utilities;
 using LeagueSharp.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Olaf
+ namespace ExorAIO.Champions.Olaf
 {
     /// <summary>
     ///     The logics class.

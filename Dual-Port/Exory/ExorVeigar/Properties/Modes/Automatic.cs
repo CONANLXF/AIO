@@ -8,7 +8,7 @@ using LeagueSharp.SDK.Enumerations;
 using EloBuddy;
 using EloBuddy.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Veigar
+ namespace ExorAIO.Champions.Veigar
 {
     /// <summary>
     ///     The logics class.
@@ -33,7 +33,7 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Veigar
             if (Vars.Q.IsReady() &&
                 Bools.HasTear(GameObjects.Player) &&
                 !GameObjects.Player.LSIsRecalling() &&
-                PortAIO.OrbwalkerManager.isNoneActive &&
+                Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.None) &&
                 GameObjects.Player.CountEnemyHeroesInRange(1500) == 0 &&
                 GameObjects.Player.ManaPercent >
                     ManaManager.GetNeededMana(Vars.Q.Slot, Vars.getSliderItem(Vars.MiscMenu, "tear")) &&

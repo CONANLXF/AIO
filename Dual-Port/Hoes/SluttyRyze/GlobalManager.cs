@@ -5,7 +5,7 @@ using LeagueSharp.Common;
 using EloBuddy;
 using EloBuddy.SDK.Menu;
 
-using TargetSelector = PortAIO.TSManager; namespace Slutty_ryze
+ namespace Slutty_ryze
 {
     class GlobalManager
     {

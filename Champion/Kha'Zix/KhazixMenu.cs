@@ -3,7 +3,7 @@ using EloBuddy.SDK.Menu.Values;
 using LeagueSharp;
 using LeagueSharp.Common;
 
-using TargetSelector = PortAIO.TSManager; namespace SephKhazix
+ namespace SephKhazix
 {
     class KhazixMenu
     {

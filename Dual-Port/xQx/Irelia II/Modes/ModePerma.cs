@@ -9,7 +9,7 @@ using LeagueSharp.Common;
 using EloBuddy.SDK;
 using EloBuddy;
 
-using TargetSelector = PortAIO.TSManager; namespace Irelia.Modes
+ namespace Irelia.Modes
 {
     internal class ModePerma
     {
@@ -24,7 +24,7 @@ using TargetSelector = PortAIO.TSManager; namespace Irelia.Modes
         
         private static void GameOnOnUpdate(EventArgs args)
         {
-            if (!PortAIO.OrbwalkerManager.isComboActive)
+            if (!Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 //if (Modes.ModeSettings.MenuSettingE.Item("Settings.E.Auto").GetValue<StringList>().SelectedIndex == 1)
                 {

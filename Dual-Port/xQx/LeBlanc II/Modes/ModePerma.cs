@@ -10,7 +10,7 @@ using EloBuddy.SDK.Menu.Values;
 using EloBuddy.SDK;
 using EloBuddy;
 
-using TargetSelector = PortAIO.TSManager; namespace Leblanc.Modes
+ namespace Leblanc.Modes
 {
     internal class ModePerma
     {
@@ -25,7 +25,7 @@ using TargetSelector = PortAIO.TSManager; namespace Leblanc.Modes
         
         private static void GameOnOnUpdate(EventArgs args)
         {
-            if (!PortAIO.OrbwalkerManager.isComboActive)
+            if (!Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 if (Modes.ModeSettings.MenuSettingE["Settings.E.Auto"].Cast<ComboBox>().CurrentValue == 1)
                 {

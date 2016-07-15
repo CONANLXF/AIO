@@ -12,7 +12,7 @@ using Orbwalking = SebbyLib.Orbwalking;
 using Spell = LeagueSharp.Common.Spell;
 using Utility = LeagueSharp.Common.Utility;
 using SharpDX;
-using TargetSelector = PortAIO.TSManager;
+
 namespace OneKeyToWin_AIO_Sebby
 {
     internal class Graves
@@ -50,7 +50,7 @@ namespace OneKeyToWin_AIO_Sebby
             Drawing.OnDraw += Drawing_OnDraw;
             Game.OnUpdate += Game_OnGameUpdate;
             AntiGapcloser.OnEnemyGapcloser += AntiGapcloser_OnEnemyGapcloser;
-            LSEvents.AfterAttack += Orbwalker_OnPostAttack;
+            Orbwalker.OnPostAttack += Orbwalker_OnPostAttack;
         }
 
         public static bool getCheckBoxItem(Menu m, string item)
@@ -73,7 +73,7 @@ namespace OneKeyToWin_AIO_Sebby
             return m[item].Cast<ComboBox>().CurrentValue;
         }
 
-        private static void Orbwalker_OnPostAttack(AfterAttackArgs args)
+        private static void Orbwalker_OnPostAttack(AttackableUnit target, EventArgs args)
         {
             if (E.IsReady() && getCheckBoxItem(eMenu, "autoE"))
                 LogicE();

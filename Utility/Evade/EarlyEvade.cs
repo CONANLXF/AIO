@@ -1,4 +1,4 @@
-using TargetSelector = PortAIO.TSManager; namespace EvadeSharp
+ namespace EvadeSharp
 {
     public enum EarlyObjects
     {

@@ -5,7 +5,7 @@ using SharpDX.Direct3D9;
 using Color = System.Drawing.Color;
 using EloBuddy;
 
-using TargetSelector = PortAIO.TSManager; namespace Nechrito_Nidalee
+ namespace Nechrito_Nidalee
 {
     internal class HpBarIndicator
     {

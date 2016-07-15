@@ -21,7 +21,7 @@ using System;
 using System.Speech.Synthesis;
 using Nechrito_Nidalee.Extras;
 
-using TargetSelector = PortAIO.TSManager; namespace Nechrito_Nidalee.Handlers
+ namespace Nechrito_Nidalee.Handlers
 {
     class Modes : Core
     {

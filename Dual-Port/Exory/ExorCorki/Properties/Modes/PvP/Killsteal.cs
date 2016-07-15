@@ -7,7 +7,7 @@ using LeagueSharp.Data.Enumerations;
 using LeagueSharp.SDK.Core.Utils;
 using EloBuddy;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Corki
+ namespace ExorAIO.Champions.Corki
 {
     /// <summary>
     ///     The logics class.

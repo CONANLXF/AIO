@@ -1,4 +1,4 @@
-﻿using TargetSelector = PortAIO.TSManager; namespace ElLeeSin
+﻿ namespace ElLeeSin
 {
     using System;
     using System.Collections.Generic;
@@ -685,7 +685,7 @@
                 Game.OnUpdate += Game_OnGameUpdate;
                 Obj_AI_Base.OnProcessSpellCast += Obj_AI_Base_OnProcessSpellCast;
                 GameObject.OnCreate += OnCreate;
-                LSEvents.AfterAttack += OrbwalkingAfterAttack;
+                Orbwalker.OnPostAttack += OrbwalkingAfterAttack;
                 GameObject.OnDelete += GameObject_OnDelete;
                 Game.OnWndProc += Game_OnWndProc;
             }
@@ -783,24 +783,24 @@
                     wardJumped = false;
                 }
 
-                if (PortAIO.OrbwalkerManager.isComboActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
                 {
                     insecComboStep = InsecComboStepSelect.None;
                 }
 
-                if (PortAIO.OrbwalkerManager.isComboActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
                 {
                     Combo();
                 }
 
-                if (PortAIO.OrbwalkerManager.isLaneClearActive ||
-                    PortAIO.OrbwalkerManager.isLaneClearActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear) ||
+                    Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
                 {
                     AllClear();
                     JungleClear();
                 }
 
-                if (PortAIO.OrbwalkerManager.isHarassActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
                 {
                     Harass();
                 }
@@ -1361,7 +1361,7 @@
             }
         }
 
-        private static void OrbwalkingAfterAttack(AfterAttackArgs args)
+        private static void OrbwalkingAfterAttack(AttackableUnit target, EventArgs args)
         {
             try
             {
@@ -1452,7 +1452,7 @@
                     spells[Spells.W].Range + spells[Spells.R].Range,
                     DamageType.Physical);
 
-                PortAIO.OrbwalkerManager.MoveA(Game.CursorPos);
+                Orbwalker.MoveTo(Game.CursorPos);
 
                 if (target == null)
                 {

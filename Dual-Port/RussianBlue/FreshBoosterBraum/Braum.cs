@@ -12,7 +12,7 @@ using EloBuddy.SDK.Menu.Values;
 using EloBuddy.SDK.Menu;
 using EloBuddy.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace FreshBooster.Champion
+ namespace FreshBooster.Champion
 {
     class Braum
     {
@@ -199,7 +199,7 @@ using TargetSelector = PortAIO.TSManager; namespace FreshBooster.Champion
             AntiGapcloser.OnEnemyGapcloser += AntiGapcloser_OnEnemyGapcloser;
             Obj_AI_Base.OnProcessSpellCast += OnProcessSpell;
             Interrupter2.OnInterruptableTarget += Interrupter2_OnInterruptableTarget;
-            LSEvents.BeforeAttack += Orbwalking_BeforeAttack;
+            Orbwalker.OnPreAttack += Orbwalking_BeforeAttack;
             EloBuddy.Player.OnIssueOrder += Obj_AI_Base_OnIssueOrder;
             GameObject.OnCreate += GameObject_OnCreate;
             GameObject.OnDelete += GameObject_OnDelete;
@@ -235,7 +235,7 @@ using TargetSelector = PortAIO.TSManager; namespace FreshBooster.Champion
                 }
 
                 // Combo
-                if (PortAIO.OrbwalkerManager.isComboActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
                 {
                     if (getCheckBoxItem(Combo, "Braum_CUse_R") && _R.IsReady() && RTarget != null)
                         _R.CastIfHitchanceEquals(RTarget, HitChance.VeryHigh, true);
@@ -244,7 +244,7 @@ using TargetSelector = PortAIO.TSManager; namespace FreshBooster.Champion
                 }
 
                 // Harass
-                if ((PortAIO.OrbwalkerManager.isHarassActive || getCheckBoxItem(Harass, "Braum_Auto_HEnable"))
+                if ((Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass) || getCheckBoxItem(Harass, "Braum_Auto_HEnable"))
                     && getSliderItem(Harass, "Braum_HMana") < Player.ManaPercent)
                 {
                     if (getCheckBoxItem(Harass, "Braum_HUse_Q") && _Q.IsReady() && QTarget != null)
@@ -312,7 +312,7 @@ using TargetSelector = PortAIO.TSManager; namespace FreshBooster.Champion
                 // Auto E
                 if (getCheckBoxItem(Misc, "Braum_AutoE") && _E.IsReady())
                 {
-                    if (!(sender is AIHeroClient) || !sender.IsEnemy || !PortAIO.OrbwalkerManager.CanAttack())
+                    if (!(sender is AIHeroClient) || !sender.IsEnemy || !Orbwalker.CanAutoAttack)
                         return;
                     var enemyskill = new LeagueSharp.Common.Geometry.Polygon.Rectangle(args.Start, args.End, args.SData.BounceRadius + 20);
                     var myteam = HeroManager.Allies.Where(f => f.LSDistance(Player.Position) < 200);
@@ -370,7 +370,7 @@ using TargetSelector = PortAIO.TSManager; namespace FreshBooster.Champion
             }
 
         }
-        public static void Orbwalking_BeforeAttack(BeforeAttackArgs args)
+        public static void Orbwalking_BeforeAttack(AttackableUnit target, Orbwalker.PreAttackArgs args)
         {
             try
             {

@@ -11,7 +11,7 @@ using EloBuddy;
 using EloBuddy.SDK.Menu.Values;
 using EloBuddy.SDK.Menu;
 
-using TargetSelector = PortAIO.TSManager; namespace Leblanc.Common
+ namespace Leblanc.Common
 {
     internal static class CommonManaManager
     {

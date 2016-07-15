@@ -10,7 +10,7 @@ using LeagueSharp.Common;
 using SharpDX;
 using Color = System.Drawing.Color;
 
-using TargetSelector = PortAIO.TSManager; namespace EvadeSharp.Pathfinding
+ namespace EvadeSharp.Pathfinding
 {
     public static class Pathfinding
     {

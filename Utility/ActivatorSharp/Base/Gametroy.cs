@@ -12,7 +12,7 @@ using EloBuddy;
 using LeagueSharp;
 using System.Collections.Generic;
 
-using TargetSelector = PortAIO.TSManager; namespace Activators.Base
+ namespace Activators.Base
 {
     public class Gametroy
     {

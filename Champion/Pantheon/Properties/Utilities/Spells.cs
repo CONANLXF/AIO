@@ -5,7 +5,7 @@ using LeagueSharp.SDK;
 using EloBuddy;
 using LeagueSharp.SDK.Enumerations;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Pantheon
+ namespace ExorAIO.Champions.Pantheon
 {
     /// <summary>
     ///     The spells class.

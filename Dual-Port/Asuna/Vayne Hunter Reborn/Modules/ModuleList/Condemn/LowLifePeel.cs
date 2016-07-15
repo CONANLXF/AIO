@@ -7,7 +7,7 @@ using VayneHunter_Reborn.Utility.MenuUtility;
 using EloBuddy;
 using EloBuddy.SDK.Menu.Values;
 
-using TargetSelector = PortAIO.TSManager; namespace VayneHunter_Reborn.Modules.ModuleList.Condemn
+ namespace VayneHunter_Reborn.Modules.ModuleList.Condemn
 {
     class LowLifePeel : IModule
     {

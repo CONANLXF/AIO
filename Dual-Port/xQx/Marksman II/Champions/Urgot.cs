@@ -13,7 +13,7 @@ using EloBuddy.SDK;
 
 #endregion
 
-using TargetSelector = PortAIO.TSManager; namespace Marksman.Champions
+ namespace Marksman.Champions
 {
     internal class Urgot : Champion
     {

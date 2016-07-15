@@ -12,7 +12,7 @@ using Damage = LeagueSharp.Common.Damage;
 using Geometry = LeagueSharp.Common.Geometry;
 using Spell = LeagueSharp.Common.Spell;
 using Utility = LeagueSharp.Common.Utility;
-using TargetSelector = PortAIO.TSManager;
+
 namespace MathFizz
 {
     internal class Program
@@ -204,15 +204,15 @@ namespace MathFizz
 
             #region Orbwalker
 
-            if (PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 Harass();
             }
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 Combo();
             }
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 Lane();
                 Jungle();
@@ -300,7 +300,7 @@ namespace MathFizz
 
         private static void Flee()
         {
-            PortAIO.OrbwalkerManager.MoveA(Game.CursorPos);
+            Orbwalker.MoveTo(Game.CursorPos);
             if (E.IsReady())
             {
                 E.Cast(Game.CursorPos);
@@ -937,7 +937,7 @@ namespace MathFizz
 
                 #region Orbwalking Combo
 
-                if (PortAIO.OrbwalkerManager.isComboActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
                 {
                     if (useE && E.Instance.Name == "FizzJump" && Player.LSDistance(target.Position) <= E.Range)
                     {
@@ -978,7 +978,7 @@ namespace MathFizz
 
                 #region Orbwalking Harass
 
-                if (PortAIO.OrbwalkerManager.isHarassActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
                 {
                     var useQ = getCheckBoxItem(harassMenu, "useharassQ") && Q.IsReady();
                     var useEHarass = getCheckBoxItem(harassMenu, "useharassE") && E.IsReady();
@@ -1048,7 +1048,7 @@ namespace MathFizz
 
         private static void lateGameZhonyaCombo()
         {
-            PortAIO.OrbwalkerManager.MoveA(Game.CursorPos);
+            Orbwalker.MoveTo(Game.CursorPos);
             var m = SelectedTarget;
             if (m.LSIsValidTarget())
             {
@@ -1108,7 +1108,7 @@ namespace MathFizz
 
         private static void QminionREWCombo()
         {
-            PortAIO.OrbwalkerManager.MoveA(Game.CursorPos);
+            Orbwalker.MoveTo(Game.CursorPos);
             var m = SelectedTarget;
             if (m.LSIsValidTarget())
             {
@@ -1191,7 +1191,7 @@ namespace MathFizz
         private static void EFlashCombo()
         {
             //E Flash RWQ Combo
-            PortAIO.OrbwalkerManager.MoveA(Game.CursorPos);
+            Orbwalker.MoveTo(Game.CursorPos);
             var m = SelectedTarget;
             if (m.LSIsValidTarget())
             {

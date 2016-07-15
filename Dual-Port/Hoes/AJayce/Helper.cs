@@ -3,7 +3,7 @@ using LeagueSharp;
 using LeagueSharp.Common;
 using EloBuddy;
 
-using TargetSelector = PortAIO.TSManager; namespace Jayce
+ namespace Jayce
 {
     internal class Helper
     {

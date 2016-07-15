@@ -6,7 +6,7 @@ using EloBuddy;
 using EloBuddy.SDK;
 using LeagueSharp.Common;
 
-using TargetSelector = PortAIO.TSManager; namespace WardTracker
+ namespace WardTracker
 {
     internal class WardDetector
     {

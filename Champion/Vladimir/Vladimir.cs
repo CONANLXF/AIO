@@ -11,7 +11,7 @@ using Spell = LeagueSharp.Common.Spell;
 using SharpDX;
 using Color = System.Drawing.Color;
 
-using TargetSelector = PortAIO.TSManager; namespace ElVladimirReborn
+ namespace ElVladimirReborn
 {
     internal enum Spells
     {
@@ -292,17 +292,17 @@ using TargetSelector = PortAIO.TSManager; namespace ElVladimirReborn
 
         private static void OnUpdate(EventArgs args)
         {
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 OnCombo();
             }
 
-            if (PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 OnHarass();
             }
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 OnLaneClear();
                 OnJungleClear();

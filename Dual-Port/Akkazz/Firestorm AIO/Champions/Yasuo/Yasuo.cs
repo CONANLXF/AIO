@@ -9,7 +9,7 @@ using EloBuddy;
 using EloBuddy.SDK.Menu.Values;
 using EloBuddy.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace Firestorm_AIO.Champions.Yasuo
+ namespace Firestorm_AIO.Champions.Yasuo
 {
     public class Yasuo : Bases.ChampionBase
     {
@@ -176,7 +176,7 @@ using TargetSelector = PortAIO.TSManager; namespace Firestorm_AIO.Champions.Yasu
         {
             Target = TargetSelector.GetTarget(R.Range, DamageType.Physical);
 
-            if (PortAIO.OrbwalkerManager.isFleeActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Flee))
             {
                 CastE(GetBestEscapeE());
             }

@@ -5,7 +5,7 @@ using EloBuddy;
 using EloBuddy.SDK;
 using LeagueSharp.Common;
 
-using TargetSelector = PortAIO.TSManager; namespace SoloVayne.Skills.Tumble
+ namespace SoloVayne.Skills.Tumble
 {
     internal class TumbleVariables
     {

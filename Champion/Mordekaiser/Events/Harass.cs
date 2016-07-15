@@ -3,7 +3,7 @@ using EloBuddy;
 using EloBuddy.SDK;
 using LeagueSharp.Common;
 
-using TargetSelector = PortAIO.TSManager; namespace Mordekaiser.Events
+ namespace Mordekaiser.Events
 {
     internal class Harass
     {
@@ -19,7 +19,7 @@ using TargetSelector = PortAIO.TSManager; namespace Mordekaiser.Events
                 return;
             }
 
-            if (PortAIO.OrbwalkerManager.isHarassActive ||
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass) ||
                 (Menu.getKeyBindItem(Menu.MenuE, "UseE.Toggle") && !Utils.Player.Self.IsRecalling()))
             {
                 ExecuteE();

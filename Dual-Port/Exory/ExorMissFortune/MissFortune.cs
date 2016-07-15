@@ -8,7 +8,7 @@ using EloBuddy.SDK;
 using System.Linq;
 using LeagueSharp.Data;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.MissFortune
+ namespace ExorAIO.Champions.MissFortune
 {
     /// <summary>
     ///     The champion class.
@@ -81,17 +81,17 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.MissFortun
             ///     Initializes the orbwalkingmodes.
             /// </summary>
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 Logics.Combo(args);
             }
 
-            if (PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 Logics.Harass(args);
             }
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 Logics.Clear(args);
             }
@@ -113,12 +113,12 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.MissFortun
                     ///     Initializes the orbwalkingmodes.
                     /// </summary>
 
-                    if (PortAIO.OrbwalkerManager.isComboActive)
+                    if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
                     {
                         Logics.Weaving(sender, args);
                     }
 
-                    if (PortAIO.OrbwalkerManager.isLaneClearActive)
+                    if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
                     {
                         Logics.JungleClear(sender, args);
                         Logics.BuildingClear(sender, args);
@@ -169,7 +169,7 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.MissFortun
             }
         }
 
-        public static void Orbwalker_OnPreAttack(LeagueSharp.Common.BeforeAttackArgs args)
+        public static void Orbwalker_OnPreAttack(AttackableUnit target, Orbwalker.PreAttackArgs args)
         {
             /// <summary>
             ///     Stop attack commands while channeling R.
@@ -194,12 +194,12 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.MissFortun
                             t.IsValidTarget(Vars.AARange) &&
                             t.NetworkId != Vars.PassiveTarget.NetworkId))
                     {
-                        PortAIO.OrbwalkerManager.ForcedTarget(null);
+                        Orbwalker.ForcedTarget =(null);
                         return;
                     }
 
                     args.Process = false;
-                    PortAIO.OrbwalkerManager.ForcedTarget(GameObjects.EnemyHeroes.Where(
+                    Orbwalker.ForcedTarget =(GameObjects.EnemyHeroes.Where(
                         t =>
                             t.IsValidTarget(Vars.AARange) &&
                             t.NetworkId != Vars.PassiveTarget.NetworkId).OrderByDescending(o => TargetSelector.GetPriority(o)).First());

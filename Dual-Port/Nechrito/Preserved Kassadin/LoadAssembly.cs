@@ -3,7 +3,7 @@ using Preserved_Kassadin.Cores;
 using Preserved_Kassadin.Update;
 using Preserved_Kassadin.Update.Draw;
 
-using TargetSelector = PortAIO.TSManager; namespace Preserved_Kassadin
+ namespace Preserved_Kassadin
 {
     class LoadAssembly
     {

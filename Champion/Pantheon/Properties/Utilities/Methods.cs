@@ -3,7 +3,7 @@ using EloBuddy.SDK;
 using LeagueSharp;
 using LeagueSharp.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Pantheon
+ namespace ExorAIO.Champions.Pantheon
 {
     /// <summary>
     ///     The methods class.
@@ -18,7 +18,7 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Pantheon
             Game.OnUpdate += Pantheon.OnUpdate;
             Events.OnInterruptableTarget += Pantheon.OnInterruptableTarget;
             Player.OnIssueOrder += Pantheon.Player_OnIssueOrder;
-            LeagueSharp.Common.LSEvents.BeforeAttack += Pantheon.Orbwalker_OnPreAttack;
+            Orbwalker.OnPreAttack += Pantheon.Orbwalker_OnPreAttack;
         }
     }
 }

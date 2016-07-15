@@ -6,7 +6,7 @@ using SharpDX;
 using SharpDX.Direct3D9;
 using Spell = LeagueSharp.Common.Spell;
 
-using TargetSelector = PortAIO.TSManager; namespace Mordekaiser
+ namespace Mordekaiser
 {
     internal class Utils
     {

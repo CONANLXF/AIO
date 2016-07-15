@@ -4,7 +4,7 @@ using LeagueSharp;
 using LeagueSharp.SDK;
 using LeagueSharp.SDK.Enumerations;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Sivir
+ namespace ExorAIO.Champions.Sivir
 {
     /// <summary>
     ///     The spells class.

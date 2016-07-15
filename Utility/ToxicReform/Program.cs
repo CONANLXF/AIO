@@ -6,7 +6,7 @@ using EloBuddy;
 using EloBuddy.SDK.Menu.Values;
 using EloBuddy.SDK.Menu;
 
-using TargetSelector = PortAIO.TSManager; namespace Toxic_Player_Reform_Program
+ namespace Toxic_Player_Reform_Program
 {
     public static class Program
     {

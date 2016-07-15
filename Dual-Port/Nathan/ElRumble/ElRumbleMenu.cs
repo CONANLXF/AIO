@@ -10,7 +10,7 @@ using System.Drawing;
 using EloBuddy.SDK.Menu;
 using EloBuddy.SDK.Menu.Values;
 
-using TargetSelector = PortAIO.TSManager; namespace ElRumble
+ namespace ElRumble
 {
     public class ElRumbleMenu
     {

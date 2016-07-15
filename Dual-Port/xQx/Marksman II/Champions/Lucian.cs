@@ -16,7 +16,7 @@ using EloBuddy.SDK;
 
 #endregion
 
-using TargetSelector = PortAIO.TSManager; namespace Marksman.Champions
+ namespace Marksman.Champions
 {
     internal class Lucian : Champion
     {
@@ -554,7 +554,7 @@ using TargetSelector = PortAIO.TSManager; namespace Marksman.Champions
                     E.Cast(Game.CursorPos);
                     //Orbwalking.ResetAutoAttackTimer();
                 }
-                //PortAIO.OrbwalkerManager.ForcedTarget(t);
+                //Orbwalker.ForcedTarget =(t);
 
                 //if (t.LSIsValidTarget(Q.Range))
                 //{

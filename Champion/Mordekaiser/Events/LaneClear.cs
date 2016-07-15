@@ -4,7 +4,7 @@ using EloBuddy;
 using EloBuddy.SDK;
 using LeagueSharp.Common;
 
-using TargetSelector = PortAIO.TSManager; namespace Mordekaiser.Events
+ namespace Mordekaiser.Events
 {
     internal class LaneClear
     {
@@ -15,12 +15,12 @@ using TargetSelector = PortAIO.TSManager; namespace Mordekaiser.Events
         public LaneClear()
         {
             Game.OnUpdate += Game_OnUpdate;
-            LSEvents.BeforeAttack += Orbwalker_OnPreAttack;
+            Orbwalker.OnPreAttack += Orbwalker_OnPreAttack;
         }
 
-        private void Orbwalker_OnPreAttack(BeforeAttackArgs args)
+        private void Orbwalker_OnPreAttack(AttackableUnit target, Orbwalker.PreAttackArgs args)
         {
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 var minion = args.Target as Obj_AI_Minion;
                 AttackingToMinion = minion != null;
@@ -36,7 +36,7 @@ using TargetSelector = PortAIO.TSManager; namespace Mordekaiser.Events
 
         private static void Game_OnUpdate(EventArgs args)
         {
-            if (!PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (!Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
                 return;
 
             ExecuteQ();

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using SharpDX;
 using EloBuddy;
 
-using TargetSelector = PortAIO.TSManager; namespace RyzeAssembly
+ namespace RyzeAssembly
 {
     class Spells
     {

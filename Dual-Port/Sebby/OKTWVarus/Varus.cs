@@ -11,7 +11,7 @@ using Spell = LeagueSharp.Common.Spell;
 using Utility = LeagueSharp.Common.Utility;
 
 
-using TargetSelector = PortAIO.TSManager; namespace OneKeyToWin_AIO_Sebby.Champions
+ namespace OneKeyToWin_AIO_Sebby.Champions
 {
     class Varus
     {
@@ -183,7 +183,7 @@ using TargetSelector = PortAIO.TSManager; namespace OneKeyToWin_AIO_Sebby.Champi
                         CanCast = true;
                         return;
                     }
-                    var t = PortAIO.OrbwalkerManager.LastTarget() as Obj_AI_Base;
+                    var t = Orbwalker.LastTarget as Obj_AI_Base;
                     if (t.IsValidTarget())
                     {
                         if (OktwCommon.GetBuffCount(t, "varuswdebuff") < 3)

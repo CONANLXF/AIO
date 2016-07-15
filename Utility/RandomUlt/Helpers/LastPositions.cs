@@ -13,7 +13,7 @@ using EloBuddy.SDK.Menu.Values;
 
 // using Beaving.s.Baseult;
 
-using TargetSelector = PortAIO.TSManager; namespace RandomUlt.Helpers
+ namespace RandomUlt.Helpers
 {
     internal class LastPositions
     {

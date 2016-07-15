@@ -9,7 +9,7 @@ using Spirit_Karma.Menus;
 
 #endregion
 
-using TargetSelector = PortAIO.TSManager; namespace Spirit_Karma.Load
+ namespace Spirit_Karma.Load
 {
     internal class Load
     {

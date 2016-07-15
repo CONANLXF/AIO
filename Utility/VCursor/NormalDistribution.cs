@@ -1,7 +1,7 @@
 ﻿using System;
 using LeagueSharp.Common;
 
-using TargetSelector = PortAIO.TSManager; namespace VCursor
+ namespace VCursor
 {
     // This class was derived from code posted here:
     // http://stackoverflow.com/questions/218060/random-gaussian-variables

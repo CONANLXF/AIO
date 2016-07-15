@@ -8,7 +8,7 @@ using LeagueSharp.SDK;
 using LeagueSharp.SDK.Core.Utils;
 using EloBuddy;
 
-using TargetSelector = PortAIO.TSManager; namespace Firestorm_AIO.Helpers
+ namespace Firestorm_AIO.Helpers
 {
     public static class Helpers
     {

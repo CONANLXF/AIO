@@ -4,7 +4,7 @@ using LeagueSharp.SDK;
 using LeagueSharp.SDK.Core.Utils;
 
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.MissFortune
+ namespace ExorAIO.Champions.MissFortune
 {
     /// <summary>
     ///     The logics class.

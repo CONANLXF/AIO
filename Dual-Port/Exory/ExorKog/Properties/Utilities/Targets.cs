@@ -7,7 +7,7 @@ using LeagueSharp.SDK.Core.Utils;
 using EloBuddy;
 using EloBuddy.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.KogMaw
+ namespace ExorAIO.Champions.KogMaw
 {
     /// <summary>
     ///     The targets class.

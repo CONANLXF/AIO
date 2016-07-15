@@ -2,7 +2,7 @@ using EloBuddy;
 using EloBuddy.SDK;
 using LeagueSharp;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Nunu
+ namespace ExorAIO.Champions.Nunu
 {
     /// <summary>
     ///     The methods class.
@@ -15,7 +15,7 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Nunu
         public static void Initialize()
         {
             Game.OnUpdate += Nunu.OnUpdate;
-            LeagueSharp.Common.LSEvents.BeforeAttack += Nunu.OnAction;
+            Orbwalker.OnPreAttack += Nunu.OnAction;
         }
     }
 }

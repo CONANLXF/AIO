@@ -12,7 +12,7 @@ using EloBuddy.SDK;
 using EloBuddy.SDK.Menu.Values;
 using EloBuddy.SDK.Menu;
 
-using TargetSelector = PortAIO.TSManager; namespace Irelia.Champion
+ namespace Irelia.Champion
 {
     public static class PlayerSpells
     {
@@ -77,7 +77,7 @@ using TargetSelector = PortAIO.TSManager; namespace Irelia.Champion
                     {
                         LastQCastTick = Environment.TickCount;
                         LastSpellCastTick = Environment.TickCount;
-                        PortAIO.OrbwalkerManager.ResetAutoAttackTimer();
+                        Orbwalker.ResetAutoAttack();
                         break;
                     }
 
@@ -85,7 +85,7 @@ using TargetSelector = PortAIO.TSManager; namespace Irelia.Champion
                     {
                         LastECastTick = Environment.TickCount;
                         LastSpellCastTick = Environment.TickCount;
-                        PortAIO.OrbwalkerManager.ResetAutoAttackTimer();
+                        Orbwalker.ResetAutoAttack();
                         break;
                     }
 
@@ -93,7 +93,7 @@ using TargetSelector = PortAIO.TSManager; namespace Irelia.Champion
                     {
                         LastQCastTick = Environment.TickCount;
                         LastSpellCastTick = Environment.TickCount;
-                        PortAIO.OrbwalkerManager.ResetAutoAttackTimer();
+                        Orbwalker.ResetAutoAttack();
                         break;
                     }
             }
@@ -121,7 +121,7 @@ using TargetSelector = PortAIO.TSManager; namespace Irelia.Champion
         
         private static void GameOnOnUpdate(EventArgs args)
         {
-            if (!PortAIO.OrbwalkerManager.isComboActive)
+            if (!Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 if (getBoxItem(Modes.ModeSettings.MenuSettingE, "Settings.E.Auto") == 1)
                 //getBoxItem(Modes.ModeSettings.MenuSettingQ, "Settings.Q.CastDelay")

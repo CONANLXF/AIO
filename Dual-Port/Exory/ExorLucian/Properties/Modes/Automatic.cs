@@ -6,7 +6,7 @@ using LeagueSharp.SDK;
 using LeagueSharp.SDK.Core.Utils;
 using EloBuddy;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Lucian
+ namespace ExorAIO.Champions.Lucian
 {
     /// <summary>
     ///     The logics class.

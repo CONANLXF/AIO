@@ -9,7 +9,7 @@ using EloBuddy.SDK;
 using EloBuddy.SDK.Menu;
 using EloBuddy.SDK.Menu.Values;
 
-using TargetSelector = PortAIO.TSManager;
+
 namespace SephKhazix
 {
     class Khazix : Helper
@@ -29,7 +29,7 @@ namespace SephKhazix
             Game.OnUpdate += DoubleJump;
             Drawing.OnDraw += OnDraw;
             Spellbook.OnCastSpell += SpellCast;
-            LSEvents.BeforeAttack += BeforeAttack;
+            Orbwalker.OnPreAttack += BeforeAttack;
 
             menu = KhazixMenu.menu;
             harass = KhazixMenu.harass;
@@ -101,22 +101,22 @@ namespace SephKhazix
                 Harass();
             }
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 Combo();
             }
 
-            if (PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 Mixed();
             }
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 Waveclear();
             }
 
-            if (PortAIO.OrbwalkerManager.isLastHitActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LastHit))
             {
                 LH();
             }
@@ -265,7 +265,7 @@ namespace SephKhazix
 
             if (getCheckBoxItem(farm, "UseQFarm") && Q.IsReady())
             {
-                var minion = PortAIO.OrbwalkerManager.LastTarget() as Obj_AI_Minion;
+                var minion = Orbwalker.LastTarget as Obj_AI_Minion;
                 if (minion != null && HealthPrediction.GetHealthPrediction(
                                 minion, (int)(Khazix.LSDistance(minion) * 1000 / 1400)) >
                             0.35f * Khazix.GetSpellDamage(minion, SpellSlot.Q) && Khazix.LSDistance(minion) <= Q.Range)
@@ -850,7 +850,7 @@ namespace SephKhazix
             }
         }
 
-        void BeforeAttack(BeforeAttackArgs args)
+        void BeforeAttack(AttackableUnit target, Orbwalker.PreAttackArgs args)
         {
             if (args.Target.Type == GameObjectType.AIHeroClient)
             {

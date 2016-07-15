@@ -22,7 +22,7 @@ using LeagueSharp;
 
 #endregion
 
-using TargetSelector = PortAIO.TSManager; namespace GosuMechanicsYasuo
+ namespace GosuMechanicsYasuo
 {
     public enum SpellValidTargets
     {

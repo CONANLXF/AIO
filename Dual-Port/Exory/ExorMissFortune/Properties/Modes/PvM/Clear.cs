@@ -8,7 +8,7 @@ using SharpDX;
 using Geometry = ExorAIO.Utilities.Geometry;
 using EloBuddy.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.MissFortune
+ namespace ExorAIO.Champions.MissFortune
 {
     /// <summary>
     ///     The logics class.
@@ -81,7 +81,7 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.MissFortun
                 /// <summary>
                 ///     The W JungleClear Logics.
                 /// </summary>
-                if (Targets.JungleMinions.Contains(PortAIO.OrbwalkerManager.LastTarget() as Obj_AI_Minion) &&
+                if (Targets.JungleMinions.Contains(Orbwalker.LastTarget as Obj_AI_Minion) &&
                     GameObjects.Player.ManaPercent >
                         ManaManager.GetNeededMana(Vars.W.Slot, Vars.getSliderItem(Vars.WMenu, "jungleclear")))
                 {
@@ -91,7 +91,7 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.MissFortun
                 /// <summary>
                 ///     The W LaneClear Logics.
                 /// </summary>
-                else if (Targets.Minions.Contains(PortAIO.OrbwalkerManager.LastTarget() as Obj_AI_Minion) &&
+                else if (Targets.Minions.Contains(Orbwalker.LastTarget as Obj_AI_Minion) &&
                     GameObjects.Player.ManaPercent >
                         ManaManager.GetNeededMana(Vars.W.Slot, Vars.getSliderItem(Vars.WMenu, "laneclear")))
                 {
@@ -154,9 +154,9 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.MissFortun
         /// <param name="args">The args.</param>
         public static void BuildingClear(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
-            if (!(PortAIO.OrbwalkerManager.LastTarget() is Obj_HQ) &&
-                !(PortAIO.OrbwalkerManager.LastTarget() is Obj_AI_Turret) &&
-                !(PortAIO.OrbwalkerManager.LastTarget() is Obj_BarracksDampener))
+            if (!(Orbwalker.LastTarget is Obj_HQ) &&
+                !(Orbwalker.LastTarget is Obj_AI_Turret) &&
+                !(Orbwalker.LastTarget is Obj_BarracksDampener))
             {
                 return;
             }

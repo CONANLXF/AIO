@@ -7,7 +7,7 @@ using LeagueSharp.Common;
 using SharpDX;
 using Color = System.Drawing.Color;
 
-using TargetSelector = PortAIO.TSManager; namespace PopBlanc
+ namespace PopBlanc
 {
     public static class UtilityA
     {

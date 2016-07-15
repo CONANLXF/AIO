@@ -2,7 +2,7 @@
 using EloBuddy.SDK;
 using EloBuddy.SDK.Menu.Values;
 
-using TargetSelector = PortAIO.TSManager; namespace ElUtilitySuite.Items.OffensiveItems
+ namespace ElUtilitySuite.Items.OffensiveItems
 {
     internal class TitanicHydra : Item
     {

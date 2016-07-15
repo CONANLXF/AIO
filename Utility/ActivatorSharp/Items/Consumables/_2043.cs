@@ -4,7 +4,7 @@ using Activators.Handlers;
 using LeagueSharp.Common;
 using EloBuddy.SDK.Menu.Values;
 
-using TargetSelector = PortAIO.TSManager; namespace Activators.Items.Consumables
+ namespace Activators.Items.Consumables
 {
     class _2043 : CoreItem
     {

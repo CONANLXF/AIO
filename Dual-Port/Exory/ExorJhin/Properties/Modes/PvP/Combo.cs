@@ -7,7 +7,7 @@ using EloBuddy;
 using LeagueSharp.SDK.Core.Utils;
 using Geometry = ExorAIO.Utilities.Geometry;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Jhin
+ namespace ExorAIO.Champions.Jhin
 {
     /// <summary>
     ///     The logics class.

@@ -9,7 +9,7 @@ using EloBuddy;
 using EloBuddy.SDK.Menu.Values;
 using EloBuddy.SDK.Menu;
 
-using TargetSelector = PortAIO.TSManager; namespace OneKeyToWin_AIO_Sebby.Champions
+ namespace OneKeyToWin_AIO_Sebby.Champions
 {
     class TwistedFate
     {
@@ -75,7 +75,7 @@ using TargetSelector = PortAIO.TSManager; namespace OneKeyToWin_AIO_Sebby.Champi
             Game.OnUpdate += Game_OnGameUpdate;
             Drawing.OnEndScene += Drawing_OnEndScene;
             Drawing.OnDraw += Drawing_OnDraw;
-            LSEvents.BeforeAttack += Orbwalking_BeforeAttack;
+            Orbwalker.OnPreAttack += Orbwalking_BeforeAttack;
         }
 
         public static bool getCheckBoxItem(Menu m, string item)
@@ -98,7 +98,7 @@ using TargetSelector = PortAIO.TSManager; namespace OneKeyToWin_AIO_Sebby.Champi
             return m[item].Cast<ComboBox>().CurrentValue;
         }
 
-        private static void Orbwalking_BeforeAttack(BeforeAttackArgs args)
+        private static void Orbwalking_BeforeAttack(AttackableUnit target, Orbwalker.PreAttackArgs args)
         {
             if (Program.Combo && W.IsReady() && FindCard == 1 && W.Instance.Name != "PickACard" && getCheckBoxItem(wMenu, "WblockAA"))
             {
@@ -225,11 +225,11 @@ using TargetSelector = PortAIO.TSManager; namespace OneKeyToWin_AIO_Sebby.Champi
                     W.Cast();
                 else if (t.LSIsValidTarget() && Program.Combo)
                     W.Cast();
-                else if (PortAIO.OrbwalkerManager.LastTarget() != null)
+                else if (Orbwalker.LastTarget != null)
                 {
-                    if (Program.Farm && PortAIO.OrbwalkerManager.LastTarget().Type == GameObjectType.AIHeroClient && getCheckBoxItem(wMenu, "harasW"))
+                    if (Program.Farm && Orbwalker.LastTarget.Type == GameObjectType.AIHeroClient && getCheckBoxItem(wMenu, "harasW"))
                         W.Cast();
-                    else if (Program.LaneClear && (PortAIO.OrbwalkerManager.LastTarget().Type == GameObjectType.obj_AI_Minion || PortAIO.OrbwalkerManager.LastTarget().Type == GameObjectType.obj_AI_Turret) && getCheckBoxItem(farmMenu, "farmW"))
+                    else if (Program.LaneClear && (Orbwalker.LastTarget.Type == GameObjectType.obj_AI_Minion || Orbwalker.LastTarget.Type == GameObjectType.obj_AI_Turret) && getCheckBoxItem(farmMenu, "farmW"))
                         W.Cast();
                 }
             }
@@ -244,7 +244,7 @@ using TargetSelector = PortAIO.TSManager; namespace OneKeyToWin_AIO_Sebby.Champi
                 {
                     AIHeroClient orbTarget = null;
 
-                    var getTarget = PortAIO.OrbwalkerManager.LastTarget();
+                    var getTarget = Orbwalker.LastTarget;
                     if (getTarget != null && getTarget.Type == GameObjectType.AIHeroClient)
                     {
                         orbTarget = (AIHeroClient)getTarget;

@@ -12,7 +12,7 @@ using EloBuddy.SDK.Menu.Values;
 using EloBuddy.SDK.Menu;
 using EloBuddy.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace yol0Brand
+ namespace yol0Brand
 {
     internal class Program
     {
@@ -141,7 +141,7 @@ using TargetSelector = PortAIO.TSManager; namespace yol0Brand
         
         private static void OnUpdate(EventArgs args)
         {
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 comboTarget = TargetSelector.GetTarget(_Q.Range, DamageType.Magical);
                 if (comboTarget.IsValid && comboTarget.LSIsValidTarget())
@@ -149,7 +149,7 @@ using TargetSelector = PortAIO.TSManager; namespace yol0Brand
                     Combo(comboTarget);
                 }
             }
-            else if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            else if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 if (farmMenu["useW"].Cast<CheckBox>().CurrentValue)
                     CastWFarm();
@@ -160,7 +160,7 @@ using TargetSelector = PortAIO.TSManager; namespace yol0Brand
                 if (farmMenu["useE"].Cast<CheckBox>().CurrentValue)
                     CastEFarm();
             }
-            else if (PortAIO.OrbwalkerManager.isHarassActive)
+            else if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 comboTarget = TargetSelector.GetTarget(_Q.Range, DamageType.Magical);
                 if (comboTarget.IsValid && comboTarget.LSIsValidTarget())
@@ -227,7 +227,7 @@ using TargetSelector = PortAIO.TSManager; namespace yol0Brand
 
         private static void CastQ(Obj_AI_Base target)
         {
-            if (PortAIO.OrbwalkerManager.isComboActive && target.HasBuff("brandablaze") && comboMenu["blaze"].Cast<CheckBox>().CurrentValue)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) && target.HasBuff("brandablaze") && comboMenu["blaze"].Cast<CheckBox>().CurrentValue)
             {
                 if (_Q.IsReady() && target.LSIsValidTarget(_Q.Range))
                 {

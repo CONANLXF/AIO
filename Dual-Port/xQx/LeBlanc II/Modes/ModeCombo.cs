@@ -14,7 +14,7 @@ using EloBuddy;
 using EloBuddy.SDK.Menu.Values;
 using EloBuddy.SDK;
 
-using TargetSelector = PortAIO.TSManager;
+
 namespace Leblanc.Modes
 {
 
@@ -316,7 +316,7 @@ namespace Leblanc.Modes
             if (canJump && W.IsReady() && !W.StillJumped())
             {
                 var x = GetJumpPosition(t, W.Range);
-                if (PortAIO.OrbwalkerManager.isComboActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
                 {
                     W.Cast(x);
                 }
@@ -327,7 +327,7 @@ namespace Leblanc.Modes
 
         private static void GameOnOnUpdate(EventArgs args)
         {
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 //Game.PrintChat(Q.Cooldown.ToString());
                 if (Target.LSIsValidTarget(Q.Range) && CommonHelper.SpellRStatus == CommonHelper.SpellRName.R2xQ && Target.Health < ComboDamage2xQ(Target))

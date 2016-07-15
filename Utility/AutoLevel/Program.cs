@@ -6,7 +6,7 @@ using LeagueSharp;
 using LeagueSharp.Common;
 using EloBuddy;
 
-using TargetSelector = PortAIO.TSManager; namespace AutoLevelup
+ namespace AutoLevelup
 {
     class Program
     {

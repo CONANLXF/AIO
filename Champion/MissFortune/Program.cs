@@ -12,7 +12,7 @@ using Orbwalking = SebbyLib.Orbwalking;
 using Spell = LeagueSharp.Common.Spell;
 using Utility = LeagueSharp.Common.Utility;
 
-using TargetSelector = PortAIO.TSManager; namespace OneKeyToWin_AIO_Sebby
+ namespace OneKeyToWin_AIO_Sebby
 {
     internal class MissFortune
     {
@@ -86,7 +86,7 @@ using TargetSelector = PortAIO.TSManager; namespace OneKeyToWin_AIO_Sebby
 
             Game.OnUpdate += Game_OnGameUpdate;
             Drawing.OnDraw += Drawing_OnDraw;
-            LSEvents.AfterAttack += afterAttack;
+            Orbwalker.OnPostAttack += afterAttack;
             Obj_AI_Base.OnProcessSpellCast += Obj_AI_Base_OnProcessSpellCast;
             AntiGapcloser.OnEnemyGapcloser += AntiGapcloser_OnEnemyGapcloser;
             new OktwCommon();
@@ -145,11 +145,11 @@ using TargetSelector = PortAIO.TSManager; namespace OneKeyToWin_AIO_Sebby
             }
         }
 
-        private static void afterAttack(AfterAttackArgs args)
+        private static void afterAttack(AttackableUnit target, EventArgs args)
         {
-            LastAttackId = args.Target.NetworkId;
+            LastAttackId = target.NetworkId;
 
-            var t = args.Target as AIHeroClient;
+            var t = target as AIHeroClient;
             if (t != null)
             {
                 if (Q.IsReady())
@@ -163,7 +163,7 @@ using TargetSelector = PortAIO.TSManager; namespace OneKeyToWin_AIO_Sebby
                 }
                 if (W.IsReady())
                 {
-                    if (PortAIO.OrbwalkerManager.isComboActive && Player.Mana > RMANA + WMANA && getCheckBoxItem(wMenu, "autoW"))
+                    if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) && Player.Mana > RMANA + WMANA && getCheckBoxItem(wMenu, "autoW"))
                         W.Cast();
                     else if (Player.Mana > RMANA + WMANA + QMANA && getCheckBoxItem(wMenu, "harasW"))
                         W.Cast();

@@ -10,7 +10,7 @@ using EloBuddy.SDK.Menu;
 using EloBuddy.SDK.Menu.Values;
 using System.Drawing;
 
-using TargetSelector = PortAIO.TSManager; namespace D_Rengar
+ namespace D_Rengar
 {
     internal class Program
     {
@@ -174,8 +174,8 @@ using TargetSelector = PortAIO.TSManager; namespace D_Rengar
             Drawing.OnDraw += Drawing_OnDraw;
             Obj_AI_Base.OnProcessSpellCast += OnProcessSpellCast;
             Interrupter2.OnInterruptableTarget += Interrupter2_OnInterruptableTarget;
-            LSEvents.BeforeAttack += OnBeforeAttack;
-            LSEvents.AfterAttack += OnAfterAttack;
+            Orbwalker.OnPreAttack += OnBeforeAttack;
+            Orbwalker.OnPostAttack += OnAfterAttack;
             CustomEvents.Unit.OnDash += Dash;
             Chat.Print(
                 "<font color='#f2f21d'>Do you like it???  </font> <font color='#ff1900'>Drop 1 Upvote in Database </font>");
@@ -209,34 +209,34 @@ using TargetSelector = PortAIO.TSManager; namespace D_Rengar
         {
             LeagueSharp.Common.Utility.HpBarDamageIndicator.Enabled = getCheckBoxItem(drawMenu, "DamageAfterCombo");
             if (_player.IsDead) return;
-            if (getCheckBoxItem(miscMenu, "AutoW") && PortAIO.OrbwalkerManager.isComboActive)
+            if (getCheckBoxItem(miscMenu, "AutoW") && Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 AutoHeal();
             }
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 Combo();
             }
 
-            if (!PortAIO.OrbwalkerManager.isComboActive
-                && (PortAIO.OrbwalkerManager.isHarassActive
+            if (!Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo)
+                && (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass)
                     || getKeyBindItem(harassMenu, "harasstoggle")))
             {
                 Harass();
             }
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 Laneclear();
             }
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 JungleClear();
             }
 
-            if (PortAIO.OrbwalkerManager.isLastHitActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LastHit))
             {
                 LastHit();
             }
@@ -265,7 +265,7 @@ using TargetSelector = PortAIO.TSManager; namespace D_Rengar
             var iTiamat = getCheckBoxItem(itemMenu, "Tiamat");
             var iHydra = getCheckBoxItem(itemMenu, "Hydra");
             if (!sender.IsMe) return;
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 if (_player.Mana <= 4)
                 {
@@ -330,10 +330,9 @@ using TargetSelector = PortAIO.TSManager; namespace D_Rengar
             }
         }
 
-        private static void OnAfterAttack(AfterAttackArgs args)
+        private static void OnAfterAttack(AttackableUnit target, EventArgs args)
         {
-            var target = args.Target;
-            var combo = PortAIO.OrbwalkerManager.isComboActive;
+            var combo = Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo);
             var Q = getCheckBoxItem(comboMenu, "UseQC");
             if (!target.IsMe) return;
             if (combo && _q.IsReady() && Q && target.LSIsValidTarget(_q.Range))
@@ -342,10 +341,10 @@ using TargetSelector = PortAIO.TSManager; namespace D_Rengar
             }
         }
 
-        private static void OnBeforeAttack(BeforeAttackArgs args)
+        private static void OnBeforeAttack(AttackableUnit target, Orbwalker.PreAttackArgs args)
         {
-            var combo = PortAIO.OrbwalkerManager.isComboActive;
-            var harass = PortAIO.OrbwalkerManager.isHarassActive;
+            var combo = Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo);
+            var harass = Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass);
             var QC = getCheckBoxItem(comboMenu, "UseQC");
             var QH = getCheckBoxItem(harassMenu, "UseQH");
             var mode = getBoxItem(comboMenu, "ComboPrio") == 0
@@ -441,7 +440,7 @@ using TargetSelector = PortAIO.TSManager; namespace D_Rengar
 
             if (spell.Name.ToLower().Contains("rengarq") || spell.Name.ToLower().Contains("rengare"))
             {
-                PortAIO.OrbwalkerManager.ResetAutoAttackTimer();
+                Orbwalker.ResetAutoAttack();
             }
         }
 
@@ -487,7 +486,7 @@ using TargetSelector = PortAIO.TSManager; namespace D_Rengar
             if (_player.InFountain() || ObjectManager.Player.HasBuff("Recall")) return;
 
             if (ObjectManager.Player.LSCountEnemiesInRange(800) > 0
-                || (mobs.Count > 0 && PortAIO.OrbwalkerManager.isLaneClearActive && _smite != null))
+                || (mobs.Count > 0 && Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear) && _smite != null))
             {
                 if (iusepotionhp && iusehppotion
                     && !(ObjectManager.Player.HasBuff("RegenerationPotion")
@@ -922,7 +921,7 @@ using TargetSelector = PortAIO.TSManager; namespace D_Rengar
         //New map Monsters Name By SKO
         private static void Smiteuse()
         {
-            var jungle = PortAIO.OrbwalkerManager.isLaneClearActive;
+            var jungle = Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear);
             if (ObjectManager.Player.Spellbook.CanUseSpell(_smiteSlot) != SpellState.Ready) return;
             var usered = getCheckBoxItem(smiteMenu, "Usered");
             var health = (100 * (_player.Health / _player.MaxHealth)) < getSliderItem(smiteMenu, "healthJ");

@@ -7,7 +7,7 @@ using EloBuddy;
 using LeagueSharp.SDK.Core.Utils;
 using EloBuddy.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Tryndamere
+ namespace ExorAIO.Champions.Tryndamere
 {
     /// <summary>
     ///     The targets class.

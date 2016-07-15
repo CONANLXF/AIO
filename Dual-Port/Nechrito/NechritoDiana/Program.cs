@@ -6,7 +6,7 @@ using SharpDX;
 using System.Collections.Generic;
 using EloBuddy.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace Nechrito_Diana
+ namespace Nechrito_Diana
 {
     class Program
     {
@@ -42,17 +42,17 @@ using TargetSelector = PortAIO.TSManager; namespace Nechrito_Diana
 
             Killsteal();
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 Modes.ComboLogic();
             }
 
-            if (PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 Modes.HarassLogic();
             }
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 Modes.LaneLogic();
                 Modes.JungleLogic();

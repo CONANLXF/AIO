@@ -12,7 +12,7 @@ using Spell = LeagueSharp.Common.Spell;
 using EloBuddy.SDK.Menu;
 using EloBuddy.SDK.Menu.Values;
 
-using TargetSelector = PortAIO.TSManager; namespace FreshBooster.Champion
+ namespace FreshBooster.Champion
 {
     class Janna
     {
@@ -170,7 +170,7 @@ using TargetSelector = PortAIO.TSManager; namespace FreshBooster.Champion
             AntiGapcloser.OnEnemyGapcloser += AntiGapcloser_OnEnemyGapcloser;
             Obj_AI_Base.OnProcessSpellCast += OnProcessSpell;
             Interrupter2.OnInterruptableTarget += Interrupter2_OnInterruptableTarget;
-            LSEvents.BeforeAttack += Orbwalking_BeforeAttack;
+            Orbwalker.OnPreAttack += Orbwalking_BeforeAttack;
             EloBuddy.Player.OnIssueOrder += Obj_AI_Base_OnIssueOrder;
             GameObject.OnCreate += GameObject_OnCreate;
             GameObject.OnDelete += GameObject_OnDelete;
@@ -199,14 +199,14 @@ using TargetSelector = PortAIO.TSManager; namespace FreshBooster.Champion
                         RTime = TickCount(2000);
                     }
                 }
-                if (PortAIO.OrbwalkerManager.isFleeActive) // Flee
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Flee)) // Flee
                 {
                    EloBuddy.Player.IssueOrder(GameObjectOrder.MoveTo, Game.CursorPos);
                     if (WTarget != null && _W.IsReady() && WTarget.LSDistance(Player.ServerPosition) < 400)
                         _W.CastOnUnit(WTarget, true);
                 }
 
-                if (PortAIO.OrbwalkerManager.isComboActive) // Combo
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo)) // Combo
                 {
                     if (QTarget != null && getCheckBoxItem(comboMenu, "Janna_CUse_Q") && _Q.IsReady())
                     {
@@ -336,7 +336,7 @@ using TargetSelector = PortAIO.TSManager; namespace FreshBooster.Champion
             }
 
         }
-        public static void Orbwalking_BeforeAttack(BeforeAttackArgs args)
+        public static void Orbwalking_BeforeAttack(AttackableUnit target, Orbwalker.PreAttackArgs args)
         {
             try
             {

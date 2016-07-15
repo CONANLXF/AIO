@@ -9,7 +9,7 @@ using EloBuddy.SDK;
 
 #endregion
 
-using TargetSelector = PortAIO.TSManager; namespace Swiftly_Teemo.Main
+ namespace Swiftly_Teemo.Main
 {
     internal class Mode : Core
     {

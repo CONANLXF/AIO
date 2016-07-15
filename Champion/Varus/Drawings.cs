@@ -5,7 +5,7 @@ using EloBuddy.SDK.Menu;
 using EloBuddy.SDK.Menu.Values;
 using LeagueSharp.Common;
 
-using TargetSelector = PortAIO.TSManager; namespace Elvarus
+ namespace Elvarus
 {
     internal class Drawings
     {

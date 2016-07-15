@@ -6,7 +6,7 @@ using LeagueSharp.SDK;
 using EloBuddy;
 using EloBuddy.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Anivia
+ namespace ExorAIO.Champions.Anivia
 {
     /// <summary>
     ///     The targets class.

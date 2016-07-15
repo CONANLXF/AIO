@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using EloBuddy.SDK;
 using EloBuddy;
 
-using TargetSelector = PortAIO.TSManager; namespace Nechrito_Nidalee
+ namespace Nechrito_Nidalee
 {
     class Killsteal : Core
     {

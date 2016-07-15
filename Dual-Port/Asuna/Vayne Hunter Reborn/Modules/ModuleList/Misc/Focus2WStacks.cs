@@ -8,7 +8,7 @@ using VayneHunter_Reborn.Modules.ModuleHelpers;
 using VayneHunter_Reborn.Utility.Helpers;
 using VayneHunter_Reborn.Utility.MenuUtility;
 
-using TargetSelector = PortAIO.TSManager; namespace VayneHunter_Reborn.Modules.ModuleList.Misc
+ namespace VayneHunter_Reborn.Modules.ModuleList.Misc
 {
     class Focus2WStacks : IModule
     {
@@ -19,7 +19,7 @@ using TargetSelector = PortAIO.TSManager; namespace VayneHunter_Reborn.Modules.M
 
         public bool ShouldGetExecuted()
         {
-            return MenuGenerator.miscMenu["dz191.vhr.misc.general.specialfocus"].Cast<CheckBox>().CurrentValue && PortAIO.OrbwalkerManager.isComboActive;
+            return MenuGenerator.miscMenu["dz191.vhr.misc.general.specialfocus"].Cast<CheckBox>().CurrentValue && Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo);
         }
 
         public ModuleType GetModuleType()
@@ -32,11 +32,11 @@ using TargetSelector = PortAIO.TSManager; namespace VayneHunter_Reborn.Modules.M
             var target = HeroManager.Enemies.Find(en => en.LSIsValidTarget(ObjectManager.Player.AttackRange + 65f + 65f) && en.Has2WStacks());
             if (target != null)
             {
-                PortAIO.OrbwalkerManager.ForcedTarget(target);
+                Orbwalker.ForcedTarget =(target);
             }
             else
             {
-                PortAIO.OrbwalkerManager.ForcedTarget(null);
+                Orbwalker.ForcedTarget =(null);
             }
 
             if (Game.Time < 25 * 60 * 1000)
@@ -45,11 +45,11 @@ using TargetSelector = PortAIO.TSManager; namespace VayneHunter_Reborn.Modules.M
 
                 if (ADC != null && Orbwalking.InAutoAttackRange(ADC))
                 {
-                    PortAIO.OrbwalkerManager.ForcedTarget(target);
+                    Orbwalker.ForcedTarget =(target);
                 }
                 else
                 {
-                    PortAIO.OrbwalkerManager.ForcedTarget(null);
+                    Orbwalker.ForcedTarget =(null);
                 }
             }
         }

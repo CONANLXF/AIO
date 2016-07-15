@@ -8,7 +8,7 @@ using EloBuddy.SDK.Menu.Values;
 using iKalistaReborn.Utils;
 using LeagueSharp.Common;
 using LeagueSharp.SDK;
-using TargetSelector = PortAIO.TSManager;
+
 
 namespace iKalistaReborn.Modules
 {

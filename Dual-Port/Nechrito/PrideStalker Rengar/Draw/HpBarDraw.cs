@@ -4,7 +4,7 @@ using SharpDX;
 using SharpDX.Direct3D9;
 using Color = System.Drawing.Color;
 
-using TargetSelector = PortAIO.TSManager; namespace Nechrito_Rengar
+ namespace Nechrito_Rengar
 {
     internal class HpBarDraw
     {

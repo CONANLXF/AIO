@@ -7,7 +7,7 @@ using LeagueSharp;
 using LeagueSharp.Common;
 using EloBuddy;
 
-using TargetSelector = PortAIO.TSManager; namespace DZAwarenessAIO.Modules.TFHelper
+ namespace DZAwarenessAIO.Modules.TFHelper
 {
     class TFHelperCalculator
     {

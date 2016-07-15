@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using TargetSelector = PortAIO.TSManager; namespace EvadeA
+ namespace EvadeA
 {
     class PriorityQueue<P, V>
     {

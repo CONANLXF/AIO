@@ -11,7 +11,7 @@ using EloBuddy.SDK.Menu.Values;
 
 #endregion
 
-using TargetSelector = PortAIO.TSManager; namespace Marksman.Champions
+ namespace Marksman.Champions
 {
     using EloBuddy.SDK;
     using EloBuddy.SDK.Menu;
@@ -50,9 +50,9 @@ using TargetSelector = PortAIO.TSManager; namespace Marksman.Champions
                 E.CastOnUnit(gapcloser.Sender);
         }
 
-        public override void Orbwalking_AfterAttack(AfterAttackArgs args)
+        public override void Orbwalking_AfterAttack(AttackableUnit targetA, EventArgs args)
         {
-            var target = args.Target;
+            var target = targetA;
             var t = target as AIHeroClient;
             if (t == null || (!ComboActive && !HarassActive)) return;
 
@@ -138,7 +138,7 @@ using TargetSelector = PortAIO.TSManager; namespace Marksman.Champions
                 {
                     EloBuddy.Player.IssueOrder(GameObjectOrder.MoveTo, enemy);
                 }
-                PortAIO.OrbwalkerManager.ForcedTarget(enemy);
+                Orbwalker.ForcedTarget =(enemy);
             }
 
             if (Q.IsReady() && Program.harass["UseQTH"].Cast<KeyBind>().CurrentValue)
@@ -155,7 +155,7 @@ using TargetSelector = PortAIO.TSManager; namespace Marksman.Champions
                 var useQ = ComboActive ? Program.combo["UseQC"].Cast<CheckBox>().CurrentValue : Program.harass["UseQH"].Cast<CheckBox>().CurrentValue;
                 var useE = ComboActive ? Program.combo["UseEC"].Cast<CheckBox>().CurrentValue : Program.harass["UseEH"].Cast<CheckBox>().CurrentValue;
 
-                if (PortAIO.OrbwalkerManager.CanMove(0))
+                if (Orbwalker.CanMove)
                 {
                     if (E.IsReady() && useE)
                     {

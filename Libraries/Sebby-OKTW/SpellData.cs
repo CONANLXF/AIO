@@ -177,7 +177,7 @@ namespace SebbyLib
 
         public void Cast()
         {
-            if (Chat.IsOpen || !IsReady || (PortAIO.OrbwalkerManager.isHarassActive && Orbwalker.ShouldWait))
+            if (Chat.IsOpen || !IsReady || (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass) && Orbwalker.ShouldWait))
             {
                 return;
             }

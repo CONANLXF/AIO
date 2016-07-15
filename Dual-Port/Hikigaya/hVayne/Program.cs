@@ -7,7 +7,7 @@ using hVayne.Champions;
 using EloBuddy;
 using LeagueSharp.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace hVayne
+ namespace hVayne
 {
     class Program
     {

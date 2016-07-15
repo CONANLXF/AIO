@@ -7,7 +7,7 @@ using EloBuddy.SDK.Menu.Values;
 using LeagueSharp.Common;
 using SharpDX;
 using KL = KurisuDarius.KurisuLib;
-using TargetSelector = PortAIO.TSManager;
+
 using Utility = LeagueSharp.Common.Utility;
 
 namespace KurisuDarius
@@ -33,7 +33,7 @@ namespace KurisuDarius
                 Drawing.OnEndScene += Drawing_OnEndScene;
 
                 // After Attack Event
-                LSEvents.AfterAttack += Orbwalking_AfterAttack;
+                Orbwalker.OnPostAttack += Orbwalking_AfterAttack;
 
                 // On Spell Cast Event
                 Obj_AI_Base.OnProcessSpellCast += Obj_AI_Base_OnProcessSpellCast;
@@ -85,17 +85,17 @@ namespace KurisuDarius
             switch (args.SData.Name.ToLower())
             {
                 case "dariuscleave":
-                    Utility.DelayAction.Add(Game.Ping + 800, PortAIO.OrbwalkerManager.ResetAutoAttackTimer);
+                    Utility.DelayAction.Add(Game.Ping + 800, Orbwalker.ResetAutoAttack);
                     break;
 
                 case "dariusaxegrabcone":
                     LastGrabTimeStamp = Utils.GameTimeTickCount;
-                    Utility.DelayAction.Add(Game.Ping + 100, PortAIO.OrbwalkerManager.ResetAutoAttackTimer);
+                    Utility.DelayAction.Add(Game.Ping + 100, Orbwalker.ResetAutoAttack);
                     break;
 
                 case "dariusexecute":
                     LastDunkTimeStamp = Utils.GameTimeTickCount;
-                    Utility.DelayAction.Add(Game.Ping + 350, PortAIO.OrbwalkerManager.ResetAutoAttackTimer);
+                    Utility.DelayAction.Add(Game.Ping + 350, Orbwalker.ResetAutoAttack);
                     break;
             }
         }
@@ -142,7 +142,7 @@ namespace KurisuDarius
                         if (KL.RDmg(unit, PassiveCount(unit)) + RModifier + 
                             KL.Hemorrhage(unit, PassiveCount(unit) - 1) >= unit.Health + MordeShield(unit))
                         {
-                            if (!TargetSelector.IsInvulnerable(unit, DamageType.True))
+                            if (!unit.IsInvulnerable)
                             {
                                 if (!unit.HasBuff("kindredrnodeathbuff"))
                                     KL.Spellbook["R"].CastOnUnit(unit);
@@ -153,7 +153,7 @@ namespace KurisuDarius
                     if (KL.RDmg(unit, PassiveCount(unit)) + RModifier >= unit.Health +
                         KL.Hemorrhage(unit, 1) + MordeShield(unit))
                     {
-                        if (!TargetSelector.IsInvulnerable(unit, DamageType.True))
+                        if (!unit.IsInvulnerable)
                         {
                             if (!unit.HasBuff("kindredrnodeathbuff"))
                                 KL.Spellbook["R"].CastOnUnit(unit);
@@ -162,20 +162,20 @@ namespace KurisuDarius
                 }
             }
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 Combo(getCheckBoxItem(cmenu, "useq"), getCheckBoxItem(cmenu, "usew"),
                     getCheckBoxItem(cmenu, "usee"), getCheckBoxItem(rmenu, "user"));
             }
 
-            if (PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 Harass();
             }
 
             if (getKeyBindItem(cmenu, "caste"))
             {
-                PortAIO.OrbwalkerManager.MoveA(Game.CursorPos);
+                Orbwalker.MoveTo(Game.CursorPos);
                 Combo(false, false, true, false);
             }
         }
@@ -224,11 +224,11 @@ namespace KurisuDarius
         }
 
 
-        internal static void Orbwalking_AfterAttack(AfterAttackArgs args)
+        internal static void Orbwalking_AfterAttack(AttackableUnit target, EventArgs args)
         {
-            var hero = PortAIO.OrbwalkerManager.LastTarget() as AIHeroClient;
+            var hero = Orbwalker.LastTarget as AIHeroClient;
             if (hero == null || !hero.IsValid<AIHeroClient>() || hero.Type != GameObjectType.AIHeroClient ||
-                !PortAIO.OrbwalkerManager.isComboActive)
+                !Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 return;
             }
@@ -248,8 +248,7 @@ namespace KurisuDarius
 
         internal static bool CanQ(Obj_AI_Base unit)
         {
-            if (!unit.LSIsValidTarget() || unit.IsZombie ||
-                TargetSelector.IsInvulnerable(unit, DamageType.Physical))
+            if (!unit.LSIsValidTarget() || unit.IsZombie || !unit.IsInvulnerable)
             {
                 return false;
             }
@@ -370,7 +369,7 @@ namespace KurisuDarius
                         if (KL.RDmg(unit, PassiveCount(unit)) + RModifier >= unit.Health +
                             KL.Hemorrhage(unit, 1) + MordeShield(unit))
                         {
-                            if (!TargetSelector.IsInvulnerable(unit, DamageType.True))
+                            if (!unit.IsInvulnerable)
                             {
                                 if (!unit.HasBuff("kindredrnodeathbuff"))
                                     KL.Spellbook["R"].CastOnUnit(unit);

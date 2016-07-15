@@ -10,7 +10,7 @@ using EloBuddy.SDK.Menu;
 using EloBuddy.SDK.Menu.Values;
 using EloBuddy;
 
-using TargetSelector = PortAIO.TSManager; namespace Leblanc.Common
+ namespace Leblanc.Common
 {
     internal class CommonAutoLevel
     {

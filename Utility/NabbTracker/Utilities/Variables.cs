@@ -12,7 +12,7 @@ using Color = System.Drawing.Color;
 using LeagueSharp.Common;
 using LeagueSharp.Common.Data;
 
-using TargetSelector = PortAIO.TSManager; namespace NabbTracker
+ namespace NabbTracker
 {
     using Font = SharpDX.Direct3D9.Font;
     using Color = System.Drawing.Color;    

@@ -20,7 +20,7 @@ using System.Security.AccessControl;
 using System;
 using System.Speech.Synthesis;
 
-using TargetSelector = PortAIO.TSManager; namespace Nechrito_Nidalee
+ namespace Nechrito_Nidalee
 {
     class Core
     {

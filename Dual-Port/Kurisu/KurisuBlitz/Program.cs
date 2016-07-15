@@ -9,7 +9,7 @@ using EloBuddy.SDK.Menu;
 using Spell = LeagueSharp.Common.Spell;
 using EloBuddy.SDK.Menu.Values;
 
-using TargetSelector = PortAIO.TSManager; namespace KurisuBlitzcrank
+ namespace KurisuBlitzcrank
 {
     class Program
     {
@@ -83,7 +83,7 @@ using TargetSelector = PortAIO.TSManager; namespace KurisuBlitzcrank
 
             Game.OnUpdate += Game_OnUpdate;
             Drawing.OnDraw += Drawing_OnDraw;
-            LSEvents.BeforeAttack += Orbwalking_BeforeAttack;
+            Orbwalker.OnPreAttack += Orbwalking_BeforeAttack;
             Obj_AI_Base.OnProcessSpellCast += Obj_AI_Base_OnProcessSpellCast;
             Interrupter2.OnInterruptableTarget += Interrupter2_OnInterruptableTarget;
 
@@ -124,12 +124,12 @@ using TargetSelector = PortAIO.TSManager; namespace KurisuBlitzcrank
             }
         }
         
-        private static void Orbwalking_BeforeAttack(BeforeAttackArgs args)
+        private static void Orbwalking_BeforeAttack(AttackableUnit target, Orbwalker.PreAttackArgs args)
         {
             if (getCheckBoxItem(exmenu, "supp"))
             {
-                if (PortAIO.OrbwalkerManager.isHarassActive ||
-                    PortAIO.OrbwalkerManager.isLastHitActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass) ||
+                    Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LastHit))
                 {
                     var minion = args.Target as Obj_AI_Base;
                     if (minion != null && minion.IsMinion && minion.LSIsValidTarget())
@@ -218,7 +218,7 @@ using TargetSelector = PortAIO.TSManager; namespace KurisuBlitzcrank
             }
 
             Grab(getKeyBindItem(keyMenu, "grabkey"));
-            Flee(PortAIO.OrbwalkerManager.isFleeActive);
+            Flee(Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Flee));
 
             Combo(getCheckBoxItem(comenu, "useqcombo"), getCheckBoxItem(comenu, "useecombo"),
                   getCheckBoxItem(comenu, "usercombo"));
@@ -274,12 +274,12 @@ using TargetSelector = PortAIO.TSManager; namespace KurisuBlitzcrank
                 return;
             }
 
-            PortAIO.OrbwalkerManager.MoveA(Game.CursorPos);
+            Orbwalker.MoveTo(Game.CursorPos);
         }
 
         private static void Combo(bool useq, bool usee, bool user)
         {
-            if (!PortAIO.OrbwalkerManager.isComboActive)
+            if (!Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 return;
             }

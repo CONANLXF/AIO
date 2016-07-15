@@ -9,7 +9,7 @@ using EloBuddy;
 using EloBuddy.SDK.Menu;
 using EloBuddy.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace KappaSeries
+ namespace KappaSeries
 {
     class Aatrox
     {
@@ -97,13 +97,13 @@ using TargetSelector = PortAIO.TSManager; namespace KappaSeries
             Game.OnUpdate += OnUpdate;
             Drawing.OnDraw += OnDraw;
             Interrupter2.OnInterruptableTarget += OnPossibleToInterrupt;
-            LSEvents.AfterAttack += OrbwalkingAfterAttack;
+            Orbwalker.OnPostAttack += OrbwalkingAfterAttack;
 
         }
         
-        private static void OrbwalkingAfterAttack(AfterAttackArgs args)
+        private static void OrbwalkingAfterAttack(AttackableUnit target, EventArgs args)
         {
-            if (PortAIO.OrbwalkerManager.isComboActive || PortAIO.OrbwalkerManager.isLaneClearActive && comboMenu["UseItems"].Cast<CheckBox>().CurrentValue)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear) && comboMenu["UseItems"].Cast<CheckBox>().CurrentValue)
             {
                 var hydId = ItemData.Ravenous_Hydra_Melee_Only.Id;
                 var tiaId = ItemData.Tiamat_Melee_Only.Id;
@@ -175,15 +175,15 @@ using TargetSelector = PortAIO.TSManager; namespace KappaSeries
             {
                 return;
             }
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 Combo();
             }
-            if (PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 Harass();
             }
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 Jungleclear();
                 Laneclear();
@@ -192,7 +192,7 @@ using TargetSelector = PortAIO.TSManager; namespace KappaSeries
             {
                 Smartks();
             }
-            if (PortAIO.OrbwalkerManager.isFleeActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Flee))
             {
                 Flee();
             }

@@ -30,7 +30,7 @@ using EloBuddy;
 
 #endregion
 
-using TargetSelector = PortAIO.TSManager; namespace VayneHunter_Reborn.Utility.Helpers
+ namespace VayneHunter_Reborn.Utility.Helpers
 {
     ///From Evade's Geometry Library. All credits to: https://github.com/Esk0r/LeagueSharp/blob/master/Evade/Geometry.cs
     /// 

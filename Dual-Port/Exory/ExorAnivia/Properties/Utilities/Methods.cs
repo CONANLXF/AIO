@@ -2,7 +2,7 @@ using EloBuddy;
 using LeagueSharp;
 using LeagueSharp.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Anivia
+ namespace ExorAIO.Champions.Anivia
 {
     /// <summary>
     ///     The methods class.

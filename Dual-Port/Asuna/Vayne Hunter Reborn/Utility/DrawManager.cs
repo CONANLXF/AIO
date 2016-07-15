@@ -16,7 +16,7 @@ using EloBuddy.SDK.Menu;
 using EloBuddy.SDK.Menu.Values;
 using EloBuddy.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace VayneHunter_Reborn.Utility
+ namespace VayneHunter_Reborn.Utility
 {
     class DrawManager
     {
@@ -95,7 +95,7 @@ using TargetSelector = PortAIO.TSManager; namespace VayneHunter_Reborn.Utility
             foreach (var Hero in HeroList)
             {
                 if (getCheckBoxItem(MenuGenerator.miscMenu, "dz191.vhr.misc.condemn.onlystuncurrent") &&
-                    Hero.NetworkId != PortAIO.OrbwalkerManager.LastTarget().NetworkId)
+                    Hero.NetworkId != Orbwalker.LastTarget.NetworkId)
                 {
                     continue;
                 }

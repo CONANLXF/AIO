@@ -6,7 +6,7 @@ using EloBuddy.SDK.Menu.Values;
 using IKalista;
 using LeagueSharp.Common;
 
-using TargetSelector = PortAIO.TSManager; namespace IKalista
+ namespace IKalista
 {
 
     public static class Extensions

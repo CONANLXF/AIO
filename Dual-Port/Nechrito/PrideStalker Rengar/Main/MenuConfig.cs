@@ -5,7 +5,7 @@ using LeagueSharp.SDK;
 using LeagueSharp.SDK.Core.Utils;
 
 
-using TargetSelector = PortAIO.TSManager; namespace PrideStalker_Rengar.Main
+ namespace PrideStalker_Rengar.Main
 {
     public class MenuConfig
     {

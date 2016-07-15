@@ -12,7 +12,7 @@ using Collision = LeagueSharp.Common.Collision;
 
 #endregion
 
-using TargetSelector = PortAIO.TSManager; namespace Marksman.Champions
+ namespace Marksman.Champions
 {
     using EloBuddy;
     using EloBuddy.SDK;
@@ -124,10 +124,10 @@ using TargetSelector = PortAIO.TSManager; namespace Marksman.Champions
             }
         }
 
-        public override void Orbwalking_AfterAttack(AfterAttackArgs args)
+        public override void Orbwalking_AfterAttack(AttackableUnit target, EventArgs args)
         {
             /*
-            if (PortAIO.OrbwalkerManager.isComboActive && Program.combo["Combo.UseQ"].Cast<CheckBox>().CurrentValue && Q.IsReady())
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) && Program.combo["Combo.UseQ"].Cast<CheckBox>().CurrentValue && Q.IsReady())
             {
                 var enemy = target as AIHeroClient;
                 if (enemy != null)
@@ -388,7 +388,7 @@ using TargetSelector = PortAIO.TSManager; namespace Marksman.Champions
 
             if (ComboActive || HarassActive)
             {
-                if (PortAIO.OrbwalkerManager.CanMove(0))
+                if (Orbwalker.CanMove)
                 {
                     if (Q.IsReady())
                     {

@@ -1,4 +1,4 @@
-﻿using TargetSelector = PortAIO.TSManager; namespace iLucian
+﻿ namespace iLucian
 {
     using System;
     using System.Collections.Generic;
@@ -454,7 +454,7 @@
 
             var target = TargetSelector.GetTarget(Variables.Spell[Variables.Spells.Q].Range + Variables.Spell[Variables.Spells.W].Range, DamageType.Physical);
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 if (target == null || Environment.TickCount - Variables.LastECast < 250) return;
                 if (target.IsValid && target.IsHPBarRendered)
@@ -542,7 +542,7 @@
                 }
             }
 
-            if (PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 if (target == null || Environment.TickCount - Variables.LastECast < 250) return;
 
@@ -583,7 +583,7 @@
                 }
             }
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 if (Orbwalking.IsAutoAttack(args.SData.Name) && args.Target is Obj_AI_Minion && args.Target.IsValid && ((Obj_AI_Minion)args.Target).Team == GameObjectTeam.Neutral)
                 {
@@ -756,17 +756,17 @@
                     DamageType.Physical);
                 if (target != null && target.IsValid && target.IsHPBarRendered)
                 {
-                    PortAIO.OrbwalkerManager.ForcedTarget(target);
+                    Orbwalker.ForcedTarget =(target);
                 }
                 else
                 {
-                    PortAIO.OrbwalkerManager.ForcedTarget(null);
+                    Orbwalker.ForcedTarget =(null);
                 }
             }
 
             AutoHarass();
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 // OnCombo();
                 if (getCheckBoxItem(MenuGenerator.comboOptions, "com.ilucian.combo.qExtended"))
@@ -775,12 +775,12 @@
                 }
             }
 
-            if (PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 OnHarass();
             }
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 OnLaneclear();
             }

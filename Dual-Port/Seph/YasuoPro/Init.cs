@@ -1,4 +1,4 @@
-﻿using TargetSelector = PortAIO.TSManager; namespace YasuoPro
+﻿ namespace YasuoPro
 {
     public class Initalization
     {

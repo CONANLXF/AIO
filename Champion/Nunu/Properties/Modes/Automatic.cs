@@ -8,7 +8,7 @@ using LeagueSharp.SDK.Core.Utils;
 using EloBuddy.SDK;
 using LeagueSharp.SDK.Enumerations;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Nunu
+ namespace ExorAIO.Champions.Nunu
 {
     /// <summary>
     ///     The logics class.
@@ -44,7 +44,7 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Nunu
                     !Vars.getKeyBindItem(Vars.RMenu, "key"))
                 {
                     Vars.R.Cast();
-                    PortAIO.OrbwalkerManager.MoveA(Game.CursorPos);
+                    Orbwalker.MoveTo(Game.CursorPos);
                 }
             }
 
@@ -99,7 +99,7 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Nunu
                     return;
                 }
 
-                if (PortAIO.OrbwalkerManager.isComboActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
                 {
                     /// <summary>
                     ///     The Ally W Combo Logic.
@@ -121,7 +121,7 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Nunu
                     }
                 }
 
-                if (PortAIO.OrbwalkerManager.isLaneClearActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
                 {
                     /// <summary>
                     ///     Use if There are Enemy Minions in range.

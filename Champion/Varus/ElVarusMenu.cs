@@ -2,7 +2,7 @@ using System;
 using EloBuddy.SDK.Menu;
 using EloBuddy.SDK.Menu.Values;
 
-using TargetSelector = PortAIO.TSManager; namespace Elvarus
+ namespace Elvarus
 {
     public class ElVarusMenu
     {

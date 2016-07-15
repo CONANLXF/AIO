@@ -8,7 +8,7 @@ using Color = System.Drawing.Color;
 
 #endregion
 
-using TargetSelector = PortAIO.TSManager; namespace Spirit_Karma.Draw
+ namespace Spirit_Karma.Draw
 {
     internal class HpBarDraw
     {

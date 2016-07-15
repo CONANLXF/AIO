@@ -3,7 +3,7 @@ using EloBuddy.SDK;
 using LeagueSharp;
 using LeagueSharp.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Vayne
+ namespace ExorAIO.Champions.Vayne
 {
     /// <summary>
     ///     The methods class.
@@ -19,7 +19,7 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Vayne
             Obj_AI_Base.OnSpellCast += Vayne.OnDoCast;
             Events.OnGapCloser += Vayne.OnGapCloser;
             Events.OnInterruptableTarget += Vayne.OnInterruptableTarget;
-            LeagueSharp.Common.LSEvents.BeforeAttack += Vayne.Orbwalker_OnPreAttack;
+            Orbwalker.OnPreAttack += Vayne.Orbwalker_OnPreAttack;
         }
     }
 }

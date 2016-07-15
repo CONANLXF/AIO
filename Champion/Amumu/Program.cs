@@ -10,7 +10,7 @@ using LeagueSharp.Common;
 using PortAIO.Utility.AmumuSharp;
 using Prediction = LeagueSharp.Common.Prediction;
 using Spell = LeagueSharp.Common.Spell;
-using TargetSelector = PortAIO.TSManager;
+
 
 namespace PortAIO.Champion.Amumu
 {
@@ -99,12 +99,12 @@ namespace PortAIO.Champion.Amumu
                         .OrderBy(x => x.LSDistance(Game.CursorPos))
                         .FirstOrDefault());
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 Combo();
             }
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 LaneClear();
             }

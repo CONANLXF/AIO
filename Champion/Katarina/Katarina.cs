@@ -10,7 +10,7 @@ using LeagueSharp.Common;
 using SharpDX;
 using TreeLib.Extensions;
 using Color = System.Drawing.Color;
-using TargetSelector = PortAIO.TSManager;
+
 
 namespace Staberina
 {
@@ -176,14 +176,14 @@ namespace Staberina
                 return;
             }
 
-            if (PortAIO.OrbwalkerManager.isComboActive ||
-                PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) ||
+                Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 OnCombo();
             }
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive ||
-                PortAIO.OrbwalkerManager.isLastHitActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear) ||
+                Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LastHit))
             {
                 OnFarm();
             }
@@ -266,7 +266,7 @@ namespace Staberina
                 }
             }
 
-            if (getKeyBindItem(fleeMenu, "FleeEnabled") || PortAIO.OrbwalkerManager.isFleeActive)
+            if (getKeyBindItem(fleeMenu, "FleeEnabled") || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Flee))
             {
                 if (Flee())
                 {
@@ -308,7 +308,7 @@ namespace Staberina
             var e = E.CanCast(target) && E.IsActive(forceTarget) &&
                     target.CountEnemiesInRange(200) <= getSliderItem(eMenu, "EEnemies");
 
-            if (!forceTarget && PortAIO.OrbwalkerManager.isComboActive &&
+            if (!forceTarget && Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) &&
                 getKeyBindItem(miscMenu, "ComboKillable"))
             {
                 var damage = target.GetComboDamage(q, w, e, Utility.IsRReady(), true);
@@ -344,7 +344,7 @@ namespace Staberina
                 return true;
             }
 
-            if (Utility.IsRReady() && (forceTarget || PortAIO.OrbwalkerManager.isComboActive))
+            if (Utility.IsRReady() && (forceTarget || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo)))
             {
                 if (!forceTarget && getCheckBoxItem(rMenu, "RInCombo") && target.LSIsValidTarget(R.Range) && R.Cast())
                 {

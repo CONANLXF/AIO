@@ -4,7 +4,7 @@ using LeagueSharp.SDK;
 using LeagueSharp.SDK.Enumerations;
 using EloBuddy.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Draven
+ namespace ExorAIO.Champions.Draven
 {
     /// <summary>
     ///     The logics class.
@@ -27,7 +27,7 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Draven
             ///     The Automatic Q Logic.
             /// </summary>
             if (Vars.Q.IsReady() &&
-                !PortAIO.OrbwalkerManager.isNoneActive &&
+                !Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.None) &&
                 GameObjects.Player.GetBuffCount("dravenspinningattack") < 1 &&
                 Vars.getCheckBoxItem(Vars.QMenu, "logical"))
             {

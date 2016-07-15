@@ -9,7 +9,7 @@ using EloBuddy.SDK.Menu.Values;
 using System.Security;
 using System.Security.Permissions;
 
-using TargetSelector = PortAIO.TSManager; namespace VCursor
+ namespace VCursor
 {
     internal static class VirtualCursor
     {

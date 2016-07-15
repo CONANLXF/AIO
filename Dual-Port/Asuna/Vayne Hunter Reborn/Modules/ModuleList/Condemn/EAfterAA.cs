@@ -7,7 +7,7 @@ using VayneHunter_Reborn.Modules.ModuleHelpers;
 using VayneHunter_Reborn.Utility;
 using VayneHunter_Reborn.Utility.MenuUtility;
 
-using TargetSelector = PortAIO.TSManager; namespace VayneHunter_Reborn.Modules.ModuleList.Condemn
+ namespace VayneHunter_Reborn.Modules.ModuleList.Condemn
 {
     class EAfterAA : IModule
     {
@@ -27,7 +27,7 @@ using TargetSelector = PortAIO.TSManager; namespace VayneHunter_Reborn.Modules.M
 
         public void OnExecute()
         {
-            var target = PortAIO.OrbwalkerManager.LastTarget();
+            var target = Orbwalker.LastTarget;
             if (target.LSIsValidTarget(Variables.spells[SpellSlot.E].Range) && (target is AIHeroClient))
             {
                 var menuKey = MenuGenerator.miscMenu["dz191.vhr.misc.condemn.enextauto"].Cast<KeyBind>().CurrentValue;

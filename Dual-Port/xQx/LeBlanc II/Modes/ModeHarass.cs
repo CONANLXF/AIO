@@ -11,7 +11,7 @@ using EloBuddy;
 using EloBuddy.SDK.Menu.Values;
 using EloBuddy.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace Leblanc.Modes
+ namespace Leblanc.Modes
 {
 
     internal class ModeHarass
@@ -51,7 +51,7 @@ using TargetSelector = PortAIO.TSManager; namespace Leblanc.Modes
 
         private static void GameOnOnUpdate(EventArgs args)
         {
-            if (PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 ExecuteHarass();
             }
@@ -112,22 +112,22 @@ using TargetSelector = PortAIO.TSManager; namespace Leblanc.Modes
 
         private static void ExecuteToggle()
         {
-            if (ToggleActive == 0 && !PortAIO.OrbwalkerManager.isLaneClearActive || !PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (ToggleActive == 0 && !Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear) || !Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 return;
             }
 
-            if (ToggleActive == 1 && !PortAIO.OrbwalkerManager.isLastHitActive)
+            if (ToggleActive == 1 && !Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LastHit))
             {
                 return;
             }
 
-            if (ToggleActive == 2 && !(PortAIO.OrbwalkerManager.isLaneClearActive || PortAIO.OrbwalkerManager.isLastHitActive))
+            if (ToggleActive == 2 && !(Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LastHit)))
             {
                 return;
             }
 
-            if (PortAIO.OrbwalkerManager.isComboActive || PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 return;
             }

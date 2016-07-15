@@ -23,7 +23,7 @@ using GamePath = System.Collections.Generic.List<SharpDX.Vector2>;
 
 #endregion
 
-using TargetSelector = PortAIO.TSManager; namespace OlafxQx.Common
+ namespace OlafxQx.Common
 {
     using System;
     using System.Collections.Generic;

@@ -12,7 +12,7 @@ using EloBuddy.SDK;
 using EloBuddy.SDK.Menu.Values;
 using EloBuddy.SDK.Menu;
 
-using TargetSelector = PortAIO.TSManager; namespace Jayce
+ namespace Jayce
 {
     internal class Jayce : Helper
     {
@@ -100,7 +100,7 @@ using TargetSelector = PortAIO.TSManager; namespace Jayce
             var on = getCheckBoxItem(MenuConfig.Config, "disorb");
             if (!on) return;
             var target = TargetSelector.GetTarget(1050, DamageType.Physical);
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 var spellbook = Player.Spellbook.GetSpell(SpellSlot.W);
                 if (spellbook.State == SpellState.Surpressed && W.Level != 0)
@@ -180,7 +180,7 @@ using TargetSelector = PortAIO.TSManager; namespace Jayce
                     var pos = Player.Position.LSExtend(Game.CursorPos, Player.BoundingRadius + 150);
                     E.Cast(pos);
                 }
-                if (PortAIO.OrbwalkerManager.isComboActive && getCheckBoxItem(MenuConfig.combo, "useecr"))
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) && getCheckBoxItem(MenuConfig.combo, "useecr"))
                 {
                     var target = TargetSelector.GetTarget(1470, DamageType.Physical);
                     if (target == null) return;
@@ -196,11 +196,11 @@ using TargetSelector = PortAIO.TSManager; namespace Jayce
             thisunit = (AIHeroClient)args.Target;
             if (W.IsReady())
             {
-                if ((PortAIO.OrbwalkerManager.isComboActive && getCheckBoxItem(MenuConfig.combo, "usewcr"))
-                    || (PortAIO.OrbwalkerManager.isHarassActive && getCheckBoxItem(MenuConfig.harass, "usewhr")))
+                if ((Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) && getCheckBoxItem(MenuConfig.combo, "usewcr"))
+                    || (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass) && getCheckBoxItem(MenuConfig.harass, "usewhr")))
                 {
                     W.Cast();
-                    PortAIO.OrbwalkerManager.ForcedTarget(((AIHeroClient)args.Target));
+                    Orbwalker.ForcedTarget =(((AIHeroClient)args.Target));
 
                     // Orbwalking.ResetAutoAttackTimer();
                 }
@@ -210,7 +210,7 @@ using TargetSelector = PortAIO.TSManager; namespace Jayce
 
         private static void LaneClear(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
-            if (!PortAIO.OrbwalkerManager.isLaneClearActive || !PortAIO.OrbwalkerManager.isLaneClearActive) return;
+            if (!Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear) || !Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear)) return;
             if (!Orbwalking.IsAutoAttack(args.SData.Name)) return;
             if (!sender.IsMe) return;
             if (!args.SData.IsAutoAttack()) return;
@@ -222,7 +222,7 @@ using TargetSelector = PortAIO.TSManager; namespace Jayce
             if (W.IsReady() && obj.Health > Player.GetAutoAttackDamage(obj) + 30)
             {
                 W.Cast();
-                PortAIO.OrbwalkerManager.ForcedTarget(((Obj_AI_Base)args.Target));
+                Orbwalker.ForcedTarget =(((Obj_AI_Base)args.Target));
             }
             var minions =
                 MinionManager.GetMinions(Player.Position, 300);
@@ -234,7 +234,7 @@ using TargetSelector = PortAIO.TSManager; namespace Jayce
                     if (W.IsReady())
                     {
                         W.Cast();
-                        PortAIO.OrbwalkerManager.ForcedTarget(min);
+                        Orbwalker.ForcedTarget =(min);
                     }
                 }
             }
@@ -249,7 +249,7 @@ using TargetSelector = PortAIO.TSManager; namespace Jayce
                 ManualEq();
             }
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 FormChangeManager();
                 if (!Ismelee())
@@ -258,12 +258,12 @@ using TargetSelector = PortAIO.TSManager; namespace Jayce
                     Combomelee();
             }
 
-            if (PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 Harass();
             }
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 Laneclearrange(); // also has Melee Q
                 Laneclearmelee();

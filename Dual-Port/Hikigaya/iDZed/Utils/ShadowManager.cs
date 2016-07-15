@@ -25,7 +25,7 @@ using Utility = LeagueSharp.Common.Utility;
 // ReSharper disable MergeConditionalExpression
 // ReSharper disable FunctionRecursiveOnAllPaths
 
-using TargetSelector = PortAIO.TSManager; namespace iDZed.Utils
+ namespace iDZed.Utils
 {
     internal static class ShadowManager
     {
@@ -158,7 +158,7 @@ using TargetSelector = PortAIO.TSManager; namespace iDZed.Utils
         {
             if (Zed.getCheckBoxItem(Zed.miscMenu, "safetyChecks") &&
                 (!Zed.getKeyBindItem(Zed.fleeMenu, "fleeActive") ||
-                 !PortAIO.OrbwalkerManager.isFleeActive))
+                 !Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Flee)))
             {
                 if (shadow.State == ShadowState.Created)
                 {

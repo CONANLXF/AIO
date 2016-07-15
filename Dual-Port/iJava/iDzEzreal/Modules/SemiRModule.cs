@@ -10,7 +10,7 @@ using EloBuddy;
 using EloBuddy.SDK;
 using EloBuddy.SDK.Menu;
 using EloBuddy.SDK.Menu.Values;
-using TargetSelector = PortAIO.TSManager; namespace iDZEzreal.Modules
+ namespace iDZEzreal.Modules
 {
     class SemiRModule : IModule
     {

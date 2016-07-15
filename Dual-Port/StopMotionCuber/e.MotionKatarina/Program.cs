@@ -12,7 +12,7 @@ using EloBuddy;
 using EloBuddy.SDK;
 using EloBuddy.SDK.Menu.Values;
 
-using TargetSelector = PortAIO.TSManager; namespace e.Motion_Katarina
+ namespace e.Motion_Katarina
 {
     class Program
     {
@@ -266,14 +266,14 @@ using TargetSelector = PortAIO.TSManager; namespace e.Motion_Katarina
                     PortAIO.OrbwalkerManager.SetAttack(true);
                     PortAIO.OrbwalkerManager.SetMovement(true);
                     EloBuddy.Player.IssueOrder(GameObjectOrder.MoveTo, Game.CursorPos);
-                    PortAIO.OrbwalkerManager.MoveA(Game.CursorPos);
+                    Orbwalker.MoveTo(Game.CursorPos);
                 }
                 if (getCheckBoxItem(miscMenu, "motion.katarina.misc.cancelR") && Player.LSCountEnemiesInRange(R.Range + 50) == 0)
                 {
                     PortAIO.OrbwalkerManager.SetAttack(true);
                     PortAIO.OrbwalkerManager.SetMovement(true);
                     EloBuddy.Player.IssueOrder(GameObjectOrder.MoveTo, Game.CursorPos);
-                    PortAIO.OrbwalkerManager.MoveA(Game.CursorPos);
+                    Orbwalker.MoveTo(Game.CursorPos);
                 }
                 if (getCheckBoxItem(miscMenu, "motion.katarina.misc.kswhileult"))
                     Killsteal();
@@ -294,11 +294,11 @@ using TargetSelector = PortAIO.TSManager; namespace e.Motion_Katarina
             Killsteal();
 
             //Combo
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
                 Combo(Q.IsReady() && getCheckBoxItem(comboMenu, "motion.katarina.combo.useq"), W.IsReady() && getCheckBoxItem(comboMenu, "motion.katarina.combo.usew"), E.IsReady() && getCheckBoxItem(comboMenu, "motion.katarina.combo.usee"), R.IsReady() && getCheckBoxItem(comboMenu, "motion.katarina.combo.user"));
 
             //Harass
-            if (PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
                 Combo(Q.IsReady() && getCheckBoxItem(harassMenu, "motion.katarina.harass.useq"), W.IsReady() && getCheckBoxItem(harassMenu, "motion.katarina.harass.usew"), false, false, true);
 
             //Autoharass
@@ -493,7 +493,7 @@ using TargetSelector = PortAIO.TSManager; namespace e.Motion_Katarina
         private static void WardJump(Vector3 where, bool move = true, bool placeward = true)
         {
             if (move)
-                PortAIO.OrbwalkerManager.MoveA(Game.CursorPos);
+                Orbwalker.MoveTo(Game.CursorPos);
             if (!E.IsReady())
             {
                 return;
@@ -669,7 +669,7 @@ using TargetSelector = PortAIO.TSManager; namespace e.Motion_Katarina
         private static void Lasthit()
         {
 
-            if (!PortAIO.OrbwalkerManager.isLastHitActive || (getCheckBoxItem(performanceMenu, "motion.katarina.performance.tickmanager") && Utils.TickCount < tickValue))
+            if (!Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LastHit) || (getCheckBoxItem(performanceMenu, "motion.katarina.performance.tickmanager") && Utils.TickCount < tickValue))
                 return;
             Obj_AI_Base[] sourroundingMinions;
             int tickCount = getSliderItem(performanceMenu, "motion.katarina.performance.ticks");
@@ -682,7 +682,7 @@ using TargetSelector = PortAIO.TSManager; namespace e.Motion_Katarina
                     if (
                         sourroundingMinions.Any(
                             minion =>
-                                !minion.IsDead && PortAIO.OrbwalkerManager.LastTarget() != minion && (qMinion == null || minion != qMinion) &&
+                                !minion.IsDead && Orbwalker.LastTarget != minion && (qMinion == null || minion != qMinion) &&
                                 W.GetDamage(minion) > minion.Health &&
                                 HealthPrediction.GetHealthPrediction(minion,
                                     (Player.CanAttack
@@ -712,7 +712,7 @@ using TargetSelector = PortAIO.TSManager; namespace e.Motion_Katarina
                 {
                     foreach (var minions in sourroundingMinions.Where(
                         minion =>
-                            !minion.IsDead && PortAIO.OrbwalkerManager.LastTarget() != minion && (qMinion == null || minion != qMinion) &&
+                            !minion.IsDead && Orbwalker.LastTarget != minion && (qMinion == null || minion != qMinion) &&
                             E.GetDamage(minion) >= minion.Health &&
                             (!W.IsReady() || !getCheckBoxItem(lasthit, "motion.katarina.lasthit.usew") || Player.Position.LSDistance(minion.Position) > 390)
                             &&
@@ -736,7 +736,7 @@ using TargetSelector = PortAIO.TSManager; namespace e.Motion_Katarina
         #region LaneClear
         private static void LaneClear()
         {
-            if (!PortAIO.OrbwalkerManager.isLaneClearActive || !PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (!Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear) || !Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
                 return;
             Obj_AI_Base[] sourroundingMinions;
             if (getCheckBoxItem(laneclear, "motion.katarina.laneclear.usew") && W.IsReady())
@@ -768,7 +768,7 @@ using TargetSelector = PortAIO.TSManager; namespace e.Motion_Katarina
         private static void JungleClear()
         {
             Obj_AI_Base[] sourroundingMinions;
-            if (!PortAIO.OrbwalkerManager.isLaneClearActive || !PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (!Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear) || !Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
                 return;
             if (getCheckBoxItem(jungleclear, "motion.katarina.jungleclear.useq") && Q.IsReady())
             {

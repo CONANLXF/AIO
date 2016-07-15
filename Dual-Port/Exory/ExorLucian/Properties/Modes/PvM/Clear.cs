@@ -9,7 +9,7 @@ using Geometry = ExorAIO.Utilities.Geometry;
 using EloBuddy;
 using EloBuddy.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Lucian
+ namespace ExorAIO.Champions.Lucian
 {
     /// <summary>
     ///     The logics class.
@@ -120,7 +120,7 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Lucian
         /// <param name="args">The args.</param>
         public static void JungleClear(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
-            if (PortAIO.OrbwalkerManager.LastTarget() as Obj_AI_Minion == null)
+            if (Orbwalker.LastTarget as Obj_AI_Minion == null)
             {
                 return;
             }
@@ -147,7 +147,7 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Lucian
 					ManaManager.GetNeededMana(Vars.Q.Slot, Vars.getSliderItem(Vars.QMenu, "jungleclear")) &&
                 Vars.getSliderItem(Vars.QMenu, "jungleclear") != 101)
 			{
-				Vars.Q.CastOnUnit(PortAIO.OrbwalkerManager.LastTarget() as Obj_AI_Minion);
+				Vars.Q.CastOnUnit(Orbwalker.LastTarget as Obj_AI_Minion);
 				return;
 			}
 
@@ -160,7 +160,7 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Lucian
 					ManaManager.GetNeededMana(Vars.W.Slot, Vars.getSliderItem(Vars.WMenu, "jungleclear")) &&
                 Vars.getSliderItem(Vars.WMenu, "jungleclear") != 101)
 			{
-				Vars.W.Cast((PortAIO.OrbwalkerManager.LastTarget() as Obj_AI_Minion).ServerPosition);
+				Vars.W.Cast((Orbwalker.LastTarget as Obj_AI_Minion).ServerPosition);
 			}
         }
 
@@ -171,9 +171,9 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Lucian
         /// <param name="args">The args.</param>
         public static void BuildingClear(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
-            if (!(PortAIO.OrbwalkerManager.LastTarget() is Obj_HQ) &&
-                !(PortAIO.OrbwalkerManager.LastTarget() is Obj_AI_Turret) &&
-                !(PortAIO.OrbwalkerManager.LastTarget() is Obj_BarracksDampener))
+            if (!(Orbwalker.LastTarget is Obj_HQ) &&
+                !(Orbwalker.LastTarget is Obj_AI_Turret) &&
+                !(Orbwalker.LastTarget is Obj_BarracksDampener))
             {
                 return;
             }

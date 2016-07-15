@@ -12,7 +12,7 @@ using EloBuddy.SDK.Menu;
 using EloBuddy.SDK;
 using EloBuddy.SDK.Menu.Values;
 
-using TargetSelector = PortAIO.TSManager; namespace GosuMechanicsYasuo
+ namespace GosuMechanicsYasuo
 {
     class Program
     {
@@ -328,24 +328,24 @@ using TargetSelector = PortAIO.TSManager; namespace GosuMechanicsYasuo
                 Yasuo.WallDash();
             }
 
-            if (getKeyBindItem(fleeMenu, "AutoQToggle") && (PortAIO.OrbwalkerManager.isNoneActive || PortAIO.OrbwalkerManager.isFleeActive) && !getKeyBindItem(fleeMenu, "flee") && !getKeyBindItem(fleeMenu, "wall"))
+            if (getKeyBindItem(fleeMenu, "AutoQToggle") && (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.None) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Flee)) && !getKeyBindItem(fleeMenu, "flee") && !getKeyBindItem(fleeMenu, "wall"))
             {
                 AutoQ();
             }
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 Combo();
             }
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 LaneClear();
             }
-            if (PortAIO.OrbwalkerManager.isLastHitActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LastHit))
             {
                 LastHit();
             }
-            if (PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 Harass();
                 HarassLastHit();
@@ -354,7 +354,7 @@ using TargetSelector = PortAIO.TSManager; namespace GosuMechanicsYasuo
             AutoR();
             KillSteal();
 
-            if (!IsDashing && getKeyBindItem(harassMenu, "AutoQHarass") && !PortAIO.OrbwalkerManager.isComboActive)
+            if (!IsDashing && getKeyBindItem(harassMenu, "AutoQHarass") && !Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 var TsTarget = TargetSelector.GetTarget(1000, DamageType.Physical);
 
@@ -368,7 +368,7 @@ using TargetSelector = PortAIO.TSManager; namespace GosuMechanicsYasuo
                 }
             }
 
-            if (!IsDashing && getKeyBindItem(harassMenu, "AutoQHarass") && !PortAIO.OrbwalkerManager.isComboActive)
+            if (!IsDashing && getKeyBindItem(harassMenu, "AutoQHarass") && !Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 var TsTarget = TargetSelector.GetTarget(475, DamageType.Physical);
 
@@ -1059,7 +1059,7 @@ using TargetSelector = PortAIO.TSManager; namespace GosuMechanicsYasuo
             result.casters = new List<Obj_AI_Base>();
 
 
-            bool safe = PortAIO.OrbwalkerManager.isComboActive || point.To3D().GetEnemiesInRange(500).Count > myHero.HealthPercent % 65;
+            bool safe = Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) || point.To3D().GetEnemiesInRange(500).Count > myHero.HealthPercent % 65;
             if (!safe)
             {
                 result.IsSafe = false;

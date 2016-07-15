@@ -743,7 +743,7 @@ namespace OneKeyToWin_AIO_Sebby
 
             if (Youmuus.IsReady() && getCheckBoxItem("Youmuus"))
             {
-                var t = PortAIO.OrbwalkerManager.LastTarget();
+                var t = Orbwalker.LastTarget;
 
                 if (t.LSIsValidTarget() && t is AIHeroClient)
                 {

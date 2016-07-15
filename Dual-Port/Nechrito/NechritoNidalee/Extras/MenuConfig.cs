@@ -2,7 +2,7 @@
 using EloBuddy.SDK.Menu.Values;
 using LeagueSharp.Common;
 
-using TargetSelector = PortAIO.TSManager; namespace Nechrito_Nidalee
+ namespace Nechrito_Nidalee
 {
     class MenuConfig : Core
     {

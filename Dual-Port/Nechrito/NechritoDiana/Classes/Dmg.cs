@@ -1,7 +1,7 @@
 ﻿using EloBuddy;
 using LeagueSharp.Common;
 
-using TargetSelector = PortAIO.TSManager; namespace Nechrito_Diana
+ namespace Nechrito_Diana
 {
     class Dmg
     {

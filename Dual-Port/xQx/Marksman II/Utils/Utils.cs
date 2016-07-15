@@ -14,7 +14,7 @@ using Collision = LeagueSharp.Common.Collision;
 
 #endregion
 
-using TargetSelector = PortAIO.TSManager; namespace Marksman.Utils
+ namespace Marksman.Utils
 {
     using System.Security.Cryptography;
 

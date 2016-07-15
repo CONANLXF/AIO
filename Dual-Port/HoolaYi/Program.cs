@@ -13,7 +13,7 @@ using EloBuddy.SDK;
 using Spell = LeagueSharp.Common.Spell;
 using Damage = LeagueSharp.Common.Damage;
 
-using TargetSelector = PortAIO.TSManager; namespace HoolaMasterYi
+ namespace HoolaMasterYi
 {
     public class Program
     {
@@ -88,7 +88,7 @@ using TargetSelector = PortAIO.TSManager; namespace HoolaMasterYi
         private static void DetectSpell(EventArgs args)
         {
             var target = TargetSelector.GetTarget(Q.Range, DamageType.Physical);
-            if (target.LSIsDashing() && (((Player.LSDistance(target.GetWaypoints().Last()) >= Q.Range) && AutoQOnly) || !AutoQOnly) && Q.IsReady() && AutoQ && PortAIO.OrbwalkerManager.isComboActive || PortAIO.OrbwalkerManager.isHarassActive)
+            if (target.LSIsDashing() && (((Player.LSDistance(target.GetWaypoints().Last()) >= Q.Range) && AutoQOnly) || !AutoQOnly) && Q.IsReady() && AutoQ && Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
                 Q.Cast(target);
         }
 
@@ -103,13 +103,13 @@ using TargetSelector = PortAIO.TSManager; namespace HoolaMasterYi
 
             if (args.Target is AIHeroClient)
             {
-                if (PortAIO.OrbwalkerManager.isComboActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
                 {
                     if (CR) R.Cast();
                     if (CY) CastYoumoo();
                     if (CE) E.Cast();
                 }
-                if (PortAIO.OrbwalkerManager.isHarassActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
                 {
                     if (HY) CastYoumoo();
                     if (HE) E.Cast();
@@ -117,7 +117,7 @@ using TargetSelector = PortAIO.TSManager; namespace HoolaMasterYi
             }
             if (args.Target is Obj_AI_Minion)
             {
-                if (PortAIO.OrbwalkerManager.isLaneClearActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
                 {
                     var Minions = MinionManager.GetMinions(ItemData.Ravenous_Hydra_Melee_Only.Range);
                     if (Minions[0].IsValid && Minions.Count != 0) if (LE) E.Cast();
@@ -131,7 +131,7 @@ using TargetSelector = PortAIO.TSManager; namespace HoolaMasterYi
 
             if (args.Target is Obj_AI_Minion)
             {
-                if (PortAIO.OrbwalkerManager.isLaneClearActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
                 {
                     var Mobs = MinionManager.GetMinions(ItemData.Ravenous_Hydra_Melee_Only.Range, MinionTypes.All, MinionTeam.Neutral, MinionOrderTypes.MaxHealth);
                     if (Mobs[0].IsValid && Mobs.Count != 0) if (JE) E.Cast();
@@ -191,13 +191,13 @@ using TargetSelector = PortAIO.TSManager; namespace HoolaMasterYi
             if (args.Target is AIHeroClient && args.Target.IsValid)
             {
                 var target = (AIHeroClient)args.Target;
-                if (PortAIO.OrbwalkerManager.isComboActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
                 {
                     if (CB) CastBOTRK(target);
                     if (CT) UseCastItem(300);
                     if (CW) Utility.DelayAction.Add(1, () => W.Cast());
                 }
-                if (PortAIO.OrbwalkerManager.isHarassActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
                 {
                     if (HB) CastBOTRK(target);
                     if (HT) UseCastItem(300);
@@ -207,7 +207,7 @@ using TargetSelector = PortAIO.TSManager; namespace HoolaMasterYi
             if (args.Target is Obj_AI_Minion && args.Target.IsValid)
             {
                 var Minions = MinionManager.GetMinions(ItemData.Ravenous_Hydra_Melee_Only.Range);
-                if (PortAIO.OrbwalkerManager.isLaneClearActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
                 {
                     if (Minions.Count != 0 && Minions[0].IsValid)
                     {
@@ -225,7 +225,7 @@ using TargetSelector = PortAIO.TSManager; namespace HoolaMasterYi
             if (args.Target is Obj_AI_Minion && args.Target.IsValid)
             {
                 var Mobs = MinionManager.GetMinions(ItemData.Ravenous_Hydra_Melee_Only.Range, MinionTypes.All, MinionTeam.Neutral);
-                if (PortAIO.OrbwalkerManager.isLaneClearActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
                 {
                     if (Mobs[0].IsValid && Mobs.Count != 0)
                     {
@@ -353,8 +353,8 @@ using TargetSelector = PortAIO.TSManager; namespace HoolaMasterYi
         static void Game_OnUpdate(EventArgs args)
         {
             killsteal();
-            if (PortAIO.OrbwalkerManager.isComboActive && CQ) Combo();
-            if (PortAIO.OrbwalkerManager.isHarassActive && HQ) Harass();
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) && CQ) Combo();
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass) && HQ) Harass();
         }
 
         static void Combo()

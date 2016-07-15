@@ -12,7 +12,7 @@ using Geometry = LeagueSharp.Common.Geometry;
 using Spell = LeagueSharp.Common.Spell;
 using Utility = LeagueSharp.Common.Utility;
 
-using TargetSelector = PortAIO.TSManager; namespace Warwick
+ namespace Warwick
 {
     internal class Program
     {
@@ -258,23 +258,23 @@ using TargetSelector = PortAIO.TSManager; namespace Warwick
                 E.IsReady())
                 E.Cast();
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 Combo();
             }
 
-            if (PortAIO.OrbwalkerManager.isHarassActive || PortAIO.OrbwalkerManager.isLastHitActive || getKeyBindItem(menuHarass, "Harass.Q.UseT"))
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LastHit) || getKeyBindItem(menuHarass, "Harass.Q.UseT"))
             {
                 Harass();
             }
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 Laneclear();
                 JungleClear();
             }
 
-            if (!PortAIO.OrbwalkerManager.isComboActive)
+            if (!Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 if (getCheckBoxItem(menuAuto, "Auto.Q.UseQHp") && getSliderItem(menuAuto, "Auto.Q.UseQHpMinHp") > Player.HealthPercent)
                 {

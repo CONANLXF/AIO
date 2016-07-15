@@ -9,7 +9,7 @@ using EloBuddy.SDK;
 using EloBuddy.SDK.Menu;
 using EloBuddy.SDK.Menu.Values;
 
-using TargetSelector = PortAIO.TSManager; namespace OneKeyToWin_AIO_Sebby.Champions
+ namespace OneKeyToWin_AIO_Sebby.Champions
 {
     class Kayle
     {

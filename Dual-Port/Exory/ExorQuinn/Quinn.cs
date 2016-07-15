@@ -8,7 +8,7 @@ using EloBuddy;
 using EloBuddy.SDK;
 using System.Linq;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Quinn
+ namespace ExorAIO.Champions.Quinn
 {
     /// <summary>
     ///     The champion class.
@@ -69,17 +69,17 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Quinn
             /// </summary>
             Logics.Killsteal(args);
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 Logics.Combo(args);
             }
 
-            if (PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 Logics.Harass(args);
             }
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 Logics.Clear(args);
             }
@@ -117,7 +117,7 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Quinn
             }
         }
 
-        public static void Orbwalker_OnPreAttack(LeagueSharp.Common.BeforeAttackArgs args)
+        public static void Orbwalker_OnPreAttack(AttackableUnit target, Orbwalker.PreAttackArgs args)
         {
             /// <summary>
             ///     Check for R Instance.
@@ -137,11 +137,11 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Quinn
                         t.LSIsValidTarget(Vars.AARange) &&
                         t.HasBuff("quinnw")))
                 {
-                    PortAIO.OrbwalkerManager.ForcedTarget(null);
+                    Orbwalker.ForcedTarget =(null);
                     return;
                 }
 
-                PortAIO.OrbwalkerManager.ForcedTarget(GameObjects.EnemyHeroes.FirstOrDefault(
+                Orbwalker.ForcedTarget =(GameObjects.EnemyHeroes.FirstOrDefault(
                     t =>
                         t.LSIsValidTarget(Vars.AARange) &&
                         t.HasBuff("quinnw")));

@@ -10,7 +10,7 @@ using Color = System.Drawing.Color;
 using EloBuddy.SDK;
 using Spell = LeagueSharp.Common.Spell;
 
-using TargetSelector = PortAIO.TSManager; namespace BLeblanc
+ namespace BLeblanc
 {
     public static class TwoChains
     {
@@ -30,7 +30,7 @@ using TargetSelector = PortAIO.TSManager; namespace BLeblanc
             //}
 
             R2.SetSkillshot(0.25f, 70, 1600, true, SkillshotType.SkillshotLine);
-            PortAIO.OrbwalkerManager.MoveA(Game.CursorPos);
+            Orbwalker.MoveTo(Game.CursorPos);
             if (target != null && target.LSIsValidTarget(Program.Q.Range) && (Program.Rstate != 3 || !R2.IsReady()))
             {
                 Program.Q.Cast(target);

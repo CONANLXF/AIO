@@ -6,19 +6,19 @@ using SharpDX;
 using System;
 using System.Linq;
 
-using TargetSelector = PortAIO.TSManager; namespace Swiftly_Teemo.Handler
+ namespace Swiftly_Teemo.Handler
 {
     internal class AfterAa : Core
     {
         
-        public static void Orbwalker_OnPostAttack(LeagueSharp.Common.AfterAttackArgs args)
+        public static void Orbwalker_OnPostAttack(AttackableUnit target, EventArgs args)
         {
-            var dgfg = args.Target;
+            var dgfg = target;
             if (dgfg is AIHeroClient)
             {
                 var Target = dgfg as AIHeroClient;
 
-                if (PortAIO.OrbwalkerManager.isComboActive || PortAIO.OrbwalkerManager.isHarassActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
                 {
                     if (Target == null || Target.IsDead || Target.IsInvulnerable || !Target.LSIsValidTarget(Spells.Q.Range)) return;
                     {
@@ -29,7 +29,7 @@ using TargetSelector = PortAIO.TSManager; namespace Swiftly_Teemo.Handler
                         }
                     }
 
-                    if (PortAIO.OrbwalkerManager.isLaneClearActive) return;
+                    if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear)) return;
 
                     var mob = GameObjects.Jungle.Where(m => m != null && m.LSIsValidTarget(Player.AttackRange) && !GameObjects.JungleSmall.Contains(m));
 

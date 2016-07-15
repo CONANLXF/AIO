@@ -8,7 +8,7 @@ using VayneHunter_Reborn.Skills.Tumble;
 using VayneHunter_Reborn.Utility;
 using VayneHunter_Reborn.Utility.MenuUtility;
 
-using TargetSelector = PortAIO.TSManager; namespace VayneHunter_Reborn.Modules.ModuleList.Tumble
+ namespace VayneHunter_Reborn.Modules.ModuleList.Tumble
 {
     class QKS : IModule
     {
@@ -32,13 +32,13 @@ using TargetSelector = PortAIO.TSManager; namespace VayneHunter_Reborn.Modules.M
             var currentTarget = TargetSelector.GetTarget(Orbwalking.GetRealAutoAttackRange(null) + 240f, DamageType.Physical);
             if (!currentTarget.LSIsValidTarget())
             {
-                PortAIO.OrbwalkerManager.ForcedTarget(null);
+                Orbwalker.ForcedTarget =(null);
                 return;
             }
 
             if (currentTarget.ServerPosition.LSDistance(ObjectManager.Player.ServerPosition) <= Orbwalking.GetRealAutoAttackRange(null))
             {
-                PortAIO.OrbwalkerManager.ForcedTarget(null);
+                Orbwalker.ForcedTarget =(null);
                 return;
             }
 
@@ -51,9 +51,9 @@ using TargetSelector = PortAIO.TSManager; namespace VayneHunter_Reborn.Modules.M
                     currentTarget.ServerPosition, 300f);
                 if (extendedPosition.IsSafe())
                 {
-                    PortAIO.OrbwalkerManager.ResetAutoAttackTimer();
+                    Orbwalker.ResetAutoAttack();
                     Variables.spells[SpellSlot.Q].Cast(extendedPosition);
-                    PortAIO.OrbwalkerManager.ForcedTarget(currentTarget);
+                    Orbwalker.ForcedTarget =(currentTarget);
                 }
             }
         }

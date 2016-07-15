@@ -9,7 +9,7 @@ using EloBuddy;
 using EloBuddy.SDK;
 using EloBuddy.SDK.Menu.Values;
 
-using TargetSelector = PortAIO.TSManager; namespace VayneHunter_Reborn.Modules.ModuleList.Condemn
+ namespace VayneHunter_Reborn.Modules.ModuleList.Condemn
 {
     class CondemnJungleMobs : IModule
     {
@@ -29,7 +29,7 @@ using TargetSelector = PortAIO.TSManager; namespace VayneHunter_Reborn.Modules.M
         public bool ShouldGetExecuted()
         {
             return MenuGenerator.farmMenu["dz191.vhr.farm.condemnjungle"].Cast<CheckBox>().CurrentValue &&
-                   Variables.spells[SpellSlot.E].IsReady() && (PortAIO.OrbwalkerManager.isLaneClearActive);
+                   Variables.spells[SpellSlot.E].IsReady() && (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear));
         }
         
 
@@ -40,7 +40,7 @@ using TargetSelector = PortAIO.TSManager; namespace VayneHunter_Reborn.Modules.M
 
         public void OnExecute()
         {
-            var owTarget = PortAIO.OrbwalkerManager.LastTarget();
+            var owTarget = Orbwalker.LastTarget;
             if (owTarget is Obj_AI_Base && MobNames.Contains((owTarget as Obj_AI_Base).CharData.BaseSkinName))
             {
                 var owTargetBase = (owTarget as Obj_AI_Base);

@@ -1,4 +1,5 @@
-﻿    using TargetSelector = PortAIO.TSManager; namespace ElUtilitySuite.Items
+﻿
+namespace ElUtilitySuite.Items
 {
     using System;
     using System.Collections.Generic;
@@ -72,14 +73,8 @@
         public void Load()
         {
             Game.OnUpdate += this.Game_OnUpdate;
-            if (PortAIO.OrbwalkerManager.isEBActive)
-            {
-                Orbwalker.OnPostAttack += Orbwalker_OnPostAttackEB;
-            }
-            else
-            {
-                LSEvents.AfterAttack += Orbwalker_OnPostAttack;
-            }
+            Orbwalker.OnPostAttack += Orbwalker_OnPostAttackEB;
+
         }
 
         private void Orbwalker_OnPostAttackEB(AttackableUnit target, EventArgs args)
@@ -90,7 +85,7 @@
             }
         }
 
-        private void Orbwalker_OnPostAttack(AfterAttackArgs args)
+        private void Orbwalker_OnPostAttack(AttackableUnit target, EventArgs args)
         {
             foreach (var item in this.offensiveItems.Where(x => x.AfterOrb() && EloBuddy.SDK.Item.CanUseItem((int)x.Id) && EloBuddy.SDK.Item.HasItem((int)x.Id)))
             {

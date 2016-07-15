@@ -17,7 +17,7 @@ using Prediction = LeagueSharp.Common.Prediction;
 using EloBuddy.SDK.Menu;
 using EloBuddy.SDK.Menu.Values;
 
-using TargetSelector = PortAIO.TSManager; namespace HeavenStrikeReksaj
+ namespace HeavenStrikeReksaj
 {
     class Program
     {
@@ -69,7 +69,7 @@ using TargetSelector = PortAIO.TSManager; namespace HeavenStrikeReksaj
             //Listen to events
             Drawing.OnDraw += Drawing_OnDraw;
             Game.OnUpdate += Game_OnGameUpdate;
-            LSEvents.AfterAttack += Orbwalking_AfterAttack;
+            Orbwalker.OnPostAttack += Orbwalking_AfterAttack;
             Obj_AI_Base.OnProcessSpellCast += Obj_AI_Base_OnProcessSpellCast;
         }
 
@@ -98,19 +98,19 @@ using TargetSelector = PortAIO.TSManager; namespace HeavenStrikeReksaj
         {
             if (!sender.IsMe) return;
             if (args.SData.Name.ToLower().Contains("reksaiq"))
-                PortAIO.OrbwalkerManager.ResetAutoAttackTimer();
+                Orbwalker.ResetAutoAttack();
             if (args.SData.Name == "ItemTitanicHydraCleave")
             {
-                PortAIO.OrbwalkerManager.ResetAutoAttackTimer();
+                Orbwalker.ResetAutoAttack();
             }
         }
 
         
-        private static void Orbwalking_AfterAttack(AfterAttackArgs args)
+        private static void Orbwalking_AfterAttack(AttackableUnit target, EventArgs args)
         {
-            if (!PortAIO.OrbwalkerManager.isNoneActive && !_q.IsReady() && HasItem())
+            if (!Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.None) && !_q.IsReady() && HasItem())
                 CastItem();
-            if (!PortAIO.OrbwalkerManager.isNoneActive && _q.IsReady())
+            if (!Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.None) && _q.IsReady())
                 _q.Cast();
         }
 
@@ -138,9 +138,9 @@ using TargetSelector = PortAIO.TSManager; namespace HeavenStrikeReksaj
             else PortAIO.OrbwalkerManager.SetAttack(true);
             // ks
             KS();
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
                 Combo();
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
                 Clear();
         }
         //ks
@@ -206,7 +206,7 @@ using TargetSelector = PortAIO.TSManager; namespace HeavenStrikeReksaj
             // W1 cast
             if (!burrowed && _w.IsReady() && getCheckBoxItem(spellMenu, comboW1))
             {
-                var target = PortAIO.OrbwalkerManager.LastTarget();
+                var target = Orbwalker.LastTarget;
                 if (target.LSIsValidTarget() && !target.IsZombie)
                 {
                     if (!(target as Obj_AI_Base).HasBuff("reksaiknockupimmune"))

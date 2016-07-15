@@ -9,7 +9,7 @@ using LeagueSharp;
 using LeagueSharp.SDK;
 using EloBuddy;
 
-using TargetSelector = PortAIO.TSManager; namespace Firestorm_AIO.DataBases
+ namespace Firestorm_AIO.DataBases
 {
     public static class Spells
     {

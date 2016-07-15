@@ -16,7 +16,7 @@
 using EloBuddy;
 using LeagueSharp.Common;
 
-using TargetSelector = PortAIO.TSManager; namespace iDZed.Utils
+ namespace iDZed.Utils
 {
     internal static class ZedDamage
     {

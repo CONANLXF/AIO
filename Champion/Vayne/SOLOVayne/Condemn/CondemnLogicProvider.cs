@@ -7,7 +7,7 @@ using SharpDX;
 using SOLOVayne;
 using Program = Vayne1.Program;
 
-using TargetSelector = PortAIO.TSManager; namespace SoloVayne.Skills.Condemn
+ namespace SoloVayne.Skills.Condemn
 {
     internal class CondemnLogicProvider
     {

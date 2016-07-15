@@ -3,7 +3,7 @@ using LeagueSharp;
 using Firestorm_AIO.Enums;
 using EloBuddy;
 
-using TargetSelector = PortAIO.TSManager; namespace Firestorm_AIO.DataBases
+ namespace Firestorm_AIO.DataBases
 {
     public static class Champions
     {

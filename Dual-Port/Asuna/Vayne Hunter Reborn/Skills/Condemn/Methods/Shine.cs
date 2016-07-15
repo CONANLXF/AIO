@@ -11,7 +11,7 @@ using EloBuddy.SDK;
 using EloBuddy.SDK.Menu.Values;
 using EloBuddy.SDK.Menu;
 
-using TargetSelector = PortAIO.TSManager; namespace VayneHunter_Reborn.Skills.Condemn.Methods
+ namespace VayneHunter_Reborn.Skills.Condemn.Methods
 {
     class Shine
     {
@@ -63,8 +63,8 @@ using TargetSelector = PortAIO.TSManager; namespace VayneHunter_Reborn.Skills.Co
                     var j4Flag = getCheckBoxItem(MenuGenerator.miscMenu, "dz191.vhr.misc.condemn.condemnflag") && (finalPosition.IsJ4Flag(target));
                     if (collFlags.HasFlag(CollisionFlags.Wall) || collFlags.HasFlag(CollisionFlags.Building) || j4Flag) //not sure about building, I think its turrets, nexus etc
                     {
-                        if (getCheckBoxItem(MenuGenerator.miscMenu, "dz191.vhr.misc.condemn.onlystuncurrent") && PortAIO.OrbwalkerManager.LastTarget() != null &&
-                                        !target.NetworkId.Equals(PortAIO.OrbwalkerManager.LastTarget().NetworkId))
+                        if (getCheckBoxItem(MenuGenerator.miscMenu, "dz191.vhr.misc.condemn.onlystuncurrent") && Orbwalker.LastTarget != null &&
+                                        !target.NetworkId.Equals(Orbwalker.LastTarget.NetworkId))
                         {
                             return null;
                         }

@@ -4,7 +4,7 @@ using EloBuddy;
 using EloBuddy.SDK.Menu.Values;
 using EloBuddy.SDK.Menu;
 
-using TargetSelector = PortAIO.TSManager; namespace OKTWPredictioner
+ namespace OKTWPredictioner
 {
     public class OKTWPredictioner
     {

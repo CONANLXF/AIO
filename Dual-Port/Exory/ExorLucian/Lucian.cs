@@ -8,7 +8,7 @@ using LeagueSharp.Data.Enumerations;
 using EloBuddy;
 using EloBuddy.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Lucian
+ namespace ExorAIO.Champions.Lucian
 {
     /// <summary>
     ///     The champion class.
@@ -73,17 +73,17 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Lucian
                 return;
             }
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 Logics.Combo(args);
             }
 
-            if (PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 Logics.Harass(args);
             }
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 Logics.Clear(args);
             }
@@ -100,12 +100,12 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Lucian
                 !GameObjects.Player.HasBuff("LucianR") &&
                 AutoAttack.IsAutoAttack(args.SData.Name))
             {
-                if (PortAIO.OrbwalkerManager.isComboActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
                 {
                     Logics.Weaving(sender, args);
                 }
 
-                if (PortAIO.OrbwalkerManager.isLaneClearActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
                 {
                     Logics.JungleClear(sender, args);
                     Logics.BuildingClear(sender, args);
@@ -121,7 +121,7 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Lucian
         public static void OnPlayAnimation(Obj_AI_Base sender, GameObjectPlayAnimationEventArgs args)
         {
             if (sender.IsMe &&
-                !PortAIO.OrbwalkerManager.isNoneActive)
+                !Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.None))
             {
                 if (args.Animation.Equals("Spell1") ||
                     args.Animation.Equals("Spell2"))
@@ -157,7 +157,7 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Lucian
         /// <param name="target">The target.</param>
         /// <param name="args">The <see cref="Orbwalker.PreAttackArgs" /> instance containing the event data.</param>
         /// 
-        public static void Orbwalker_OnPreAttack(LeagueSharp.Common.BeforeAttackArgs args)
+        public static void Orbwalker_OnPreAttack(AttackableUnit target, Orbwalker.PreAttackArgs args)
         {
             if (GameObjects.Player.HasBuff("LucianR"))
             {

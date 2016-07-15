@@ -12,7 +12,7 @@ using EloBuddy.SDK;
 
 #endregion
 
-using TargetSelector = PortAIO.TSManager; namespace Marksman.Champions
+ namespace Marksman.Champions
 {
     internal class Teemo : Champion
     {
@@ -57,9 +57,9 @@ using TargetSelector = PortAIO.TSManager; namespace Marksman.Champions
             Utils.Utils.PrintMessage("Teemo loaded.");
         }
 
-        public override void Orbwalking_AfterAttack(AfterAttackArgs args)
+        public override void Orbwalking_AfterAttack(AttackableUnit target, EventArgs args)
         {
-            var t = args.Target as AIHeroClient;
+            var t = target as AIHeroClient;
             if (t != null && (ComboActive || HarassActive))
             {
                 var useQ = ComboActive ? Program.combo["UseQC"].Cast<CheckBox>().CurrentValue : Program.harass["UseQH"].Cast<CheckBox>().CurrentValue;

@@ -8,7 +8,7 @@ using EloBuddy.SDK.Menu;
 using EloBuddy;
 using EloBuddy.SDK.Menu.Values;
 
-using TargetSelector = PortAIO.TSManager; namespace Mastery_Badge_Spammer
+ namespace Mastery_Badge_Spammer
 {
     public static class Program
     {

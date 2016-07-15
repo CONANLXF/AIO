@@ -9,7 +9,7 @@ using LeagueSharp.Common;
 using SharpDX;
 using Color = System.Drawing.Color;
 
-using TargetSelector = PortAIO.TSManager; namespace LeblancOLD.Common
+ namespace LeblancOLD.Common
 {
 
     public class CommonBuffManager

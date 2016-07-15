@@ -4,7 +4,7 @@ using LeagueSharp.Common;
 using NechritoRiven.Core;
 using NechritoRiven.Menus;
 
-using TargetSelector = PortAIO.TSManager; namespace NechritoRiven.Event
+ namespace NechritoRiven.Event
 {
     class Interrupt2 : Core.Core
     {

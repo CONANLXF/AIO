@@ -3,7 +3,7 @@ using ExorAIO.Utilities;
 using LeagueSharp;
 using LeagueSharp.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Renekton
+ namespace ExorAIO.Champions.Renekton
 {
     /// <summary>
     ///     The spell class.

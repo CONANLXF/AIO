@@ -9,7 +9,7 @@ using LeagueSharp.Common;
 using SebbyLib;
 using HealthPrediction = SebbyLib.HealthPrediction;
 using Spell = LeagueSharp.Common.Spell;
-using TargetSelector = PortAIO.TSManager;
+
 
 namespace PortAIO.Champion.Annie
 {
@@ -259,7 +259,7 @@ namespace PortAIO.Champion.Annie
                         }
                         else
                         {
-                            var annieTarget = PortAIO.OrbwalkerManager.LastTarget() as Obj_AI_Base;
+                            var annieTarget = Orbwalker.LastTarget as Obj_AI_Base;
                             if (annieTarget != null)
                             {
                                 EloBuddy.Player.IssueOrder(

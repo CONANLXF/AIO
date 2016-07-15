@@ -10,7 +10,7 @@ using EloBuddy.SDK;
 
 #endregion
 
-using TargetSelector = PortAIO.TSManager; namespace NechritoRiven.Event
+ namespace NechritoRiven.Event
 {
     internal class Modes : Core.Core
     {
@@ -26,7 +26,7 @@ using TargetSelector = PortAIO.TSManager; namespace NechritoRiven.Event
                 if (minions.Count < 1) return;
                 if (!Spells.Q.IsReady() || !MenuConfig.LaneQ) return;
 
-                if (PortAIO.OrbwalkerManager.isLaneClearActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
                 {
                     foreach (var m in minions)
                     {
@@ -47,7 +47,7 @@ using TargetSelector = PortAIO.TSManager; namespace NechritoRiven.Event
             if (args.Target is Obj_AI_Minion)
             {
                 Jungleclear();
-                if (PortAIO.OrbwalkerManager.isLaneClearActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
                 {
                     var minions = MinionManager.GetMinions(600f).FirstOrDefault();
                     if (minions == null)
@@ -74,7 +74,7 @@ using TargetSelector = PortAIO.TSManager; namespace NechritoRiven.Event
             if (@base != null)
             {
                 if (@base.IsValid && args.Target != null && Spells.Q.IsReady() && MenuConfig.LaneQ &&
-                    PortAIO.OrbwalkerManager.isLaneClearActive) ForceCastQ(@base);
+                    Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear)) ForceCastQ(@base);
             }
 
 
@@ -82,7 +82,7 @@ using TargetSelector = PortAIO.TSManager; namespace NechritoRiven.Event
             if (hero == null || hero.IsDead || hero.IsInvulnerable) return;
             var target = hero;
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 
                 if (Spells.E.IsReady())
@@ -110,7 +110,7 @@ using TargetSelector = PortAIO.TSManager; namespace NechritoRiven.Event
                     Spells.R.Cast(target.Position);
             }
 
-            if (PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
               {
 
                 if (Qstack == 2 && Spells.Q.IsReady())
@@ -162,7 +162,7 @@ using TargetSelector = PortAIO.TSManager; namespace NechritoRiven.Event
 
         public static void Jungleclear()
         {
-            if (!PortAIO.OrbwalkerManager.isLaneClearActive) return;
+            if (!Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear)) return;
 
             var mobs = MinionManager.GetMinions(Player.Position, 600f, MinionTypes.All, MinionTeam.Neutral).FirstOrDefault();
             if(mobs == null || mobs.IsDead || !mobs.LSIsValidTarget()) return;
@@ -224,7 +224,7 @@ using TargetSelector = PortAIO.TSManager; namespace NechritoRiven.Event
 
         public static void Burst()
         {
-            PortAIO.OrbwalkerManager.MoveA(Game.CursorPos);
+            Orbwalker.MoveTo(Game.CursorPos);
             var target = TargetSelector.SelectedTarget;
 
             if (target == null || !target.LSIsValidTarget() || target.IsZombie || target.IsInvulnerable) return;
@@ -261,7 +261,7 @@ using TargetSelector = PortAIO.TSManager; namespace NechritoRiven.Event
 
         public static void FastHarass()
         {
-            PortAIO.OrbwalkerManager.MoveA(Game.CursorPos);
+            Orbwalker.MoveTo(Game.CursorPos);
             if (Spells.Q.IsReady() && Spells.E.IsReady())
             {
                 var target = TargetSelector.GetTarget(450 + Player.AttackRange + 70, DamageType.Physical);
@@ -285,7 +285,7 @@ using TargetSelector = PortAIO.TSManager; namespace NechritoRiven.Event
                     LeagueSharp.Common.Utility.DelayAction.Add(1, ForceW);
                 }
             }
-            if (Spells.Q.IsReady() && Spells.E.IsReady() && Qstack == 3 && !PortAIO.OrbwalkerManager.CanAttack() && PortAIO.OrbwalkerManager.CanMove(0))
+            if (Spells.Q.IsReady() && Spells.E.IsReady() && Qstack == 3 && !Orbwalker.CanAutoAttack && Orbwalker.CanMove)
             {
                 var epos = Player.ServerPosition + (Player.ServerPosition - target.ServerPosition).Normalized() * 300;
                 Spells.E.Cast(epos);

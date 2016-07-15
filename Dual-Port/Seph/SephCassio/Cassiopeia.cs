@@ -12,7 +12,7 @@ using Spell = LeagueSharp.Common.Spell;
 #endregion;
 
 
-using TargetSelector = PortAIO.TSManager; namespace SephCassiopeia
+ namespace SephCassiopeia
 {
 
     #region Initiliazation
@@ -71,7 +71,7 @@ using TargetSelector = PortAIO.TSManager; namespace SephCassiopeia
             Game.OnUpdate += CheckKillable;
             Game.OnUpdate += AutoSpells;
             Drawing.OnDraw += OnDraw;
-            LSEvents.BeforeAttack += BeforeAuto;
+            Orbwalker.OnPreAttack += BeforeAuto;
         }
 
         #endregion
@@ -80,15 +80,15 @@ using TargetSelector = PortAIO.TSManager; namespace SephCassiopeia
 
         #region BeforeAuto
         
-        private static void BeforeAuto(BeforeAttackArgs args)
+        private static void BeforeAuto(AttackableUnit target, Orbwalker.PreAttackArgs args)
         {
-            if (!CassioUtils.getCheckBoxItem(CassiopeiaMenu.Combo, "Combo.Useauto") && PortAIO.OrbwalkerManager.isComboActive)
+            if (!CassioUtils.getCheckBoxItem(CassiopeiaMenu.Combo, "Combo.Useauto") && Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 args.Process = false;
                 return;
 
             }
-            if (CassioUtils.getCheckBoxItem(CassiopeiaMenu.Combo, "Combo.Disableautoifspellsready") && PortAIO.OrbwalkerManager.isComboActive)
+            if (CassioUtils.getCheckBoxItem(CassiopeiaMenu.Combo, "Combo.Disableautoifspellsready") && Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 if (SpellSlot.Q.IsReady() || SpellSlot.W.IsReady() || SpellSlot.E.IsReady() || SpellSlot.R.IsReady())
                 {
@@ -96,12 +96,12 @@ using TargetSelector = PortAIO.TSManager; namespace SephCassiopeia
                     return;
                 }
             }
-            if (!CassioUtils.getCheckBoxItem(CassiopeiaMenu.Waveclear, "Waveclear.Useauto") && PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (!CassioUtils.getCheckBoxItem(CassiopeiaMenu.Waveclear, "Waveclear.Useauto") && Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 args.Process = false;
                 return;
             }
-            if (!CassioUtils.getCheckBoxItem(CassiopeiaMenu.Farm, "Farm.Useauto") && (PortAIO.OrbwalkerManager.isHarassActive || PortAIO.OrbwalkerManager.isLastHitActive))
+            if (!CassioUtils.getCheckBoxItem(CassiopeiaMenu.Farm, "Farm.Useauto") && (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LastHit)))
             {
                 args.Process = false;
                 return;
@@ -120,7 +120,7 @@ using TargetSelector = PortAIO.TSManager; namespace SephCassiopeia
             {
                 return;
             }
-            if (SpellSlot.E.IsReady() && CassioUtils.getCheckBoxItem(CassiopeiaMenu.Combo, "Combo.UseE") && (PortAIO.OrbwalkerManager.isComboActive || CassioUtils.getCheckBoxItem(CassiopeiaMenu.misc, "Misc.autoe")))
+            if (SpellSlot.E.IsReady() && CassioUtils.getCheckBoxItem(CassiopeiaMenu.Combo, "Combo.UseE") && (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) || CassioUtils.getCheckBoxItem(CassiopeiaMenu.misc, "Misc.autoe")))
             {
                 AIHeroClient etarg;
                 etarg = target;
@@ -149,7 +149,7 @@ using TargetSelector = PortAIO.TSManager; namespace SephCassiopeia
             
 
             if (SpellSlot.R.IsReady() && CassioUtils.getCheckBoxItem(CassiopeiaMenu.Combo, "Combo.UseR") &&
-                PortAIO.OrbwalkerManager.isComboActive)
+                Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 var targets = HeroManager.Enemies.Where(x => x.LSIsValidTarget(Spells[SpellSlot.R].Range) && !x.IsZombie).OrderBy(x => x.Health);
                 Vector3 bestpositionfacing = new Vector3(0, 0, 0);
@@ -259,22 +259,22 @@ using TargetSelector = PortAIO.TSManager; namespace SephCassiopeia
                 Harass(target);
             }
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 if (target != null && !target.IsInvulnerable && !target.IsZombie)
                 {
                     Combo(target);
                 }
             }
-            if (PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 MixedModeLogic(target, true);
             }
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 WaveClear();
             }
-            if (PortAIO.OrbwalkerManager.isLastHitActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LastHit))
             {
                 MixedModeLogic(target, false);
             }

@@ -3,7 +3,7 @@ using Activators.Base;
 using LeagueSharp;
 using LeagueSharp.Common;
 
-using TargetSelector = PortAIO.TSManager; namespace Activators.Spells.Shields
+ namespace Activators.Spells.Shields
 {
     class blindmonkwone : CoreSpell
     {

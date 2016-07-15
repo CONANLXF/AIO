@@ -11,7 +11,7 @@ using EloBuddy;
 using EloBuddy.SDK.Menu.Values;
 using EloBuddy.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace Leblanc.Champion
+ namespace Leblanc.Champion
 {
     public static class PlayerSpells
     {

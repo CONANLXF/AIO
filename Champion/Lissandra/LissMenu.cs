@@ -4,7 +4,7 @@ using EloBuddy.SDK.Menu;
 using EloBuddy.SDK.Menu.Values;
 using LeagueSharp.Common;
 
-using TargetSelector = PortAIO.TSManager; namespace SephLissandra
+ namespace SephLissandra
 {
     internal class LissMenu
     {

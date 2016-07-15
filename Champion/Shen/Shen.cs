@@ -12,7 +12,7 @@ using Damage = LeagueSharp.Common.Damage;
 using Spell = LeagueSharp.Common.Spell;
 using Utility = LeagueSharp.Common.Utility;
 
-using TargetSelector = PortAIO.TSManager; namespace UnderratedAIO.Champions
+ namespace UnderratedAIO.Champions
 {
     internal class Shen
     {
@@ -164,17 +164,17 @@ using TargetSelector = PortAIO.TSManager; namespace UnderratedAIO.Champions
                 FlashCombo();
             }
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 Combo();
             }
 
-            if (PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 Harass();
             }
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 Clear();
             }
@@ -248,7 +248,7 @@ using TargetSelector = PortAIO.TSManager; namespace UnderratedAIO.Champions
                              Program.IncDamages.GetAllyData(i.NetworkId).SkillShotDamage > i.Health)))
             {
                 if (getCheckBoxItem(menuU, "user") &&
-                    !PortAIO.OrbwalkerManager.isComboActive && R.IsReady() &&
+                    !Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) && R.IsReady() &&
                     player.LSCountEnemiesInRange(EFlash.Range + 50) < 1 &&
                     !getCheckBoxItem(menuU, "ult" + allyObj.BaseSkinName))
                 {
@@ -446,7 +446,7 @@ using TargetSelector = PortAIO.TSManager; namespace UnderratedAIO.Champions
                     player.Spellbook.CastSpell(player.GetSpellSlot("SummonerFlash"), getPosToEflash(target.Position));
                 }
             }
-            PortAIO.OrbwalkerManager.MoveA(Game.CursorPos);
+            Orbwalker.MoveTo(Game.CursorPos);
         }
 
 
@@ -468,7 +468,7 @@ using TargetSelector = PortAIO.TSManager; namespace UnderratedAIO.Champions
                     justW = true;
                     Utility.DelayAction.Add(1750, () => { justW = false; });
                 }
-                if (args.SData.Name == "ShenE" && PortAIO.OrbwalkerManager.isComboActive)
+                if (args.SData.Name == "ShenE" && Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
                 {
                     if (Q.IsReady() && CheckQDef() && blade.LSDistance(args.End) > bladeRadius/2f)
                     {

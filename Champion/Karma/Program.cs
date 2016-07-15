@@ -10,7 +10,7 @@ using EloBuddy.SDK.Menu;
 using EloBuddy.SDK.Menu.Values;
 using LeagueSharp.Common;
 using Spell = LeagueSharp.Common.Spell;
-using TargetSelector = PortAIO.TSManager;
+
 
 #endregion
 
@@ -171,13 +171,13 @@ namespace Karma
                 }
             }
 
-            if (!PortAIO.OrbwalkerManager.isComboActive &&
-                !PortAIO.OrbwalkerManager.isHarassActive)
+            if (!Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) &&
+                !Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 return;
             }
 
-            if (PortAIO.OrbwalkerManager.isHarassActive &&
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass) &&
                 ObjectManager.Player.Mana -
                 ObjectManager.Player.Spellbook.Spells.First(s => s.Slot == SpellSlot.W).SData.Mana -
                 ObjectManager.Player.Spellbook.Spells.First(s => s.Slot == SpellSlot.E).SData.Mana < 0)
@@ -191,16 +191,16 @@ namespace Karma
 
             var qActive =
                 getCheckBoxItem(
-                    PortAIO.OrbwalkerManager.isComboActive ? comboMenu : harassMenu,
-                    "UseQ" + (PortAIO.OrbwalkerManager.isComboActive ? "Combo" : "Harass"));
+                    Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) ? comboMenu : harassMenu,
+                    "UseQ" + (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) ? "Combo" : "Harass"));
             var wActive =
                 getCheckBoxItem(
-                    PortAIO.OrbwalkerManager.isComboActive ? comboMenu : harassMenu,
-                    "UseW" + (PortAIO.OrbwalkerManager.isComboActive ? "Combo" : "Harass"));
+                    Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) ? comboMenu : harassMenu,
+                    "UseW" + (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) ? "Combo" : "Harass"));
             var rActive =
                 getCheckBoxItem(
-                    PortAIO.OrbwalkerManager.isComboActive ? comboMenu : harassMenu,
-                    "UseR" + (PortAIO.OrbwalkerManager.isComboActive ? "Combo" : "Harass"));
+                    Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) ? comboMenu : harassMenu,
+                    "UseR" + (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) ? "Combo" : "Harass"));
 
             if (wActive && wTarget != null && _w.IsReady())
             {

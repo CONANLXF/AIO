@@ -11,7 +11,7 @@ using Damage = LeagueSharp.Common.Damage;
 using Spell = LeagueSharp.Common.Spell;
 using Utility = LeagueSharp.Common.Utility;
 
-using TargetSelector = PortAIO.TSManager; namespace D_Zyra
+ namespace D_Zyra
 {
     internal class Program
     {
@@ -124,7 +124,7 @@ using TargetSelector = PortAIO.TSManager; namespace D_Zyra
             Game.OnUpdate += Game_OnGameUpdate;
             AntiGapcloser.OnEnemyGapcloser += AntiGapcloser_OnEnemyGapcloser;
             Interrupter2.OnInterruptableTarget += Interrupter2_OnInterruptableTarget;
-            LSEvents.BeforeAttack += Orbwalking_BeforeAttack;
+            Orbwalker.OnPreAttack += Orbwalking_BeforeAttack;
         }
 
         private static void Game_OnGameUpdate(EventArgs args)
@@ -140,19 +140,19 @@ using TargetSelector = PortAIO.TSManager; namespace D_Zyra
                 if (t.LSIsValidTarget(_r.Range)) _r.Cast(t.Position);
             }
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 Combo();
             }
 
-            if ((PortAIO.OrbwalkerManager.isHarassActive ||
+            if ((Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass) ||
                  getKeyBindItem(harassMenu, "harasstoggle")) &&
                 100*(_player.Mana/_player.MaxMana) > getSliderItem(harassMenu, "harassmana") &&
-                !PortAIO.OrbwalkerManager.isComboActive)
+                !Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 Harass();
             }
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 var lc = 100*(_player.Mana/_player.MaxMana) > getSliderItem(farmMenu, "lanemana");
                 if (lc)
@@ -197,7 +197,7 @@ using TargetSelector = PortAIO.TSManager; namespace D_Zyra
             return ObjectManager.Get<AIHeroClient>().Count(hero => hero.IsAlly && !hero.IsMe && _player.LSDistance(hero) <= range);
         }
 
-        private static void Orbwalking_BeforeAttack(BeforeAttackArgs args)
+        private static void Orbwalking_BeforeAttack(AttackableUnit target, Orbwalker.PreAttackArgs args)
         {
             if (getCheckBoxItem(miscMenu, "support") && Getallies(1000) > 0)
             {

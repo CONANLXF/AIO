@@ -1,7 +1,7 @@
 ﻿using System;
 using LeagueSharp.Common;
 
-using TargetSelector = PortAIO.TSManager; namespace BlackFeeder
+ namespace BlackFeeder
 {
     internal class Program
     {

@@ -6,7 +6,7 @@ using SharpDX;
 using EloBuddy;
 using EloBuddy.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace Nechrito_Gragas
+ namespace Nechrito_Gragas
 {
     class Mode
     {
@@ -139,7 +139,7 @@ using TargetSelector = PortAIO.TSManager; namespace Nechrito_Gragas
         public static void JungleLogic()
         {
             var mobs = MinionManager.GetMinions(Player.Position, Spells.W.Range, MinionTypes.All, MinionTeam.Neutral, MinionOrderTypes.MaxHealth);
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 if (mobs.Count == 0 || mobs == null || Player.Spellbook.IsAutoAttacking)
                     return;

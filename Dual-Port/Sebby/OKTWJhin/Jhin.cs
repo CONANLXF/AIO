@@ -10,7 +10,7 @@ using EloBuddy.SDK.Menu;
 using EloBuddy.SDK;
 using EloBuddy.SDK.Menu.Values;
 
-using TargetSelector = PortAIO.TSManager; namespace OneKeyToWin_AIO_Sebby.Champions
+ namespace OneKeyToWin_AIO_Sebby.Champions
 {
     class Jhin
     {
@@ -377,7 +377,7 @@ using TargetSelector = PortAIO.TSManager; namespace OneKeyToWin_AIO_Sebby.Champi
 
         private static void LogicQ()
         {
-            var torb = PortAIO.OrbwalkerManager.LastTarget();
+            var torb = Orbwalker.LastTarget;
 
             if (torb == null || torb.Type != GameObjectType.AIHeroClient)
             {

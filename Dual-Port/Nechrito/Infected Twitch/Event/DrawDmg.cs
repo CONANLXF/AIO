@@ -10,7 +10,7 @@ using SharpDX;
 
 #endregion
 
-using TargetSelector = PortAIO.TSManager; namespace Infected_Twitch.Event
+ namespace Infected_Twitch.Event
 {
     internal class DrawDmg : Core.Core
     {

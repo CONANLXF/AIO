@@ -3,7 +3,7 @@ using Activators.Base;
 using LeagueSharp;
 using LeagueSharp.Common;
 
-using TargetSelector = PortAIO.TSManager; namespace Activators.Spells.Slows
+ namespace Activators.Spells.Slows
 {
     class highlander : CoreSpell
     {

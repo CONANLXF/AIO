@@ -4,7 +4,7 @@ using SharpDX;
 using SharpDX.Direct3D9;
 using EloBuddy;
 
-using TargetSelector = PortAIO.TSManager; namespace VoliPower
+ namespace VoliPower
 {
     class HpBarIndicator
     {

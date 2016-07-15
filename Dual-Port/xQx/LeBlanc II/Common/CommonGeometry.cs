@@ -24,7 +24,7 @@ using GamePath = System.Collections.Generic.List<SharpDX.Vector2>;
 
 #endregion
 
-using TargetSelector = PortAIO.TSManager; namespace Leblanc.Common
+ namespace Leblanc.Common
 {
     using System;
     using System.Collections.Generic;

@@ -5,7 +5,7 @@ using EloBuddy.SDK.Menu;
 using EloBuddy.SDK.Menu.Values;
 using EloBuddy;
 
-using TargetSelector = PortAIO.TSManager; namespace VCursor
+ namespace VCursor
 {
     internal class Program
     {

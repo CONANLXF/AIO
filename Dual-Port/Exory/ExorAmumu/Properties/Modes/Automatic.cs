@@ -5,7 +5,7 @@ using LeagueSharp.SDK;
 using LeagueSharp.SDK.Enumerations;
 using EloBuddy.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Amumu
+ namespace ExorAIO.Champions.Amumu
 {
     /// <summary>
     ///     The logics class.
@@ -35,12 +35,12 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Amumu
                 /// </summary>
                 if (!GameObjects.Player.HasBuff("AuraOfDespair"))
                 {
-                    if (PortAIO.OrbwalkerManager.isComboActive)
+                    if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
                     {
                         Vars.W.Cast();
                     }
 
-                    if (PortAIO.OrbwalkerManager.isLaneClearActive)
+                    if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
                     {
                         if (GameObjects.Player.ManaPercent >= ManaManager.GetNeededMana(Vars.W.Slot, Vars.getSliderItem(Vars.WMenu, "logical")) && (Targets.Minions.Count() >= 2 || Targets.JungleMinions.Any()))
                         {
@@ -55,7 +55,7 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Amumu
                 else
                 {
 
-                    if (PortAIO.OrbwalkerManager.isLaneClearActive)
+                    if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
                     {
                         if (GameObjects.Player.ManaPercent <
                                 ManaManager.GetNeededMana(Vars.W.Slot, Vars.getSliderItem(Vars.WMenu, "logical")) ||

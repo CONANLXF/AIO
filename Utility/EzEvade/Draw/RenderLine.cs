@@ -11,7 +11,7 @@ using LeagueSharp.Common;
 using SharpDX;
 using EloBuddy;
 
-using TargetSelector = PortAIO.TSManager; namespace ezEvade.Draw
+ namespace ezEvade.Draw
 {
     class RenderLine : RenderObject
     {

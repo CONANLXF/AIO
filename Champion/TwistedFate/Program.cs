@@ -16,7 +16,7 @@ using Utility = LeagueSharp.Common.Utility;
 
 #endregion
 
-using TargetSelector = PortAIO.TSManager; namespace TwistedFate
+ namespace TwistedFate
 {
     internal class Program
     {
@@ -130,10 +130,10 @@ using TargetSelector = PortAIO.TSManager; namespace TwistedFate
             Game.OnUpdate += Game_OnGameUpdate;
             Drawing.OnDraw += Drawing_OnDraw;
             Obj_AI_Base.OnProcessSpellCast += AIHeroClient_OnProcessSpellCast;
-            LSEvents.BeforeAttack += OrbwalkingOnBeforeAttack;
+            Orbwalker.OnPreAttack += OrbwalkingOnBeforeAttack;
         }
 
-        private static void OrbwalkingOnBeforeAttack(BeforeAttackArgs args)
+        private static void OrbwalkingOnBeforeAttack(AttackableUnit target, Orbwalker.PreAttackArgs args)
         {
             if (args.Target is AIHeroClient)
                 args.Process = CardSelector.Status != SelectStatus.Selecting &&
@@ -348,7 +348,7 @@ using TargetSelector = PortAIO.TSManager; namespace TwistedFate
                     Ping(enemy.Position.LSTo2D());
                 }
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 LaneClear();
                 JungleClear();
@@ -368,7 +368,7 @@ using TargetSelector = PortAIO.TSManager; namespace TwistedFate
                 }
             }
 
-            var combo = PortAIO.OrbwalkerManager.isComboActive;
+            var combo = Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo);
 
             //Select cards.
             if (getKeyBindItem(w, "SelectYellow") || combo && !getCheckBoxItem(misc, "DontGoldCardDuringCombo"))
@@ -408,15 +408,15 @@ using TargetSelector = PortAIO.TSManager; namespace TwistedFate
 
             var useItemModes = getBoxItem(menuItems, "itemMode");
             if (
-                !((PortAIO.OrbwalkerManager.isComboActive &&
+                !((Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) &&
                    (useItemModes == 2 || useItemModes == 3)) ||
-                  (PortAIO.OrbwalkerManager.isHarassActive &&
+                  (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass) &&
                    (useItemModes == 1 || useItemModes == 3))))
                 return;
 
             var botrk = getCheckBoxItem(menuItems, "itemBotrk");
             var youmuu = getCheckBoxItem(menuItems, "itemYoumuu");
-            var target = PortAIO.OrbwalkerManager.LastTarget() as Obj_AI_Base;
+            var target = Orbwalker.LastTarget as Obj_AI_Base;
 
             if (botrk)
             {

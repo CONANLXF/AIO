@@ -10,7 +10,7 @@ using LeagueSharp.Common;
 using SharpDX;
 using Prediction = LeagueSharp.Common.Prediction;
 using Spell = LeagueSharp.Common.Spell;
-using TargetSelector = PortAIO.TSManager;
+
 
 namespace PortAIO.Champion.Bard
 {
@@ -97,13 +97,13 @@ namespace PortAIO.Champion.Bard
             Game.OnUpdate += Game_OnUpdate;
             GameObject.OnCreate += OnCreate;
             GameObject.OnDelete += OnDelete;
-            LSEvents.BeforeAttack += OnBeforeAttack;
+            Orbwalker.OnPreAttack += OnBeforeAttack;
         }
 
-        private static void OnBeforeAttack(BeforeAttackArgs args)
+        private static void OnBeforeAttack(AttackableUnit target, Orbwalker.PreAttackArgs args)
         {
             if (args.Target.Type == GameObjectType.obj_AI_Minion &&
-                PortAIO.OrbwalkerManager.isHarassActive &&
+                Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass) &&
                 getCheckBoxItem(miscMenu, "dz191.bard.misc.attackMinions"))
             {
                 if (
@@ -143,7 +143,7 @@ namespace PortAIO.Champion.Bard
         {
             var ComboTarget = TargetSelector.GetTarget(spells[SpellSlot.Q].Range / 1.3f, DamageType.Magical);
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 if (spells[SpellSlot.Q].IsReady() && getCheckBoxItem(comboMenu, "dz191.bard.combo.useq") &&
                     ComboTarget.LSIsValidTarget())
@@ -157,7 +157,7 @@ namespace PortAIO.Champion.Bard
                 }
             }
 
-            if (PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 if (spells[SpellSlot.Q].IsReady() && getCheckBoxItem(harassMenu, "dz191.bard.mixed.useq") &&
                     ComboTarget.LSIsValidTarget() &&

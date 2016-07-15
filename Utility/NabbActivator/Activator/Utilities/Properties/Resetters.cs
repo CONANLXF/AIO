@@ -2,7 +2,7 @@ using System.Linq;
 using EloBuddy;
 using LeagueSharp.SDK.Core.Utils;
 
-using TargetSelector = PortAIO.TSManager; namespace NabbActivator
+ namespace NabbActivator
 {
     /// <summary>
     ///     The resetters class.

@@ -16,7 +16,7 @@ using EloBuddy.SDK;
 
 #endregion
 
-using TargetSelector = PortAIO.TSManager; namespace Marksman.Champions
+ namespace Marksman.Champions
 {
     internal class Corki : Champion
     {
@@ -44,7 +44,7 @@ using TargetSelector = PortAIO.TSManager; namespace Marksman.Champions
         public override void Drawing_OnDraw(EventArgs args)
         {
             bool drawKillableMinions = Program.laneclear["Lane.UseQ.DrawKM"].Cast<CheckBox>().CurrentValue;
-            if (drawKillableMinions && Q.IsReady() && !PortAIO.OrbwalkerManager.isComboActive)
+            if (drawKillableMinions && Q.IsReady() && !Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 foreach (Obj_AI_Base m in
                     MinionManager.GetMinions(ObjectManager.Player.ServerPosition, Q.Range)
@@ -95,7 +95,7 @@ using TargetSelector = PortAIO.TSManager; namespace Marksman.Champions
                 }
             }
 
-            if ((!ComboActive && !HarassActive) || !PortAIO.OrbwalkerManager.CanMove(0)) return;
+            if ((!ComboActive && !HarassActive) || !Orbwalker.CanMove) return;
 
             var useQ = ComboActive ? Program.combo["UseQC"].Cast<CheckBox>().CurrentValue : Program.harass["UseQH"].Cast<CheckBox>().CurrentValue;
             var useE = ComboActive ? Program.combo["UseEC"].Cast<CheckBox>().CurrentValue : Program.harass["UseEH"].Cast<CheckBox>().CurrentValue;
@@ -229,9 +229,9 @@ using TargetSelector = PortAIO.TSManager; namespace Marksman.Champions
             }
         }
 
-        public override void Orbwalking_AfterAttack(AfterAttackArgs args)
+        public override void Orbwalking_AfterAttack(AttackableUnit target, EventArgs args)
         {
-            var t = args.Target as AIHeroClient;
+            var t = target as AIHeroClient;
             if (t == null || (!ComboActive && !HarassActive))
                 return;
 

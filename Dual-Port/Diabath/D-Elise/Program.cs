@@ -9,7 +9,7 @@ using EloBuddy.SDK.Menu;
 using EloBuddy.SDK.Menu.Values;
 using Color = System.Drawing.Color;
 
-using TargetSelector = PortAIO.TSManager; namespace D_Elise
+ namespace D_Elise
 {
     class Program
     {
@@ -247,20 +247,20 @@ using TargetSelector = PortAIO.TSManager; namespace D_Elise
             {
                 Smiteuse();
             }
-            if (PortAIO.OrbwalkerManager.isLastHitActive
-                || PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LastHit)
+                || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
                 FarmLane();
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 JungleFarm();
             }
             Usepotion();
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 Combo();
             }
-            if (PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 Harass();
 
@@ -325,7 +325,7 @@ using TargetSelector = PortAIO.TSManager; namespace D_Elise
             if (_player.InFountain() || ObjectManager.Player.HasBuff("Recall")) return;
 
             if (ObjectManager.Player.CountEnemiesInRange(800) > 0
-                || (mobs.Count > 0 && PortAIO.OrbwalkerManager.isLaneClearActive && _smite != null))
+                || (mobs.Count > 0 && Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear) && _smite != null))
             {
                 if (iusepotionhp && iusehppotion
                     && !(ObjectManager.Player.HasBuff("RegenerationPotion")
@@ -613,7 +613,7 @@ using TargetSelector = PortAIO.TSManager; namespace D_Elise
                 MinionTeam.Enemy,
                 MinionOrderTypes.Health);
             {
-                if (PortAIO.OrbwalkerManager.isLaneClearActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
                 {
                     foreach (var minion in allminions)
                         if (_human)
@@ -648,7 +648,7 @@ using TargetSelector = PortAIO.TSManager; namespace D_Elise
                             }
                         }
                 }
-                if (PortAIO.OrbwalkerManager.isLastHitActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LastHit))
                 {
                     foreach (var minion in allminions)
                         if (_human)
@@ -707,7 +707,7 @@ using TargetSelector = PortAIO.TSManager; namespace D_Elise
         //New map Monsters Name By SKO
         private static void Smiteuse()
         {
-            var jungle = PortAIO.OrbwalkerManager.isLaneClearActive;
+            var jungle = Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear);
             if (ObjectManager.Player.Spellbook.CanUseSpell(_smiteSlot) != SpellState.Ready) return;
             var useblue = getCheckBoxItem(smiteMenu, "Useblue");
             var usered = getCheckBoxItem(smiteMenu, "Usered");

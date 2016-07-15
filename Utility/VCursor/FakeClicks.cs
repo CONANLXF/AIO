@@ -30,7 +30,7 @@ using EloBuddy.SDK.Menu;
 using EloBuddy.SDK.Menu.Values;
 using EloBuddy.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace VCursor
+ namespace VCursor
 {
     /// <summary>
     ///     Simulates clicks.
@@ -112,10 +112,10 @@ using TargetSelector = PortAIO.TSManager; namespace VCursor
         /// <param name="target">
         ///     The target.
         /// </param>
-        private static void AfterAttack(AfterAttackArgs args)
+        private static void AfterAttack(AttackableUnit target, EventArgs args)
         {
             attacking = false;
-            var t = args.Target as AIHeroClient;
+            var t = target as AIHeroClient;
             if (t != null)
             {
                 var pos = RandomizePosition(t.Position);
@@ -134,7 +134,7 @@ using TargetSelector = PortAIO.TSManager; namespace VCursor
         /// <param name="args">
         ///     The args.
         /// </param>
-        private static void BeforeAttackFake(BeforeAttackArgs args)
+        private static void BeforeAttackFake(AttackableUnit target, Orbwalker.PreAttackArgs args)
         {
             if (root["ClickMode"].Cast<ComboBox>().CurrentValue == 1)
             {
@@ -262,8 +262,8 @@ using TargetSelector = PortAIO.TSManager; namespace VCursor
 
             Obj_AI_Base.OnNewPath += DrawFake;
             Spellbook.OnCastSpell += BeforeSpellCast;
-            LSEvents.BeforeAttack += BeforeAttackFake;
-            LSEvents.AfterAttack += AfterAttack;
+            Orbwalker.OnPreAttack += BeforeAttackFake;
+            Orbwalker.OnPostAttack += AfterAttack;
             Player.OnIssueOrder += OnIssueOrder;
         }
 

@@ -10,7 +10,7 @@ using UnderratedAIO.Helpers;
 using Damage = LeagueSharp.Common.Damage;
 using Environment = UnderratedAIO.Helpers.Environment;
 using Spell = LeagueSharp.Common.Spell;
-using TargetSelector = PortAIO.TSManager;
+
 
 namespace UnderratedAIO.Champions
 {
@@ -39,7 +39,7 @@ namespace UnderratedAIO.Champions
             InitGaren();
             InitMenu();
             Game.OnUpdate += Game_OnGameUpdate;
-            LSEvents.AfterAttack += AfterAttack;
+            Orbwalker.OnPostAttack += AfterAttack;
             Drawing.OnDraw += Game_OnDraw;
         }
 
@@ -49,7 +49,7 @@ namespace UnderratedAIO.Champions
             {
                 PortAIO.OrbwalkerManager.SetMovement(false);
                 PortAIO.OrbwalkerManager.SetAttack(false);
-                if (!PortAIO.OrbwalkerManager.isNoneActive)
+                if (!Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.None))
                 {
                     EloBuddy.Player.IssueOrder(GameObjectOrder.MoveTo, Game.CursorPos);
                 }
@@ -60,12 +60,12 @@ namespace UnderratedAIO.Champions
                 PortAIO.OrbwalkerManager.SetMovement(true);
             }
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 Clear();
             }
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 Combo();
             }
@@ -79,13 +79,12 @@ namespace UnderratedAIO.Champions
             }
         }
 
-        private static void AfterAttack(AfterAttackArgs args)
+        private static void AfterAttack(AttackableUnit target, EventArgs args)
         {
-            var target = args.Target;
-            if (Q.IsReady() && getCheckBoxItem(miscMenu, "useqAAA") && !GarenE && target.IsEnemy && PortAIO.OrbwalkerManager.isComboActive)
+            if (Q.IsReady() && getCheckBoxItem(miscMenu, "useqAAA") && !GarenE && target.IsEnemy && Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 Q.Cast(getCheckBoxItem(config, "packets"));
-                PortAIO.OrbwalkerManager.ResetAutoAttackTimer();
+                Orbwalker.ResetAutoAttack();
             }
         }
 

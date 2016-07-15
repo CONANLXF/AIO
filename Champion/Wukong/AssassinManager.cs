@@ -8,7 +8,7 @@ using LeagueSharp.Common;
 using SharpDX;
 using SharpDX.Direct3D9;
 
-using TargetSelector = PortAIO.TSManager; namespace Wukong
+ namespace Wukong
 {
     internal class AssassinManager
     {

@@ -1,6 +1,6 @@
 using EloBuddy;
 
-using TargetSelector = PortAIO.TSManager; namespace NabbActivator
+ namespace NabbActivator
 {
     /// <summary>
     ///     The methods class.

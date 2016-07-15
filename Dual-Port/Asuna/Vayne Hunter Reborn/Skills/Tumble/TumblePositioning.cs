@@ -13,7 +13,7 @@ using EloBuddy.SDK;
 using EloBuddy.SDK.Menu;
 using EloBuddy.SDK.Menu.Values;
 
-using TargetSelector = PortAIO.TSManager; namespace VayneHunter_Reborn.Skills.Tumble
+ namespace VayneHunter_Reborn.Skills.Tumble
 {
     static class TumblePositioning
     {

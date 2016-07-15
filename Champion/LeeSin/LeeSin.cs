@@ -23,7 +23,7 @@
     using LeagueSharp.Data.Enumerations;
     using EloBuddy.SDK.Enumerations;
     using LeagueSharp.SDK.Enumerations;
-    using TargetSelector = PortAIO.TSManager;
+    
 
     internal class LeeSin : Program
     {
@@ -280,7 +280,7 @@
             {
                 if (posBubbaKushJump.IsValid() && posBubbaKushJump.DistanceToPlayer() < 100)
                 {
-                    var targetSelect = TargetSelector.GetSelectedTarget();
+                    var targetSelect = TargetSelector.SelectedTarget;
                     if (targetSelect.IsValidTarget())
                     {
                         R.CastOnUnit(targetSelect);
@@ -289,7 +289,7 @@
                 return;
             }
             posBubbaKushFlash = posBubbaKushJump = new Vector3();
-            TargetSelector.SetTarget(null);
+            
             var mode = getBoxItem(bkMenu, "RMode");
             var multiW = WardManager.CanWardJump && mode != 0
                              ? GetMultiHit(getCheckBoxItem(bkMenu, "RKill"), getSliderItem(bkMenu, "RCountA"), 2)
@@ -301,14 +301,12 @@
             {
                 posBubbaKushJump = multiW.Item3;
                 lastBubbaKush = Variables.TickCount;
-                TargetSelector.SetTarget(multiW.Item1);
                 WardManager.Place(posBubbaKushJump);
             }
             else if (multiF.Item1 != null && multiF.Item2 != 0 && multiF.Item3.IsValid() && R.CastOnUnit(multiF.Item1))
             {
                 posBubbaKushFlash = multiF.Item3;
                 lastBubbaKush = Variables.TickCount;
-                TargetSelector.SetTarget(multiF.Item1);
             }
         }
 
@@ -357,7 +355,7 @@
                     return;
                 }
                 if ((cPassive == 0 && Player.Mana >= 70) || target.Count > 2
-                    || (PortAIO.OrbwalkerManager.LastTarget() == null
+                    || (Orbwalker.LastTarget == null
                             ? target.Any(i => i.DistanceToPlayer() > Player.GetRealAutoAttackRange() + 100)
                             : cPassive < 2))
                 {
@@ -440,7 +438,7 @@
             {
                 return;
             }
-            var hero = PortAIO.OrbwalkerManager.LastTarget() as AIHeroClient;
+            var hero = Orbwalker.LastTarget as AIHeroClient;
             Obj_AI_Minion minion = null;
             if (minions != null && minions.Count > 0)
             {
@@ -841,7 +839,7 @@
                                             return;
                                         }
                                     }
-                                    else if ((PortAIO.OrbwalkerManager.LastTarget() != null
+                                    else if ((Orbwalker.LastTarget != null
                                                   ? Q.CanLastHit(minion, Q.GetDamage(minion))
                                                   : Q.GetHealthPrediction(minion) > Q.GetDamage(minion))
                                              && Q.Casting(minion).IsCasted())
@@ -943,49 +941,49 @@
 
             PortAIO.OrbwalkerManager.SetAttack(!getKeyBindItem(insecMenu, "R"));
 
-            if (!PortAIO.OrbwalkerManager.isNoneActive)
+            if (!Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.None))
             {
-                PortAIO.OrbwalkerManager.ForcedTarget(null);
+                Orbwalker.ForcedTarget =(null);
             }
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 Combo();
             }
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 LaneClear();
             }
 
-            if (PortAIO.OrbwalkerManager.isLastHitActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LastHit))
             {
                 LastHit();
             }
 
-            if (PortAIO.OrbwalkerManager.isNoneActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.None))
             {
                 if (getKeyBindItem(miscMenu, "FleeW"))
                 {
-                    PortAIO.OrbwalkerManager.MoveA(Game.CursorPos);
+                    Orbwalker.MoveTo(Game.CursorPos);
                     Flee(Game.CursorPos);
                 }
 
                 else if (getKeyBindItem(miscMenu, "RFlash"))
                 {
-                    PortAIO.OrbwalkerManager.MoveA(Game.CursorPos);
+                    Orbwalker.MoveTo(Game.CursorPos);
                     if (R.IsReady() && Common.CanFlash)
                     {
                         var target = EntityManager.Heroes.Enemies.Where(i => i.Health + i.AttackShield > R.GetDamage(i) && R.IsInRange(i)).FirstOrDefault();
                         if (target != null && R.CastOnUnit(target))
                         {
-                            PortAIO.OrbwalkerManager.ForcedTarget(target);
+                            Orbwalker.ForcedTarget =(target);
                         }
                     }
                 }
                 else if (getKeyBindItem(bkMenu, "R"))
                 {
-                    PortAIO.OrbwalkerManager.MoveA(Game.CursorPos);
+                    Orbwalker.MoveTo(Game.CursorPos);
                     BubbaKush();
                 }
                 else if (getKeyBindItem(comboMenu, "Star"))
@@ -1016,7 +1014,7 @@
             {
                 target = W.GetTarget();
             }
-            PortAIO.OrbwalkerManager.MoveA(Game.CursorPos);
+            Orbwalker.MoveTo(Game.CursorPos);
             if (target == null)
             {
                 return;
@@ -1079,7 +1077,7 @@
             {
                 Hydra.Cast();
             }
-            if (Titanic.IsReady() && !Player.Spellbook.IsAutoAttacking && PortAIO.OrbwalkerManager.LastTarget() != null)
+            if (Titanic.IsReady() && !Player.Spellbook.IsAutoAttacking && Orbwalker.LastTarget != null)
             {
                 Titanic.Cast();
             }
@@ -1301,7 +1299,7 @@
 
             internal static void Start(AIHeroClient target)
             {
-                if (PortAIO.OrbwalkerManager.CanMove(0) && Variables.TickCount - lastMoveTime > 250)
+                if (Orbwalker.CanMove && Variables.TickCount - lastMoveTime > 250)
                 {
                     var posMove = Game.CursorPos;
                     if (target != null && lastMoveTime > 0 && CanInsec)
@@ -1312,7 +1310,7 @@
                             posMove = GetPositionBehind(target, posEnd);
                         }
                     }
-                    PortAIO.OrbwalkerManager.MoveA(posMove);
+                    Orbwalker.MoveTo(posMove);
                 }
                 if (target == null || !CanInsec)
                 {
@@ -1349,7 +1347,7 @@
                     }
                     else
                     {
-                        PortAIO.OrbwalkerManager.ForcedTarget(target);
+                        Orbwalker.ForcedTarget =(target);
                         WardManager.Place(target.ServerPosition);
                         return;
                     }
@@ -1378,7 +1376,7 @@
                 lastEndPos = lastFlashPos = new Vector3();
                 lastInsecTime = 0;
                 IsWardFlash = false;
-                PortAIO.OrbwalkerManager.ForcedTarget(null);
+                Orbwalker.ForcedTarget =(null);
             }
 
             private static void GapByFlash(AIHeroClient target, Vector3 posBehind)
@@ -1406,16 +1404,16 @@
 
             private static void GapByFlashR(AIHeroClient target, Vector3 posBehind)
             {
-                if (PortAIO.OrbwalkerManager.CanMove(0))
+                if (Orbwalker.CanMove)
                 {
                     lastMoveTime = Variables.TickCount;
-                    PortAIO.OrbwalkerManager.MoveA(
+                    Orbwalker.MoveTo(
                         posBehind.LSExtend(GetPositionKickTo(target), -(GetDistance(target) + Player.BoundingRadius / 2)));
                 }
                 lastFlashPos = posBehind;
                 lastEndPos = GetPositionAfterKick(target);
                 lastInsecTime = lastFlashRTime = Variables.TickCount;
-                PortAIO.OrbwalkerManager.ForcedTarget(target);
+                Orbwalker.ForcedTarget =(target);
                 Player.Spellbook.CastSpell(Flash, posBehind);
             }
 
@@ -1459,7 +1457,7 @@
                              || (getCheckBoxItem(insecMenu, "Flash") && Common.CanFlash)) && Q2.Cast())
                 {
                     isDashing = true;
-                    PortAIO.OrbwalkerManager.ForcedTarget(target);
+                    Orbwalker.ForcedTarget =(target);
                 }
             }
 
@@ -1471,18 +1469,18 @@
                 }
                 lastEndPos = GetPositionAfterKick(target);
                 lastInsecTime = lastRFlashTime = Variables.TickCount;
-                PortAIO.OrbwalkerManager.ForcedTarget(target);
+                Orbwalker.ForcedTarget =(target);
             }
 
             private static void GapByWardJump(AIHeroClient target, Vector3 posBehind)
             {
-                if (PortAIO.OrbwalkerManager.CanMove(0))
+                if (Orbwalker.CanMove)
                 {
                     lastMoveTime = Variables.TickCount;
                 }
                 lastEndPos = GetPositionAfterKick(target);
                 lastInsecTime = WardManager.LastInsecWardTime = WardManager.LastInsecJumpTme = Variables.TickCount;
-                PortAIO.OrbwalkerManager.ForcedTarget(target);
+                Orbwalker.ForcedTarget =(target);
                 WardManager.Place(posBehind, 1);
             }
 

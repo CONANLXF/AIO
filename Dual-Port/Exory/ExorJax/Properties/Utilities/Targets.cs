@@ -6,7 +6,7 @@ using LeagueSharp.SDK;
 using EloBuddy.SDK;
 using EloBuddy;
 using LeagueSharp.SDK.Core.Utils;
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Jax
+ namespace ExorAIO.Champions.Jax
 {
     /// <summary>
     ///     The targets class.

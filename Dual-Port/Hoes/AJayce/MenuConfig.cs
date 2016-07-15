@@ -2,7 +2,7 @@
 using EloBuddy.SDK.Menu.Values;
 using LeagueSharp.Common;
 
-using TargetSelector = PortAIO.TSManager; namespace Jayce
+ namespace Jayce
 {
     class MenuConfig : Helper
     {

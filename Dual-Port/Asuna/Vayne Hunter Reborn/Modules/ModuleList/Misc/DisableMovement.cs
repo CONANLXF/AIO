@@ -4,7 +4,7 @@ using VayneHunter_Reborn.Modules.ModuleHelpers;
 using VayneHunter_Reborn.Utility;
 using VayneHunter_Reborn.Utility.MenuUtility;
 
-using TargetSelector = PortAIO.TSManager; namespace VayneHunter_Reborn.Modules.ModuleList.Misc
+ namespace VayneHunter_Reborn.Modules.ModuleList.Misc
 {
     class DisableMovement : IModule
     {

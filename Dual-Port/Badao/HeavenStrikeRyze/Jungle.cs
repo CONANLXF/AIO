@@ -8,13 +8,13 @@ using LeagueSharp.Common;
 using ItemData = LeagueSharp.Common.Data.ItemData;
 using SharpDX;
 using Color = System.Drawing.Color;
-using TargetSelector = PortAIO.TSManager;
+using EloBuddy.SDK;
 
 namespace HeavenStrikeRyze
 {
     public static class Jungle
     {
-        private static LSOrbwalker Orbwalker = PortAIO.Init.LSOrbwalker;
+        
         private static AIHeroClient Player { get { return ObjectManager.Player; } }
         public static void BadaoActivate()
         {
@@ -24,7 +24,7 @@ namespace HeavenStrikeRyze
         private static void Game_OnUpdate(EventArgs args)
         {
 
-            if (!PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (!Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
                 return;
 
             if (Player.Mana * 100 / Player.MaxMana > Program.ManaJungClear)

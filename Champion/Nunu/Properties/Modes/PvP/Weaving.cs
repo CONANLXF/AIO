@@ -1,7 +1,7 @@
 using EloBuddy;
 using LeagueSharp;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Nunu
+ namespace ExorAIO.Champions.Nunu
 {
     /// <summary>
     ///     The logics class.

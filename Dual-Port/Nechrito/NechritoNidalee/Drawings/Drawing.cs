@@ -10,7 +10,7 @@ using Nechrito_Nidalee.Handlers;
 using Nechrito_Nidalee.Extras;
 using EloBuddy;
 
-using TargetSelector = PortAIO.TSManager; namespace Nechrito_Nidalee.Drawings
+ namespace Nechrito_Nidalee.Drawings
 {
     class DRAWING : Core
     {

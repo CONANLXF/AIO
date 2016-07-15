@@ -3,7 +3,7 @@ using Activators.Base;
 using LeagueSharp;
 using LeagueSharp.Common;
 
-using TargetSelector = PortAIO.TSManager; namespace Activators.Spells.Evaders
+ namespace Activators.Spells.Evaders
 {
     class zedult : CoreSpell
     {

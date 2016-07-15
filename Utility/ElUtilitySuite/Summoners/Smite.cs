@@ -1,4 +1,4 @@
-﻿using TargetSelector = PortAIO.TSManager; namespace ElUtilitySuite.Summoners
+﻿ namespace ElUtilitySuite.Summoners
 {
     using System;
     using System.Drawing;
@@ -52,7 +52,7 @@
         /// </value>
         public bool ComboModeActive
             =>
-                PortAIO.OrbwalkerManager.isComboActive;
+                Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo);
 
         /// <summary>
         ///     Gets or sets the slot.

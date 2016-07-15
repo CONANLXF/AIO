@@ -5,7 +5,7 @@ using LeagueSharp.SDK;
 using EloBuddy;
 using LeagueSharp.SDK.Enumerations;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Ashe
+ namespace ExorAIO.Champions.Ashe
 {
     /// <summary>
     ///     The spell class.

@@ -9,7 +9,7 @@ using Color = System.Drawing.Color;
 using EloBuddy;
 using EloBuddy.SDK.Menu.Values;
 
-using TargetSelector = PortAIO.TSManager; namespace Activators.Handlers
+ namespace Activators.Handlers
 {
     struct Offset
     {

@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using EloBuddy;
 using EloBuddy.SDK;
-using TargetSelector = PortAIO.TSManager;
+
 using Jhin___The_Virtuoso.Extensions;
 using LeagueSharp.Common;
 

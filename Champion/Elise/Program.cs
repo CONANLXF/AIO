@@ -7,7 +7,7 @@ using EloBuddy.SDK.Menu.Values;
 using LeagueSharp.Common;
 using Color = System.Drawing.Color;
 using Spell = LeagueSharp.Common.Spell;
-using TargetSelector = PortAIO.TSManager;
+
 
 namespace GFUELElise
 {
@@ -713,17 +713,17 @@ namespace GFUELElise
                     return;
                 }
 
-                if (PortAIO.OrbwalkerManager.isComboActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
                 {
                     DoCombo();
                 }
 
-                if (PortAIO.OrbwalkerManager.isHarassActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
                 {
                     DoHarass();
                 }
 
-                if (PortAIO.OrbwalkerManager.isLaneClearActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
                 {
                     DoJungleclear();
                     DoLaneclear();
@@ -747,7 +747,7 @@ namespace GFUELElise
 
         private static void SemiE()
         {
-            PortAIO.OrbwalkerManager.MoveA(Game.CursorPos);
+            Orbwalker.MoveTo(Game.CursorPos);
 
             var target = TargetSelector.GetTarget(E.Range, DamageType.Magical);
             if (target == null || !target.LSIsValidTarget())

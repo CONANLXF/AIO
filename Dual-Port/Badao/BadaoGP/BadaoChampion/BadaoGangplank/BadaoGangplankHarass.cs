@@ -10,7 +10,7 @@ using Color = System.Drawing.Color;
 using EloBuddy.SDK;
 using EloBuddy;
 
-using TargetSelector = PortAIO.TSManager; namespace BadaoKingdom.BadaoChampion.BadaoGangplank
+ namespace BadaoKingdom.BadaoChampion.BadaoGangplank
 {
     public static class BadaoGangplankHarass
     {
@@ -21,7 +21,7 @@ using TargetSelector = PortAIO.TSManager; namespace BadaoKingdom.BadaoChampion.B
 
         private static void Game_OnUpdate(EventArgs args)
         {
-            if (!PortAIO.OrbwalkerManager.isHarassActive)
+            if (!Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
                 return;
             if (BadaoMainVariables.Q.IsReady() && BadaoGangplankVariables.HarassQ)
             {

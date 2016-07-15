@@ -9,7 +9,7 @@ using ItemData = LeagueSharp.Common.Data.ItemData;
 using SharpDX;
 using Color = System.Drawing.Color;
 using EloBuddy.SDK;
-using TargetSelector = PortAIO.TSManager;
+
 
 namespace HeavenStrikeRyze
 {
@@ -24,12 +24,12 @@ namespace HeavenStrikeRyze
 
         private static void Game_OnUpdate(EventArgs args)
         {
-            if (!PortAIO.OrbwalkerManager.isLastHitActive)
+            if (!Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LastHit))
                 return; 
             if (Player.Mana * 100 / Player.MaxMana > Program.ManaLastHit)
             {
                 var targetq = MinionManager.GetMinions(Player.Position, Program._q.Range, MinionTypes.All, MinionTeam.Enemy, MinionOrderTypes.Health).FirstOrDefault();
-                if (Program._q.IsReady() && Program.QlastHit && targetq != null && PortAIO.OrbwalkerManager.CanMove() && targetq.Health < Helper.Qdamage(targetq))
+                if (Program._q.IsReady() && Program.QlastHit && targetq != null && Orbwalker.CanMove && targetq.Health < Helper.Qdamage(targetq))
                 {
                     Program._q.Cast(targetq);
                 }

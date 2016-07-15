@@ -9,7 +9,7 @@ using EloBuddy.SDK;
 using EloBuddy.SDK.Menu;
 using EloBuddy.SDK.Menu.Values;
 
-using TargetSelector = PortAIO.TSManager; namespace OneKeyToWin_AIO_Sebby.Champions
+ namespace OneKeyToWin_AIO_Sebby.Champions
 {
     class Darius
     {
@@ -31,7 +31,7 @@ using TargetSelector = PortAIO.TSManager; namespace OneKeyToWin_AIO_Sebby.Champi
 
             Game.OnUpdate += Game_OnGameUpdate;
             Drawing.OnDraw += Drawing_OnDraw;
-            LSEvents.AfterAttack += afterAttack;
+            Orbwalker.OnPostAttack += afterAttack;
             Interrupter.OnPossibleToInterrupt += OnInterruptableSpell;
         }
 
@@ -87,12 +87,12 @@ using TargetSelector = PortAIO.TSManager; namespace OneKeyToWin_AIO_Sebby.Champi
         }
 
 
-        private static void afterAttack(AfterAttackArgs args)
+        private static void afterAttack(AttackableUnit target, EventArgs args)
         {
             if (Player.Mana < RMANA + WMANA || !W.IsReady())
                 return;
 
-            var t = args.Target as AIHeroClient;
+            var t = target as AIHeroClient;
 
             if (t.LSIsValidTarget())
                 W.Cast();

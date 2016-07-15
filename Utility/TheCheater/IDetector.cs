@@ -7,7 +7,7 @@ using LeagueSharp;
 using SharpDX;
 using EloBuddy;
 
-using TargetSelector = PortAIO.TSManager; namespace TheCheater
+ namespace TheCheater
 {
     public enum DetectorSetting { Preferred, Safe, AntiHumanizer}
     interface IDetector

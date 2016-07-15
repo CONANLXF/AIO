@@ -9,7 +9,7 @@ using EloBuddy;
 using EloBuddy.SDK.Menu;
 using EloBuddy.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace PuppyStandaloneOrbwalker
+ namespace PuppyStandaloneOrbwalker
 {
     internal class Program
     {

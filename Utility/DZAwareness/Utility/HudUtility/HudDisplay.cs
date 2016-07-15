@@ -14,7 +14,7 @@ using PortAIO.Properties;
 using EloBuddy.SDK.Menu.Values;
 using EloBuddy.SDK.Menu;
 
-using TargetSelector = PortAIO.TSManager; namespace DZAwarenessAIO.Utility.HudUtility
+ namespace DZAwarenessAIO.Utility.HudUtility
 {
     class HudDisplay
     {

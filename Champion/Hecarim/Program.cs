@@ -9,7 +9,7 @@ using SharpDX;
 using Color = System.Drawing.Color;
 using Damage = LeagueSharp.Common.Damage;
 using Spell = LeagueSharp.Common.Spell;
-using TargetSelector = PortAIO.TSManager;
+
 
 namespace JustHecarim
 {
@@ -156,22 +156,22 @@ namespace JustHecarim
                 return;
             }
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 combo();
             }
 
-            if (PortAIO.OrbwalkerManager.isLastHitActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LastHit))
             {
                 Lasthit();
             }
 
-            if (PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 harass();
             }
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 Clear();
             }
@@ -249,7 +249,7 @@ namespace JustHecarim
 
             if (player.ManaPercent >= lanemana)
             {
-                if (PortAIO.OrbwalkerManager.isLaneClearActive &&
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear) &&
                     getCheckBoxItem(laneClear, "laneQ"))
                 {
                     Q.Cast();
@@ -258,7 +258,7 @@ namespace JustHecarim
 
             if (player.ManaPercent >= lanemana)
             {
-                if (PortAIO.OrbwalkerManager.isLaneClearActive &&
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear) &&
                     getCheckBoxItem(laneClear, "laneE"))
                 {
                     E.Cast();
@@ -266,7 +266,7 @@ namespace JustHecarim
             }
 
             if (minionObj.Count > getSliderItem(laneClear, "wmin") && player.ManaPercent >= lanemana)
-                if (PortAIO.OrbwalkerManager.isLaneClearActive &&
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear) &&
                     getCheckBoxItem(laneClear, "laneW"))
                 {
                     {

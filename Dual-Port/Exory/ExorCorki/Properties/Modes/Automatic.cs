@@ -9,7 +9,7 @@ using LeagueSharp.SDK.Core.Utils;
 using EloBuddy;
 using EloBuddy.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Corki
+ namespace ExorAIO.Champions.Corki
 {
     /// <summary>
     ///     The logics class.
@@ -48,7 +48,7 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Corki
             ///     The Automatic R LastHit Logics.
             /// </summary>
             if (Vars.R.IsReady() &&
-                !PortAIO.OrbwalkerManager.isComboActive &&
+                !Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) &&
                 GameObjects.Player.ManaPercent >
                     ManaManager.GetNeededMana(Vars.R.Slot, Vars.getSliderItem(Vars.RMenu, "logical")) &&
                 Vars.getSliderItem(Vars.RMenu, "logical") != 101)

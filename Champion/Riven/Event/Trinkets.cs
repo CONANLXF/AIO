@@ -8,7 +8,7 @@ using EloBuddy;
 
 #endregion
 
-using TargetSelector = PortAIO.TSManager; namespace NechritoRiven.Event
+ namespace NechritoRiven.Event
 {
     internal class Trinkets : Core.Core
     {

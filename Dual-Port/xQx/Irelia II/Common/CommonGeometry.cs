@@ -23,7 +23,7 @@ using GamePath = System.Collections.Generic.List<SharpDX.Vector2>;
 
 #endregion
 
-using TargetSelector = PortAIO.TSManager; namespace Irelia.Common
+ namespace Irelia.Common
 {
     using System;
     using System.Collections.Generic;

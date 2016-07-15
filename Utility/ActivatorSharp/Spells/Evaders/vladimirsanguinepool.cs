@@ -1,7 +1,7 @@
 ﻿using System; using EloBuddy.SDK.Menu.Values; using EloBuddy;
 using Activators.Base;
 
-using TargetSelector = PortAIO.TSManager; namespace Activators.Spells.Evaders
+ namespace Activators.Spells.Evaders
 {
     class vladimirsanguinepool : CoreSpell
     {

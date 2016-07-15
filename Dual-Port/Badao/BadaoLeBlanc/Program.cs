@@ -12,7 +12,7 @@ using EloBuddy.SDK.Menu.Values;
 using EloBuddy.SDK;
 using Spell = LeagueSharp.Common.Spell;
 
-using TargetSelector = PortAIO.TSManager; namespace BLeblanc
+ namespace BLeblanc
 {
     class Program
     {
@@ -101,7 +101,7 @@ using TargetSelector = PortAIO.TSManager; namespace BLeblanc
         {
             if (Player.IsDead)
                 return;
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 Combo();
             }
@@ -123,7 +123,7 @@ using TargetSelector = PortAIO.TSManager; namespace BLeblanc
                     TwoChains.TwoChainsActive(null);
                 }
             }
-            if (PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 if (getCheckBoxItem(spellMenu, "Qharass"))
                 {

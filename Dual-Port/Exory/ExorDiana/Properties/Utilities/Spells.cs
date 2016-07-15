@@ -4,7 +4,7 @@ using LeagueSharp.SDK;
 using LeagueSharp.SDK.Core.Utils;
 using LeagueSharp.SDK.Enumerations;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Diana
+ namespace ExorAIO.Champions.Diana
 {
     /// <summary>
     ///     The spell class.

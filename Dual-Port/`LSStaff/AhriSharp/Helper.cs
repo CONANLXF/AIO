@@ -5,7 +5,7 @@ using LeagueSharp;
 using LeagueSharp.Common;
 using SharpDX;
 using EloBuddy;
-using TargetSelector = PortAIO.TSManager; namespace AhriSharp
+ namespace AhriSharp
 {
     internal class EnemyInfo
     {

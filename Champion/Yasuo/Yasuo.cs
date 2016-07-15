@@ -1,4 +1,4 @@
-﻿using TargetSelector = PortAIO.TSManager;
+﻿
 namespace Valvrave_Sharp.Plugin
 {
     #region
@@ -209,10 +209,10 @@ namespace Valvrave_Sharp.Plugin
                     Q2.Delay = GetQDelay(true);
                     E.Speed = E2.Speed = 1200 + (Player.MoveSpeed - 345);
                 };
-            LeagueSharp.Common.LSEvents.AfterAttack += (args) =>
+            Orbwalker.OnPostAttack += (target, args) =>
                 {
-                    if (!PortAIO.OrbwalkerManager.isLaneClearActive
-                        || !(args.Target is Obj_AI_Turret) || !Q.IsReady() || haveQ3)
+                    if (!Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear)
+                        || !(target is Obj_AI_Turret) || !Q.IsReady() || haveQ3)
                     {
                         return;
                     }
@@ -228,7 +228,7 @@ namespace Valvrave_Sharp.Plugin
                         Q.Cast(Game.CursorPos);
                     }
                 };
-            LeagueSharp.Common.LSEvents.BeforeAttack += (args) =>
+            Orbwalker.OnPreAttack += (target, args) =>
             {
                 args.Process = !IsDashing;
             };
@@ -595,7 +595,7 @@ namespace Valvrave_Sharp.Plugin
                 }
                 else
                 {
-                    var target = PortAIO.OrbwalkerManager.LastTarget();
+                    var target = Orbwalker.LastTarget;
                     if (target == null || Player.Distance(target) > target.GetRealAutoAttackRange() * 0.7
                         || Player.Distance(Game.CursorPos) > E.Range * 1.5)
                     {
@@ -1139,38 +1139,38 @@ namespace Valvrave_Sharp.Plugin
 
             KillSteal();
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 Combo();
             }
 
-            if (PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 Hybrid();
             }
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 LaneClear();
             }
 
-            if (PortAIO.OrbwalkerManager.isLastHitActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LastHit))
             {
                 LastHit();
             }
 
-            if (PortAIO.OrbwalkerManager.isFleeActive || getKeyBindItem(fleeMenu, "E"))
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Flee) || getKeyBindItem(fleeMenu, "E"))
             {
-                PortAIO.OrbwalkerManager.MoveA(Game.CursorPos);
+                Orbwalker.MoveTo(Game.CursorPos);
                 Flee();
             }
             else if (miscMenu["EQ3Flash"].Cast<KeyBind>().CurrentValue)
             {
-                PortAIO.OrbwalkerManager.MoveA(Game.CursorPos);
+                Orbwalker.MoveTo(Game.CursorPos);
                 //BeyBlade();
             }
 
-            if (!PortAIO.OrbwalkerManager.isComboActive && !PortAIO.OrbwalkerManager.isHarassActive)
+            if (!Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) && !Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 AutoQ();
             }

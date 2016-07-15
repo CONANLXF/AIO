@@ -21,7 +21,7 @@ using LeagueSharp;
 using EloBuddy;
 #endregion
 
-using TargetSelector = PortAIO.TSManager; namespace OlafxQx.Evade
+ namespace OlafxQx.Evade
 {
     public static class SpellDatabase
     {

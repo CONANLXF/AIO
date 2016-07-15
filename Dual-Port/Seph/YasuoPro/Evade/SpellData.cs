@@ -22,7 +22,7 @@ using YasuoPro;
 
 #endregion
 
-using TargetSelector = PortAIO.TSManager; namespace EvadeA
+ namespace EvadeA
 {
     public class SpellData
     {

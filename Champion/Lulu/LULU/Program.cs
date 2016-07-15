@@ -7,7 +7,7 @@ using EloBuddy.SDK.Menu.Values;
 using LeagueSharp.Common;
 using Spell = LeagueSharp.Common.Spell;
 
-using TargetSelector = PortAIO.TSManager; namespace SKT_Series
+ namespace SKT_Series
 {
     internal class Program
     {
@@ -176,7 +176,7 @@ using TargetSelector = PortAIO.TSManager; namespace SKT_Series
             var QTarget = TargetSelector.GetTarget(_Q.Range, DamageType.Magical);
             var ETarget = TargetSelector.GetTarget(_E.Range, DamageType.Magical);
 
-            if (PortAIO.OrbwalkerManager.isComboActive && getCheckBoxItem(comboMenu, "Combo_Q"))
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) && getCheckBoxItem(comboMenu, "Combo_Q"))
                 // 콤보키 눌렀을떄
             {
                 if (_E.IsReady() && ETarget != null) // E 사용 

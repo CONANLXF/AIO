@@ -1,7 +1,7 @@
 using EloBuddy.SDK.Menu.Values;
 using ExorAIO.Utilities;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Caitlyn
+ namespace ExorAIO.Champions.Caitlyn
 {
     /// <summary>
     ///     The menu class.

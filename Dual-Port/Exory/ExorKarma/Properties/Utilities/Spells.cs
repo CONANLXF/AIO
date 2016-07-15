@@ -4,7 +4,7 @@ using LeagueSharp;
 using LeagueSharp.SDK;
 using LeagueSharp.SDK.Enumerations;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Karma
+ namespace ExorAIO.Champions.Karma
 {
     /// <summary>
     ///     The spell class.

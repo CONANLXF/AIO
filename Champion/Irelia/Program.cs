@@ -6,7 +6,7 @@ using EloBuddy.SDK.Menu;
 using EloBuddy.SDK.Menu.Values;
 using LeagueSharp.Common;
 using Spell = LeagueSharp.Common.Spell;
-using TargetSelector = PortAIO.TSManager;
+
 
 namespace Challenger_Series
 {
@@ -62,7 +62,7 @@ namespace Challenger_Series
 
             InitMenu();
             Game.OnUpdate += OnUpdate;
-            LSEvents.BeforeAttack += OnOrbwalkerAction;
+            Orbwalker.OnPreAttack += OnOrbwalkerAction;
             Spellbook.OnCastSpell += OnCastSpell;
         }
 
@@ -87,7 +87,7 @@ namespace Challenger_Series
             }
         }
 
-        private static void OnOrbwalkerAction(BeforeAttackArgs args)
+        private static void OnOrbwalkerAction(AttackableUnit target, Orbwalker.PreAttackArgs args)
         {
             if (args.Target is AIHeroClient && UseWComboBool)
             {
@@ -136,7 +136,7 @@ namespace Challenger_Series
                     }
                 }
 
-                if (PortAIO.OrbwalkerManager.isComboActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
                 {
                     if (Q.IsReady())
                     {
@@ -269,7 +269,7 @@ namespace Challenger_Series
                     }
                 }
             }
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 var farmMode = QFarmModeStringList;
                 switch (farmMode)

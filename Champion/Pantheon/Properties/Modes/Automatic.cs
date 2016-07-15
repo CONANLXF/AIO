@@ -1,6 +1,6 @@
 using System;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Pantheon
+ namespace ExorAIO.Champions.Pantheon
 {
     /// <summary>
     ///     The logics class.

@@ -8,7 +8,7 @@ using LeagueSharp;
 using LeagueSharp.Common;
 using SharpDX;
 
-using TargetSelector = PortAIO.TSManager; namespace ezEvade.SpecialSpells
+ namespace ezEvade.SpecialSpells
 {
     class Syndra : ChampionPlugin
     {

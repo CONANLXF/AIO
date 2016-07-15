@@ -28,7 +28,7 @@ using SharpDX;
 
 #endregion
 
-using TargetSelector = PortAIO.TSManager; namespace MasterSharp
+ namespace MasterSharp
 {
     public enum CollisionObjectTypes
     {

@@ -6,7 +6,7 @@ using LeagueSharp.SDK;
 using EloBuddy;
 using EloBuddy.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Ryze
+ namespace ExorAIO.Champions.Ryze
 {
     /// <summary>
     ///     The logics class.
@@ -36,7 +36,7 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Ryze
                 if (!Targets.Minions.Any() &&
                     Bools.HasTear(GameObjects.Player) &&
                     GameObjects.Player.CountEnemyHeroesInRange(1500) == 0 &&
-                    PortAIO.OrbwalkerManager.isNoneActive &&
+                    Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.None) &&
                     GameObjects.Player.ManaPercent >
                         ManaManager.GetNeededMana(Vars.Q.Slot, Vars.getSliderItem(Vars.MiscMenu, "tear")) &&
                     Vars.getSliderItem(Vars.MiscMenu, "tear") != 101)
@@ -48,7 +48,7 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Ryze
                 ///     The Passive Stacking Logic.
                 /// </summary>
                 if (!GameObjects.Player.HasBuff("RyzePassiveCharged") &&
-                    PortAIO.OrbwalkerManager.isNoneActive &&
+                    Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.None) &&
                     Vars.getSliderItem(Vars.MiscMenu, "stacks") != 0 &&
                     Vars.getSliderItem(Vars.MiscMenu, "stacks") >
                         GameObjects.Player.GetBuffCount("RyzePassiveStack") &&

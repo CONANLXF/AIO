@@ -13,7 +13,8 @@ using Orbwalking = SebbyLib.Orbwalking;
 using Spell = LeagueSharp.Common.Spell;
 using Utility = LeagueSharp.Common.Utility;
 
-using TargetSelector = PortAIO.TSManager; namespace OneKeyToWin_AIO_Sebby
+
+namespace OneKeyToWin_AIO_Sebby
 {
     internal class Sivir
     {
@@ -111,24 +112,18 @@ using TargetSelector = PortAIO.TSManager; namespace OneKeyToWin_AIO_Sebby
 
             Game.OnUpdate += Game_OnGameUpdate;
             Drawing.OnDraw += Drawing_OnDraw;
-            if (PortAIO.OrbwalkerManager.isEBActive)
-            {
-                Orbwalker.OnPostAttack += Orbwalker_OnPostAttackEB;
-            }
-            else
-            {
-                LSEvents.AfterAttack += Orbwalker_OnPostAttack;
-            }
-            
+            Orbwalker.OnPostAttack += Orbwalker_OnPostAttackEB;
+
+
             Obj_AI_Base.OnProcessSpellCast += Obj_AI_Base_OnProcessSpellCast;
             AntiGapcloser.OnEnemyGapcloser += AntiGapcloser_OnEnemyGapcloser;
         }
 
-        private static void Orbwalker_OnPostAttack(AfterAttackArgs args)
+        private static void Orbwalker_OnPostAttack(AttackableUnit target, EventArgs args)
         {
             if (W.IsReady())
             {
-                var t = args.Target as AIHeroClient;
+                var t = target as AIHeroClient;
                 if (t != null)
                 {
                     if (Player.LSGetAutoAttackDamage(t) * 3 > t.Health - OktwCommon.GetIncomingDamage(t))
@@ -143,13 +138,13 @@ using TargetSelector = PortAIO.TSManager; namespace OneKeyToWin_AIO_Sebby
                 else
                 {
                     var t2 = TargetSelector.GetTarget(900, DamageType.Physical);
-                    if (t2.LSIsValidTarget() && getCheckBoxItem(wMenu, "harasW") && getCheckBoxItem(wMenu, "haras" + t2.NetworkId) && !Player.UnderTurret(true) && Player.Mana > RMANA + WMANA + QMANA && t2.LSDistance(args.Target.Position) < 500)
+                    if (t2.LSIsValidTarget() && getCheckBoxItem(wMenu, "harasW") && getCheckBoxItem(wMenu, "haras" + t2.NetworkId) && !Player.UnderTurret(true) && Player.Mana > RMANA + WMANA + QMANA && t2.LSDistance(target.Position) < 500)
                     {
                         W.Cast();
                     }
-                    if (args.Target is Obj_AI_Minion && Program.LaneClear && getCheckBoxItem(farmMenu, "farmW") && Player.ManaPercent > getSliderItem(farmMenu, "Mana") && !Player.UnderTurret(true))
+                    if (target is Obj_AI_Minion && Program.LaneClear && getCheckBoxItem(farmMenu, "farmW") && Player.ManaPercent > getSliderItem(farmMenu, "Mana") && !Player.UnderTurret(true))
                     {
-                        var minions = Cache.GetMinions(args.Target.Position, 500);
+                        var minions = Cache.GetMinions(target.Position, 500);
                         if (minions.Count >= getSliderItem(farmMenu, "LCminions"))
                         {
                             W.Cast();
@@ -249,16 +244,16 @@ using TargetSelector = PortAIO.TSManager; namespace OneKeyToWin_AIO_Sebby
             if (t.LSIsValidTarget())
             {
                 missileManager.Target = t;
-                var qDmg = OktwCommon.GetKsDamage(t, Q)*1.9;
+                var qDmg = OktwCommon.GetKsDamage(t, Q) * 1.9;
                 if (Orbwalking.InAutoAttackRange(t))
-                    qDmg = qDmg + Player.GetAutoAttackDamage(t)*3;
+                    qDmg = qDmg + Player.GetAutoAttackDamage(t) * 3;
                 if (qDmg > t.Health)
                     Q.Cast(t, true);
                 else if (Program.Combo && Player.Mana > RMANA + QMANA)
                     Program.CastSpell(Q, t);
                 else if (Program.Farm && getCheckBoxItem(wMenu, "haras" + t.NetworkId) && !Player.UnderTurret(true))
                 {
-                    if (Player.Mana > Player.MaxMana*0.9)
+                    if (Player.Mana > Player.MaxMana * 0.9)
                         Program.CastSpell(Q, t);
                     else if (ObjectManager.Player.Mana > RMANA + WMANA + QMANA + QMANA)
                         Program.CastSpell(Qc, t);
@@ -291,8 +286,8 @@ using TargetSelector = PortAIO.TSManager; namespace OneKeyToWin_AIO_Sebby
             var t = TargetSelector.GetTarget(800, DamageType.Physical);
             if (Player.CountEnemiesInRange(800f) > 2)
                 R.Cast();
-            else if (t.LSIsValidTarget() && PortAIO.OrbwalkerManager.LastTarget() == null && Program.Combo &&
-                     Player.GetAutoAttackDamage(t)*2 > t.Health && !Q.IsReady() && t.CountEnemiesInRange(800) < 3)
+            else if (t.LSIsValidTarget() && Orbwalker.LastTarget == null && Program.Combo &&
+                     Player.GetAutoAttackDamage(t) * 2 > t.Health && !Q.IsReady() && t.CountEnemiesInRange(800) < 3)
                 R.Cast();
         }
 
@@ -333,7 +328,7 @@ using TargetSelector = PortAIO.TSManager; namespace OneKeyToWin_AIO_Sebby
             EMANA = E.Instance.SData.Mana;
 
             if (!R.IsReady())
-                RMANA = QMANA - Player.PARRegenRate*Q.Instance.Cooldown;
+                RMANA = QMANA - Player.PARRegenRate * Q.Instance.Cooldown;
             else
                 RMANA = R.Instance.SData.Mana;
         }
@@ -341,7 +336,7 @@ using TargetSelector = PortAIO.TSManager; namespace OneKeyToWin_AIO_Sebby
         public static void drawText2(string msg, Vector3 Hero, int high, Color color)
         {
             var wts = Drawing.WorldToScreen(Hero);
-            Drawing.DrawText(wts[0] - msg.Length*5, wts[1] - high, color, msg);
+            Drawing.DrawText(wts[0] - msg.Length * 5, wts[1] - high, color, msg);
         }
 
         private static void Drawing_OnDraw(EventArgs args)
@@ -390,10 +385,10 @@ using TargetSelector = PortAIO.TSManager; namespace OneKeyToWin_AIO_Sebby
                 var target = TargetSelector.GetTarget(1500, DamageType.Physical);
                 if (target.LSIsValidTarget())
                 {
-                    if (Q.GetDamage(target)*2 > target.Health)
+                    if (Q.GetDamage(target) * 2 > target.Health)
                     {
                         Render.Circle.DrawCircle(target.ServerPosition, 200, Color.Red);
-                        Drawing.DrawText(Drawing.Width*0.1f, Drawing.Height*0.4f, Color.Red,
+                        Drawing.DrawText(Drawing.Width * 0.1f, Drawing.Height * 0.4f, Color.Red,
                             "Q kill: " + target.ChampionName + " have: " + target.Health + "hp");
                     }
                 }

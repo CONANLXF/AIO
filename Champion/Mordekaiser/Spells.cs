@@ -2,7 +2,7 @@
 using EloBuddy;
 using LeagueSharp.Common;
 
-using TargetSelector = PortAIO.TSManager; namespace Mordekaiser
+ namespace Mordekaiser
 {
     public class Spells
     {

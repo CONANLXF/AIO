@@ -12,7 +12,7 @@ using Orbwalking = SebbyLib.Orbwalking;
 using Spell = LeagueSharp.Common.Spell;
 using Utility = LeagueSharp.Common.Utility;
 
-using TargetSelector = PortAIO.TSManager; namespace OneKeyToWin_AIO_Sebby
+ namespace OneKeyToWin_AIO_Sebby
 {
     internal class Urgot
     {
@@ -47,7 +47,7 @@ using TargetSelector = PortAIO.TSManager; namespace OneKeyToWin_AIO_Sebby
 
             Drawing.OnDraw += Drawing_OnDraw;
             Game.OnUpdate += Game_OnGameUpdate;
-            LSEvents.BeforeAttack += BeforeAttack;
+            Orbwalker.OnPreAttack += BeforeAttack;
             AntiGapcloser.OnEnemyGapcloser += AntiGapcloser_OnEnemyGapcloser;
             Interrupter2.OnInterruptableTarget += OnInterruptableSpell;
         }
@@ -137,7 +137,7 @@ using TargetSelector = PortAIO.TSManager; namespace OneKeyToWin_AIO_Sebby
             }
         }
 
-        private static void BeforeAttack(BeforeAttackArgs args)
+        private static void BeforeAttack(AttackableUnit target, Orbwalker.PreAttackArgs args)
         {
             if (FarmId != args.Target.NetworkId)
                 FarmId = args.Target.NetworkId;
@@ -216,7 +216,7 @@ using TargetSelector = PortAIO.TSManager; namespace OneKeyToWin_AIO_Sebby
                 farmQ();
             else if (getCheckBoxItem(item, "stack") && Utils.TickCount - Q.LastCastAttemptT > 4000 &&
                      !Player.HasBuff("Recall") && Player.Mana > Player.MaxMana*0.95 &&
-                     PortAIO.OrbwalkerManager.isNoneActive &&
+                     Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.None) &&
                      (Items.HasItem(Tear) || Items.HasItem(Manamune)))
                 Q.Cast(Player.ServerPosition);
         }
@@ -342,8 +342,8 @@ using TargetSelector = PortAIO.TSManager; namespace OneKeyToWin_AIO_Sebby
             var minions = Cache.GetMinions(Player.ServerPosition, Q.Range);
 
             var orbTarget = 0;
-            if (PortAIO.OrbwalkerManager.LastTarget() != null)
-                orbTarget = PortAIO.OrbwalkerManager.LastTarget().NetworkId;
+            if (Orbwalker.LastTarget != null)
+                orbTarget = Orbwalker.LastTarget.NetworkId;
 
             if (minions.Where(
                 minion =>

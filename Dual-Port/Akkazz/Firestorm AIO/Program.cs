@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using LeagueSharp;
 using LeagueSharp.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace Firestorm_AIO
+ namespace Firestorm_AIO
 {
     internal class Program
     {

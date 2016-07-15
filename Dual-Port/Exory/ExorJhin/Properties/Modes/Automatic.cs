@@ -8,7 +8,7 @@ using LeagueSharp.SDK.Core.Utils;
 using EloBuddy.SDK;
 using SharpDX;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Jhin
+ namespace ExorAIO.Champions.Jhin
 {
     /// <summary>
     ///     The logics class.
@@ -60,7 +60,7 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Jhin
                     }
                 }
 
-                if (PortAIO.OrbwalkerManager.isComboActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
                 {
                     Vars.R.Cast(Game.CursorPos);
                 }
@@ -76,7 +76,7 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Jhin
             /// </summary>
             if (Vars.Q.IsReady() &&
                 GameObjects.Player.HasBuff("JhinPassiveReload") &&
-                !PortAIO.OrbwalkerManager.isComboActive &&
+                !Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) &&
                 GameObjects.Player.ManaPercent >
                     ManaManager.GetNeededMana(Vars.Q.Slot, Vars.getSliderItem(Vars.QMenu, "lasthit")) &&
                 Vars.getSliderItem(Vars.QMenu, "lasthit") != 101 && !Vars.R.Instance.Name.Equals("JhinRShot"))

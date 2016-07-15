@@ -6,7 +6,7 @@ using EloBuddy.SDK.Menu;
 using EloBuddy.SDK.Menu.Values;
 using LeagueSharp.Common;
 
-using TargetSelector = PortAIO.TSManager; namespace ElVi
+ namespace ElVi
 {
     internal static class Drawings
     {

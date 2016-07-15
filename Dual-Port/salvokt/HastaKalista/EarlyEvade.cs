@@ -8,7 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-using TargetSelector = PortAIO.TSManager; namespace HastaKalistaBaby
+ namespace HastaKalistaBaby
 {
 
     internal partial class EarlyList

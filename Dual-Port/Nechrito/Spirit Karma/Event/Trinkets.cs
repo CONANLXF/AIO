@@ -7,7 +7,7 @@ using Spirit_Karma.Menus;
 
 #endregion
 
-using TargetSelector = PortAIO.TSManager; namespace Spirit_Karma.Event
+ namespace Spirit_Karma.Event
 {
     internal class Trinkets : Core.Core
     {

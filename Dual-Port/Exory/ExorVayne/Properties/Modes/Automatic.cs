@@ -7,7 +7,7 @@ using LeagueSharp.SDK.Core.Utils;
 using SharpDX;
 using EloBuddy;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Vayne
+ namespace ExorAIO.Champions.Vayne
 {
     /// <summary>
     ///     The logics class.

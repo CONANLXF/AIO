@@ -11,13 +11,14 @@ using EloBuddy;
 using LeagueSharp.Common;
 using SharpDX;
 
-using TargetSelector = PortAIO.TSManager; namespace Viktor
+
+namespace Viktor
 {
     public class Program
     {
         public const string CHAMP_NAME = "Viktor";
         private static readonly AIHeroClient player = ObjectManager.Player;
-        
+
         // Spells
         private static LeagueSharp.Common.Spell Q, W, E, R;
         private static readonly int maxRangeE = 1225;
@@ -30,14 +31,14 @@ using TargetSelector = PortAIO.TSManager; namespace Viktor
         {
             get
             {
-                if ((PortAIO.OrbwalkerManager.isComboActive) || (PortAIO.OrbwalkerManager.isHarassActive))
+                if ((Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo)) || (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass)))
                     return ((!Q.IsReady() || player.Mana < Q.Instance.SData.Mana) && (!E.IsReady() || player.Mana < E.Instance.SData.Mana));
 
                 return true;
             }
         }
 
-        private static void OrbwalkingOnBeforeAttack(BeforeAttackArgs args)
+        private static void OrbwalkingOnBeforeAttack(AttackableUnit target, Orbwalker.PreAttackArgs args)
         {
             if (args.Target.Type == GameObjectType.AIHeroClient)
             {
@@ -74,15 +75,9 @@ using TargetSelector = PortAIO.TSManager; namespace Viktor
             // Register events
             Game.OnUpdate += Game_OnGameUpdate;
             Drawing.OnDraw += Drawing_OnDraw;
-            if (PortAIO.OrbwalkerManager.isEBActive)
-            {
-                Orbwalker.OnUnkillableMinion += Orbwalker_OnUnkillableMinionEB;
-            }
-            else
-            {
-                PortAIO.OrbwalkerManager.LSOrbwalker.OnNonKillableMinion += Orbwalker_OnUnkillableMinion;
-            }
-            LSEvents.BeforeAttack += OrbwalkingOnBeforeAttack;
+            Orbwalker.OnUnkillableMinion += Orbwalker_OnUnkillableMinionEB;
+
+            Orbwalker.OnPreAttack += OrbwalkingOnBeforeAttack;
 
             EloBuddy.SDK.Events.Gapcloser.OnGapcloser += Gapcloser_OnGapcloser;
             EloBuddy.SDK.Events.Interrupter.OnInterruptableSpell += Interrupter_OnInterruptableSpell;
@@ -136,7 +131,7 @@ using TargetSelector = PortAIO.TSManager; namespace Viktor
         }
         private static void QLastHit(Obj_AI_Base minion)
         {
-            bool castQ = ((getKeyBindItem(waveClear, "waveUseQLH")) || getCheckBoxItem(waveClear, "waveUseQ") && PortAIO.OrbwalkerManager.isLaneClearActive);
+            bool castQ = ((getKeyBindItem(waveClear, "waveUseQLH")) || getCheckBoxItem(waveClear, "waveUseQ") && Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear));
             if (castQ)
             {
                 var distance = LeagueSharp.Common.Geometry.LSDistance(player, minion);
@@ -152,15 +147,15 @@ using TargetSelector = PortAIO.TSManager; namespace Viktor
         private static void Game_OnGameUpdate(EventArgs args)
         {
             // Combo
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
                 OnCombo();
 
             // Harass�
-            if (PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
                 OnHarass();
 
             // WaveClear
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 OnWaveClear();
                 OnJungleClear();
@@ -180,7 +175,7 @@ using TargetSelector = PortAIO.TSManager; namespace Viktor
         private static bool KillableWithAA(Obj_AI_Base target)
         {
             var qaaDmg = new Double[] { 20, 25, 30, 35, 40, 45, 50, 55, 60, 70, 80, 90, 110, 130, 150, 170, 190, 210 };
-            if (player.HasBuff("viktorpowertransferreturn") && PortAIO.OrbwalkerManager.CanAttack() && (player.CalcDamage(target, DamageType.Magical,
+            if (player.HasBuff("viktorpowertransferreturn") && Orbwalker.CanAutoAttack && (player.CalcDamage(target, DamageType.Magical,
                     qaaDmg[player.Level >= 18 ? 18 - 1 : player.Level - 1] +
                     (player.TotalMagicalDamage * .5) + player.TotalAttackDamage) > target.Health))
             {

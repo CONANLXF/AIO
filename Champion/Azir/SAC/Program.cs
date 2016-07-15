@@ -363,18 +363,18 @@ namespace SAutoCarry.Champions
 
         private void BeforeOrbwalk(EventArgs args)
         {
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 Combo();
             }
 
-            if (PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 Harass();
             }
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive ||
-                PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear) ||
+                Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 LaneClear();
             }
@@ -426,7 +426,7 @@ namespace SAutoCarry.Champions
 
         public void Jump(Vector3 pos, bool juke = false, bool castq = true)
         {
-            PortAIO.OrbwalkerManager.MoveA(pos);
+            Orbwalker.MoveTo(pos);
             if (Math.Abs(Spells[E].Cooldown) < 0.00001)
             {
                 var extended = ObjectManager.Player.ServerPosition.LSTo2D().LSExtend(pos.LSTo2D(), 800f);
@@ -516,12 +516,12 @@ namespace SAutoCarry.Champions
                 }
                 else
                 {
-                    PortAIO.OrbwalkerManager.MoveA(Game.CursorPos);
+                    Orbwalker.MoveTo(Game.CursorPos);
                 }
             }
             else
             {
-                PortAIO.OrbwalkerManager.MoveA(Game.CursorPos);
+                Orbwalker.MoveTo(Game.CursorPos);
             }
         }
 
@@ -549,7 +549,7 @@ namespace SAutoCarry.Champions
                     if (Spells[W].Instance.Ammo == 0)
                         return false;
 
-                    if (PortAIO.OrbwalkerManager.isHarassActive &&
+                    if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass) &&
                         SoldierMgr.ActiveSoldiers.Count >= HarassMaxSoldierCount)
                         return false;
 

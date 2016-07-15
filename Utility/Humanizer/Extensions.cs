@@ -1,6 +1,6 @@
 ﻿using LeagueSharp.Common;
 
-using TargetSelector = PortAIO.TSManager; namespace Humanizer
+ namespace Humanizer
 {
     internal static class Extensions
     {

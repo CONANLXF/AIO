@@ -3,7 +3,7 @@ using EloBuddy;
 using LeagueSharp.SDK;
 using Preserved_Kassadin.Cores;
 
-using TargetSelector = PortAIO.TSManager; namespace Preserved_Kassadin.Update
+ namespace Preserved_Kassadin.Update
 {
     class Trinket
     {

@@ -7,7 +7,7 @@ using LeagueSharp.Common;
 using EloBuddy.SDK.Menu;
 using EloBuddy;
 
-using TargetSelector = PortAIO.TSManager; namespace DZAwarenessAIO
+ namespace DZAwarenessAIO
 {
     /// <summary>
     /// The Bootstrap for the assembly.

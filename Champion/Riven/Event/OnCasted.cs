@@ -8,7 +8,7 @@ using NechritoRiven.Core;
 
 #endregion
 
-using TargetSelector = PortAIO.TSManager; namespace NechritoRiven.Event
+ namespace NechritoRiven.Event
 {
     internal class OnCasted : Core.Core
     {
@@ -25,7 +25,7 @@ using TargetSelector = PortAIO.TSManager; namespace NechritoRiven.Event
 
                     if (args.Target.NetworkId == Player.NetworkId)
                     {
-                        if (PortAIO.OrbwalkerManager.isLastHitActive || PortAIO.OrbwalkerManager.isLaneClearActive &&
+                        if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LastHit) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear) &&
                             !args.SData.Name.Contains("NasusW"))
                         {
                             if (Spells.E.IsReady()) Spells.E.Cast(epos);
@@ -34,7 +34,7 @@ using TargetSelector = PortAIO.TSManager; namespace NechritoRiven.Event
                     break;
                 case SpellDataTargetType.SelfAoe:
 
-                    if (PortAIO.OrbwalkerManager.isLastHitActive || PortAIO.OrbwalkerManager.isLaneClearActive)
+                    if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LastHit) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
                     {
                         if (Spells.E.IsReady()) Spells.E.Cast(epos);
                     }

@@ -1,4 +1,4 @@
-﻿using TargetSelector = PortAIO.TSManager; namespace SkyLv_Taric
+﻿ namespace SkyLv_Taric
 {
     using System.Linq;
 
@@ -68,7 +68,7 @@
                 return;
             }
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 if (sender.NetworkId == target.NetworkId)
                 {

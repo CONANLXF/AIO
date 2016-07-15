@@ -1,7 +1,7 @@
 ﻿using EloBuddy;
 using LeagueSharp;
 
-using TargetSelector = PortAIO.TSManager; namespace Slutty_ryze
+ namespace Slutty_ryze
 {
     class AutoLevelManager
     {

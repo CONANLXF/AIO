@@ -17,7 +17,7 @@ using Damage = LeagueSharp.Common.Damage;
 using EloBuddy.SDK.Menu.Values;
 
 
-using TargetSelector = PortAIO.TSManager; namespace UnderratedAIO.Champions
+ namespace UnderratedAIO.Champions
 {
     internal class Renekton
     {
@@ -36,8 +36,8 @@ using TargetSelector = PortAIO.TSManager; namespace UnderratedAIO.Champions
             InitMenu();
             Chat.Print("<font color='#9933FF'>Soresu </font><font color='#FFFFFF'>- Renekton</font>");
             Game.OnUpdate += Game_OnGameUpdate;
-            LSEvents.BeforeAttack += beforeAttack;
-            LSEvents.AfterAttack += afterAttack;
+            Orbwalker.OnPreAttack += beforeAttack;
+            Orbwalker.OnPostAttack += afterAttack;
             Obj_AI_Base.OnProcessSpellCast += Obj_AI_Base_OnProcessSpellCast;
             Drawing.OnDraw += Game_OnDraw;
             Utility.HpBarDamageIndicator.DamageToUnit = ComboDamage;
@@ -59,15 +59,15 @@ using TargetSelector = PortAIO.TSManager; namespace UnderratedAIO.Champions
                 lastE = 0;
             }
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 Combo();
             }
-            if (PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 Harass();
             }
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 Clear();
             }
@@ -85,13 +85,12 @@ using TargetSelector = PortAIO.TSManager; namespace UnderratedAIO.Champions
             }
         }
 
-        private static void afterAttack(AfterAttackArgs args)
+        private static void afterAttack(AttackableUnit target, EventArgs args)
         {
-            var target = args.Target;
             if (target is AIHeroClient &&
-                ((PortAIO.OrbwalkerManager.isComboActive &&
+                ((Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) &&
                   checkFuryMode(SpellSlot.W, (Obj_AI_Base)target)) ||
-                 PortAIO.OrbwalkerManager.isHarassActive))
+                 Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass)))
             {
                 var time = Game.Time - W.Instance.CooldownExpires;
                 if (getCheckBoxItem(config, "hyd") && time < -9 || (!W.IsReady() && time < -1))
@@ -99,18 +98,18 @@ using TargetSelector = PortAIO.TSManager; namespace UnderratedAIO.Champions
                     CastHydra();
                 }
             }
-            if (target is AIHeroClient && PortAIO.OrbwalkerManager.isComboActive &&
+            if (target is AIHeroClient && Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) &&
                 getCheckBoxItem(comboMenu, "usew") && checkFuryMode(SpellSlot.W, (Obj_AI_Base)target))
             {
                 W.Cast();
             }
-            if (target is AIHeroClient && PortAIO.OrbwalkerManager.isHarassActive &&
+            if (target is AIHeroClient && Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass) &&
                 getBoxItem(harassMenu, "useCH") == 0)
             {
                 if (W.IsReady())
                 {
                     W.Cast();
-                    PortAIO.OrbwalkerManager.ResetAutoAttackTimer();
+                    Orbwalker.ResetAutoAttack();
                     return;
                 }
                 if (Q.IsReady())
@@ -126,9 +125,9 @@ using TargetSelector = PortAIO.TSManager; namespace UnderratedAIO.Champions
             }
         }
 
-        private static void beforeAttack(BeforeAttackArgs args)
+        private static void beforeAttack(AttackableUnit target, Orbwalker.PreAttackArgs args)
         {
-            if (W.IsReady() && PortAIO.OrbwalkerManager.isComboActive &&
+            if (W.IsReady() && Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) &&
                 args.Target is AIHeroClient && checkFuryMode(SpellSlot.W, (Obj_AI_Base)args.Target) &&
                 getCheckBoxItem(comboMenu, "usew"))
             {
@@ -140,7 +139,7 @@ using TargetSelector = PortAIO.TSManager; namespace UnderratedAIO.Champions
                 W.Cast();
                 return;
             }
-            if (W.IsReady() && PortAIO.OrbwalkerManager.isHarassActive &&
+            if (W.IsReady() && Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass) &&
                 getCheckBoxItem(harassMenu, "usewH") && args.Target is AIHeroClient &&
                 getBoxItem(harassMenu, "useCH") != 0)
             {
@@ -309,7 +308,7 @@ using TargetSelector = PortAIO.TSManager; namespace UnderratedAIO.Champions
                     if (player.LSDistance(target) < Orbwalking.GetRealAutoAttackRange(target) && Q.IsReady() &&
                         E.IsReady() && E.IsReady())
                     {
-                        PortAIO.OrbwalkerManager.ForcedTarget(target);
+                        Orbwalker.ForcedTarget =(target);
                     }
                     return;
                 case 0:
@@ -332,7 +331,7 @@ using TargetSelector = PortAIO.TSManager; namespace UnderratedAIO.Champions
                     if (player.LSDistance(target) < Orbwalking.GetRealAutoAttackRange(target) && Q.IsReady() &&
                         E.IsReady() && E.IsReady())
                     {
-                        PortAIO.OrbwalkerManager.ForcedTarget(target);
+                        Orbwalker.ForcedTarget =(target);
                     }
                     return;
                 default:

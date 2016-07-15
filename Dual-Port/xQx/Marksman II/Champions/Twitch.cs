@@ -17,7 +17,7 @@ using EloBuddy.SDK;
 
 #endregion
 
-using TargetSelector = PortAIO.TSManager; namespace Marksman.Champions
+ namespace Marksman.Champions
 {
 
     internal class Twitch : Champion
@@ -41,9 +41,9 @@ using TargetSelector = PortAIO.TSManager; namespace Marksman.Champions
             Utils.Utils.PrintMessage("Twitch loaded.");
         }
 
-        public override void Orbwalking_AfterAttack(AfterAttackArgs args)
+        public override void Orbwalking_AfterAttack(AttackableUnit target, EventArgs args)
         {
-            var t = args.Target as AIHeroClient;
+            var t = target as AIHeroClient;
             if (t == null || (!ComboActive && !HarassActive))
                 return;
 
@@ -66,7 +66,7 @@ using TargetSelector = PortAIO.TSManager; namespace Marksman.Champions
 
         public override void Game_OnGameUpdate(EventArgs args)
         {
-            if (PortAIO.OrbwalkerManager.CanMove(0) && (ComboActive || HarassActive))
+            if (Orbwalker.CanMove && (ComboActive || HarassActive))
             {
                 var useW = ComboActive ? Program.combo["UseWC"].Cast<CheckBox>().CurrentValue : Program.harass["UseWH"].Cast<CheckBox>().CurrentValue;
                 var useE = ComboActive ? Program.combo["UseEC"].Cast<CheckBox>().CurrentValue : Program.harass["UseEH"].Cast<CheckBox>().CurrentValue;
@@ -140,7 +140,7 @@ using TargetSelector = PortAIO.TSManager; namespace Marksman.Champions
 
             //    foreach (var l in objAiMinions.Except(list).ToList())
             //    {
-            //        Program.ChampionClass.PortAIO.OrbwalkerManager.ForcedTarget(l);
+            //        Program.ChampionClass.Orbwalker.ForcedTarget =(l);
             //    }
             //}
         }

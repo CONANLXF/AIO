@@ -5,7 +5,7 @@ using LeagueSharp.SDK;
 using LeagueSharp.SDK.Core.Utils;
 using SharpDX;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Sivir
+ namespace ExorAIO.Champions.Sivir
 {
     /// <summary>
     ///     The logics class.

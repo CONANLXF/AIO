@@ -1,4 +1,4 @@
-﻿using TargetSelector = PortAIO.TSManager; namespace ElEasy.Plugins
+﻿ namespace ElEasy.Plugins
 {
     using System;
     using System.Collections.Generic;
@@ -179,7 +179,7 @@
         
         private static void AutoLastHit()
         {
-            if (PortAIO.OrbwalkerManager.isComboActive || PortAIO.OrbwalkerManager.isHarassActive || Player.LSIsRecalling() || !spells[Spells.Q].IsReady())
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass) || Player.LSIsRecalling() || !spells[Spells.Q].IsReady())
             {
                 return;
             }
@@ -196,13 +196,13 @@
                 if (GetBonusDmg(minion) > minion.Health && Vector3.Distance(ObjectManager.Player.ServerPosition, minion.Position) < Orbwalking.GetRealAutoAttackRange(ObjectManager.Player) + getSliderItem(lasthitMenu, "ElEasy.Nasus.Lasthitrange"))
                 {
                     spells[Spells.Q].Cast();
-                    if (PortAIO.OrbwalkerManager.isNoneActive)
+                    if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.None))
                     {
                         EloBuddy.Player.IssueOrder(GameObjectOrder.AttackUnit, minion);
                     }
                     else
                     {
-                        PortAIO.OrbwalkerManager.ForcedTarget(minion);
+                        Orbwalker.ForcedTarget =(minion);
                     }
                     break;
                 }
@@ -483,7 +483,7 @@
             if (GetBonusDmg(minion) > minion.Health && spells[Spells.Q].IsReady())
             {
                 spells[Spells.Q].Cast();
-                PortAIO.OrbwalkerManager.ForcedTarget(minion);
+                Orbwalker.ForcedTarget =(minion);
             }
         }
 
@@ -494,22 +494,22 @@
                 return;
             }
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 OnCombo();
             }
 
-            if (PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 OnHarass();
             }
 
-            if (PortAIO.OrbwalkerManager.isLastHitActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LastHit))
             {
                 OnLastHit();
             }
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 Laneclear();
                 Jungleclear();

@@ -15,7 +15,7 @@ using SkillshotType = SebbyLib.Prediction.SkillshotType;
 using SPrediction;
 using SebbyLib.Prediction;
 
-using TargetSelector = PortAIO.TSManager; namespace ThreshWarden {
+ namespace ThreshWarden {
 
 	public enum QState
     {

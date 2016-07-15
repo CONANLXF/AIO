@@ -10,7 +10,7 @@ using EloBuddy;
 using EloBuddy.SDK;
 using EloBuddy.SDK.Menu.Values;
 
-using TargetSelector = PortAIO.TSManager; namespace VayneHunter_Reborn.Skills.Tumble
+ namespace VayneHunter_Reborn.Skills.Tumble
 {
     class TumbleLogic
     {
@@ -50,12 +50,12 @@ using TargetSelector = PortAIO.TSManager; namespace VayneHunter_Reborn.Skills.Tu
             
             if (QEnabled)
             {
-                if (PortAIO.OrbwalkerManager.isComboActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
                 {
                     TumbleMethods.PreCastTumble(target);
                 }
 
-                if (PortAIO.OrbwalkerManager.isHarassActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
                 {
                     if (target is AIHeroClient)
                     {
@@ -63,7 +63,7 @@ using TargetSelector = PortAIO.TSManager; namespace VayneHunter_Reborn.Skills.Tu
                     }
                 }
 
-                if (PortAIO.OrbwalkerManager.isLaneClearActive || PortAIO.OrbwalkerManager.isLastHitActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LastHit))
                 {
                     TumbleMethods.HandleFarmTumble(target);
                 }
@@ -74,7 +74,7 @@ using TargetSelector = PortAIO.TSManager; namespace VayneHunter_Reborn.Skills.Tu
                 if (target is AIHeroClient)
                 {
                     var tg = target as AIHeroClient;
-                    if (PortAIO.OrbwalkerManager.isHarassActive && tg.GetWBuff() != null && tg.GetWBuff().Count == 1 && tg.LSIsValidTarget(Variables.spells[SpellSlot.E].Range))
+                    if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass) && tg.GetWBuff() != null && tg.GetWBuff().Count == 1 && tg.LSIsValidTarget(Variables.spells[SpellSlot.E].Range))
                     {
                         Variables.spells[SpellSlot.E].CastOnUnit(tg);
                     }

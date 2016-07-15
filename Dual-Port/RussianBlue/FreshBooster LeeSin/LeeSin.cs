@@ -12,7 +12,7 @@ using EloBuddy.SDK;
 using EloBuddy.SDK.Menu;
 using EloBuddy.SDK.Menu.Values;
 
-using TargetSelector = PortAIO.TSManager; namespace FreshBooster.Champion
+ namespace FreshBooster.Champion
 {
     class LeeSin
     {
@@ -242,7 +242,7 @@ using TargetSelector = PortAIO.TSManager; namespace FreshBooster.Champion
             AntiGapcloser.OnEnemyGapcloser += AntiGapcloser_OnEnemyGapcloser;
             Obj_AI_Base.OnProcessSpellCast += OnProcessSpell;
             Interrupter2.OnInterruptableTarget += Interrupter2_OnInterruptableTarget;
-            LSEvents.BeforeAttack += Orbwalking_BeforeAttack;
+            Orbwalker.OnPreAttack += Orbwalking_BeforeAttack;
             EloBuddy.Player.OnIssueOrder += Obj_AI_Base_OnIssueOrder;
             GameObject.OnCreate += GameObject_OnCreate;
             GameObject.OnDelete += GameObject_OnDelete;
@@ -263,7 +263,7 @@ using TargetSelector = PortAIO.TSManager; namespace FreshBooster.Champion
                 {
                     AutoKick();  // 오토 킥
                 }
-                if (PortAIO.OrbwalkerManager.isComboActive) // Combo
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo)) // Combo
                 {
                     var QTarget = TargetSelector.GetTarget(_Q.Range, DamageType.Physical);
                     var ETarget = TargetSelector.GetTarget(_E.Range, DamageType.Physical);
@@ -305,18 +305,18 @@ using TargetSelector = PortAIO.TSManager; namespace FreshBooster.Champion
                         _Q.Cast();
                     }
 
-                    if (ETarget != null && _E.IsReady() && !PortAIO.OrbwalkerManager.CanAttack() && PortAIO.OrbwalkerManager.CanMove(0) && ETime < Environment.TickCount && getCheckBoxItem(comboMenu, "LeeSin_CUse_E"))
+                    if (ETarget != null && _E.IsReady() && !Orbwalker.CanAutoAttack && Orbwalker.CanMove && ETime < Environment.TickCount && getCheckBoxItem(comboMenu, "LeeSin_CUse_E"))
                     {
                         _E.Cast(true);
                         ETime = TickCount(1000);
                     }
-                    if (!_Q.IsReady() && !_E.IsReady() && !PortAIO.OrbwalkerManager.CanAttack() && PortAIO.OrbwalkerManager.CanMove(0) && WTime < Environment.TickCount && getCheckBoxItem(comboMenu, "LeeSin_CUse_W"))
+                    if (!_Q.IsReady() && !_E.IsReady() && !Orbwalker.CanAutoAttack && Orbwalker.CanMove && WTime < Environment.TickCount && getCheckBoxItem(comboMenu, "LeeSin_CUse_W"))
                     {
                         _W.Cast(Player, true);
                         WTime = TickCount(1000);
                     }
                 }
-                if (PortAIO.OrbwalkerManager.isHarassActive) // Hafass
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass)) // Hafass
                 {
                     var QTarget = TargetSelector.GetTarget(_Q.Range, DamageType.Physical);
                     var ETarget = TargetSelector.GetTarget(_E.Range, DamageType.Physical);
@@ -326,18 +326,18 @@ using TargetSelector = PortAIO.TSManager; namespace FreshBooster.Champion
                         _Q.CastIfHitchanceEquals(QTarget, HC, true);
                         QTime = TickCount(2000);
                     }
-                    if (ETarget != null && _E.IsReady() && !PortAIO.OrbwalkerManager.CanAttack() && PortAIO.OrbwalkerManager.CanMove(0) && ETime < Environment.TickCount && getCheckBoxItem(harassMenu, "LeeSin_HUse_E"))
+                    if (ETarget != null && _E.IsReady() && !Orbwalker.CanAutoAttack && Orbwalker.CanMove && ETime < Environment.TickCount && getCheckBoxItem(harassMenu, "LeeSin_HUse_E"))
                     {
                         _E.Cast(true);
                         ETime = TickCount(1000);
                     }
-                    if (!_Q.IsReady() && !_E.IsReady() && !PortAIO.OrbwalkerManager.CanAttack() && PortAIO.OrbwalkerManager.CanMove(0) && WTime < Environment.TickCount && getCheckBoxItem(harassMenu, "LeeSin_HUse_W"))
+                    if (!_Q.IsReady() && !_E.IsReady() && !Orbwalker.CanAutoAttack && Orbwalker.CanMove && WTime < Environment.TickCount && getCheckBoxItem(harassMenu, "LeeSin_HUse_W"))
                     {
                         _W.Cast(Player, true);
                         WTime = TickCount(1000);
                     }
                 }
-                if (PortAIO.OrbwalkerManager.isLaneClearActive) // LaneClear
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear)) // LaneClear
                 {
                     var JungleTarget = MinionManager.GetMinions(1100, MinionTypes.All, MinionTeam.Neutral, MinionOrderTypes.MaxHealth);
                     foreach (var minion in JungleTarget)
@@ -348,13 +348,13 @@ using TargetSelector = PortAIO.TSManager; namespace FreshBooster.Champion
                             QTime = TickCount(1500);
                         }
                         if (_E.IsReady() && getCheckBoxItem(jungleClearMenu, "LeeSin_JUse_E") && minion != null && Environment.TickCount > ETime
-                            && !PortAIO.OrbwalkerManager.CanAttack() && PortAIO.OrbwalkerManager.CanMove(0))
+                            && !Orbwalker.CanAutoAttack && Orbwalker.CanMove)
                         {
                             _E.Cast(true);
                             ETime = TickCount(1500);
                         }
                         if (_W.IsReady() && getCheckBoxItem(jungleClearMenu, "LeeSin_JUse_W") && minion != null && Environment.TickCount > WTime
-                            && !PortAIO.OrbwalkerManager.CanAttack() && PortAIO.OrbwalkerManager.CanMove(0))
+                            && !Orbwalker.CanAutoAttack && Orbwalker.CanMove)
                         {
                             _W.Cast(Player, true);
                             WTime = TickCount(1500);
@@ -370,12 +370,12 @@ using TargetSelector = PortAIO.TSManager; namespace FreshBooster.Champion
                             QTime = TickCount(1000);
                         }
                         if (_E.IsReady() && getCheckBoxItem(laneClearMenu, "LeeSin_LUse_E") && minion != null && Environment.TickCount > ETime
-                            && !PortAIO.OrbwalkerManager.CanAttack() && PortAIO.OrbwalkerManager.CanMove(0))
+                            && !Orbwalker.CanAutoAttack && Orbwalker.CanMove)
                         {
                             _E.Cast(true);
                             ETime = TickCount(1000);
                         }
-                        if (_W.IsReady() && getCheckBoxItem(laneClearMenu, "LeeSin_LUse_W") && minion != null && Environment.TickCount > WTime && !PortAIO.OrbwalkerManager.CanAttack() && PortAIO.OrbwalkerManager.CanMove(0))
+                        if (_W.IsReady() && getCheckBoxItem(laneClearMenu, "LeeSin_LUse_W") && minion != null && Environment.TickCount > WTime && !Orbwalker.CanAutoAttack && Orbwalker.CanMove)
                         {
                             _W.Cast(Player, true);
                             WTime = TickCount(1000);
@@ -612,7 +612,7 @@ using TargetSelector = PortAIO.TSManager; namespace FreshBooster.Champion
             }
 
         }
-        public static void Orbwalking_BeforeAttack(BeforeAttackArgs args)
+        public static void Orbwalking_BeforeAttack(AttackableUnit target, Orbwalker.PreAttackArgs args)
         {
             try
             {

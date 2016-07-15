@@ -134,7 +134,7 @@
 
         public bool ShouldGetExecuted()
         {
-            return PortAIO.OrbwalkerManager.isCustomKeyActive && SpellManager.Spell[SpellSlot.Q].IsReady();
+            return SpellManager.Spell[SpellSlot.Q].IsReady();
         }
 
         #endregion

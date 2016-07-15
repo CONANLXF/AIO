@@ -6,7 +6,7 @@ using LeagueSharp.SDK.Core.Utils;
 using EloBuddy;
 using EloBuddy.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Tristana
+ namespace ExorAIO.Champions.Tristana
 {
     /// <summary>
     ///     The logics class.
@@ -20,7 +20,7 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Tristana
         public static void Combo(EventArgs args)
         {
             if (Bools.HasSheenBuff() ||
-                !(PortAIO.OrbwalkerManager.LastTarget() as AIHeroClient).IsValidTarget())
+                !(Orbwalker.LastTarget as AIHeroClient).IsValidTarget())
             {
                 return;
             }
@@ -29,12 +29,12 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Tristana
             ///     The E Combo Logic.
             /// </summary>
             if (Vars.E.IsReady() &&
-                !Invulnerable.Check((PortAIO.OrbwalkerManager.LastTarget() as AIHeroClient)) &&
-                (PortAIO.OrbwalkerManager.LastTarget() as AIHeroClient).IsValidTarget(Vars.E.Range) &&
+                !Invulnerable.Check((Orbwalker.LastTarget as AIHeroClient)) &&
+                (Orbwalker.LastTarget as AIHeroClient).IsValidTarget(Vars.E.Range) &&
                 Vars.getCheckBoxItem(Vars.EMenu, "combo") &&
                 Vars.getCheckBoxItem(Vars.WhiteListMenu, Targets.Target.ChampionName.ToLower()))
             {
-                Vars.E.CastOnUnit(PortAIO.OrbwalkerManager.LastTarget() as AIHeroClient);
+                Vars.E.CastOnUnit(Orbwalker.LastTarget as AIHeroClient);
             }
         }
     }

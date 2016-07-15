@@ -4,7 +4,7 @@ using EloBuddy.SDK;
 using EloBuddy.SDK.Menu.Values;
 using LeagueSharp.Common;
 
-using TargetSelector = PortAIO.TSManager; namespace ElUtilitySuite.Items.OffensiveItems
+ namespace ElUtilitySuite.Items.OffensiveItems
 {
     internal class Botrk : Item
     {

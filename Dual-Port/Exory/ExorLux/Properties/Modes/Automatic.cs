@@ -8,7 +8,7 @@ using LeagueSharp.SDK.Enumerations;
 using EloBuddy;
 using EloBuddy.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Lux
+ namespace ExorAIO.Champions.Lux
 {
     /// <summary>
     ///     The logics class.
@@ -34,7 +34,7 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Lux
                 Lux.EMissile != null &&
                 GameObjects.Player.Spellbook.GetSpell(SpellSlot.E).ToggleState != 1)
             {
-                if (PortAIO.OrbwalkerManager.isComboActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
                 {
                     foreach (var target in GameObjects.EnemyHeroes.Where(
                         t =>
@@ -47,7 +47,7 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Lux
                     }
                 }
 
-                if (PortAIO.OrbwalkerManager.isLaneClearActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
                 {
                     if (Targets.EMinions.Any() &&
                         Targets.EMinions.Count() >= 3)

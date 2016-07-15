@@ -20,7 +20,7 @@
 #endregion License
 
 
-using TargetSelector = PortAIO.TSManager; namespace ElUtilitySuite.Vendor.SFX
+ namespace ElUtilitySuite.Vendor.SFX
 {
     using System;
     using System.Drawing;

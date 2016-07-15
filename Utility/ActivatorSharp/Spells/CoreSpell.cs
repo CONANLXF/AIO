@@ -18,7 +18,7 @@ using EloBuddy.SDK.Menu;
 using EloBuddy;
 using EloBuddy.SDK.Menu.Values;
 
-using TargetSelector = PortAIO.TSManager; namespace Activators.Spells
+ namespace Activators.Spells
 {
     public class CoreSpell
     {

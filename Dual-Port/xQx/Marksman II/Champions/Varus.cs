@@ -13,7 +13,7 @@ using EloBuddy.SDK;
 
 #endregion
 
-using TargetSelector = PortAIO.TSManager; namespace Marksman.Champions
+ namespace Marksman.Champions
 {
     internal class Varus : Champion
     {
@@ -258,7 +258,7 @@ using TargetSelector = PortAIO.TSManager; namespace Marksman.Champions
             }
         }
 
-        public override void Orbwalking_BeforeAttack(BeforeAttackArgs args)
+        public override void Orbwalking_BeforeAttack(AttackableUnit target, Orbwalker.PreAttackArgs args)
         {
             args.Process = !Q.IsCharging;
         }

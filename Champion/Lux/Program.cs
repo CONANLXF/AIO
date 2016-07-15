@@ -10,7 +10,7 @@ using SharpDX;
 using Color = System.Drawing.Color;
 using Spell = LeagueSharp.Common.Spell;
 
-using TargetSelector = PortAIO.TSManager; namespace MoonLux
+ namespace MoonLux
 {
     internal class Program
     {
@@ -515,23 +515,23 @@ using TargetSelector = PortAIO.TSManager; namespace MoonLux
         /// <param name="args">The <see cref="EventArgs" /> instance containing the event data.</param>
         private static void Game_OnUpdate(EventArgs args)
         {
-            if (PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 DoHarass();
             }
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 DoLaneClear();
             }
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 DoCombo();
             }
 
             if (getKeyBindItem(harassMenu, "HarassKeybind") &&
-                !PortAIO.OrbwalkerManager.isHarassActive)
+                !Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 DoHarass();
             }

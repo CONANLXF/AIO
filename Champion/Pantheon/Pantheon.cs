@@ -6,7 +6,7 @@ using LeagueSharp.SDK.Core.Utils;
 using EloBuddy;
 using EloBuddy.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Pantheon
+ namespace ExorAIO.Champions.Pantheon
 {
     /// <summary>
     ///     The champion class.
@@ -69,17 +69,17 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Pantheon
             /// <summary>
             ///     Initializes the orbwalkingmodes.
             /// </summary>
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 Logics.Combo(args);
             }
 
-            if (PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 Logics.Harass(args);
             }
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 Logics.Clear(args);
             }
@@ -101,7 +101,7 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Pantheon
             }
         }
 
-        public static void Orbwalker_OnPreAttack(LeagueSharp.Common.BeforeAttackArgs args)
+        public static void Orbwalker_OnPreAttack(AttackableUnit target, Orbwalker.PreAttackArgs args)
         {
             /// <summary>
             ///     Stop attack commands while channeling E.

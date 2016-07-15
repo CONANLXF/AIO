@@ -11,7 +11,7 @@ using Color = System.Drawing.Color;
 using Spell = LeagueSharp.Common.Spell;
 using Utility = LeagueSharp.Common.Utility;
 
-using TargetSelector = PortAIO.TSManager; namespace OneKeyToWin_AIO_Sebby.Champions
+ namespace OneKeyToWin_AIO_Sebby.Champions
 {
     internal class Xerath
     {
@@ -127,8 +127,8 @@ using TargetSelector = PortAIO.TSManager; namespace OneKeyToWin_AIO_Sebby.Champi
             Drawing.OnDraw += Drawing_OnDraw;
             Drawing.OnEndScene += Drawing_OnEndScene;
 
-            LSEvents.BeforeAttack += Orbwalking_BeforeAttack;
-            LSEvents.AfterAttack += Orbwalking_AfterAttack;
+            Orbwalker.OnPreAttack += Orbwalking_BeforeAttack;
+            Orbwalker.OnPostAttack += Orbwalking_AfterAttack;
 
             Spellbook.OnCastSpell += Spellbook_OnCastSpell;
             Obj_AI_Base.OnProcessSpellCast += Obj_AI_Base_OnProcessSpellCast;
@@ -145,9 +145,9 @@ using TargetSelector = PortAIO.TSManager; namespace OneKeyToWin_AIO_Sebby.Champi
             }
         }
 
-        private static void Orbwalking_AfterAttack(AfterAttackArgs args)
+        private static void Orbwalking_AfterAttack(AttackableUnit target, EventArgs args)
         {
-            PortAIO.OrbwalkerManager.ForcedTarget(null); // BERB - not even sure what this is even suppose to do lmfao
+            Orbwalker.ForcedTarget =(null); // BERB - not even sure what this is even suppose to do lmfao
         }
 
         private static void Spellbook_OnCastSpell(Spellbook sender, SpellbookCastSpellEventArgs args)
@@ -177,7 +177,7 @@ using TargetSelector = PortAIO.TSManager; namespace OneKeyToWin_AIO_Sebby.Champi
             }
         }
 
-        private static void Orbwalking_BeforeAttack(BeforeAttackArgs args)
+        private static void Orbwalking_BeforeAttack(AttackableUnit target, Orbwalker.PreAttackArgs args)
         {
             if (args.Target.IsValid<Obj_AI_Minion>() && !Player.HasBuff("xerathascended2onhit") && Program.Combo)
             {
@@ -229,9 +229,9 @@ using TargetSelector = PortAIO.TSManager; namespace OneKeyToWin_AIO_Sebby.Champi
                 Jungle();
                 int[] mana = { 0, 30, 33, 36, 42, 48, 54, 63, 72, 81, 90, 102, 114, 126, 138, 150, 165, 180, 195 };
                 if (!Player.HasBuff("xerathascended2onhit") || Player.Mana + mana[Player.Level] > Player.MaxMana)
-                    PortAIO.OrbwalkerManager.ForcedTarget(null);
+                    Orbwalker.ForcedTarget =(null);
                 else if ((Program.Combo || Program.Farm) && getCheckBoxItem(miscMenu, "force") &&
-                         PortAIO.OrbwalkerManager.LastTarget() == null)
+                         Orbwalker.LastTarget == null)
                 {
                     var minion =
                         Cache.GetMinions(Player.ServerPosition, Player.AttackRange + Player.BoundingRadius * 2)
@@ -239,7 +239,7 @@ using TargetSelector = PortAIO.TSManager; namespace OneKeyToWin_AIO_Sebby.Champi
                             .FirstOrDefault();
 
                     if (minion != null && OktwCommon.CanHarras())
-                        PortAIO.OrbwalkerManager.ForcedTarget(minion);
+                        Orbwalker.ForcedTarget =(minion);
                 }
             }
 
@@ -389,7 +389,7 @@ using TargetSelector = PortAIO.TSManager; namespace OneKeyToWin_AIO_Sebby.Champi
             {
                 Program.CastSpell(E, enemy);
             }
-            var t = PortAIO.OrbwalkerManager.LastTarget() as AIHeroClient;
+            var t = Orbwalker.LastTarget as AIHeroClient;
             if (!t.LSIsValidTarget())
                 t = TargetSelector.GetTarget(E.Range, DamageType.Magical);
             if (t.LSIsValidTarget())

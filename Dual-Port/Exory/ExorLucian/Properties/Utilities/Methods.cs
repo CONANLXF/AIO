@@ -3,7 +3,7 @@ using EloBuddy.SDK;
 using LeagueSharp;
 using LeagueSharp.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Lucian
+ namespace ExorAIO.Champions.Lucian
 {
     /// <summary>
     ///     The methods class.
@@ -19,7 +19,7 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Lucian
             Obj_AI_Base.OnSpellCast += Lucian.OnDoCast;
             Events.OnGapCloser += Lucian.OnGapCloser;
             Obj_AI_Base.OnPlayAnimation += Lucian.OnPlayAnimation;
-            LeagueSharp.Common.LSEvents.BeforeAttack += Lucian.Orbwalker_OnPreAttack;
+            Orbwalker.OnPreAttack += Lucian.Orbwalker_OnPreAttack;
         }
     }
 }

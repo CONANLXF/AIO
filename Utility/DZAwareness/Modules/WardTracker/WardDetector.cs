@@ -13,7 +13,7 @@ using Geometry = LeagueSharp.Common.Geometry;
 using EloBuddy;
 using EloBuddy.SDK.Menu;
 using EloBuddy.SDK.Menu.Values;
-using TargetSelector = PortAIO.TSManager; namespace DZAwarenessAIO.Modules.WardTracker
+ namespace DZAwarenessAIO.Modules.WardTracker
 {
     class WardDetector
     {

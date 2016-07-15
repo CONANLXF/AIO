@@ -8,7 +8,7 @@ using VayneHunter_Reborn.Skills.Condemn;
 using VayneHunter_Reborn.Utility;
 using VayneHunter_Reborn.Utility.MenuUtility;
 
-using TargetSelector = PortAIO.TSManager; namespace VayneHunter_Reborn.Modules.ModuleList.Condemn
+ namespace VayneHunter_Reborn.Modules.ModuleList.Condemn
 {
     class AutoE : IModule
     {

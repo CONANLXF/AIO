@@ -8,7 +8,7 @@ using LeagueSharp.Common;
 using SPrediction;
 using EloBuddy;
 
-using TargetSelector = PortAIO.TSManager; namespace SDKPredictioner
+ namespace SDKPredictioner
 {
     class Program
     {

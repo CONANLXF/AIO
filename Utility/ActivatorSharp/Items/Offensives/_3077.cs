@@ -6,7 +6,7 @@ using EloBuddy;
 using EloBuddy.SDK.Menu.Values;
 using EloBuddy.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace Activators.Items.Offensives
+ namespace Activators.Items.Offensives
 {
     class _3077 : CoreItem
     {
@@ -23,10 +23,10 @@ using TargetSelector = PortAIO.TSManager; namespace Activators.Items.Offensives
 
         public _3077()
         {
-            LSEvents.AfterAttack += Orbwalking_AfterAttack;
+            Orbwalker.OnPostAttack += Orbwalking_AfterAttack;
         }
 
-        private void Orbwalking_AfterAttack(AfterAttackArgs args)
+        private void Orbwalking_AfterAttack(AttackableUnit target, EventArgs args)
         {
             if (Player.ChampionName == "Riven")
                 return;
@@ -34,7 +34,7 @@ using TargetSelector = PortAIO.TSManager; namespace Activators.Items.Offensives
             if (!Menu["use" + Name].Cast<CheckBox>().CurrentValue || !IsReady())
                 return;
 
-            var hero = args.Target as AIHeroClient;
+            var hero = target as AIHeroClient;
             if (hero.LSIsValidTarget(Range))
             {
                 if (Activator.omenu[Activator.omenu.UniqueMenuId + "useon" + Tar.Player.NetworkId] == null)

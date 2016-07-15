@@ -19,7 +19,7 @@ using System.Linq;
 using System.Security.AccessControl;
 using System;
 using System.Speech.Synthesis;
-using TargetSelector = PortAIO.TSManager;
+
 namespace TreeLib.Objects
 {
     public class Champion
@@ -37,8 +37,8 @@ namespace TreeLib.Objects
             Drawing.OnDraw += Drawing_OnDraw;
             GameObject.OnCreate += GameObject_OnCreate;
             GameObject.OnDelete += GameObject_OnDelete;
-            LSEvents.BeforeAttack += Orbwalking_BeforeAttack;
-            LSEvents.AfterAttack += Orbwalking_AfterAttack;
+            Orbwalker.OnPreAttack += Orbwalking_BeforeAttack;
+            Orbwalker.OnPostAttack += Orbwalking_AfterAttack;
             Interrupter2.OnInterruptableTarget += Interrupter2_OnInterruptableTarget;
             AntiGapcloser.OnEnemyGapcloser += AntiGapcloser_OnEnemyGapcloser;
             Obj_AI_Base.OnProcessSpellCast += Obj_AI_Base_OnProcessSpellCast;
@@ -76,9 +76,9 @@ namespace TreeLib.Objects
 
         public virtual void Obj_AI_Base_OnProcessSpellCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args) {}
 
-        public virtual void Orbwalking_AfterAttack(AfterAttackArgs args) { }
+        public virtual void Orbwalking_AfterAttack(AttackableUnit target, EventArgs args) { }
 
-        public virtual void Orbwalking_BeforeAttack(BeforeAttackArgs args) { }
+        public virtual void Orbwalking_BeforeAttack(AttackableUnit target, Orbwalker.PreAttackArgs args) { }
 
         private void Game_OnUpdate(EventArgs args)
         {
@@ -95,12 +95,12 @@ namespace TreeLib.Objects
                 return;
             }
 
-            if (PortAIO.OrbwalkerManager.isComboActive || PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 OnCombo();
             }
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive || PortAIO.OrbwalkerManager.isLastHitActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LastHit))
             {
                 OnFarm();
             }

@@ -10,7 +10,7 @@ using Color = System.Drawing.Color;
 using EloBuddy;
 using EloBuddy.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace BadaoKingdom.BadaoChampion.BadaoGangplank
+ namespace BadaoKingdom.BadaoChampion.BadaoGangplank
 {
     public static class BadaoGangplankAuto
     {
@@ -70,7 +70,7 @@ using TargetSelector = PortAIO.TSManager; namespace BadaoKingdom.BadaoChampion.B
                                 PortAIO.OrbwalkerManager.SetAttack(true);
                             });
                             Console.WriteLine("3");
-                            PortAIO.OrbwalkerManager.ForcedTarget(barrel.Bottle;
+                            Orbwalker.ForcedTarget =(barrel.Bottle;
                             EloBuddy.Player.IssueOrder(GameObjectOrder.AttackUnit, barrel.Bottle);
                             Console.WriteLine("4");
                             if (EloBuddy.Player.IssueOrder(GameObjectOrder.AttackUnit, barrel.Bottle))
@@ -106,7 +106,7 @@ using TargetSelector = PortAIO.TSManager; namespace BadaoKingdom.BadaoChampion.B
                     BadaoMainVariables.Q.Cast(hero);
                 }
             }
-            PortAIO.OrbwalkerManager.ForcedTarget(null;
+            Orbwalker.ForcedTarget =(null;
         }
     }
 }

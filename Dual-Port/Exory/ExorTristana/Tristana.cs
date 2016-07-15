@@ -7,7 +7,7 @@ using LeagueSharp.SDK.Enumerations;
 using EloBuddy;
 using EloBuddy.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Tristana
+ namespace ExorAIO.Champions.Tristana
 {
     /// <summary>
     ///     The champion class.
@@ -66,17 +66,17 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Tristana
                 return;
             }
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 Logics.Combo(args);
             }
 
-            if (PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 Logics.Harass(args);
             }
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 Logics.Clear(args);
                 Logics.BuildingClear(args);
@@ -119,7 +119,7 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Tristana
             }
         }
 
-        public static void Orbwalker_OnPreAttack(LeagueSharp.Common.BeforeAttackArgs args)
+        public static void Orbwalker_OnPreAttack(AttackableUnit target, Orbwalker.PreAttackArgs args)
         {
             /// <summary>
             ///     The Target Forcing Logic.
@@ -131,11 +131,11 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Tristana
                         t.LSIsValidTarget(Vars.AARange) &&
                         t.HasBuff("TristanaECharge")))
                 {
-                    PortAIO.OrbwalkerManager.ForcedTarget(null);
+                    Orbwalker.ForcedTarget =(null);
                     return;
                 }
 
-                PortAIO.OrbwalkerManager.ForcedTarget(GameObjects.EnemyHeroes.FirstOrDefault(
+                Orbwalker.ForcedTarget =(GameObjects.EnemyHeroes.FirstOrDefault(
                     t =>
                         t.IsValidTarget(Vars.AARange) &&
                         t.HasBuff("TristanaECharge")));

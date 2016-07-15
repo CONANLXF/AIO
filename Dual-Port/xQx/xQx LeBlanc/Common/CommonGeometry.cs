@@ -30,7 +30,7 @@ using GamePath = System.Collections.Generic.List<SharpDX.Vector2>;
 
 #endregion
 
-using TargetSelector = PortAIO.TSManager; namespace LeblancOLD.Common
+ namespace LeblancOLD.Common
 {
     using EloBuddy;
     using Color = System.Drawing.Color;

@@ -20,7 +20,7 @@ using EloBuddy;
 
 #endregion
 
-using TargetSelector = PortAIO.TSManager; namespace Evade
+ namespace Evade
 {
     public enum SpellValidTargets
     {

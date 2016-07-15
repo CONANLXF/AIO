@@ -6,7 +6,7 @@ using LeagueSharp.SDK;
 using EloBuddy;
 using EloBuddy.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Udyr
+ namespace ExorAIO.Champions.Udyr
 {
     /// <summary>
     ///     The logics class.
@@ -20,7 +20,7 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Udyr
         public static void Clear(EventArgs args)
         {
             if (Bools.HasSheenBuff() ||
-                !(PortAIO.OrbwalkerManager.LastTarget() as Obj_AI_Minion).IsValidTarget())
+                !(Orbwalker.LastTarget as Obj_AI_Minion).IsValidTarget())
             {
                 return;
             }
@@ -50,8 +50,8 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Udyr
                         ManaManager.GetNeededHealth(Vars.E.Slot, Vars.getSliderItem(Vars.EMenu, "jungleclear")) &&
                     Vars.getSliderItem(Vars.EMenu, "jungleclear") != 101)
                 {
-                    if ((PortAIO.OrbwalkerManager.LastTarget() as Obj_AI_Minion).IsValidTarget(Vars.R.Range) &&
-                        !(PortAIO.OrbwalkerManager.LastTarget() as Obj_AI_Minion).HasBuff("udyrbearstuncheck"))
+                    if ((Orbwalker.LastTarget as Obj_AI_Minion).IsValidTarget(Vars.R.Range) &&
+                        !(Orbwalker.LastTarget as Obj_AI_Minion).HasBuff("udyrbearstuncheck"))
                     {
                         Vars.E.Cast();
                     }
@@ -110,9 +110,9 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Udyr
         /// <param name="args">The <see cref="EventArgs" /> instance containing the event data.</param>
         public static void BuildingClear(EventArgs args)
         {
-            if (PortAIO.OrbwalkerManager.LastTarget() as Obj_HQ == null &&
-                PortAIO.OrbwalkerManager.LastTarget() as Obj_AI_Turret  == null &&
-                PortAIO.OrbwalkerManager.LastTarget() as Obj_BarracksDampener == null)
+            if (Orbwalker.LastTarget as Obj_HQ == null &&
+                Orbwalker.LastTarget as Obj_AI_Turret  == null &&
+                Orbwalker.LastTarget as Obj_BarracksDampener == null)
             {
                 return;
             }

@@ -14,7 +14,7 @@ using Prediction = LeagueSharp.Common.Prediction;
 using Spell = LeagueSharp.Common.Spell;
 using Utility = LeagueSharp.Common.Utility;
 
-using TargetSelector = PortAIO.TSManager; namespace UnderratedAIO.Champions
+ namespace UnderratedAIO.Champions
 {
     internal class Poppy
     {
@@ -67,23 +67,23 @@ using TargetSelector = PortAIO.TSManager; namespace UnderratedAIO.Champions
                     else if (!hasFlash)
                     {
                         Combo();
-                        PortAIO.OrbwalkerManager.MoveA(Game.CursorPos);
+                        Orbwalker.MoveTo(Game.CursorPos);
                         //Orbwalking.Orbwalk(targetf, Game.CursorPos, 90, 90);
                     }
                 }
             }
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 Combo();
             }
 
-            if (PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 Harass();
             }
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 Clear();
             }
@@ -168,7 +168,7 @@ using TargetSelector = PortAIO.TSManager; namespace UnderratedAIO.Champions
                 }
             }
             if (getCheckBoxItem(menuC, "useq") && Q.IsReady() && Q.CanCast(target) && target.LSDistance(player) < Q.Range &&
-                (player.LSDistance(target) > Orbwalking.GetRealAutoAttackRange(target) || !PortAIO.OrbwalkerManager.CanAttack()))
+                (player.LSDistance(target) > Orbwalking.GetRealAutoAttackRange(target) || !Orbwalker.CanAutoAttack))
             {
                 Q.CastIfHitchanceEquals(target, HitChance.High, getCheckBoxItem(config, "packets"));
             }
@@ -276,7 +276,7 @@ using TargetSelector = PortAIO.TSManager; namespace UnderratedAIO.Champions
             }
             if (getCheckBoxItem(menuH, "useqH") && Q.IsReady() && Q.CanCast(target) &&
                 target.LSDistance(player) < Q.Range &&
-                (player.LSDistance(target) > Orbwalking.GetRealAutoAttackRange(target) || !PortAIO.OrbwalkerManager.CanAttack()))
+                (player.LSDistance(target) > Orbwalking.GetRealAutoAttackRange(target) || !Orbwalker.CanAutoAttack))
             {
                 Q.CastIfHitchanceEquals(target, HitChance.High, getCheckBoxItem(config, "packets"));
             }

@@ -1,6 +1,6 @@
 using System;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Vayne
+ namespace ExorAIO.Champions.Vayne
 {
     /// <summary>
     ///     The logics class.

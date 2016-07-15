@@ -8,7 +8,7 @@ using LeagueSharp.Common;
 using ShineCommon;
 using EloBuddy;
 
-using TargetSelector = PortAIO.TSManager; namespace ShineCommon
+ namespace ShineCommon
 {
     public static class Utility
     {

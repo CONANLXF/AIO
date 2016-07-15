@@ -9,7 +9,7 @@ using WardTracker;
 using Geometry = LeagueSharp.Common.Geometry;
 using WardType = WardTracker.WardType;
 
-using TargetSelector = PortAIO.TSManager; namespace SoloVayne.Skills.Tumble
+ namespace SoloVayne.Skills.Tumble
 {
     internal class TumbleLogicProvider
     {
@@ -254,7 +254,7 @@ using TargetSelector = PortAIO.TSManager; namespace SoloVayne.Skills.Tumble
         /// <returns></returns>
         public static Vector3 GetQEPosition()
         {
-            if (!PortAIO.OrbwalkerManager.isComboActive || !Program.E.IsReady())
+            if (!Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) || !Program.E.IsReady())
             {
                 return Vector3.Zero;
             }

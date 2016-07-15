@@ -4,7 +4,7 @@ using LeagueSharp.SDK;
 using System.Linq;
 using static Arcane_Ryze.Core;
 
-using TargetSelector = PortAIO.TSManager; namespace Arcane_Ryze.Modes
+ namespace Arcane_Ryze.Modes
 {
     class Jungle
     {

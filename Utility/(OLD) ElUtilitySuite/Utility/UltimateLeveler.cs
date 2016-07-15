@@ -1,4 +1,4 @@
-﻿using TargetSelector = PortAIO.TSManager; namespace ElUtilitySuite.Utility
+﻿ namespace ElUtilitySuite.Utility
 {
     using System;
     using System.Linq;

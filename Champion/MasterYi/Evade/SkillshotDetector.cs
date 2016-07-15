@@ -27,7 +27,7 @@ using SharpDX;
 
 #endregion
 
-using TargetSelector = PortAIO.TSManager; namespace MasterSharp
+ namespace MasterSharp
 {
     internal static class SkillshotDetector
     {

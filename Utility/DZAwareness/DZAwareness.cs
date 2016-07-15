@@ -5,7 +5,7 @@ using DZAwarenessAIO.Utility.HudUtility;
 using LeagueSharp;
 using EloBuddy;
 
-using TargetSelector = PortAIO.TSManager; namespace DZAwarenessAIO
+ namespace DZAwarenessAIO
 {
     /// <summary>
     /// The DZAwareness Class

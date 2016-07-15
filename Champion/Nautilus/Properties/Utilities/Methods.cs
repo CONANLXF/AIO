@@ -2,7 +2,7 @@ using EloBuddy;
 using EloBuddy.SDK;
 using LeagueSharp;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Nautilus
+ namespace ExorAIO.Champions.Nautilus
 {
     /// <summary>
     ///     The methods class.
@@ -16,7 +16,7 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Nautilus
         {
             Game.OnUpdate += Nautilus.OnUpdate;
             Obj_AI_Base.OnSpellCast += Nautilus.OnDoCast;
-            LeagueSharp.Common.LSEvents.BeforeAttack += Nautilus.OnAction;
+            Orbwalker.OnPreAttack += Nautilus.OnAction;
         }
     }
 }

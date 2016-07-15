@@ -6,7 +6,7 @@ using SharpDX;
 using SharpDX.Direct3D9;
 using EloBuddy;
 
-using TargetSelector = PortAIO.TSManager; namespace Leblanc.Common
+ namespace Leblanc.Common
 {
     using EloBuddy.SDK.Menu;
     using EloBuddy.SDK.Menu.Values;

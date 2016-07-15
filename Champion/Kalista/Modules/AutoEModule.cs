@@ -6,7 +6,7 @@ using EloBuddy.SDK;
 using EloBuddy.SDK.Menu;
 using EloBuddy.SDK.Menu.Values;
 using iKalistaReborn.Utils;
-using TargetSelector = PortAIO.TSManager;
+
 using LeagueSharp.Common;
 
 namespace iKalistaReborn.Modules
@@ -44,8 +44,8 @@ namespace iKalistaReborn.Modules
 
         public void OnExecute()
         {
-            if (PortAIO.OrbwalkerManager.isHarassActive ||
-                PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass) ||
+                Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 var enemy = HeroManager.Enemies.Where(hero => hero.HasRendBuff() && hero.LSIsValidTarget()).MinOrDefault(hero => hero.LSDistance(ObjectManager.Player, true));
                 if (enemy == null)

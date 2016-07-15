@@ -4,7 +4,7 @@ using EloBuddy.SDK.Menu;
 using EloBuddy.SDK.Menu.Values;
 using Kindred___YinYang.Spell_Database;
 
-using TargetSelector = PortAIO.TSManager; namespace Kindred___YinYang
+ namespace Kindred___YinYang
 {
     internal class Language
     {

@@ -22,7 +22,7 @@ using LeagueSharp.Common;
 
 #endregion
 
-using TargetSelector = PortAIO.TSManager; namespace Mastery_Badge_Spammer
+ namespace Mastery_Badge_Spammer
 {
     public enum SkillShotType
     {

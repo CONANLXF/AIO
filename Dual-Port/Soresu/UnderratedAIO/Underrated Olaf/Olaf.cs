@@ -20,7 +20,7 @@ using EloBuddy.SDK.Menu.Values;
 using EloBuddy.SDK;
 using Spell = LeagueSharp.Common.Spell;
 
-using TargetSelector = PortAIO.TSManager; namespace UnderratedAIO.Champions
+ namespace UnderratedAIO.Champions
 {
     internal class Olaf
     {
@@ -91,19 +91,19 @@ using TargetSelector = PortAIO.TSManager; namespace UnderratedAIO.Champions
         
         private static void Game_OnUpdate(EventArgs args)
         {
-            PortAIO.OrbwalkerManager.MoveA(Vector3.Zero);
+            Orbwalker.MoveTo(Vector3.Zero);
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 Combo();
             }
 
-            if (PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 Harass();
             }
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 Clear();
             }
@@ -243,7 +243,7 @@ using TargetSelector = PortAIO.TSManager; namespace UnderratedAIO.Champions
             if (player.LSDistance(lastQpos) < maxDist && !lastQpos.UnderTurret(true))
             //ext - orig < maxDist && Orbwalking.CanMove(100)
             {
-                PortAIO.OrbwalkerManager.MoveA(lastQpos);
+                Orbwalker.MoveTo(lastQpos);
                 //player.IssueOrder(GameObjectOrder.MoveTo, lastQpos);
             }
         }

@@ -10,7 +10,7 @@ using Color = System.Drawing.Color;
 using LeagueSharp.Common.Data;
 using ItemData = LeagueSharp.Common.Data.ItemData;
 using FioraProject.Evade;
-using TargetSelector = PortAIO.TSManager;
+
 namespace FioraProject
 {
     using static Program;

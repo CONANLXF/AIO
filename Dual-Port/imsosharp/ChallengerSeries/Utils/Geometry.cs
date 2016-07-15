@@ -21,7 +21,7 @@ using Paths = System.Collections.Generic.List<System.Collections.Generic.List<Cl
 using GamePath = System.Collections.Generic.List<SharpDX.Vector2>;
 using EloBuddy;
 
-using TargetSelector = PortAIO.TSManager; namespace Challenger_Series.Utils
+ namespace Challenger_Series.Utils
 {
     /// <summary>
     /// Class that contains the geometry related methods.

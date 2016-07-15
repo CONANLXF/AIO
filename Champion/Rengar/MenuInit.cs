@@ -1,7 +1,7 @@
 ﻿using EloBuddy.SDK.Menu;
 using EloBuddy.SDK.Menu.Values;
 
-using TargetSelector = PortAIO.TSManager; namespace ElRengarRevamped
+ namespace ElRengarRevamped
 {
     // ReSharper disable once ClassNeverInstantiated.Global
     public class MenuInit

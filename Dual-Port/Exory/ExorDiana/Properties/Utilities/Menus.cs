@@ -2,7 +2,7 @@
 using ExorAIO.Utilities;
 using LeagueSharp.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Diana
+ namespace ExorAIO.Champions.Diana
 {
     /// <summary>
     ///     The menu class.

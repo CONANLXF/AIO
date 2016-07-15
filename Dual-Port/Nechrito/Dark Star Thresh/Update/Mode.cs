@@ -11,7 +11,7 @@ using LeagueSharp.Common.Data;
 using EloBuddy;
 using EloBuddy.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace Dark_Star_Thresh.Update
+ namespace Dark_Star_Thresh.Update
 {
     class Mode : Core.Core
     {
@@ -30,24 +30,24 @@ using TargetSelector = PortAIO.TSManager; namespace Dark_Star_Thresh.Update
 
         public static void GetActiveMode(EventArgs args)
         {
-            if (PortAIO.OrbwalkerManager.isNoneActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.None))
             {
                 FlashCombo();
                 Flee();
                 PortAIO.OrbwalkerManager.SetAttack(true);
             }
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 Combo();
             }
 
-            if (PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 Harass();
             }
 
-            if (PortAIO.OrbwalkerManager.isLastHitActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LastHit))
             {
                 LastHit();
             }
@@ -170,7 +170,7 @@ using TargetSelector = PortAIO.TSManager; namespace Dark_Star_Thresh.Update
 
         public static void Harass()
         {
-            if (PortAIO.OrbwalkerManager.isHarassActive && MenuConfig.HarassAA)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass) && MenuConfig.HarassAA)
             {
                 PortAIO.OrbwalkerManager.SetAttack(false);
             }

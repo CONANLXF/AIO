@@ -8,7 +8,7 @@ using EloBuddy.SDK.Menu;
 using EloBuddy.SDK.Menu.Values;
 using EloBuddy.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace OlafxQx.Common
+ namespace OlafxQx.Common
 {
     internal class CommonItems
     {
@@ -142,12 +142,12 @@ using TargetSelector = PortAIO.TSManager; namespace OlafxQx.Common
         {
             Load();
             Game.OnUpdate += GameOnOnUpdate;
-            LSEvents.BeforeAttack += OrbwalkingBeforeAttack;
+            Orbwalker.OnPreAttack += OrbwalkingBeforeAttack;
         }
 
-        private static void OrbwalkingBeforeAttack(BeforeAttackArgs args)
+        private static void OrbwalkingBeforeAttack(AttackableUnit target, Orbwalker.PreAttackArgs args)
         {
-            if (args.Target is AIHeroClient && PortAIO.OrbwalkerManager.isComboActive)
+            if (args.Target is AIHeroClient && Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 foreach (
                     var item in
@@ -172,7 +172,7 @@ using TargetSelector = PortAIO.TSManager; namespace OlafxQx.Common
 
         private static void ExecuteComboMode()
         {
-            if (!PortAIO.OrbwalkerManager.isLaneClearActive && !PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (!Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear) && !Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 
                 var t = TargetSelector.GetTarget(Champion.PlayerSpells.Q.Range, DamageType.Physical);
@@ -207,7 +207,7 @@ using TargetSelector = PortAIO.TSManager; namespace OlafxQx.Common
 
         private static void ExecuteLaneMode()
         {
-            if (!PortAIO.OrbwalkerManager.isLaneClearActive && !PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (!Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear) && !Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 return;
             }
@@ -254,7 +254,7 @@ using TargetSelector = PortAIO.TSManager; namespace OlafxQx.Common
 
         private static void ExecuteJungleMode()
         {
-            if (!PortAIO.OrbwalkerManager.isLaneClearActive && !PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (!Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear) && !Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 return;
             }

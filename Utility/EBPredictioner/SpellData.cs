@@ -3,7 +3,7 @@ using EloBuddy.SDK;
 using SharpDX;
 using System;
 
-using TargetSelector = PortAIO.TSManager; namespace EBPredictioner
+ namespace EBPredictioner
 {
     public enum SpellType
     {
@@ -150,7 +150,7 @@ using TargetSelector = PortAIO.TSManager; namespace EBPredictioner
 
         public void Cast()
         {
-            if (Chat.IsOpen || !IsReady || (PortAIO.OrbwalkerManager.isHarassActive && Orbwalker.ShouldWait))
+            if (Chat.IsOpen || !IsReady || (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass) && Orbwalker.ShouldWait))
             {
                 return;
             }

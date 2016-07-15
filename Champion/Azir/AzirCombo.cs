@@ -19,7 +19,7 @@ using System.Linq;
 using System.Security.AccessControl;
 using System;
 using System.Speech.Synthesis;
-using TargetSelector = PortAIO.TSManager;
+
 
 namespace HeavenStrikeAzir
 {
@@ -34,9 +34,9 @@ namespace HeavenStrikeAzir
 
         private static void Game_OnUpdate(EventArgs args)
         {
-            if (!PortAIO.OrbwalkerManager.isComboActive)
+            if (!Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
                 return;
-            if (Program._q.IsReady() && PortAIO.OrbwalkerManager.CanMove(0) && Program.qcombo && (!Program.donotqcombo || (!Soldiers.enemies.Any() && !Soldiers.splashautoattackchampions.Any())))
+            if (Program._q.IsReady() && Orbwalker.CanMove && Program.qcombo && (!Program.donotqcombo || (!Soldiers.enemies.Any() && !Soldiers.splashautoattackchampions.Any())))
             {
                 var target = TargetSelector.GetTarget(Program._q.Range, DamageType.Magical);
                 if (target == null)
@@ -47,7 +47,7 @@ namespace HeavenStrikeAzir
                     Program._q.Cast(target);
                 }
             }
-            if (Program._w.IsReady() && PortAIO.OrbwalkerManager.CanMove(0) && Program.wcombo)
+            if (Program._w.IsReady() && Orbwalker.CanMove && Program.wcombo)
             {
                 var target = TargetSelector.GetTarget(Program._w.Range + 300, DamageType.Magical);
                 if (target == null)
@@ -59,7 +59,7 @@ namespace HeavenStrikeAzir
                     Program._w.Cast(x);
                 }
             }
-            if (Program._w.IsReady() && PortAIO.OrbwalkerManager.CanMove(0) && !Soldiers.soldier.Any() && Program.wcombo && Program.Qisready())
+            if (Program._w.IsReady() && Orbwalker.CanMove && !Soldiers.soldier.Any() && Program.wcombo && Program.Qisready())
             {
                 var target = TargetSelector.GetTarget(Program._w.Range + 300, DamageType.Magical);
                 if (target == null || !target.LSIsValidTarget() || target.IsZombie)

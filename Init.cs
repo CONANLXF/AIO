@@ -20,8 +20,6 @@ namespace PortAIO
 {
     internal static class Init
     {
-        public static LSOrbwalker LSOrbwalker;
-
         private static void Main()
         {
             Loading.OnLoadingComplete += Initialize;
@@ -29,14 +27,11 @@ namespace PortAIO
 
         private static void Game_OnUpdate(EventArgs args)
         {
-            Orbwalker.DisableAttacking = true;
-            Orbwalker.DisableMovement = true;
-
-            if (LSOrbwalker.ForceTarget() != null)
+            if (Orbwalker.ForcedTarget != null)
             {
-                if (!LSOrbwalker.ForceTarget().IsVisible || LSOrbwalker.ForceTarget().IsDead || !LSOrbwalker.ForceTarget().VisibleOnScreen || ObjectManager.Player.IsDead || ObjectManager.Player.LSIsRecalling())
+                if (!Orbwalker.ForcedTarget.IsVisible || Orbwalker.ForcedTarget.IsDead || !Orbwalker.ForcedTarget.VisibleOnScreen || ObjectManager.Player.IsDead || ObjectManager.Player.LSIsRecalling())
                 {
-                    LSOrbwalker.ForceTarget(null);
+                    Orbwalker.ForcedTarget = null;
                 }
             }
         }
@@ -61,8 +56,6 @@ namespace PortAIO
 
             Notifications.Show(new SimpleNotification("PortAIO", "Welcome to PortAIO, this is a complete AIO made for every single champion. If you experience bugs or have suggestions or just have something to report please go to the github and view the instructions to post a new issue. Enjoy using PortAIO and GLHF!"), 8000);
             Loader.Menu();
-            LSTargetSelector.Initialize();
-            LSOrbwalker = new LSOrbwalker();
 
             Game.OnUpdate += Game_OnUpdate;
 

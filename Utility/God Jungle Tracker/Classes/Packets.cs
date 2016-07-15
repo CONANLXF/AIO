@@ -9,7 +9,7 @@
 
 using System;
 
-using TargetSelector = PortAIO.TSManager; namespace GodJungleTracker.Classes
+ namespace GodJungleTracker.Classes
 {
     public class Packets
     {

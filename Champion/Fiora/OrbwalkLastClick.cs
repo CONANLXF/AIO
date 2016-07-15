@@ -9,7 +9,7 @@ using SharpDX;
 using Color = System.Drawing.Color;
 using LeagueSharp.Common.Data;
 using ItemData = LeagueSharp.Common.Data.ItemData;
-using TargetSelector = PortAIO.TSManager;
+
 namespace FioraProject
 {
     using static Program;
@@ -39,7 +39,7 @@ namespace FioraProject
                 return;
             if (args.Order != GameObjectOrder.MoveTo)
                 return;
-            if (!PortAIO.OrbwalkerManager.CanMove(0) || Player.IsCastingInterruptableSpell())
+            if (!Orbwalker.CanMove || Player.IsCastingInterruptableSpell())
                 args.Process = false;
         }
 
@@ -57,7 +57,7 @@ namespace FioraProject
             Combo();
             var target = GetTarget();
             //PortAIO.OrbwalkerManager.ForcedTarget = Orbwalking.InAutoAttackRange(target) ? target : null;
-            PortAIO.OrbwalkerManager.MoveA(LastClickPoint.IsValid() ? LastClickPoint.To3D() : Game.CursorPos);
+            Orbwalker.MoveTo(LastClickPoint.IsValid() ? LastClickPoint.To3D() : Game.CursorPos);
         }
 
         private static void Game_OnWndProc(WndEventArgs args)

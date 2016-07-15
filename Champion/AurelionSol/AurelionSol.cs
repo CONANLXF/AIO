@@ -9,7 +9,7 @@ using LeagueSharp.Common;
 using Damage = LeagueSharp.Common.Damage;
 using Geometry = LeagueSharp.Common.Geometry;
 using Spell = LeagueSharp.Common.Spell;
-using TargetSelector = PortAIO.TSManager;
+
 
 namespace ElAurelion_Sol
 {
@@ -64,7 +64,7 @@ namespace ElAurelion_Sol
 
                 Game.OnUpdate += OnUpdate;
                 Drawing.OnDraw += OnDraw;
-                LSEvents.BeforeAttack += OrbwalkingBeforeAttack;
+                Orbwalker.OnPreAttack += OrbwalkingBeforeAttack;
                 AntiGapcloser.OnEnemyGapcloser += AntiGapcloser_OnEnemyGapcloser;
                 Interrupter2.OnInterruptableTarget += Interrupter2_OnInterruptableTarget;
             }
@@ -333,15 +333,15 @@ namespace ElAurelion_Sol
         /// <summary>
         /// </summary>
         /// <param name="args"></param>
-        private static void OrbwalkingBeforeAttack(BeforeAttackArgs args)
+        private static void OrbwalkingBeforeAttack(AttackableUnit target, Orbwalker.PreAttackArgs args)
         {
-            if (getCheckBoxItem(miscMenu, "AA.Block") && PortAIO.OrbwalkerManager.isComboActive)
+            if (getCheckBoxItem(miscMenu, "AA.Block") && Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 args.Process = false;
             }
             else
             {
-                if (PortAIO.OrbwalkerManager.isComboActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
                 {
                     args.Process = !(Q.IsReady() || Player.LSDistance(args.Target) >= 1000);
                 }
@@ -602,17 +602,17 @@ namespace ElAurelion_Sol
                     return;
                 }
 
-                if (PortAIO.OrbwalkerManager.isComboActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
                 {
                     OnCombo();
                 }
 
-                if (PortAIO.OrbwalkerManager.isHarassActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
                 {
                     OnHarass();
                 }
 
-                if (PortAIO.OrbwalkerManager.isLaneClearActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
                 {
                     OnLaneclear();
                     OnJungleclear();

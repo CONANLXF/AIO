@@ -3,7 +3,7 @@ using System.Drawing;
 using System.Linq;
 using EloBuddy;
 using LeagueSharp.Common;
-using TargetSelector = PortAIO.TSManager;
+
 namespace ElDiana
 {
     internal class DrawDamage //by xSalice

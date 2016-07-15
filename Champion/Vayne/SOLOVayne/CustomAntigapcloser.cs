@@ -8,7 +8,7 @@ using SharpDX;
 using LS = LeagueSharp.Common;
 
 
-using TargetSelector = PortAIO.TSManager; namespace SOLOVayne.Utility.General
+ namespace SOLOVayne.Utility.General
 {
     public delegate void OnGapcloseH(ActiveGapcloser gapcloser);
 

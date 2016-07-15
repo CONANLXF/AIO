@@ -9,7 +9,7 @@ using LeagueSharp.Common;
 using PortAIO.Champion.Teemo;
 using Spell = LeagueSharp.Common.Spell;
 
-using TargetSelector = PortAIO.TSManager; namespace SharpShooter.Plugins
+ namespace SharpShooter.Plugins
 {
     public class Teemo
     {
@@ -57,7 +57,7 @@ using TargetSelector = PortAIO.TSManager; namespace SharpShooter.Plugins
             Game.OnUpdate += Game_OnUpdate;
             Drawing.OnDraw += Drawing_OnDraw;
             EloBuddy.SDK.Events.Gapcloser.OnGapcloser += Gapcloser_OnGapcloser;
-            LSEvents.AfterAttack += Orbwalking_AfterAttack;
+            Orbwalker.OnPostAttack += Orbwalking_AfterAttack;
             Console.WriteLine("Sharpshooter: Teemo Loaded.");
         }
 
@@ -98,24 +98,24 @@ using TargetSelector = PortAIO.TSManager; namespace SharpShooter.Plugins
             return m[item].Cast<ComboBox>().CurrentValue;
         }
         
-        private void Orbwalking_AfterAttack(AfterAttackArgs args)
+        private void Orbwalking_AfterAttack(AttackableUnit target, EventArgs args)
         {
-            if (args.Target.Type == GameObjectType.AIHeroClient)
+            if (target.Type == GameObjectType.AIHeroClient)
             {
-                if (PortAIO.OrbwalkerManager.isComboActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
                 {
                     if (getCheckBoxItem(comboMenu, "qCombo"))
-                        if (args.Target.LSIsValidTarget(_q.Range))
+                        if (target.LSIsValidTarget(_q.Range))
                             if (_q.IsReady())
-                                _q.CastOnUnit(args.Target as Obj_AI_Base);
+                                _q.CastOnUnit(target as Obj_AI_Base);
                 }
 
-                if (PortAIO.OrbwalkerManager.isNoneActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.None))
                 {
                     if (getCheckBoxItem(harassMenu, "qHarass"))
-                        if (args.Target.LSIsValidTarget(_q.Range))
+                        if (target.LSIsValidTarget(_q.Range))
                             if (_q.IsReady())
-                                _q.CastOnUnit(args.Target as Obj_AI_Base);
+                                _q.CastOnUnit(target as Obj_AI_Base);
                 }
             }
         }
@@ -126,7 +126,7 @@ using TargetSelector = PortAIO.TSManager; namespace SharpShooter.Plugins
 
             if (!ObjectManager.Player.IsDead)
             {
-                if (PortAIO.OrbwalkerManager.isComboActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
                 {
                     if (getCheckBoxItem(comboMenu, "qCombo"))
                         if (_q.IsReady())
@@ -156,7 +156,7 @@ using TargetSelector = PortAIO.TSManager; namespace SharpShooter.Plugins
                         }
                 }
 
-                if (PortAIO.OrbwalkerManager.isHarassActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
                 {
                     if (getCheckBoxItem(harassMenu, "qHarass"))
                         if (_q.IsReady())
@@ -168,7 +168,7 @@ using TargetSelector = PortAIO.TSManager; namespace SharpShooter.Plugins
                             }
                 }
 
-                if (PortAIO.OrbwalkerManager.isLaneClearActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
                 {
                     //Laneclear
                     if (getCheckBoxItem(laneClearMenu, "qClear"))

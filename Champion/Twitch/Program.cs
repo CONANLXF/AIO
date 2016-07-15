@@ -13,7 +13,7 @@ using Spell = LeagueSharp.Common.Spell;
 using Utility = LeagueSharp.Common.Utility;
 using System.Collections.Generic;
 
-using TargetSelector = PortAIO.TSManager; namespace OneKeyToWin_AIO_Sebby.Champions
+ namespace OneKeyToWin_AIO_Sebby.Champions
 {
     internal class Twitch
     {
@@ -275,7 +275,7 @@ using TargetSelector = PortAIO.TSManager; namespace OneKeyToWin_AIO_Sebby.Champi
 
         private static void LogicQ()
         {
-            if (getCheckBoxItem(qMenu, "autoQ") && Program.Combo && PortAIO.OrbwalkerManager.LastTarget().IsValid<AIHeroClient>() &&
+            if (getCheckBoxItem(qMenu, "autoQ") && Program.Combo && Orbwalker.LastTarget.IsValid<AIHeroClient>() &&
                 Player.Mana > RMANA + QMANA)
                 Q.Cast();
 

@@ -8,7 +8,7 @@ using EloBuddy.SDK.Menu.Values;
 using LeagueSharp.Common;
 using SharpDX;
 
-using TargetSelector = PortAIO.TSManager; namespace ElUtilitySuite.Items
+ namespace ElUtilitySuite.Items
 {
     /// <summary>
     ///     Casts Zhonya on dangerous spells.

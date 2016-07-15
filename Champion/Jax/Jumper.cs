@@ -5,7 +5,7 @@ using EloBuddy.SDK;
 using LeagueSharp.Common;
 using SharpDX;
 using Spell = LeagueSharp.Common.Spell;
-using TargetSelector = PortAIO.TSManager;
+
 
 namespace JaxQx
 {

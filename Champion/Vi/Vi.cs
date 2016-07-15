@@ -1,4 +1,4 @@
-﻿using TargetSelector = PortAIO.TSManager; namespace ElVi
+﻿ namespace ElVi
 {
     using System;
     using System.Collections.Generic;
@@ -117,7 +117,7 @@
             }
 
             var youmuus = Youmuu;
-            if (Youmuu.IsReady() && PortAIO.OrbwalkerManager.isComboActive || PortAIO.OrbwalkerManager.isHarassActive && youmuus.Cast())
+            if (Youmuu.IsReady() && Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass) && youmuus.Cast())
             {
                 return true;
             }
@@ -167,7 +167,7 @@
             ElViMenu.Initialize();
             Game.OnUpdate += OnUpdate;
             Drawing.OnDraw += Drawings.Drawing_OnDraw;
-            LSEvents.AfterAttack += OrbwalkingAfterAttack;
+            Orbwalker.OnPostAttack += OrbwalkingAfterAttack;
             AntiGapcloser.OnEnemyGapcloser += AntiGapcloser_OnEnemyGapcloser;
             Interrupter2.OnInterruptableTarget += Interrupter2_OnInterruptableTarget;
         }
@@ -486,17 +486,17 @@
                 return;
             }
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 OnCombo();
             }
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 OnHarass();
             }
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 OnLaneClear();
                 OnJungleClear();
@@ -508,9 +508,9 @@
             }
         }
 
-        private static void OrbwalkingAfterAttack(AfterAttackArgs args)
+        private static void OrbwalkingAfterAttack(AttackableUnit target, EventArgs args)
         {
-            if (!PortAIO.OrbwalkerManager.isComboActive)
+            if (!Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 return;
             }
@@ -518,7 +518,7 @@
             if (getCheckBoxItem(ElViMenu.cMenu, "ElVi.Combo.E"))
             {
                 Spells[ElVi.Spells.E].Cast();
-                PortAIO.OrbwalkerManager.ResetAutoAttackTimer();
+                Orbwalker.ResetAutoAttack();
             }
         }
 

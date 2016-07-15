@@ -22,7 +22,7 @@ using System.Speech.Synthesis;
 using static FreshBooster.FreshCommon;
 using UnderratedAIO.Helpers;
 
-using TargetSelector = PortAIO.TSManager; namespace FreshBooster.Champion
+ namespace FreshBooster.Champion
 {
     class Veigar
     {
@@ -220,7 +220,7 @@ using TargetSelector = PortAIO.TSManager; namespace FreshBooster.Champion
                 }
 
                 //Combo
-                if (PortAIO.OrbwalkerManager.isComboActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
                 {
                     if (getCheckBoxItem(Combo, "Veigar_CUseE") && ETarget != null && _E.IsReady())
                     {
@@ -267,7 +267,7 @@ using TargetSelector = PortAIO.TSManager; namespace FreshBooster.Champion
                 }
 
                 //Harass
-                if ((PortAIO.OrbwalkerManager.isHarassActive || getKeyBindItem(Harass, "Veigar_AutoHUseQ")) && getSliderItem(Harass, "Veigar_HManarate") < Player.ManaPercent)
+                if ((Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass) || getKeyBindItem(Harass, "Veigar_AutoHUseQ")) && getSliderItem(Harass, "Veigar_HManarate") < Player.ManaPercent)
                 {
                     if (getCheckBoxItem(Harass, "Veigar_HUseE") && ETarget != null && _E.IsReady() && !ETarget.CanMove)
                     {
@@ -286,7 +286,7 @@ using TargetSelector = PortAIO.TSManager; namespace FreshBooster.Champion
                 }
 
                 // Last Hit
-                if (PortAIO.OrbwalkerManager.isLastHitActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LastHit))
                 {
                     if (getCheckBoxItem(LastHit, "Veigar_LHUseQ") && _Q.IsReady())
                     {
@@ -295,7 +295,7 @@ using TargetSelector = PortAIO.TSManager; namespace FreshBooster.Champion
                 }
 
                 //LaneClear
-                if (PortAIO.OrbwalkerManager.isLaneClearActive && getSliderItem(LaneClear, "Veigar_LManarate") < Player.ManaPercent)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear) && getSliderItem(LaneClear, "Veigar_LManarate") < Player.ManaPercent)
                 {
                     var MinionsTarget = MinionManager.GetMinions(900, MinionTypes.All, MinionTeam.Enemy, MinionOrderTypes.Health);
                     foreach (var item in MinionsTarget)

@@ -26,7 +26,7 @@ using EloBuddy;
 
 #endregion
 
-using TargetSelector = PortAIO.TSManager; namespace EvadeA
+ namespace EvadeA
 {
     internal static class SkillshotDetector
     {

@@ -9,7 +9,7 @@ using EloBuddy.SDK.Menu;
 using EloBuddy.SDK.Menu.Values;
 using EloBuddy.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace jesuisFiora
+ namespace jesuisFiora
 {
     internal static class Dispeller
     {

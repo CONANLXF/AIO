@@ -13,7 +13,7 @@ using EloBuddy.SDK;
 
 #endregion
 
-using TargetSelector = PortAIO.TSManager; namespace Marksman.Champions
+ namespace Marksman.Champions
 {
     internal class Graves : Champion
     {
@@ -122,7 +122,7 @@ using TargetSelector = PortAIO.TSManager; namespace Marksman.Champions
             }
 
 
-            if ((!ComboActive && !HarassActive) || !PortAIO.OrbwalkerManager.CanMove(0)) return;
+            if ((!ComboActive && !HarassActive) || !Orbwalker.CanMove) return;
 
             var useQ = ComboActive ? Program.combo["UseQC"].Cast<CheckBox>().CurrentValue : Program.harass["UseQH"].Cast<CheckBox>().CurrentValue;
             var useW = ComboActive ? Program.combo["UseWC"].Cast<CheckBox>().CurrentValue : Program.harass["UseWH"].Cast<CheckBox>().CurrentValue;
@@ -158,10 +158,10 @@ using TargetSelector = PortAIO.TSManager; namespace Marksman.Champions
             }
         }
 
-        public override void Orbwalking_AfterAttack(AfterAttackArgs args)
+        public override void Orbwalking_AfterAttack(AttackableUnit target, EventArgs args)
         {
 
-            var t = args.Target as AIHeroClient;
+            var t = target as AIHeroClient;
             if (t != null && (ComboActive || HarassActive))
             {
                 var useQ = ComboActive ? Program.combo["UseQC"].Cast<CheckBox>().CurrentValue : Program.harass["UseQH"].Cast<CheckBox>().CurrentValue;

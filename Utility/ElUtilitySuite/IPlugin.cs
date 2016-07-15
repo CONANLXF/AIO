@@ -1,4 +1,4 @@
-﻿using TargetSelector = PortAIO.TSManager; namespace ElUtilitySuite
+﻿ namespace ElUtilitySuite
 {
     using EloBuddy.SDK.Menu;
     using LeagueSharp.Common;

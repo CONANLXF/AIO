@@ -23,7 +23,7 @@ using EloBuddy;
 
 #endregion
 
-using TargetSelector = PortAIO.TSManager; namespace MasterSharp
+ namespace MasterSharp
 {
     public static class SpellDatabase
     {

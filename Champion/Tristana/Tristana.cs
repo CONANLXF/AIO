@@ -10,7 +10,7 @@ using SharpDX;
 using Color = System.Drawing.Color;
 using Spell = LeagueSharp.Common.Spell;
 
-using TargetSelector = PortAIO.TSManager; namespace ElTristana
+ namespace ElTristana
 {
 
     #region
@@ -109,8 +109,8 @@ using TargetSelector = PortAIO.TSManager; namespace ElTristana
             Drawing.OnDraw += OnDraw;
             AntiGapcloser.OnEnemyGapcloser += AntiGapcloser_OnEnemyGapcloser;
             Interrupter2.OnInterruptableTarget += Interrupter2_OnInterruptableTarget;
-            LSEvents.BeforeAttack += Orbwalker_OnPreAttack;
-            LSEvents.AfterAttack += Orbwalking_AfterAttack;
+            Orbwalker.OnPreAttack += Orbwalker_OnPreAttack;
+            Orbwalker.OnPostAttack += Orbwalking_AfterAttack;
 
             Menu = MenuInit.Menu_;
             comboMenu = MenuInit.comboMenu;
@@ -123,17 +123,17 @@ using TargetSelector = PortAIO.TSManager; namespace ElTristana
 
         }
 
-        private static void Orbwalking_AfterAttack(AfterAttackArgs args)
+        private static void Orbwalking_AfterAttack(AttackableUnit target, EventArgs args)
         {
-            if (PortAIO.OrbwalkerManager.isComboActive
-                || PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo)
+                || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
-                if (!(args.Target is AIHeroClient))
+                if (!(target is AIHeroClient))
                 {
                     return;
                 }
 
-                var targetQ = (AIHeroClient)args.Target;
+                var targetQ = (AIHeroClient)target;
                 if (targetQ.LSIsValidTarget() && getCheckBoxItem(comboMenu, "ElTristana.Combo.Q"))
                 {
                     spells[Spells.Q].Cast();
@@ -141,12 +141,12 @@ using TargetSelector = PortAIO.TSManager; namespace ElTristana
             }
         }
         
-        private static void Orbwalker_OnPreAttack(BeforeAttackArgs args)
+        private static void Orbwalker_OnPreAttack(AttackableUnit target, Orbwalker.PreAttackArgs args)
         {
             try
             {
-                if (PortAIO.OrbwalkerManager.isComboActive ||
-                    PortAIO.OrbwalkerManager.isHarassActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) ||
+                    Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
                 {
                     if (!(args.Target is AIHeroClient))
                     {
@@ -156,36 +156,36 @@ using TargetSelector = PortAIO.TSManager; namespace ElTristana
                     var targeta = HeroManager.Enemies.Find(x => x.HasBuff("TristanaECharge") && x.LSIsValidTarget(spells[Spells.E].Range));
                     if (targeta == null)
                     {
-                        PortAIO.OrbwalkerManager.ForcedTarget(null);
+                        Orbwalker.ForcedTarget =(null);
                         return;
                     }
                     if (Orbwalking.InAutoAttackRange(targeta))
                     {
-                        PortAIO.OrbwalkerManager.ForcedTarget(targeta);
+                        Orbwalker.ForcedTarget =(targeta);
                     }
                     else
                     {
-                        PortAIO.OrbwalkerManager.ForcedTarget(null);
+                        Orbwalker.ForcedTarget =(null);
                     }
                 }
 
-                if (PortAIO.OrbwalkerManager.isLastHitActive || PortAIO.OrbwalkerManager.isLaneClearActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LastHit) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
                 {
                     var minion = args.Target as Obj_AI_Minion;
                     if (minion != null)
                     {
                         if (minion.HasBuff("TristanaECharge"))
                         {
-                            PortAIO.OrbwalkerManager.ForcedTarget(minion);
+                            Orbwalker.ForcedTarget =(minion);
                         }
                         else
                         {
-                            PortAIO.OrbwalkerManager.ForcedTarget(null);
+                            Orbwalker.ForcedTarget =(null);
                         }
                     }
                     else
                     {
-                        PortAIO.OrbwalkerManager.ForcedTarget(null);
+                        Orbwalker.ForcedTarget =(null);
                     }
                 }
             }
@@ -254,7 +254,7 @@ using TargetSelector = PortAIO.TSManager; namespace ElTristana
             if (getCheckBoxItem(comboMenu, "ElTristana.Combo.Focus.E"))
             {
                 var passiveTarget = HeroManager.Enemies.Find(x => x.HasBuff("TristanaECharge") && x.LSIsValidTarget(spells[Spells.E].Range));
-                PortAIO.OrbwalkerManager.ForcedTarget(passiveTarget ?? null);
+                Orbwalker.ForcedTarget =(passiveTarget ?? null);
             }
 
             if (spells[Spells.E].IsReady() && getCheckBoxItem(comboMenu, "ElTristana.Combo.E") && Player.ManaPercent > getSliderItem(comboMenu, "ElTristana.Combo.E.Mana"))
@@ -267,13 +267,13 @@ using TargetSelector = PortAIO.TSManager; namespace ElTristana
                         if (comboMenu["ElTristana.E.On" + hero.NetworkId] != null && getEnemies)
                         {
                             spells[Spells.E].Cast(hero);
-                            PortAIO.OrbwalkerManager.ForcedTarget(hero);
+                            Orbwalker.ForcedTarget =(hero);
                         }
 
                         if (comboMenu["ElTristana.E.On" + hero.NetworkId] != null && !getEnemies && Player.CountEnemiesInRange(1500) == 1)
                         {
                             spells[Spells.E].Cast(hero);
-                            PortAIO.OrbwalkerManager.ForcedTarget(hero);
+                            Orbwalker.ForcedTarget =(hero);
                         }
                     }
                 }
@@ -452,7 +452,7 @@ using TargetSelector = PortAIO.TSManager; namespace ElTristana
                         if (harassMenu["ElTristana.E.On.Harass" + hero.NetworkId] != null && getEnemies)
                         {
                             spells[Spells.E].Cast(hero);
-                            PortAIO.OrbwalkerManager.ForcedTarget(hero);
+                            Orbwalker.ForcedTarget =(hero);
                         }
                     }
                 }
@@ -515,11 +515,11 @@ using TargetSelector = PortAIO.TSManager; namespace ElTristana
 
             if (eminion != null)
             {
-                PortAIO.OrbwalkerManager.ForcedTarget(eminion);
+                Orbwalker.ForcedTarget =(eminion);
             }
             else
             {
-                PortAIO.OrbwalkerManager.ForcedTarget(null);
+                Orbwalker.ForcedTarget =(null);
             }
 
             var minions = MinionManager.GetMinions(ObjectManager.Player.ServerPosition, spells[Spells.E].Range, MinionTypes.All, MinionTeam.NotAlly, MinionOrderTypes.MaxHealth);
@@ -538,7 +538,7 @@ using TargetSelector = PortAIO.TSManager; namespace ElTristana
                 foreach (var minion in ObjectManager.Get<Obj_AI_Minion>().OrderByDescending(m => m.Health))
                 {
                     spells[Spells.E].Cast(minion);
-                    PortAIO.OrbwalkerManager.ForcedTarget(minion);
+                    Orbwalker.ForcedTarget =(minion);
                 }
             }
         }
@@ -643,7 +643,7 @@ using TargetSelector = PortAIO.TSManager; namespace ElTristana
 
                 if (passiveTarget != null)
                 {
-                    PortAIO.OrbwalkerManager.ForcedTarget(passiveTarget);
+                    Orbwalker.ForcedTarget =(passiveTarget);
                 }
             }
 
@@ -657,7 +657,7 @@ using TargetSelector = PortAIO.TSManager; namespace ElTristana
                         if (target.ECanKill())
                             spells[Spells.E].CastOnUnit(target);
 
-                        if (PortAIO.OrbwalkerManager.isComboActive)
+                        if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
                         {
                             if (Player.CountEnemiesInRange(1200) == 1)
                             {
@@ -687,18 +687,18 @@ using TargetSelector = PortAIO.TSManager; namespace ElTristana
                     }
                 }
 
-                if (PortAIO.OrbwalkerManager.isComboActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
                 {
                     OnCombo();
                 }
 
-                if (PortAIO.OrbwalkerManager.isLaneClearActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
                 {
                     OnLaneClear();
                     OnJungleClear();
                 }
 
-                if (PortAIO.OrbwalkerManager.isHarassActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
                 {
                     OnHarass();
                 }

@@ -10,7 +10,7 @@ using SharpDX;
 using Color = System.Drawing.Color;
 using EloBuddy;
 
-using TargetSelector = PortAIO.TSManager; namespace Challenger_Series.Utils
+ namespace Challenger_Series.Utils
 {
 
     public static class HpBarDamageIndicator

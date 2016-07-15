@@ -7,7 +7,7 @@ using EloBuddy;
 using LeagueSharp.SDK.Core.Utils;
 using EloBuddy.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Renekton
+ namespace ExorAIO.Champions.Renekton
 {
     /// <summary>
     ///     The targets class.

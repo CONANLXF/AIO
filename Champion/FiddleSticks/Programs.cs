@@ -8,7 +8,7 @@ using EloBuddy.SDK.Menu.Values;
 using Feedlesticks.Core;
 using SebbyLib;
 using LeagueSharp.Common;
-using TargetSelector = PortAIO.TSManager;
+
 namespace Feedlesticks
 {
     internal class Program
@@ -107,17 +107,17 @@ namespace Feedlesticks
                 return;
             }
 
-            if (PortAIO.OrbwalkerManager.isComboActive && !IsWActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) && !IsWActive)
             {
                 Combo();
             }
 
-            if (PortAIO.OrbwalkerManager.isHarassActive && !IsWActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass) && !IsWActive)
             {
                 Harass();
             }
 
-            if ((PortAIO.OrbwalkerManager.isLaneClearActive) && !IsWActive)
+            if ((Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear)) && !IsWActive)
             {
                 Jungle();
                 WaveClear();

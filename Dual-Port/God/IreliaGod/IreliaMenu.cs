@@ -3,7 +3,7 @@ using EloBuddy.SDK.Menu.Values;
 using LeagueSharp.Common;
 
 
-using TargetSelector = PortAIO.TSManager; namespace IreliaGod
+ namespace IreliaGod
 {
     class IreliaMenu
     {

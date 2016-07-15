@@ -2,7 +2,7 @@ using EloBuddy;
 using ExorAIO.Utilities;
 using LeagueSharp;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Corki
+ namespace ExorAIO.Champions.Corki
 {
     /// <summary>
     ///     The logics class.

@@ -31,7 +31,7 @@ using EloBuddy;
 
 #endregion
 
-using TargetSelector = PortAIO.TSManager; namespace ElUtilitySuite.Vendor.SFX
+ namespace ElUtilitySuite.Vendor.SFX
 {
     /// <summary>
     ///     A static (stack) class which contains a sort-of cached versions of the important game objects.

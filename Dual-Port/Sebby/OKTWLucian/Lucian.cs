@@ -10,7 +10,7 @@ using EloBuddy.SDK.Menu.Values;
 using Prediction = LeagueSharp.Common.Prediction;
 using Spell = LeagueSharp.Common.Spell;
 using Utility = LeagueSharp.Common.Utility;
-using TargetSelector = PortAIO.TSManager; namespace OneKeyToWin_AIO_Sebby
+ namespace OneKeyToWin_AIO_Sebby
 {
     class Lucian
     {
@@ -76,7 +76,7 @@ using TargetSelector = PortAIO.TSManager; namespace OneKeyToWin_AIO_Sebby
 
             Game.OnUpdate += Game_OnGameUpdate;
             Drawing.OnDraw += Drawing_OnDraw;
-            LSEvents.AfterAttack += afterAttack;
+            Orbwalker.OnPostAttack += afterAttack;
             Obj_AI_Base.OnProcessSpellCast += Obj_AI_Base_OnProcessSpellCast;
             Spellbook.OnCastSpell += Spellbook_OnCastSpell;
         }
@@ -109,7 +109,7 @@ using TargetSelector = PortAIO.TSManager; namespace OneKeyToWin_AIO_Sebby
             }
         }
 
-        private static void afterAttack(AfterAttackArgs args)
+        private static void afterAttack(AttackableUnit target, EventArgs args)
         {
             //if (!target.IsMe)
                 //return;
@@ -243,7 +243,7 @@ using TargetSelector = PortAIO.TSManager; namespace OneKeyToWin_AIO_Sebby
                 else if (wDmg + qDmg > t.Health && Q.IsReady() && Player.Mana > RMANA + WMANA + QMANA)
                     Program.CastSpell(W, t);
 
-                var orbT = PortAIO.OrbwalkerManager.LastTarget() as AIHeroClient;
+                var orbT = Orbwalker.LastTarget as AIHeroClient;
                 if (orbT == null)
                 {
                     if (getCheckBoxItem(wMenu, "wInAaRange"))

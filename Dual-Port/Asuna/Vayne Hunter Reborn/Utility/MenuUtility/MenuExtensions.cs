@@ -6,7 +6,7 @@ using EloBuddy.SDK.Menu.Values;
 using EloBuddy;
 using EloBuddy.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace VayneHunter_Reborn.Utility.MenuUtility
+ namespace VayneHunter_Reborn.Utility.MenuUtility
 {
     static class MenuExtensions
     {

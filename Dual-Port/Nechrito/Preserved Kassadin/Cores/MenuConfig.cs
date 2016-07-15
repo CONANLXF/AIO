@@ -2,7 +2,7 @@
 using EloBuddy.SDK.Menu;
 using EloBuddy.SDK.Menu.Values;
 
-using TargetSelector = PortAIO.TSManager; namespace Preserved_Kassadin.Cores
+ namespace Preserved_Kassadin.Cores
 {
     class MenuConfig
     {

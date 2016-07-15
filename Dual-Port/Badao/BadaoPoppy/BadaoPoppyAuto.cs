@@ -10,7 +10,7 @@ using Color = System.Drawing.Color;
 using EloBuddy;
 using EloBuddy.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace BadaoKingdom.BadaoChampion.BadaoPoppy
+ namespace BadaoKingdom.BadaoChampion.BadaoPoppy
 {
     public static class BadaoPoppyAuto
     {

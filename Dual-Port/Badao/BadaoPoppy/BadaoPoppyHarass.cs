@@ -10,19 +10,19 @@ using Color = System.Drawing.Color;
 using EloBuddy;
 using EloBuddy.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace BadaoKingdom.BadaoChampion.BadaoPoppy
+ namespace BadaoKingdom.BadaoChampion.BadaoPoppy
 {
     public static class BadaoPoppyHarass
     {
         public static void BadaoActiavate()
         {
             Game.OnUpdate += Game_OnUpdate;
-            LSEvents.AfterAttack += Orbwalking_AfterAttack;
+            Orbwalker.OnPostAttack += Orbwalking_AfterAttack;
         }
         
         private static void Game_OnUpdate(EventArgs args)
         {
-            if (!PortAIO.OrbwalkerManager.isHarassActive)
+            if (!Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
                 return;
             if (BadaoPoppyHelper.UseQHarass())
             {
@@ -35,11 +35,11 @@ using TargetSelector = PortAIO.TSManager; namespace BadaoKingdom.BadaoChampion.B
             }
         }
 
-        private static void Orbwalking_AfterAttack(AfterAttackArgs args)
+        private static void Orbwalking_AfterAttack(AttackableUnit target, EventArgs args)
         {
-            if (!PortAIO.OrbwalkerManager.isHarassActive || !(args.Target is AIHeroClient))
+            if (!Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass) || !(target is AIHeroClient))
                 return;
-            if (args.Target.Position.LSDistance(ObjectManager.Player.Position) <= 200 + 125 + 140)
+            if (target.Position.LSDistance(ObjectManager.Player.Position) <= 200 + 125 + 140)
                 BadaoChecker.BadaoUseTiamat();
         }
     }

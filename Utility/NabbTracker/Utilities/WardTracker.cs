@@ -13,7 +13,7 @@ using EloBuddy.SDK.Menu;
 using EloBuddy.SDK.Menu.Values;
 using EloBuddy.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace HTrackerSDK
+ namespace HTrackerSDK
 {
     class WardData
     {

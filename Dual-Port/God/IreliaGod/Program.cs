@@ -9,7 +9,7 @@ using EloBuddy;
 using EloBuddy.SDK;
 using EloBuddy.SDK.Menu.Values;
 
-using TargetSelector = PortAIO.TSManager; namespace IreliaGod
+ namespace IreliaGod
 {
     internal class Program
     {
@@ -39,7 +39,7 @@ using TargetSelector = PortAIO.TSManager; namespace IreliaGod
 
             // Subscribe to our events
             Game.OnUpdate += OnUpdate;
-            LSEvents.BeforeAttack += BeforeAttack;
+            Orbwalker.OnPreAttack += BeforeAttack;
             Drawing.OnDraw += OnDraw;
             Obj_AI_Base.OnBuffLose += OnBuffRemove; // Sheen buff workaround
             AntiGapcloser.OnEnemyGapcloser += OnEnemyGapcloser;
@@ -51,15 +51,15 @@ using TargetSelector = PortAIO.TSManager; namespace IreliaGod
             Obj_AI_Base.OnProcessSpellCast += (sender, eventArgs) =>
             {
                 if (sender.IsMe && eventArgs.SData.Name == Spells.E.Instance.SData.Name)
-                    LeagueSharp.Common.Utility.DelayAction.Add(260, PortAIO.OrbwalkerManager.ResetAutoAttackTimer);
+                    LeagueSharp.Common.Utility.DelayAction.Add(260, Orbwalker.ResetAutoAttack);
 
                 if (sender.IsMe && eventArgs.SData.Name == Spells.Q.Instance.SData.Name)
-                    LeagueSharp.Common.Utility.DelayAction.Add(260, PortAIO.OrbwalkerManager.ResetAutoAttackTimer);
+                    LeagueSharp.Common.Utility.DelayAction.Add(260, Orbwalker.ResetAutoAttack);
             };
 
-            LSEvents.AfterAttack += (AfterAttackArgs args) =>
+            Orbwalker.OnPostAttack += (AttackableUnit target, EventArgs args) =>
             {
-                if (getCheckBoxItem(comboMenu, "combo.items") && args.Target != null && PortAIO.OrbwalkerManager.isComboActive)
+                if (getCheckBoxItem(comboMenu, "combo.items") && target != null && Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
                 {
                     if (Spells.Tiamat.IsReady())
                         Spells.Tiamat.Cast();
@@ -198,23 +198,23 @@ using TargetSelector = PortAIO.TSManager; namespace IreliaGod
         {
             Killsteal();
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 Combo();
             }
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 Harass();
             }
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 Laneclear();
                 Jungleclear();
             }
 
-            if (PortAIO.OrbwalkerManager.isFleeActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Flee))
             {
                 if (Spells.E.IsReady() && getCheckBoxItem(fleeMenu, "flee.e"))
                 {
@@ -269,7 +269,7 @@ using TargetSelector = PortAIO.TSManager; namespace IreliaGod
                 }
 
                 WALK:
-                PortAIO.OrbwalkerManager.MoveA(Game.CursorPos);
+                Orbwalker.MoveTo(Game.CursorPos);
             }
 
 
@@ -632,15 +632,15 @@ using TargetSelector = PortAIO.TSManager; namespace IreliaGod
         {
         }
 
-        private static void BeforeAttack(BeforeAttackArgs args)
+        private static void BeforeAttack(AttackableUnit target, Orbwalker.PreAttackArgs args)
         {
             if (getCheckBoxItem(comboMenu, "combo.w") &&
-                PortAIO.OrbwalkerManager.isComboActive &&
+                Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) &&
                 args.Target != null &&
                 args.Target.Type == GameObjectType.AIHeroClient &&
                 args.Target.LSIsValidTarget() ||
                 getCheckBoxItem(harassMenu, "harass.w") &&
-                PortAIO.OrbwalkerManager.isHarassActive &&
+                Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass) &&
                 args.Target != null &&
                 args.Target.Type == GameObjectType.AIHeroClient &&
                 args.Target.LSIsValidTarget())

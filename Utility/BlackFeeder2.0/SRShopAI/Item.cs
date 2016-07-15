@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 
-using TargetSelector = PortAIO.TSManager; namespace BlackFeeder.SRShopAI
+ namespace BlackFeeder.SRShopAI
 {
     class Item
     {

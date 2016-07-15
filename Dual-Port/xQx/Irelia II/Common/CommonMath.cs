@@ -7,7 +7,7 @@ using LeagueSharp;
 using LeagueSharp.Common;
 using EloBuddy;
 
-using TargetSelector = PortAIO.TSManager; namespace Irelia.Common
+ namespace Irelia.Common
 {
     internal class CommonMath
     {

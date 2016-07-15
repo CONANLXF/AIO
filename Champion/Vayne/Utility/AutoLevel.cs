@@ -3,7 +3,7 @@ using EloBuddy.SDK;
 using LS = LeagueSharp.Common;
 using SV = SoloVayne.Skills.Tumble;
 
-using TargetSelector = PortAIO.TSManager; namespace Vayne1
+ namespace Vayne1
 {
     //github.com/dakotasblack
     internal class AutoLevel

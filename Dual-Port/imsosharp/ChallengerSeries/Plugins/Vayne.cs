@@ -19,18 +19,19 @@ using Color = System.Drawing.Color;
 using SpellDatabase = LeagueSharp.SDK.SpellDatabase;
 using LeagueSharp.Data.Enumerations;
 using Geometry = Challenger_Series.Utils.Geometry;
-using TargetSelector = PortAIO.TSManager;
+
 
 namespace Challenger_Series.Plugins
 {
     using EloBuddy;
+    using EloBuddy.SDK;
     using EloBuddy.SDK.Menu;
     using EloBuddy.SDK.Menu.Values;
     using LeagueSharp.Common;
 
     public class Vayne : CSPlugin
     {
-        
+
 
         #region ctor
         public Vayne()
@@ -71,8 +72,8 @@ namespace Challenger_Series.Plugins
             }
             InitMenu();
             DelayedOnUpdate += OnUpdate;
-            LSEvents.BeforeAttack += Orbwalker_OnPreAttack;
-            LSEvents.AfterAttack += Orbwalker_OnPostAttack;
+            Orbwalker.OnPreAttack += Orbwalker_OnPreAttack;
+            Orbwalker.OnPostAttack += Orbwalker_OnPostAttack;
             EloBuddy.Obj_AI_Base.OnProcessSpellCast += OnProcessSpellCast;
             EloBuddy.Drawing.OnDraw += OnDraw;
             Events.OnGapCloser += OnGapCloser;
@@ -309,14 +310,14 @@ namespace Challenger_Series.Plugins
                 }
             }
         }
-        private void Orbwalker_OnPostAttack(AfterAttackArgs args)
+        private void Orbwalker_OnPostAttack(AttackableUnit target, EventArgs args)
         {
-            PortAIO.OrbwalkerManager.ForcedTarget(null);
+            Orbwalker.ForcedTarget =(null);
             var possible2WTarget = ValidTargets.FirstOrDefault(
                 h =>
                     h.ServerPosition.Distance(EloBuddy.ObjectManager.Player.ServerPosition) < 500 &&
                     h.GetBuffCount("vaynesilvereddebuff") == 2);
-            if (!PortAIO.OrbwalkerManager.isComboActive)
+            if (!Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 if (possible2WTarget.LSIsValidTarget() && UseEAs3rdWProcBool && LeagueSharp.SDK.Core.Utils.MathUtils.GetWaypoints(possible2WTarget).LastOrDefault().Distance(EloBuddy.ObjectManager.Player.ServerPosition) < 1000)
                 {
@@ -329,11 +330,11 @@ namespace Challenger_Series.Plugins
                     E.CastOnUnit(possible2WTarget);
                 }
             }
-            if (args.Target is EloBuddy.AIHeroClient && UseQBool)
+            if (target is EloBuddy.AIHeroClient && UseQBool)
             {
                 if (Q.IsReady())
                 {
-                    var tg = args.Target as EloBuddy.AIHeroClient;
+                    var tg = target as EloBuddy.AIHeroClient;
                     if (tg != null)
                     {
                         var mode = QModeStringList;
@@ -352,9 +353,9 @@ namespace Challenger_Series.Plugins
                     }
                 }
             }
-            if (args.Target is EloBuddy.Obj_AI_Minion && PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (target is EloBuddy.Obj_AI_Minion && Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
-                var tg = args.Target as EloBuddy.Obj_AI_Minion;
+                var tg = target as EloBuddy.Obj_AI_Minion;
                 if (E.IsReady())
                 {
                     if (this.IsMinionCondemnable(tg) && GameObjects.Jungle.Any(m => m.NetworkId == tg.NetworkId) && tg.LSIsValidTarget() && this.UseEJungleFarm)
@@ -393,12 +394,12 @@ namespace Challenger_Series.Plugins
                     }
                 }
             }
-            if (UseQOnlyAt2WStacksBool && !PortAIO.OrbwalkerManager.isComboActive && possible2WTarget.LSIsValidTarget())
+            if (UseQOnlyAt2WStacksBool && !Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) && possible2WTarget.LSIsValidTarget())
             {
                 Q.Cast(GetTumblePos(possible2WTarget));
             }
         }
-        private void Orbwalker_OnPreAttack(BeforeAttackArgs args)
+        private void Orbwalker_OnPreAttack(AttackableUnit target, Orbwalker.PreAttackArgs args)
         {
             if (args.Process)
             {
@@ -408,7 +409,7 @@ namespace Challenger_Series.Plugins
             {
                 IsWindingUp = false;
             }
-            if (R.IsReady() && PortAIO.OrbwalkerManager.isComboActive && UseRBool && args.Target is EloBuddy.AIHeroClient && (!(args.Target as EloBuddy.AIHeroClient).IsUnderEnemyTurret() || EloBuddy.ObjectManager.Player.IsUnderEnemyTurret()) && EloBuddy.ObjectManager.Player.CountAllyHeroesInRange(800) >= EloBuddy.ObjectManager.Player.CountEnemyHeroesInRange(800))
+            if (R.IsReady() && Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) && UseRBool && args.Target is EloBuddy.AIHeroClient && (!(args.Target as EloBuddy.AIHeroClient).IsUnderEnemyTurret() || EloBuddy.ObjectManager.Player.IsUnderEnemyTurret()) && EloBuddy.ObjectManager.Player.CountAllyHeroesInRange(800) >= EloBuddy.ObjectManager.Player.CountEnemyHeroesInRange(800))
             {
                 R.Cast();
             }
@@ -418,7 +419,7 @@ namespace Challenger_Series.Plugins
                     h.GetBuffCount("vaynesilvereddebuff") == 2);
             if (TryToFocus2WBool && possible2WTarget.LSIsValidTarget())
             {
-                PortAIO.OrbwalkerManager.ForcedTarget(possible2WTarget);
+                Orbwalker.ForcedTarget =(possible2WTarget);
             }
             if (EloBuddy.ObjectManager.Player.HasBuff("vaynetumblefade") && DontAttackWhileInvisibleAndMeelesNearBool)
             {
@@ -433,7 +434,7 @@ namespace Challenger_Series.Plugins
             if (possibleTarget != null && args.Target is EloBuddy.Obj_AI_Minion &&
                 UseQBonusOnEnemiesNotCS && EloBuddy.ObjectManager.Player.HasBuff("vaynetumblebonus"))
             {
-                PortAIO.OrbwalkerManager.ForcedTarget(possibleTarget);
+                Orbwalker.ForcedTarget =(possibleTarget);
                 args.Process = false;
             }
             var possibleNearbyMeleeChampion =
@@ -566,8 +567,8 @@ namespace Challenger_Series.Plugins
             HarassMenu.Add("useqonenemiesnotcs", new CheckBox("Use Q Bonus On ENEMY not CS", false));
 
             FarmMenu = MainMenu.AddSubMenu("Farm Settings:", "Farm Settings: ");
-            FarmMenu.Add("useqfarm", new CheckBox("Use Q",true));
-            FarmMenu.Add("useejgfarm", new CheckBox("Use E Jungle",true));
+            FarmMenu.Add("useqfarm", new CheckBox("Use Q", true));
+            FarmMenu.Add("useejgfarm", new CheckBox("Use E Jungle", true));
 
             DrawMenu = MainMenu.AddSubMenu("Drawing Settings:", "Drawing Settings: ");
             DrawMenu.Add("drawwstacks", new CheckBox("Draw W Stacks", true));
@@ -851,7 +852,7 @@ namespace Challenger_Series.Plugins
 
         private Vector3 GetTumblePos(EloBuddy.Obj_AI_Base target)
         {
-            if (!PortAIO.OrbwalkerManager.isComboActive)
+            if (!Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
                 return GetAggressiveTumblePos(target);
 
             var cursorPos = EloBuddy.Game.CursorPos;

@@ -6,7 +6,7 @@ using LeagueSharp.SDK;
 using EloBuddy;
 using EloBuddy.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Ezreal
+ namespace ExorAIO.Champions.Ezreal
 {
     /// <summary>
     ///     The logics class.
@@ -72,8 +72,8 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Ezreal
         /// <param name="args">The args.</param>
         public static void JungleClear(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
-            if (!(PortAIO.OrbwalkerManager.LastTarget() is Obj_AI_Minion) ||
-                !Targets.JungleMinions.Contains(PortAIO.OrbwalkerManager.LastTarget() as Obj_AI_Minion))
+            if (!(Orbwalker.LastTarget is Obj_AI_Minion) ||
+                !Targets.JungleMinions.Contains(Orbwalker.LastTarget as Obj_AI_Minion))
             {
                 return;
             }
@@ -86,7 +86,7 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Ezreal
                     ManaManager.GetNeededMana(Vars.Q.Slot, Vars.getSliderItem(Vars.QMenu, "clear")) &&
                 Vars.getSliderItem(Vars.QMenu, "clear") != 101)
             {
-                Vars.Q.Cast((PortAIO.OrbwalkerManager.LastTarget() as Obj_AI_Minion).ServerPosition);
+                Vars.Q.Cast((Orbwalker.LastTarget as Obj_AI_Minion).ServerPosition);
             }
         }
     }

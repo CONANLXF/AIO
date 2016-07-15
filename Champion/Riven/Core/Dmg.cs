@@ -2,7 +2,7 @@
 using LeagueSharp;
 using LeagueSharp.Common;
 
-using TargetSelector = PortAIO.TSManager; namespace NechritoRiven.Core
+ namespace NechritoRiven.Core
 {
     class Dmg : Core
     {

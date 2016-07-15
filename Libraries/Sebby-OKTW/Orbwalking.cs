@@ -56,7 +56,7 @@ namespace SebbyLib
             "rengarnewpassivebuffdash", "trundleq", "xenzhaothrust", "xenzhaothrust2", "xenzhaothrust3", "viktorqbuff"
         };
 
-        private static readonly string[] NoCancelChamps = {"Kalista"};
+        private static readonly string[] NoCancelChamps = { "Kalista" };
 
         public static List<Obj_AI_Base> MinionListAA = new List<Obj_AI_Base>();
 
@@ -138,8 +138,8 @@ namespace SebbyLib
             var myRange = GetRealAutoAttackRange(target);
             return
                 Vector2.DistanceSquared(
-                    target is Obj_AI_Base ? ((Obj_AI_Base) target).ServerPosition.LSTo2D() : target.Position.LSTo2D(),
-                    Player.ServerPosition.LSTo2D()) <= myRange*myRange;
+                    target is Obj_AI_Base ? ((Obj_AI_Base)target).ServerPosition.LSTo2D() : target.Position.LSTo2D(),
+                    Player.ServerPosition.LSTo2D()) <= myRange * myRange;
         }
 
         public static float GetMyProjectileSpeed()
@@ -154,8 +154,8 @@ namespace SebbyLib
         {
             if (Player.ChampionName == "Graves")
             {
-                var attackDelay = 1.0740296828d*1000*Player.AttackDelay - 716.2381256175d;
-                if (Utils.GameTimeTickCount + Game.Ping/2 + 25 >= LastAATick + attackDelay &&
+                var attackDelay = 1.0740296828d * 1000 * Player.AttackDelay - 716.2381256175d;
+                if (Utils.GameTimeTickCount + Game.Ping / 2 + 25 >= LastAATick + attackDelay &&
                     Player.HasBuff("GravesBasicAttackAmmo1"))
                 {
                     return true;
@@ -172,7 +172,7 @@ namespace SebbyLib
                 }
             }
 
-            return Utils.GameTimeTickCount + Game.Ping/2 + 25 >= LastAATick + Player.AttackDelay*1000;
+            return Utils.GameTimeTickCount + Game.Ping / 2 + 25 >= LastAATick + Player.AttackDelay * 1000;
         }
 
         public static void SetMovementDelay(int delay)
@@ -203,7 +203,7 @@ namespace SebbyLib
         {
             var playerPosition = Player.ServerPosition;
 
-            if (playerPosition.LSDistance(position, true) < holdAreaRadius*holdAreaRadius)
+            if (playerPosition.LSDistance(position, true) < holdAreaRadius * holdAreaRadius)
             {
                 if (Player.Path.Length > 0)
                 {
@@ -216,11 +216,11 @@ namespace SebbyLib
 
             var point = position;
 
-            if (Player.LSDistance(point, true) < 150*150)
+            if (Player.LSDistance(point, true) < 150 * 150)
             {
                 point =
                     playerPosition.Extend(position,
-                        randomizeMinDistance ? (_random.NextFloat(0.6f, 1) + 0.2f)*_minDistance : _minDistance).To3D();
+                        randomizeMinDistance ? (_random.NextFloat(0.6f, 1) + 0.2f) * _minDistance : _minDistance).To3D();
             }
             var angle = 0f;
             var currentPath = Player.GetWaypoints();
@@ -235,7 +235,7 @@ namespace SebbyLib
                     angle = v1.AngleBetween(v2.LSTo2D());
                     var distance = movePath.Last().LSTo2D().LSDistance(currentPath.Last(), true);
 
-                    if ((angle < 10 && distance < 500*500) || distance < 50*50)
+                    if ((angle < 10 && distance < 500 * 500) || distance < 50 * 50)
                     {
                         return;
                     }
@@ -348,37 +348,6 @@ namespace SebbyLib
             {
                 get
                 {
-                    if (_mode != OrbwalkingMode.None)
-                    {
-                        return _mode;
-                    }
-
-                    if (PortAIO.OrbwalkerManager.isComboActive)
-                    {
-                        return OrbwalkingMode.Combo;
-                    }
-
-                    if (PortAIO.OrbwalkerManager.isComboActive)
-                    {
-                        return OrbwalkingMode.Combo;
-                    }
-
-                    if (PortAIO.OrbwalkerManager.isLaneClearActive ||
-                        PortAIO.OrbwalkerManager.isLaneClearActive)
-                    {
-                        return OrbwalkingMode.LaneClear;
-                    }
-
-                    if (PortAIO.OrbwalkerManager.isHarassActive)
-                    {
-                        return OrbwalkingMode.Mixed;
-                    }
-
-                    if (PortAIO.OrbwalkerManager.isLastHitActive)
-                    {
-                        return OrbwalkingMode.LastHit;
-                    }
-
                     return OrbwalkingMode.None;
                 }
                 set { _mode = value; }

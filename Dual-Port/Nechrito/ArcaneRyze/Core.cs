@@ -9,7 +9,7 @@ using EloBuddy.SDK;
 using LeagueSharp.SDK.Enumerations;
 #endregion
 
-using TargetSelector = PortAIO.TSManager; namespace Arcane_Ryze
+ namespace Arcane_Ryze
 {
     internal class Core
     {

@@ -26,7 +26,7 @@ using Color = System.Drawing.Color;
 
 #endregion
 
-using TargetSelector = PortAIO.TSManager; namespace GosuMechanicsYasuo
+ namespace GosuMechanicsYasuo
 {
     /// <summary>
     ///     Class that contains the geometry related methods.

@@ -21,7 +21,7 @@ using LeagueSharp;
 
 #endregion
 
-using TargetSelector = PortAIO.TSManager; namespace Irelia.Evade
+ namespace Irelia.Evade
 {
     public class SpellData
     {

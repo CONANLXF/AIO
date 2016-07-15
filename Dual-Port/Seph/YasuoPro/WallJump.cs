@@ -7,7 +7,7 @@ using LeagueSharp.Common;
 using EloBuddy;
 using EloBuddy.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace YasuoPro
+ namespace YasuoPro
 {
     class WallJump
     {

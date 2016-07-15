@@ -7,7 +7,7 @@ using System;
 using EloBuddy;
 using EloBuddy.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace SephKhazix
+ namespace SephKhazix
 {
     static class Extensions
     {

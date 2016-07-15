@@ -17,7 +17,7 @@ using PredictionOutput = SebbyLib.Prediction.PredictionOutput;
 using Spell = LeagueSharp.Common.Spell;
 using SPrediction;
 using EloBuddy.SDK.Spells;
-using TargetSelector = PortAIO.TSManager;
+
 
 namespace SebbyLib
 {
@@ -37,27 +37,27 @@ namespace SebbyLib
         {
             get
             {
-                return PortAIO.OrbwalkerManager.isLaneClearActive ||
-                       PortAIO.OrbwalkerManager.isHarassActive;
+                return Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear) ||
+                       Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass);
             }
         }
 
         public static bool Combo
         {
-            get { return PortAIO.OrbwalkerManager.isComboActive; }
+            get { return Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo); }
         }
 
         public static bool None
         {
             get
             {
-                return PortAIO.OrbwalkerManager.isNoneActive;
+                return Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.None);
             }
         }
 
         public static bool LaneClear
         {
-            get { return (PortAIO.OrbwalkerManager.isLaneClearActive || PortAIO.OrbwalkerManager.isHarassActive || PortAIO.OrbwalkerManager.isLastHitActive) && getCheckBoxItem("harassLaneclear"); }
+            get { return (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LastHit)) && getCheckBoxItem("harassLaneclear"); }
         }
 
         private static AIHeroClient Player
@@ -289,14 +289,14 @@ namespace SebbyLib
             }
 
             Game.OnUpdate += OnUpdate;
-            LSEvents.BeforeAttack += Orbwalking_BeforeAttack;
+            Orbwalker.OnPreAttack += Orbwalking_BeforeAttack;
             Drawing.OnDraw += OnDraw;
             Game.OnTick += Game_OnTick;
         }
 
         private static void Game_OnTick(EventArgs args)
         {
-            if (Player.IsDead || getSliderItem("PredictionMODE") != 4 || (!IsCharging && !PortAIO.OrbwalkerManager.CanMove(0)))
+            if (Player.IsDead || getSliderItem("PredictionMODE") != 4 || (!IsCharging && !Orbwalker.CanMove))
             {
                 return;
             }
@@ -359,7 +359,7 @@ namespace SebbyLib
         }
         private static int _lastChargeTime;
 
-        private static void Orbwalking_BeforeAttack(BeforeAttackArgs args)
+        private static void Orbwalking_BeforeAttack(AttackableUnit target, Orbwalker.PreAttackArgs args)
         {
             if (AIOmode == 2)
                 return;
@@ -378,7 +378,7 @@ namespace SebbyLib
                 args.Process = false;
             }
 
-            if (PortAIO.OrbwalkerManager.isHarassActive && getCheckBoxItem("supportMode"))
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass) && getCheckBoxItem("supportMode"))
             {
                 if (args.Target.Type == GameObjectType.obj_AI_Minion) args.Process = false;
             }

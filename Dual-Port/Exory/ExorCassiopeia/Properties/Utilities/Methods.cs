@@ -2,7 +2,7 @@ using EloBuddy;
 using LeagueSharp;
 using LeagueSharp.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Cassiopeia
+ namespace ExorAIO.Champions.Cassiopeia
 {
     /// <summary>
     ///     The methods class.

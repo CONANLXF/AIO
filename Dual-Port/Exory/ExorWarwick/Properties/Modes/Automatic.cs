@@ -4,7 +4,7 @@ using LeagueSharp;
 using LeagueSharp.SDK;
 using EloBuddy;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Warwick
+ namespace ExorAIO.Champions.Warwick
 {
     /// <summary>
     ///     The logics class.

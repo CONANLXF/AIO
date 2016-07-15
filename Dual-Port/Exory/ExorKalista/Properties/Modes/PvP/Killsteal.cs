@@ -8,7 +8,7 @@ using LeagueSharp.Data.Enumerations;
 using EloBuddy;
 using EloBuddy.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Kalista
+ namespace ExorAIO.Champions.Kalista
 {
     /// <summary>
     ///     The logics class.

@@ -4,7 +4,7 @@ using LeagueSharp;
 using LeagueSharp.SDK;
 using LeagueSharp.SDK.Enumerations;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Kalista
+ namespace ExorAIO.Champions.Kalista
 {
     /// <summary>
     ///     The settings class.

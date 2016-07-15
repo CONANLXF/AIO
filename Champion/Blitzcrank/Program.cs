@@ -9,7 +9,7 @@ using LeagueSharp.Common;
 using Gapcloser = EloBuddy.SDK.Events.Gapcloser;
 using Interrupter = EloBuddy.SDK.Events.Interrupter;
 using Spell = LeagueSharp.Common.Spell;
-using TargetSelector = PortAIO.TSManager;
+
 namespace PortAIO.Champion.Blitzcrank
 {
     internal class Program
@@ -177,7 +177,7 @@ namespace PortAIO.Champion.Blitzcrank
             Gapcloser.OnGapcloser += AntiGapcloser_OnEnemyGapcloser;
             Obj_AI_Base.OnProcessSpellCast += OnProcessSpell;
             Interrupter.OnInterruptableSpell += Interrupter2_OnInterruptableTarget;
-            LSEvents.BeforeAttack += Orbwalking_BeforeAttack;
+            Orbwalker.OnPreAttack += Orbwalking_BeforeAttack;
             EloBuddy.Player.OnIssueOrder += Obj_AI_Base_OnIssueOrder;
 
             Chat.Print("Flash Q is pretty bad, keep that in mind when using it.");
@@ -230,7 +230,7 @@ namespace PortAIO.Champion.Blitzcrank
                 }
 
                 // Combo
-                if (PortAIO.OrbwalkerManager.isComboActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
                 {
                     if (getCheckBoxItem(ComboMenu, "Blitzcrank_CUse_Q") && _Q.IsReady() && QTarget != null &&
                         getSliderItem(MiscMenu, "Blitzcrank_GrabSelect" + QTarget.NetworkId) != 1)
@@ -247,7 +247,7 @@ namespace PortAIO.Champion.Blitzcrank
                 }
 
                 // Harass
-                if (PortAIO.OrbwalkerManager.isHarassActive &&
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass) &&
                     getSliderItem(HarassMenu, "Blitzcrank_AManarate") < Player.ManaPercent)
                 {
                     if (getCheckBoxItem(HarassMenu, "Blitzcrank_HUse_Q") && _Q.IsReady() && QTarget != null &&
@@ -338,7 +338,7 @@ namespace PortAIO.Champion.Blitzcrank
             }
         }
 
-        private static void Orbwalking_BeforeAttack(BeforeAttackArgs args)
+        private static void Orbwalking_BeforeAttack(AttackableUnit target, Orbwalker.PreAttackArgs args)
         {
             try
             {

@@ -7,19 +7,19 @@ using System.Linq;
 using PrideStalker_Rengar.Main;
 using EloBuddy.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace PrideStalker_Rengar.Handlers
+ namespace PrideStalker_Rengar.Handlers
 {
     class AfterAA : Core
     {
         
-        public static void Orbwalker_OnPostAttack(LeagueSharp.Common.AfterAttackArgs args)
+        public static void Orbwalker_OnPostAttack(AttackableUnit target, EventArgs args)
         {
-            var dgfg = args.Target;
+            var dgfg = target;
             if (dgfg is AIHeroClient)
             {
                 var Target = dgfg as AIHeroClient;
       
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
 
                 if (Player.Mana == 5 && MenuConfig.Passive)

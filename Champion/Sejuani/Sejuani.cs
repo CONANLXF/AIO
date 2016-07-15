@@ -6,7 +6,7 @@ using EloBuddy.SDK;
 using LeagueSharp.Common;
 using Spell = LeagueSharp.Common.Spell;
 
-using TargetSelector = PortAIO.TSManager; namespace ElSejuani
+ namespace ElSejuani
 {
     internal enum Spells
     {
@@ -345,25 +345,25 @@ using TargetSelector = PortAIO.TSManager; namespace ElSejuani
                 return;
             }
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 Combo();
             }
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 LaneClear();
                 JungleClear();
             }
 
-            if (PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 Harass();
             }
 
             if (ElSejuaniMenu.getKeyBindItem(ElSejuaniMenu.cMenu, "ElSejuani.Combo.Semi.R"))
             {
-                PortAIO.OrbwalkerManager.MoveA(Game.CursorPos);
+                Orbwalker.MoveTo(Game.CursorPos);
                 SemiR();
             }
         }

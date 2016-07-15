@@ -2,7 +2,7 @@ using EloBuddy;
 using LeagueSharp;
 using LeagueSharp.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Ezreal
+ namespace ExorAIO.Champions.Ezreal
 {
     /// <summary>
     ///     The methods class.

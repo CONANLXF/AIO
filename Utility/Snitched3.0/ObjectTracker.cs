@@ -1,4 +1,4 @@
-﻿using TargetSelector = PortAIO.TSManager; namespace Snitched
+﻿ namespace Snitched
 {
     using System;
     using System.Collections.Generic;

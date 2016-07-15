@@ -1,7 +1,7 @@
 using EloBuddy.SDK.Menu.Values;
 using ExorAIO.Utilities;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.DrMundo
+ namespace ExorAIO.Champions.DrMundo
 {
     /// <summary>
     ///     The menu class.

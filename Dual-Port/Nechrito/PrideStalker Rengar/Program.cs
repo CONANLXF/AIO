@@ -9,7 +9,7 @@ using PrideStalker_Rengar.Handlers;
 using PrideStalker_Rengar.Draw;
 using EloBuddy.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace PrideStalker_Rengar
+ namespace PrideStalker_Rengar
 {
     class Program : Core
     {
@@ -27,8 +27,8 @@ using TargetSelector = PortAIO.TSManager; namespace PrideStalker_Rengar
             Spells.Load();
             MenuConfig.Load();
 
-            LeagueSharp.Common.LSEvents.AfterAttack += AfterAA.Orbwalker_OnPostAttack;
-            LeagueSharp.Common.LSEvents.BeforeAttack += BeforeAA.Orbwalker_OnPreAttack;
+            Orbwalker.OnPostAttack += AfterAA.Orbwalker_OnPostAttack;
+            Orbwalker.OnPreAttack += BeforeAA.Orbwalker_OnPreAttack;
 
             Spellbook.OnCastSpell += OnSpell;
 
@@ -41,7 +41,7 @@ using TargetSelector = PortAIO.TSManager; namespace PrideStalker_Rengar
         {
             if (args.Slot == SpellSlot.Q)
             {
-                PortAIO.OrbwalkerManager.ResetAutoAttackTimer();
+                Orbwalker.ResetAutoAttack();
             }
         }
         
@@ -55,7 +55,7 @@ using TargetSelector = PortAIO.TSManager; namespace PrideStalker_Rengar
             DelayAction.Add(600, Mode.ChangeComboMode);
             KillSteal.Killsteal();
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 switch (Mode.getBoxItem(MenuConfig.comboMenu, "ComboMode"))
                 {
@@ -73,15 +73,15 @@ using TargetSelector = PortAIO.TSManager; namespace PrideStalker_Rengar
                         break;
                 }
             }
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 Mode.Lane();
             }
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 Mode.Jungle();
             }       
-            if (PortAIO.OrbwalkerManager.isLastHitActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LastHit))
             {
                 Mode.LastHit();
             }

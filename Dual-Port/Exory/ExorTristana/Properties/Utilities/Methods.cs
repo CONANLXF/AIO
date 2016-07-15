@@ -3,7 +3,7 @@ using EloBuddy.SDK;
 using LeagueSharp;
 using LeagueSharp.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Tristana
+ namespace ExorAIO.Champions.Tristana
 {
     /// <summary>
     ///     The methods class.
@@ -18,7 +18,7 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Tristana
             Game.OnUpdate += Tristana.OnUpdate;
             Events.OnGapCloser += Tristana.OnGapCloser;
             Obj_AI_Base.OnBuffGain += Tristana.OnBuffAdd;
-            LeagueSharp.Common.LSEvents.BeforeAttack += Tristana.Orbwalker_OnPreAttack;
+            Orbwalker.OnPreAttack += Tristana.Orbwalker_OnPreAttack;
         }
     }
 }

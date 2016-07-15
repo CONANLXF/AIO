@@ -5,7 +5,7 @@ using LeagueSharp;
 using LeagueSharp.SDK;
 using LeagueSharp.SDK.Core.Utils;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.KogMaw
+ namespace ExorAIO.Champions.KogMaw
 {
     /// <summary>
     ///     The logics class.

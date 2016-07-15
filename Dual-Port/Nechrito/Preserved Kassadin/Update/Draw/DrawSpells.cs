@@ -2,7 +2,7 @@
 using Preserved_Kassadin.Cores;
 using System;
 
-using TargetSelector = PortAIO.TSManager; namespace Preserved_Kassadin.Update.Draw
+ namespace Preserved_Kassadin.Update.Draw
 {
     class DrawSpells : Coree
     {

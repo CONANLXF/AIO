@@ -13,7 +13,7 @@ using EloBuddy.SDK.Menu.Values;
 using EloBuddy.SDK;
 using static EloBuddy.SDK.Spell;
 
-using TargetSelector = PortAIO.TSManager; namespace YasuoSharpV2
+ namespace YasuoSharpV2
 {
     internal class YasuoSharp
     {
@@ -159,29 +159,29 @@ using TargetSelector = PortAIO.TSManager; namespace YasuoSharpV2
                 //Remove the detected skillshots that have expired.
 
                 AIHeroClient target = TargetSelector.GetTarget((Yasuo.E.IsReady()) ? 1500 : 475, DamageType.Physical);
-                if (PortAIO.OrbwalkerManager.isComboActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
                 {
                     Yasuo.doCombo(target);
                 }
 
-                if (PortAIO.OrbwalkerManager.isLastHitActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LastHit))
                 {
                     Yasuo.doLastHit(target);
                     Yasuo.useQSmart(target);
                 }
 
-                if (PortAIO.OrbwalkerManager.isHarassActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
                 {
                     Yasuo.doLastHit(target);
                     Yasuo.useQSmart(target);
                 }
 
-                if (PortAIO.OrbwalkerManager.isLaneClearActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
                 {
                     Yasuo.doLaneClear(target);
                 }
 
-                if (PortAIO.OrbwalkerManager.isFleeActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Flee))
                 {
                     Yasuo.fleeToMouse();
                     Yasuo.stackQ();
@@ -241,7 +241,7 @@ using TargetSelector = PortAIO.TSManager; namespace YasuoSharpV2
                     Chat.Print("Last WW skill blocked: " + lastSpell);
                 }
 
-                if (harass["harassOn"].Cast<CheckBox>().CurrentValue && PortAIO.OrbwalkerManager.isNoneActive)
+                if (harass["harassOn"].Cast<CheckBox>().CurrentValue && Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.None))
                 {
                     if (target != null)
                         Yasuo.useQSmart(target, harass["harQ3Only"].Cast<CheckBox>().CurrentValue);
@@ -278,7 +278,7 @@ using TargetSelector = PortAIO.TSManager; namespace YasuoSharpV2
             if (drawings["drawR"].Cast<CheckBox>().CurrentValue)
                 LeagueSharp.Common.Utility.DrawCircle(Yasuo.Player.Position, 1200, Color.Blue);
 
-            if (PortAIO.OrbwalkerManager.isFleeActive && drawings["drawWJ"].Cast<CheckBox>().CurrentValue)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Flee) && drawings["drawWJ"].Cast<CheckBox>().CurrentValue)
             {
                 LeagueSharp.Common.Utility.DrawCircle(Game.CursorPos, 350, Color.Cyan);
 

@@ -12,7 +12,7 @@ using EloBuddy;
 using EloBuddy.SDK.Menu.Values;
 using EloBuddy.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace Leblanc.Modes
+ namespace Leblanc.Modes
 {
     internal static class ModeFlee
     {
@@ -35,7 +35,7 @@ using TargetSelector = PortAIO.TSManager; namespace Leblanc.Modes
                     return;
                 }
 
-                if (!PortAIO.OrbwalkerManager.isFleeActive)
+                if (!Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Flee))
                 {
                     return;
                 }
@@ -49,7 +49,7 @@ using TargetSelector = PortAIO.TSManager; namespace Leblanc.Modes
         
         private static void OnUpdate(EventArgs args)
         {
-            if (!PortAIO.OrbwalkerManager.isFleeActive)
+            if (!Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Flee))
             {
                 return;
             }

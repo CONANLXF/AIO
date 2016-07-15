@@ -9,7 +9,7 @@ using EloBuddy.SDK;
 using EloBuddy.SDK.Menu.Values;
 using EloBuddy.SDK.Menu;
 
-using TargetSelector = PortAIO.TSManager; namespace VayneHunter_Reborn.Utility.Helpers
+ namespace VayneHunter_Reborn.Utility.Helpers
 {
     static class Extensions
     {

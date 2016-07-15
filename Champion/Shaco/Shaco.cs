@@ -15,7 +15,7 @@ using Prediction = LeagueSharp.Common.Prediction;
 using Spell = LeagueSharp.Common.Spell;
 using Utility = LeagueSharp.Common.Utility;
 
-using TargetSelector = PortAIO.TSManager; namespace UnderratedAIO.Champions
+ namespace UnderratedAIO.Champions
 {
     internal class Shaco
     {
@@ -76,7 +76,7 @@ using TargetSelector = PortAIO.TSManager; namespace UnderratedAIO.Champions
             var target = TargetSelector.GetTarget(Q.Range + player.MoveSpeed*3, DamageType.Physical);
             if (ShacoStealth && target != null && target.Health > ComboDamage(target) &&
                 CombatHelper.IsFacing(target, player.Position) &&
-                PortAIO.OrbwalkerManager.isComboActive)
+                Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 PortAIO.OrbwalkerManager.SetAttack(false);
             }
@@ -90,7 +90,7 @@ using TargetSelector = PortAIO.TSManager; namespace UnderratedAIO.Champions
                 cloneTime = Environment.TickCount;
             }
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 if (ShacoStealth && getCheckBoxItem(menuC, "WaitForStealth"))
                 {
@@ -99,12 +99,12 @@ using TargetSelector = PortAIO.TSManager; namespace UnderratedAIO.Champions
                 Combo(target);
             }
 
-            if (PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 Harass();
             }
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 Clear();
             }

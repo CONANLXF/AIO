@@ -2,7 +2,7 @@
 using Activators.Base;
 using LeagueSharp.Common;
 
-using TargetSelector = PortAIO.TSManager; namespace Activators.Spells.Shields
+ namespace Activators.Spells.Shields
 {
     class skarnerw : CoreSpell
     {

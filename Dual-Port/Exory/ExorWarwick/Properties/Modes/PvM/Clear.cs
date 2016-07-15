@@ -5,7 +5,7 @@ using LeagueSharp.SDK;
 using EloBuddy;
 using EloBuddy.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Warwick
+ namespace ExorAIO.Champions.Warwick
 {
     /// <summary>
     ///     The logics class.
@@ -19,7 +19,7 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Warwick
         public static void Clear(EventArgs args)
         {
             if (Bools.HasSheenBuff() ||
-                !(PortAIO.OrbwalkerManager.LastTarget() as Obj_AI_Minion).IsValidTarget())
+                !(Orbwalker.LastTarget as Obj_AI_Minion).IsValidTarget())
             {
                 return;
             }
@@ -51,9 +51,9 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Warwick
             {
                 if (GameObjects.Player.MaxHealth >
                         GameObjects.Player.Health +
-                        (float)GameObjects.Player.LSGetSpellDamage(PortAIO.OrbwalkerManager.LastTarget() as Obj_AI_Minion, SpellSlot.Q) * 0.8)
+                        (float)GameObjects.Player.LSGetSpellDamage(Orbwalker.LastTarget as Obj_AI_Minion, SpellSlot.Q) * 0.8)
                 {
-                    Vars.Q.CastOnUnit(PortAIO.OrbwalkerManager.LastTarget() as Obj_AI_Minion);
+                    Vars.Q.CastOnUnit(Orbwalker.LastTarget as Obj_AI_Minion);
                 }
             }
         }

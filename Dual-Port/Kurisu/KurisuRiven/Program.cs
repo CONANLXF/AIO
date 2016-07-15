@@ -2,7 +2,7 @@
 using System.Reflection;
 using LeagueSharp.Common;
 
-using TargetSelector = PortAIO.TSManager; namespace KurisuRiven
+ namespace KurisuRiven
 {
     internal static class Program
     {

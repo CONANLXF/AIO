@@ -6,7 +6,7 @@ using SharpDX;
 using Geometry = ExorAIO.Utilities.Geometry;
 using LeagueSharp.SDK.Core.Utils;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Caitlyn
+ namespace ExorAIO.Champions.Caitlyn
 {
     /// <summary>
     ///     The logics class.

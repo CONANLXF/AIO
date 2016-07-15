@@ -23,7 +23,7 @@ using System.Speech.Synthesis;
 using TreeLib.Objects;
 using ItemData = LeagueSharp.Common.Data.ItemData;
 
-using TargetSelector = PortAIO.TSManager; namespace LuluLicious
+ namespace LuluLicious
 {
     internal static class Utility
     {

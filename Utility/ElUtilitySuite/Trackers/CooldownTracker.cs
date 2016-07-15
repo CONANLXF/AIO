@@ -20,7 +20,7 @@
 
 #endregion License
 
-using TargetSelector = PortAIO.TSManager; namespace ElUtilitySuite.Trackers
+ namespace ElUtilitySuite.Trackers
 {
     using System;
     using System.Collections.Generic;

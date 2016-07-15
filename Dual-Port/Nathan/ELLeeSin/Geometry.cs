@@ -33,7 +33,7 @@ using LeagueSharp.Common;
 using SharpDX;
 using Color = System.Drawing.Color;
 
-using TargetSelector = PortAIO.TSManager; namespace ElLeeSin
+ namespace ElLeeSin
 {
     /// <summary>
     ///     Provides methods regarding geometry math.

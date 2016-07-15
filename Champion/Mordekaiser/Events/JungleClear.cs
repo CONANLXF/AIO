@@ -4,7 +4,7 @@ using EloBuddy;
 using EloBuddy.SDK;
 using LeagueSharp.Common;
 
-using TargetSelector = PortAIO.TSManager; namespace Mordekaiser.Events
+ namespace Mordekaiser.Events
 {
     internal class JungleClear
     {
@@ -20,7 +20,7 @@ using TargetSelector = PortAIO.TSManager; namespace Mordekaiser.Events
                 return;
             }
 
-            if (!PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (!Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 return;
             }
@@ -70,7 +70,7 @@ using TargetSelector = PortAIO.TSManager; namespace Mordekaiser.Events
 
         private static void ExecuteW()
         {
-            if (!PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (!Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
                 return;
 
             if (Utils.Player.Self.Spellbook.GetSpell(SpellSlot.W).Name == "mordekaisercreepingdeath2")

@@ -8,7 +8,7 @@ using EloBuddy;
 using LeagueSharp.SDK.Core.Utils;
 using EloBuddy.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Sivir
+ namespace ExorAIO.Champions.Sivir
 {
     /// <summary>
     ///     The logics class.
@@ -117,9 +117,9 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Sivir
         /// <param name="args">The args.</param>
         public static void BuildingClear(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
-            if (!(PortAIO.OrbwalkerManager.LastTarget() is Obj_HQ) &&
-                !(PortAIO.OrbwalkerManager.LastTarget() is Obj_AI_Turret) &&
-                !(PortAIO.OrbwalkerManager.LastTarget() is Obj_BarracksDampener))
+            if (!(Orbwalker.LastTarget is Obj_HQ) &&
+                !(Orbwalker.LastTarget is Obj_AI_Turret) &&
+                !(Orbwalker.LastTarget is Obj_BarracksDampener))
             {
                 return;
             }

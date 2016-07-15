@@ -10,7 +10,7 @@ using Nechrito_Rengar;
 using EloBuddy.SDK;
 using PrideStalker_Rengar.Handlers;
 
-using TargetSelector = PortAIO.TSManager; namespace PrideStalker_Rengar.Draw
+ namespace PrideStalker_Rengar.Draw
 {
     class DRAW : Core
     {
@@ -21,7 +21,7 @@ using TargetSelector = PortAIO.TSManager; namespace PrideStalker_Rengar.Draw
             var heropos = Drawing.WorldToScreen(ObjectManager.Player.Position);
             var textPos = Drawing.WorldToScreen(ObjectManager.Player.Position + 175);
 
-            if (PortAIO.OrbwalkerManager.isNoneActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.None))
             {
                 if (MenuConfig.DrawCombo && !MenuConfig.DrawAnim)
                 {

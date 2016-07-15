@@ -8,7 +8,7 @@ using EloBuddy;
 using LeagueSharp.SDK;
 using SharpDX;
 
-using TargetSelector = PortAIO.TSManager; namespace hVayne.Extensions
+ namespace hVayne.Extensions
 {
     class SpellManager
     {

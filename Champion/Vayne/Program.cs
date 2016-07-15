@@ -17,7 +17,7 @@ using LS = LeagueSharp.Common;
 using SV = SoloVayne.Skills.Tumble;
 using EvadeA;
 
-using TargetSelector = PortAIO.TSManager; namespace Vayne1
+ namespace Vayne1
 {
     public static class Program
     {
@@ -63,8 +63,8 @@ using TargetSelector = PortAIO.TSManager; namespace Vayne1
 
             InitMenu();
             Game.OnUpdate += OnUpdate;
-            LS.LSEvents.AfterAttack += Orbwalker_OnPostAttack;
-            LS.LSEvents.BeforeAttack += Orbwalker_OnPreAttack;
+            Orbwalker.OnPostAttack += Orbwalker_OnPostAttack;
+            Orbwalker.OnPreAttack += Orbwalker_OnPreAttack;
             Obj_AI_Base.OnProcessSpellCast += OnProcessSpellCast;
             Drawing.OnDraw += Drawing_OnDraw;
             Interrupter.OnInterruptableSpell += Interrupter_OnInterruptableSpell;
@@ -186,7 +186,7 @@ using TargetSelector = PortAIO.TSManager; namespace Vayne1
             }
 
             if (myHero.CountEnemiesInRange(550 + 200) >= GetAutoR &&
-                PortAIO.OrbwalkerManager.isComboActive && UseRBool)
+                Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) && UseRBool)
             {
                 R.Cast();
             }
@@ -202,7 +202,7 @@ using TargetSelector = PortAIO.TSManager; namespace Vayne1
                 }
             }
 
-            if (UseEBool == 2 && PortAIO.OrbwalkerManager.isComboActive)
+            if (UseEBool == 2 && Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 foreach (var enemy in EntityManager.Heroes.Enemies.Where(e => e.IsValidTarget(550)))
                 {
@@ -499,7 +499,7 @@ using TargetSelector = PortAIO.TSManager; namespace Vayne1
             }
         }
 
-        private static void Orbwalker_OnPreAttack(LS.BeforeAttackArgs args)
+        private static void Orbwalker_OnPreAttack(AttackableUnit target, Orbwalker.PreAttackArgs args)
         {
             var possible2WTarget =
                 EntityManager.Heroes.Enemies.FirstOrDefault(
@@ -508,7 +508,7 @@ using TargetSelector = PortAIO.TSManager; namespace Vayne1
                         h.GetBuffCount("vaynesilvereddebuff") == 2);
             if (TryToFocus2WBool && possible2WTarget.IsValidTarget())
             {
-                PortAIO.OrbwalkerManager.ForcedTarget(possible2WTarget);
+                Orbwalker.ForcedTarget =(possible2WTarget);
             }
 
             if (myHero.HasBuff("vaynetumblefade"))
@@ -542,7 +542,7 @@ using TargetSelector = PortAIO.TSManager; namespace Vayne1
                 var possibleTarget = TargetSelector.GetTarget(-1f, DamageType.Physical);
                 if (possibleTarget != null && possibleTarget.IsInAutoAttackRange(myHero))
                 {
-                    PortAIO.OrbwalkerManager.ForcedTarget(possibleTarget);
+                    Orbwalker.ForcedTarget =(possibleTarget);
                     args.Process = false;
                 }
             }
@@ -580,15 +580,15 @@ using TargetSelector = PortAIO.TSManager; namespace Vayne1
             return enemy == null;
         }
 
-        private static void Orbwalker_OnPostAttack(LS.AfterAttackArgs args)
+        private static void Orbwalker_OnPostAttack(AttackableUnit target, EventArgs args)
         {
-            PortAIO.OrbwalkerManager.ForcedTarget(null);
+            Orbwalker.ForcedTarget =(null);
             var possible2WTarget =
                 EntityManager.Heroes.Enemies.FirstOrDefault(
                     h =>
                         h.ServerPosition.Distance(myHero.ServerPosition) < 500 &&
                         h.GetBuffCount("vaynesilvereddebuff") == 2);
-            if (!PortAIO.OrbwalkerManager.isComboActive)
+            if (!Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 if (possible2WTarget.IsValidTarget() && UseEAs3rdWProcBool &&
                     possible2WTarget.Path.LastOrDefault().Distance(myHero.ServerPosition) < 1000)
@@ -596,11 +596,11 @@ using TargetSelector = PortAIO.TSManager; namespace Vayne1
                     myHero.Spellbook.CastSpell(SpellSlot.E, possible2WTarget);
                 }
             }
-            if (args.Target is AIHeroClient && UseQBool)
+            if (target is AIHeroClient && UseQBool)
             {
-                if (Q.IsReady() && (PortAIO.OrbwalkerManager.isComboActive || PortAIO.OrbwalkerManager.isLaneClearActive || PortAIO.OrbwalkerManager.isHarassActive || PortAIO.OrbwalkerManager.isLastHitActive))
+                if (Q.IsReady() && (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LastHit)))
                 {
-                    var tg = args.Target as AIHeroClient;
+                    var tg = target as AIHeroClient;
                     if (tg != null)
                     {
                         var mode = QModeStringList;
@@ -620,7 +620,7 @@ using TargetSelector = PortAIO.TSManager; namespace Vayne1
                                 {
                                     tumblePosition = Game.CursorPos;
                                 }
-                                PortAIO.OrbwalkerManager.ForcedTarget(tg);
+                                Orbwalker.ForcedTarget =(tg);
                                 break;
                             case 3: // VHR
                                 if (smartq)
@@ -642,7 +642,7 @@ using TargetSelector = PortAIO.TSManager; namespace Vayne1
                                 }
                                 break;
                             case 4: // sharpshooter
-                                if (args.Target.Type == GameObjectType.AIHeroClient)
+                                if (target.Type == GameObjectType.AIHeroClient)
                                 {
                                     if (UseQBool)
                                     {
@@ -659,11 +659,11 @@ using TargetSelector = PortAIO.TSManager; namespace Vayne1
                                 }
                                 break;
                             case 5: // Synx Auto Carry
-                                if (args.Target is AIHeroClient)
+                                if (target is AIHeroClient)
                                 {
                                     if (Q.IsReady())
                                     {
-                                        var pos = Tumble.FindTumblePosition(args.Target as AIHeroClient);
+                                        var pos = Tumble.FindTumblePosition(target as AIHeroClient);
 
                                         if (pos.IsValid())
                                         {
@@ -677,7 +677,7 @@ using TargetSelector = PortAIO.TSManager; namespace Vayne1
                                 var smartQCheck = smartQPosition != Vector3.Zero;
                                 var QPosition = smartQCheck ? smartQPosition : Game.CursorPos;
                                 var afterTumblePosition = ObjectManager.Player.ServerPosition.Extend(QPosition, 300f);
-                                var distanceToTarget = afterTumblePosition.Distance(args.Target.Position, true);
+                                var distanceToTarget = afterTumblePosition.Distance(target.Position, true);
                                 if ((distanceToTarget < Math.Pow(ObjectManager.Player.AttackRange + 65, 2) &&
                                      distanceToTarget > 110*110) || Cqspam)
                                 {
@@ -689,7 +689,7 @@ using TargetSelector = PortAIO.TSManager; namespace Vayne1
                                 var _smartQCheck = _smartQPosition != Vector3.Zero;
                                 var _QPosition = _smartQCheck ? _smartQPosition : Game.CursorPos;
                                 var _afterTumblePosition = ObjectManager.Player.ServerPosition.Extend(_QPosition, 300f);
-                                var _distanceToTarget = _afterTumblePosition.Distance(args.Target.Position, true);
+                                var _distanceToTarget = _afterTumblePosition.Distance(target.Position, true);
                                 if ((_distanceToTarget < Math.Pow(ObjectManager.Player.AttackRange + 65, 2) &&
                                      _distanceToTarget > 110*110) || Cqspam)
                                 {
@@ -717,7 +717,7 @@ using TargetSelector = PortAIO.TSManager; namespace Vayne1
                                 var __smartQCheck = __smartQPosition != Vector3.Zero;
                                 var __QPosition = __smartQCheck ? __smartQPosition : Game.CursorPos;
                                 var __afterTumblePosition = ObjectManager.Player.ServerPosition.Extend(__QPosition, 300f);
-                                var __distanceToTarget = __afterTumblePosition.Distance(args.Target.Position, true);
+                                var __distanceToTarget = __afterTumblePosition.Distance(target.Position, true);
                                 if ((__distanceToTarget < Math.Pow(ObjectManager.Player.AttackRange + 65, 2) &&
                                      __distanceToTarget > 110*110) || Cqspam)
                                 {
@@ -761,9 +761,9 @@ using TargetSelector = PortAIO.TSManager; namespace Vayne1
                     }
                 }
             }
-            if (args.Target is Obj_AI_Minion && PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (target is Obj_AI_Minion && Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
-                var tg = args.Target as Obj_AI_Minion;
+                var tg = target as Obj_AI_Minion;
                 if (E.IsReady())
                 {
                     if (MobNames.Contains(tg.CharData.BaseSkinName) && tg.IsValidTarget() && UseEJungleFarm)
@@ -795,7 +795,7 @@ using TargetSelector = PortAIO.TSManager; namespace Vayne1
                     }
                 }
             }
-            if (UseQOnlyAt2WStacksBool && !PortAIO.OrbwalkerManager.isComboActive &&
+            if (UseQOnlyAt2WStacksBool && !Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) &&
                 possible2WTarget.IsValidTarget())
             {
                 myHero.Spellbook.CastSpell(SpellSlot.Q, GetTumblePos(possible2WTarget));
@@ -854,7 +854,7 @@ using TargetSelector = PortAIO.TSManager; namespace Vayne1
                 return;
             }
 
-            PortAIO.OrbwalkerManager.ForcedTarget(target);
+            Orbwalker.ForcedTarget =(target);
 
             if (ObjectManager.Player.CountEnemiesInRange(1500f) >= 3)
             {
@@ -2413,7 +2413,7 @@ using TargetSelector = PortAIO.TSManager; namespace Vayne1
 
         public static Vector3 GetTumblePos(Obj_AI_Base target)
         {
-            if (!PortAIO.OrbwalkerManager.isComboActive)
+            if (!Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
                 return GetAggressiveTumblePos(target);
 
             var cursorPos = Game.CursorPos;

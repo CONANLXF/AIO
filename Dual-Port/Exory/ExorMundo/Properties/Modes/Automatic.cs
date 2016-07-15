@@ -6,7 +6,7 @@ using LeagueSharp.SDK;
 using EloBuddy;
 using EloBuddy.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.DrMundo
+ namespace ExorAIO.Champions.DrMundo
 {
     /// <summary>
     ///     The logics class.
@@ -24,7 +24,7 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.DrMundo
             ///     The Automatic Q LastHit Logics.
             /// </summary>
             if (Vars.Q.IsReady() &&
-                !PortAIO.OrbwalkerManager.isComboActive &&
+                !Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) &&
                 GameObjects.Player.HealthPercent >
                     ManaManager.GetNeededHealth(Vars.Q.Slot, Vars.getSliderItem(Vars.QMenu, "logical")) &&
                 Vars.getSliderItem(Vars.QMenu, "logical") != 101)
@@ -53,7 +53,7 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.DrMundo
                 /// </summary>
                 if (!GameObjects.Player.HasBuff("BurningAgony"))
                 {
-                    if (PortAIO.OrbwalkerManager.isLaneClearActive)
+                    if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
                     {
                         if (GameObjects.Player.HealthPercent >= ManaManager.GetNeededHealth(Vars.W.Slot, Vars.getSliderItem(Vars.WMenu, "clear")) && Vars.getSliderItem(Vars.WMenu, "clear") != 101)
                         {
@@ -65,7 +65,7 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.DrMundo
                         }
                     }
 
-                    if (PortAIO.OrbwalkerManager.isComboActive)
+                    if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
                     {
                         if (GameObjects.Player.CountEnemyHeroesInRange(Vars.W.Range) > 0 && Vars.getCheckBoxItem(Vars.WMenu, "combo"))
                         {
@@ -79,7 +79,7 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.DrMundo
                 /// </summary>
                 else
                 {
-                    if (PortAIO.OrbwalkerManager.isLaneClearActive)
+                    if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
                     {
                         if (GameObjects.Player.HealthPercent < ManaManager.GetNeededHealth(Vars.W.Slot, Vars.getSliderItem(Vars.WMenu, "clear")) || !Targets.JungleMinions.Any() && Targets.Minions.Count() < 2 || Vars.getSliderItem(Vars.WMenu, "clear") == 101)
                         {
@@ -87,7 +87,7 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.DrMundo
                         }
                     }
 
-                    if (PortAIO.OrbwalkerManager.isComboActive)
+                    if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
                     {
                         if (GameObjects.Player.CountEnemyHeroesInRange(Vars.W.Range) == 0 || !Vars.getCheckBoxItem(Vars.WMenu, "combo"))
                         {

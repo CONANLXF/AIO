@@ -30,7 +30,7 @@ using EloBuddy;
 
 #endregion
 
-using TargetSelector = PortAIO.TSManager; namespace DZAwarenessAIO.Utility
+ namespace DZAwarenessAIO.Utility
 {
     ///From Evade's Geometry Library. All credits to: https://github.com/Esk0r/LeagueSharp/blob/master/Evade/Geometry.cs
     /// 

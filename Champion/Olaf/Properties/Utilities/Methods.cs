@@ -1,7 +1,7 @@
 using EloBuddy;
 using LeagueSharp;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Olaf
+ namespace ExorAIO.Champions.Olaf
 {
     /// <summary>
     ///     The methods class.

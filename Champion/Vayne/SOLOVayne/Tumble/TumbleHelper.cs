@@ -6,7 +6,7 @@ using SharpDX;
 using SOLOVayne;
 using LS = LeagueSharp.Common;
 
-using TargetSelector = PortAIO.TSManager; namespace SoloVayne.Skills.Tumble
+ namespace SoloVayne.Skills.Tumble
 {
     internal class TumbleHelper
     {

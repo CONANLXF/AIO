@@ -2,7 +2,7 @@ using EloBuddy;
 using LeagueSharp.SDK;
 using Spell = LeagueSharp.SDK.Spell;
 
-using TargetSelector = PortAIO.TSManager; namespace NabbActivator
+ namespace NabbActivator
 {
     /// <summary>
     ///     The spells class.

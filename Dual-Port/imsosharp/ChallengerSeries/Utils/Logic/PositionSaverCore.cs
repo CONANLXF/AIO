@@ -12,7 +12,7 @@ using LeagueSharp.SDK;
 using SharpDX;
 using EloBuddy;
 
-using TargetSelector = PortAIO.TSManager; namespace Challenger_Series.Utils.Logic
+ namespace Challenger_Series.Utils.Logic
 {
 
     /// <summary>

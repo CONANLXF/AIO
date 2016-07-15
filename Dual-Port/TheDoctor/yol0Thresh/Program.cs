@@ -12,7 +12,7 @@ using Spell = LeagueSharp.Common.Spell;
 
 // ReSharper disable InconsistentNaming
 
-using TargetSelector = PortAIO.TSManager; namespace yol0Thresh
+ namespace yol0Thresh
 {
     internal class Program
     {
@@ -188,15 +188,15 @@ using TargetSelector = PortAIO.TSManager; namespace yol0Thresh
             UpdateSouls();
             UpdateBuffs();
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
                 Combo();
 
-            if (PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
                 Harass();
 
             if (getKeyBindItem(flayMenu, "pullEnemy"))
             {
-                PortAIO.OrbwalkerManager.MoveA(Game.CursorPos);
+                Orbwalker.MoveTo(Game.CursorPos);
                 var target = TargetSelector.GetTarget(_E.Range, DamageType.Physical);
                 if (target != null)
                     PullFlay(target);
@@ -204,7 +204,7 @@ using TargetSelector = PortAIO.TSManager; namespace yol0Thresh
 
             if (getKeyBindItem(flayMenu, "pushEnemy"))
             {
-                PortAIO.OrbwalkerManager.MoveA(Game.CursorPos);
+                Orbwalker.MoveTo(Game.CursorPos);
                 var target = TargetSelector.GetTarget(_E.Range, DamageType.Physical);
                 if (target != null)
                     PushFlay(target);
@@ -302,7 +302,7 @@ using TargetSelector = PortAIO.TSManager; namespace yol0Thresh
 
             if (args.SData.Name == "ThreshE")
             {
-                PortAIO.OrbwalkerManager.ResetAutoAttackTimer();
+                Orbwalker.ResetAutoAttack();
             }
         }
 

@@ -12,7 +12,7 @@ using Damage = LeagueSharp.Common.Damage;
 using Spell = LeagueSharp.Common.Spell;
 using Utility = LeagueSharp.Common.Utility;
 
-using TargetSelector = PortAIO.TSManager; namespace D_RekSai
+ namespace D_RekSai
 {
     internal static class Program
     {
@@ -136,19 +136,19 @@ using TargetSelector = PortAIO.TSManager; namespace D_RekSai
 
             PortAIO.OrbwalkerManager.SetAttack(true);
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 Combo();
             }
 
-            if ((PortAIO.OrbwalkerManager.isHarassActive ||
+            if ((Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass) ||
                  getKeyBindItem(harassMenu, "harasstoggle")) &&
-                !PortAIO.OrbwalkerManager.isComboActive)
+                !Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 Harass();
             }
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 Farm();
                 JungleClear();
@@ -161,12 +161,12 @@ using TargetSelector = PortAIO.TSManager; namespace D_RekSai
 
             if (getCheckBoxItem(extraMenu, "AutoW") &&
                 (getCheckBoxItem(extraMenu, "turnburrowed") &&
-                 !PortAIO.OrbwalkerManager.isComboActive ||
-                 !PortAIO.OrbwalkerManager.isHarassActive ||
+                 !Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) ||
+                 !Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass) ||
                  !getKeyBindItem(harassMenu, "harasstoggle") ||
-                 !PortAIO.OrbwalkerManager.isLaneClearActive ||
+                 !Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear) ||
                  !getKeyBindItem(extraMenu, "escapeterino") ||
-                 !PortAIO.OrbwalkerManager.isFleeActive))
+                 !Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Flee)))
             {
                 AutoW();
             }
@@ -176,12 +176,12 @@ using TargetSelector = PortAIO.TSManager; namespace D_RekSai
                 Escapeterino();
             }
 
-            if ((!PortAIO.OrbwalkerManager.isComboActive ||
-                 !PortAIO.OrbwalkerManager.isHarassActive ||
+            if ((!Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) ||
+                 !Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass) ||
                  !getKeyBindItem(harassMenu, "harasstoggle") ||
-                 !PortAIO.OrbwalkerManager.isLaneClearActive ||
+                 !Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear) ||
                  !getKeyBindItem(extraMenu, "escapeterino") ||
-                 !PortAIO.OrbwalkerManager.isFleeActive) &&
+                 !Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Flee)) &&
                 getCheckBoxItem(extraMenu, "turnburrowed") && !IsBurrowed())
             {
                 autoburrowed();
@@ -324,14 +324,14 @@ using TargetSelector = PortAIO.TSManager; namespace D_RekSai
                 // Check if the loop triggered the jump, if not just orbwalk
                 if (!jumpTriggered)
                 {
-                    PortAIO.OrbwalkerManager.MoveA(Game.CursorPos);
+                    Orbwalker.MoveTo(Game.CursorPos);
                 }
             }
 
             // Either no wall or W on cooldown, just move towards to wall then
             else
             {
-                PortAIO.OrbwalkerManager.MoveA(Game.CursorPos);
+                Orbwalker.MoveTo(Game.CursorPos);
                 if (IsBurrowed() && _be.IsReady()) _be.Cast(Game.CursorPos);
             }
         }
@@ -353,7 +353,7 @@ using TargetSelector = PortAIO.TSManager; namespace D_RekSai
 
             if (spell.Name.ToLower().Contains("reksaiq"))
             {
-                Utility.DelayAction.Add(450, PortAIO.OrbwalkerManager.ResetAutoAttackTimer);
+                Utility.DelayAction.Add(450, Orbwalker.ResetAutoAttack);
             }
 
             /*if (sender.IsMe)

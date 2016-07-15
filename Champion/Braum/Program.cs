@@ -8,7 +8,7 @@ using EloBuddy.SDK.Menu.Values;
 using LeagueSharp.Common;
 using SebbyLib;
 using Spell = LeagueSharp.Common.Spell;
-using TargetSelector = PortAIO.TSManager;
+
 namespace PortAIO.Champion.Braum
 {
     public class Program

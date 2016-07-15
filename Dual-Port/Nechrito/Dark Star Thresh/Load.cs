@@ -5,7 +5,7 @@ using LeagueSharp;
 using LeagueSharp.Common;
 using EloBuddy;
 
-using TargetSelector = PortAIO.TSManager; namespace Dark_Star_Thresh
+ namespace Dark_Star_Thresh
 {
     class Load
     {

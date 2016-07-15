@@ -1,4 +1,4 @@
-﻿using TargetSelector = PortAIO.TSManager; namespace iTwitch
+﻿ namespace iTwitch
 {
     using System;
     using System.Collections.Generic;
@@ -184,7 +184,7 @@
 
             Game.OnUpdate += OnUpdate;
             Drawing.OnDraw += OnDraw;
-            LSEvents.AfterAttack += AfterAttack;
+            Orbwalker.OnPostAttack += AfterAttack;
             Obj_AI_Base.OnProcessSpellCast += OnProcessSpellCast;
         }
 
@@ -193,7 +193,7 @@
 
         }
 
-        private static void AfterAttack(AfterAttackArgs args)
+        private static void AfterAttack(AttackableUnit target, EventArgs args)
         {
 
         }
@@ -294,12 +294,12 @@
                 }
             }
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 OnCombo();
             }
 
-            if (PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 OnHarass();
             }

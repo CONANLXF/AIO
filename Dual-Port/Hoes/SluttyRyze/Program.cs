@@ -9,7 +9,7 @@ using EloBuddy.SDK;
 using EloBuddy.SDK.Menu.Values;
 using EloBuddy.SDK.Menu;
 
-using TargetSelector = PortAIO.TSManager; namespace Slutty_ryze
+ namespace Slutty_ryze
 {
     internal class Program
     {
@@ -50,7 +50,7 @@ using TargetSelector = PortAIO.TSManager; namespace Slutty_ryze
             Game.OnUpdate += Game_OnUpdate;
             AntiGapcloser.OnEnemyGapcloser += Champion.OnGapClose;
             Interrupter2.OnInterruptableTarget += Champion.RyzeInterruptableSpell;
-            LSEvents.BeforeAttack += Champion.Orbwalking_BeforeAttack;
+            Orbwalker.OnPreAttack += Champion.Orbwalking_BeforeAttack;
             ShowDisplayMessage();
 
         }
@@ -158,7 +158,7 @@ using TargetSelector = PortAIO.TSManager; namespace Slutty_ryze
                     if (getCheckBoxItem(MenuManager.chase, "usewchase") && targets.IsValidTarget(Champion.E.Range))
                         LaneOptions.CastW(targets);
 
-                    var target1 = TargetSelector.GetSelectedTarget();
+                    var target1 = TargetSelector.SelectedTarget;
                     if (!target1.LSIsValidTarget(rRange)) return;
                     if (getCheckBoxItem(MenuManager.chase, "chaser") &&
                         target1.LSDistance(GlobalManager.GetHero) > Champion.W.Range + 200 &&
@@ -192,7 +192,7 @@ using TargetSelector = PortAIO.TSManager; namespace Slutty_ryze
                     Humanizer.ChangeDelay("generalDelay", nDelay);
                 }
 
-                if (PortAIO.OrbwalkerManager.isComboActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
                 {
 
                     var expires = (GlobalManager.GetHero.Spellbook.GetSpell(SpellSlot.Q).CooldownExpires);
@@ -217,23 +217,23 @@ using TargetSelector = PortAIO.TSManager; namespace Slutty_ryze
                     PortAIO.OrbwalkerManager.SetAttack(!(target.LSDistance(GlobalManager.GetHero) >= getSliderItem(MenuManager.combo1Menu, "minaarange")));
                 }
 
-                if (PortAIO.OrbwalkerManager.isHarassActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
                 {
                     LaneOptions.Mixed();
                     //MenuManager.PortAIO.OrbwalkerManager.SetAttack(true);
                     PortAIO.OrbwalkerManager.SetAttack(true);
                 }
 
-                if (PortAIO.OrbwalkerManager.isLaneClearActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
                 {
                         LaneOptions.LaneClear();
                 }
 
-                if (PortAIO.OrbwalkerManager.isLastHitActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LastHit))
                     LaneOptions.LastHit();
 
 
-                if (PortAIO.OrbwalkerManager.isNoneActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.None))
                 {
                     if (getKeyBindItem(MenuManager.itemMenu, "tearS"))
                         ItemManager.TearStack();

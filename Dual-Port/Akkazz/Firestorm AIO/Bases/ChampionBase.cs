@@ -11,7 +11,7 @@ using EloBuddy.SDK.Menu.Values;
 using EloBuddy.SDK;
 using Firestorm_AIO.DataBases;
 
-using TargetSelector = PortAIO.TSManager; namespace Firestorm_AIO.Bases
+ namespace Firestorm_AIO.Bases
 {
     public abstract class ChampionBase
     {
@@ -195,29 +195,29 @@ using TargetSelector = PortAIO.TSManager; namespace Firestorm_AIO.Bases
 
             KillSteal();
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 LaneClear();
             }
 
-            if (PortAIO.OrbwalkerManager.isLastHitActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LastHit))
             {
                 LastHit();
             }
 
             if (Target == null) return;
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 Combo();
             }
 
-            if (PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 Mixed();
             }
 
-            if(!PortAIO.OrbwalkerManager.isFleeActive) return;
+            if(!Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Flee)) return;
 
 
         }

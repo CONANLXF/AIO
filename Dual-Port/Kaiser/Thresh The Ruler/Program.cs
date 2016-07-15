@@ -10,7 +10,7 @@ using EloBuddy.SDK;
 using Spell = LeagueSharp.Common.Spell;
 using EloBuddy.SDK.Menu.Values;
 
-using TargetSelector = PortAIO.TSManager; namespace ThreshTherulerofthesoul
+ namespace ThreshTherulerofthesoul
 {
     class Program
     {
@@ -151,7 +151,7 @@ using TargetSelector = PortAIO.TSManager; namespace ThreshTherulerofthesoul
             var target = TargetSelector.GetTarget(Q.Range, DamageType.Magical);
             var Etarget = TargetSelector.GetTarget(E.Range, DamageType.Magical);
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 if (target != null)
                 {
@@ -181,7 +181,7 @@ using TargetSelector = PortAIO.TSManager; namespace ThreshTherulerofthesoul
 
             if (getKeyBindItem(comboMenu, "FlayPush") || getKeyBindItem(comboMenu, "FlayPull"))
             {
-                PortAIO.OrbwalkerManager.MoveA(Game.CursorPos);
+                Orbwalker.MoveTo(Game.CursorPos);
             }
 
             if (getKeyBindItem(comboMenu, "FlayPush") && Etarget != null && 
@@ -216,7 +216,7 @@ using TargetSelector = PortAIO.TSManager; namespace ThreshTherulerofthesoul
             if (Player.ManaPercents() < mana)
                 return;
 
-            if (PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 if (getCheckBoxItem(harassMenu, "H-UseE") && E.IsReady() && Etarget != null)
                 {

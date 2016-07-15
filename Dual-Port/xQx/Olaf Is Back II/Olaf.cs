@@ -13,7 +13,7 @@ using EloBuddy;
 
 #endregion
 
-using TargetSelector = PortAIO.TSManager; namespace OlafxQx
+ namespace OlafxQx
 {
     internal class Olaf
     {

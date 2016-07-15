@@ -6,7 +6,7 @@ using SharpDX;
 using EloBuddy;
 using EloBuddy.SDK.Menu.Values;
 
-using TargetSelector = PortAIO.TSManager; namespace Activators.Summoners
+ namespace Activators.Summoners
 {
     class teleport : CoreSum
     {

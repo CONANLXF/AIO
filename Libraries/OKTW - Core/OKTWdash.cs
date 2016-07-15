@@ -109,7 +109,7 @@ namespace OneKeyToWin_AIO_Sebby.Core
             }
             else if (DashMode == 1)
             {
-                var orbT = PortAIO.OrbwalkerManager.LastTarget();
+                var orbT = Orbwalker.LastTarget;
                 if (orbT is AIHeroClient)
                 {
                     var start = Player.Position.LSTo2D();
@@ -174,9 +174,9 @@ namespace OneKeyToWin_AIO_Sebby.Core
         {
             if (!getCheckBoxItem("AAcheck"))
                 return true;
-            if (PortAIO.OrbwalkerManager.LastTarget() != null && PortAIO.OrbwalkerManager.LastTarget().Type == GameObjectType.AIHeroClient)
+            if (Orbwalker.LastTarget != null && Orbwalker.LastTarget.Type == GameObjectType.AIHeroClient)
             {
-                return point.LSDistance(PortAIO.OrbwalkerManager.LastTarget().Position) < Player.AttackRange;
+                return point.LSDistance(Orbwalker.LastTarget.Position) < Player.AttackRange;
             }
             return point.CountEnemiesInRange(Player.AttackRange) > 0;
         }

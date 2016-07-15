@@ -3,7 +3,7 @@ using System.Linq;
 using LeagueSharp.Common;
 using EloBuddy.SDK.Menu.Values;
 
-using TargetSelector = PortAIO.TSManager; namespace Activators.Summoners
+ namespace Activators.Summoners
 {
     class snowball : CoreSum
     {

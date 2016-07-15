@@ -1,4 +1,4 @@
-﻿using TargetSelector = PortAIO.TSManager; namespace Flowers__Illaoi
+﻿ namespace Flowers__Illaoi
 {
     using EloBuddy;
     using EloBuddy.SDK.Menu;
@@ -137,7 +137,7 @@
 
             Events.OnGapCloser += OnGapCloser;
             Obj_AI_Base.OnSpellCast += OnDoCast;
-            LeagueSharp.Common.LSEvents.AfterAttack += OnAction;
+            Orbwalker.OnPostAttack += OnAction;
             Game.OnUpdate += OnUpdate;
             Drawing.OnDraw += OnDraw;
             LoadSpell();
@@ -158,7 +158,7 @@
         
         private static void OnDoCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 var target = TargetSelector.GetTarget(Q.Range, DamageType.Physical);
 
@@ -180,12 +180,11 @@
             }
         }
 
-        private static void OnAction(LeagueSharp.Common.AfterAttackArgs args)
+        private static void OnAction(AttackableUnit target, EventArgs args)
         {
-            var target = args.Target;
             if (target is AIHeroClient)
             {
-                if (PortAIO.OrbwalkerManager.isComboActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
                 {
                     var target1 = TargetSelector.GetTarget(Q.Range, DamageType.Physical);
 
@@ -206,7 +205,7 @@
                     }
 
 
-                    if (PortAIO.OrbwalkerManager.isHarassActive)
+                    if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
                     {
                         if (Me.ManaPercent >= harassMenu["Mana"].Cast<Slider>().CurrentValue)
                         {
@@ -225,7 +224,7 @@
                         }
                     }
 
-                    if (PortAIO.OrbwalkerManager.isLaneClearActive)
+                    if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
                     {
                         if (Me.ManaPercent >= jungleMenu["Mana"].Cast<Slider>().CurrentValue)
                         {
@@ -251,17 +250,17 @@
                 return;
             }
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 Combo();
             }
 
-            if (PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 Harass();
             }
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 Lane();
                 Jungle();
@@ -348,7 +347,7 @@
                     if (W.IsReady() && harassMenu["W"].Cast<CheckBox>().CurrentValue)
                     {
                         W.Cast();
-                        PortAIO.OrbwalkerManager.ForcedTarget(Ghost);
+                        Orbwalker.ForcedTarget =(Ghost);
                     }
                 }
             }
@@ -442,7 +441,7 @@
 
         private static void Item()
         {
-            if (comboMenu["Item"].Cast<CheckBox>().CurrentValue && PortAIO.OrbwalkerManager.isComboActive)
+            if (comboMenu["Item"].Cast<CheckBox>().CurrentValue && Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 var target = TargetSelector.GetTarget(600, DamageType.Physical);
 

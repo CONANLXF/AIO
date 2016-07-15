@@ -12,7 +12,7 @@ using EloBuddy.SDK.Menu;
 
 #endregion
 
-using TargetSelector = PortAIO.TSManager; namespace Sion
+ namespace Sion
 {
     internal class Program
     {
@@ -91,7 +91,7 @@ using TargetSelector = PortAIO.TSManager; namespace Sion
         private static void Game_OnGameUpdate(EventArgs args)
         {
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 var qTarget = TargetSelector.GetTarget(
                     !Q.IsCharging ? Q.ChargedMaxRange / 2 : Q.ChargedMaxRange, DamageType.Physical);

@@ -3,7 +3,7 @@ using Activators.Base;
 using LeagueSharp.Common;
 using EloBuddy.SDK.Menu.Values;
 
-using TargetSelector = PortAIO.TSManager; namespace Activators.Summoners
+ namespace Activators.Summoners
 {
     internal class barrier : CoreSum
     {

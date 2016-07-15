@@ -11,7 +11,7 @@ using EloBuddy;
 using EloBuddy.SDK.Menu.Values;
 using EloBuddy.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace Leblanc.Modes
+ namespace Leblanc.Modes
 {
     internal static class ModeJungle
     {
@@ -92,7 +92,7 @@ using TargetSelector = PortAIO.TSManager; namespace Leblanc.Modes
 
         private static void OnUpdate(EventArgs args)
         {
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 ExecuteSimpleMode();
             }

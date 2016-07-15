@@ -13,7 +13,7 @@ using Prediction = LeagueSharp.Common.Prediction;
 using Spell = LeagueSharp.Common.Spell;
 using Utility = LeagueSharp.Common.Utility;
 
-using TargetSelector = PortAIO.TSManager; namespace UnderratedAIO.Champions
+ namespace UnderratedAIO.Champions
 {
     internal class Yorick
     {
@@ -31,8 +31,8 @@ using TargetSelector = PortAIO.TSManager; namespace UnderratedAIO.Champions
             InitYorick();
             InitMenu();
             Game.OnUpdate += Game_OnGameUpdate;
-            LSEvents.AfterAttack += AfterAttack;
-            LSEvents.BeforeAttack += beforeAttack;
+            Orbwalker.OnPostAttack += AfterAttack;
+            Orbwalker.OnPreAttack += beforeAttack;
             Drawing.OnDraw += Game_OnDraw;
             Obj_AI_Base.OnProcessSpellCast += Obj_AI_Base_OnProcessSpellCast;
         }
@@ -60,17 +60,17 @@ using TargetSelector = PortAIO.TSManager; namespace UnderratedAIO.Champions
         
         private void Game_OnGameUpdate(EventArgs args)
         {
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 Combo();
             }
 
-            if (PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 Harass();
             }
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 Clear();
             }
@@ -120,24 +120,24 @@ using TargetSelector = PortAIO.TSManager; namespace UnderratedAIO.Champions
             }
         }
 
-        private static void AfterAttack(AfterAttackArgs args)
+        private static void AfterAttack(AttackableUnit target, EventArgs args)
         {
             var nearestMob = Jungle.GetNearest(player.Position);
             if (Q.IsReady() &&
-                ((PortAIO.OrbwalkerManager.isComboActive && getCheckBoxItem(menuC, "useq") &&
-                  args.Target is AIHeroClient) ||
+                ((Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) && getCheckBoxItem(menuC, "useq") &&
+                  target is AIHeroClient) ||
                  (getCheckBoxItem(menuLC, "useqLC") && nearestMob != null &&
                    nearestMob.LSDistance(player.Position) < player.AttackRange + 30)))
             {
                 Q.Cast(getCheckBoxItem(config, "packets"));
-                PortAIO.OrbwalkerManager.ResetAutoAttackTimer();
+                Orbwalker.ResetAutoAttack();
             }
         }
 
-        private void beforeAttack(BeforeAttackArgs args)
+        private void beforeAttack(AttackableUnit target, Orbwalker.PreAttackArgs args)
         {
             if (Q.IsReady() &&
-                (PortAIO.OrbwalkerManager.isLaneClearActive) &&
+                (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear)) &&
                 getCheckBoxItem(menuLC, "useqLC") && !(args.Target is AIHeroClient) && (args.Target.Health > 700))
             {
                 Q.Cast(getCheckBoxItem(config, "packets"));

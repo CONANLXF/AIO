@@ -5,7 +5,7 @@ using LeagueSharp.SDK;
 
 #endregion
 
-using TargetSelector = PortAIO.TSManager; namespace Spirit_Karma
+ namespace Spirit_Karma
 {
     internal class Program
     {

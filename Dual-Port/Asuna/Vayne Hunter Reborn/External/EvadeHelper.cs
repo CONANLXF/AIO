@@ -21,7 +21,7 @@ using System;
 using System.Speech.Synthesis;
 using VayneHunter_Reborn.External.Evade;
 
-using TargetSelector = PortAIO.TSManager; namespace VayneHunter_Reborn.External
+ namespace VayneHunter_Reborn.External
 {
     class EvadeHelper
     {

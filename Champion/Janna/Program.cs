@@ -7,7 +7,7 @@ using EloBuddy.SDK.Menu.Values;
 using LCS_Janna.Plugins;
 using LeagueSharp.Common;
 using Spell = LeagueSharp.Common.Spell;
-using TargetSelector = PortAIO.TSManager;
+
 //using LCS_Janna.Plugins;
 
 namespace LCS_Janna
@@ -249,7 +249,7 @@ namespace LCS_Janna
 
         private static void OnUpdate(EventArgs args)
         {
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 OnCombo();
             }

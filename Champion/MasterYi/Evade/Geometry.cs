@@ -28,7 +28,7 @@ using Color = System.Drawing.Color;
 
 #endregion
 
-using TargetSelector = PortAIO.TSManager; namespace MasterSharp
+ namespace MasterSharp
 {
     /// <summary>
     ///     Class that contains the geometry related methods.

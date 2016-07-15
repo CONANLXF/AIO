@@ -15,7 +15,7 @@ using Utility = LeagueSharp.Common.Utility;
 
 #endregion
 
-using TargetSelector = PortAIO.TSManager; namespace Ziggs
+ namespace Ziggs
 {
     internal class Program
     {
@@ -184,16 +184,16 @@ using TargetSelector = PortAIO.TSManager; namespace Ziggs
         private static void Game_OnGameUpdate(EventArgs args)
         {
             //Combo & Harass
-            if (PortAIO.OrbwalkerManager.isComboActive ||
-                (PortAIO.OrbwalkerManager.isHarassActive &&
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) ||
+                (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass) &&
                  ObjectManager.Player.Mana/ObjectManager.Player.MaxMana*100 >
                  getSliderItem(harassMenu, "ManaSliderHarass")))
             {
                 var target = TargetSelector.GetTarget(1200f, DamageType.Magical);
                 if (target != null)
                 {
-                    var comboActive = PortAIO.OrbwalkerManager.isComboActive;
-                    var harassActive = PortAIO.OrbwalkerManager.isHarassActive;
+                    var comboActive = Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo);
+                    var harassActive = Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass);
 
                     if (((comboActive && getCheckBoxItem(comboMenu, "UseQCombo")) ||
                          (harassActive && getCheckBoxItem(harassMenu, "UseQHarass"))) && Q1.IsReady())
@@ -296,7 +296,7 @@ using TargetSelector = PortAIO.TSManager; namespace Ziggs
             }
 
             //Farm
-            var lc = PortAIO.OrbwalkerManager.isLaneClearActive;
+            var lc = Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear);
             if (lc)
             {
                 Farm();

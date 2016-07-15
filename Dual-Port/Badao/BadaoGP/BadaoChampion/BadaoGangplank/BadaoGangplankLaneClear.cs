@@ -10,7 +10,7 @@ using Color = System.Drawing.Color;
 using EloBuddy;
 using EloBuddy.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace BadaoKingdom.BadaoChampion.BadaoGangplank
+ namespace BadaoKingdom.BadaoChampion.BadaoGangplank
 {
     public static class BadaoGangplankLaneClear
     {
@@ -21,7 +21,7 @@ using TargetSelector = PortAIO.TSManager; namespace BadaoKingdom.BadaoChampion.B
 
         private static void Game_OnUpdate(EventArgs args)
         {
-            if (PortAIO.OrbwalkerManager.isLaneClearActive || !PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear) || !Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
                 return;
             if (!BadaoGangplankVariables.LaneQ)
                 return;

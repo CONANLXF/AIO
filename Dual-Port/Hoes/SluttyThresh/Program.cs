@@ -17,7 +17,7 @@ using EloBuddy.SDK;
 using EloBuddy.SDK.Menu.Values;
 using EloBuddy.SDK.Menu;
 
-using TargetSelector = PortAIO.TSManager; namespace Slutty_Thresh
+ namespace Slutty_Thresh
 {
     internal class SluttyThresh : MenuConfig
     {
@@ -100,7 +100,7 @@ using TargetSelector = PortAIO.TSManager; namespace Slutty_Thresh
 
             if (getKeyBindItem(comboMenu, "FlayPush") || getKeyBindItem(comboMenu, "FlayPull"))
             {
-                PortAIO.OrbwalkerManager.MoveA(Game.CursorPos);
+                Orbwalker.MoveTo(Game.CursorPos);
             }
 
             if (getKeyBindItem(comboMenu, "FlayPush") && Etarget != null &&
@@ -115,12 +115,12 @@ using TargetSelector = PortAIO.TSManager; namespace Slutty_Thresh
                 Pull(Etarget);
             }
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 Combo();
             }
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 LaneClear();
             }

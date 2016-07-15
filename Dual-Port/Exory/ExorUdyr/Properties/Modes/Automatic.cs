@@ -1,6 +1,6 @@
 using System;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Udyr
+ namespace ExorAIO.Champions.Udyr
 {
     /// <summary>
     ///     The logics class.

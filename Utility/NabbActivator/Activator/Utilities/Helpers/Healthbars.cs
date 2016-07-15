@@ -4,7 +4,7 @@ using EloBuddy;
 using LeagueSharp.SDK;
 using EloBuddy.SDK.Menu.Values;
 
-using TargetSelector = PortAIO.TSManager; namespace NabbActivator
+ namespace NabbActivator
 {
     /// <summary>
     ///     The drawings class.

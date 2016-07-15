@@ -3,7 +3,7 @@ using EloBuddy.SDK.Menu;
 using EloBuddy.SDK.Menu.Values;
 using LeagueSharp.Common;
 
-using TargetSelector = PortAIO.TSManager; namespace vSupport_Series.Core.Plugins
+ namespace vSupport_Series.Core.Plugins
 {
     public class Helper
     {

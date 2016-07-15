@@ -4,7 +4,7 @@ using LeagueSharp.SDK;
 
 #endregion
 
-using TargetSelector = PortAIO.TSManager; namespace Infected_Twitch.Core
+ namespace Infected_Twitch.Core
 {
     internal class Usables : Core
     {

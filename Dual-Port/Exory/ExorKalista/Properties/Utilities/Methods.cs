@@ -3,7 +3,7 @@ using EloBuddy.SDK;
 using LeagueSharp;
 using LeagueSharp.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Kalista
+ namespace ExorAIO.Champions.Kalista
 {
     /// <summary>
     ///     The methods class.
@@ -16,7 +16,7 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Kalista
         public static void Initialize()
         {
             Game.OnUpdate += Kalista.OnUpdate;
-            LeagueSharp.Common.LSEvents.BeforeAttack += Kalista.Orbwalker_OnPreAttack;
+            Orbwalker.OnPreAttack += Kalista.Orbwalker_OnPreAttack;
             Orbwalker.OnUnkillableMinion += Kalista.Orbwalker_OnUnkillableMinion;
         }
     }

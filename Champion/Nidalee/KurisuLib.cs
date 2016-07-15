@@ -11,7 +11,7 @@ using CM = KurisuNidalee.CastManager;
 using KN = KurisuNidalee.KurisuNidalee;
 using Spell = LeagueSharp.Common.Spell;
 
-using TargetSelector = PortAIO.TSManager; namespace KurisuNidalee
+ namespace KurisuNidalee
 {
     internal static class KurisuLib
     {
@@ -125,8 +125,8 @@ using TargetSelector = PortAIO.TSManager; namespace KurisuNidalee
             Game.OnUpdate += SpellsOnUpdate;
 
             // Orbwalk shit
-            LSEvents.BeforeAttack += Orbwalker_OnPreAttack;
-            LSEvents.AfterAttack += Orbwalker_OnPostAttack;
+            Orbwalker.OnPreAttack += Orbwalker_OnPreAttack;
+            Orbwalker.OnPostAttack += Orbwalker_OnPostAttack;
 
             // Missile Handler
             GameObject.OnCreate += MissileClient_OnCreate;
@@ -158,21 +158,21 @@ using TargetSelector = PortAIO.TSManager; namespace KurisuNidalee
             return m[item].Cast<ComboBox>().CurrentValue;
         }
 
-        private static void Orbwalker_OnPostAttack(AfterAttackArgs args)
+        private static void Orbwalker_OnPostAttack(AttackableUnit target, EventArgs args)
         {
             // wtf
             if (MissileCount > 0)
             {
                 Counter += 1;
                 MissileCount = 0;
-                LastUnit = args.Target;
+                LastUnit = target;
                 LastAttack = Utils.GameTimeTickCount;
             }
         }
 
-        private static void Orbwalker_OnPreAttack(BeforeAttackArgs args)
+        private static void Orbwalker_OnPreAttack(AttackableUnit target, Orbwalker.PreAttackArgs args)
         {
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 if (args.Target.Name.Contains("Mini") && KN.m)
                     args.Process = false;
@@ -541,12 +541,12 @@ using TargetSelector = PortAIO.TSManager; namespace KurisuNidalee
                 if (sender.IsMe && args.SData.Name.ToLower() == "aspectofthecougar" && CatForm())
                 {
                     Counter = 0;
-                    PortAIO.OrbwalkerManager.ResetAutoAttackTimer();
+                    Orbwalker.ResetAutoAttack();
                 }
 
                 if (sender.IsMe && args.SData.Name.ToLower() == "aspectofthecougar" && !CatForm())
                 {
-                    PortAIO.OrbwalkerManager.ResetAutoAttackTimer();
+                    Orbwalker.ResetAutoAttack();
                 }
 
                 if (sender.IsMe && args.SData.IsAutoAttack() && Player.HasBuff("Takedown"))

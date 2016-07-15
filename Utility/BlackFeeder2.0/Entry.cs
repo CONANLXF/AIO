@@ -7,7 +7,7 @@ using LeagueSharp.Common;
 
 using SharpDX;
 
-using TargetSelector = PortAIO.TSManager; namespace BlackFeeder
+ namespace BlackFeeder
 {
     using EloBuddy;
     using EloBuddy.SDK.Menu;

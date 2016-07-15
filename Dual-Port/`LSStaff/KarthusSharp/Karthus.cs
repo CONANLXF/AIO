@@ -11,7 +11,7 @@ using EloBuddy.SDK.Menu;
 using EloBuddy.SDK.Menu.Values;
 using Color = SharpDX.Color;
 
-using TargetSelector = PortAIO.TSManager; namespace KarthusSharp
+ namespace KarthusSharp
 {
     /*
     * LaneClear:
@@ -116,7 +116,7 @@ using TargetSelector = PortAIO.TSManager; namespace KarthusSharp
 
             Drawing.OnDraw += Drawing_OnDraw;
             Game.OnUpdate += Game_OnUpdate;
-            LSEvents.BeforeAttack += Orbwalking_BeforeAttack;
+            Orbwalker.OnPreAttack += Orbwalking_BeforeAttack;
 
             Chat.Print(
                 "<font color=\"#1eff00\">KarthusSharp by Beaving</font> - <font color=\"#00BFFF\">Loaded</font>");
@@ -161,7 +161,7 @@ using TargetSelector = PortAIO.TSManager; namespace KarthusSharp
 
 
             if (_spellQ.IsReady() && getKeyBindItem(harassMenu, "harassQToggle") &&
-                PortAIO.OrbwalkerManager.isComboActive)
+                Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 CastQ(TargetSelector.GetTarget(_spellQ.Range, DamageType.Magical),
                     getSliderItem(harassMenu, "harassQPercent"));
@@ -185,22 +185,22 @@ using TargetSelector = PortAIO.TSManager; namespace KarthusSharp
                 PortAIO.OrbwalkerManager.SetAttack(true);
             }
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 Combo();
             }
 
-            if (PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 Harass();
             }
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 LaneClear();
             }
 
-            if (PortAIO.OrbwalkerManager.isLastHitActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LastHit))
             {
                 LastHit();
             }
@@ -213,13 +213,13 @@ using TargetSelector = PortAIO.TSManager; namespace KarthusSharp
                         LaneClear(true);
         }
 
-        private void Orbwalking_BeforeAttack(BeforeAttackArgs args)
+        private void Orbwalking_BeforeAttack(AttackableUnit target, Orbwalker.PreAttackArgs args)
         {
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 args.Process = !_spellQ.IsReady();
             }
-            else if (PortAIO.OrbwalkerManager.isLastHitActive)
+            else if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LastHit))
             {
                 bool farmQ = getBoxItem(farmMenu, "farmQ") == 0 ||
                              getBoxItem(farmMenu, "farmQ") == 2;

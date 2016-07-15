@@ -2,7 +2,7 @@ using EloBuddy;
 using LeagueSharp;
 using LeagueSharp.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Graves
+ namespace ExorAIO.Champions.Graves
 {
     /// <summary>
     ///     The methods class.

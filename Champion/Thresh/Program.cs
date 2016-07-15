@@ -9,7 +9,7 @@ using EloBuddy;
 using EloBuddy.SDK;
 using EloBuddy.SDK.Menu.Values;
 
-using TargetSelector = PortAIO.TSManager; namespace OneKeyToWin_AIO_Sebby.Champions
+ namespace OneKeyToWin_AIO_Sebby.Champions
 {
     class Thresh
     {
@@ -219,21 +219,21 @@ using TargetSelector = PortAIO.TSManager; namespace OneKeyToWin_AIO_Sebby.Champi
 
             if (getKeyBindItem(eMenu, "FlayPush") || getKeyBindItem(eMenu, "FlayPull"))
             {
-                PortAIO.OrbwalkerManager.MoveA(Game.CursorPos);
+                Orbwalker.MoveTo(Game.CursorPos);
             }
 
             var Etarget = TargetSelector.GetTarget(E.Range, DamageType.Magical);
             if (getKeyBindItem(eMenu, "FlayPush") && Etarget != null &&
                 E.IsReady())
             {
-                if (PortAIO.OrbwalkerManager.isNoneActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.None))
                 Push(Etarget);
             }
 
             if (getKeyBindItem(eMenu, "FlayPull") && Etarget != null &&
                 E.IsReady())
             {
-                if (PortAIO.OrbwalkerManager.isNoneActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.None))
                 Pull(Etarget);
             }
 

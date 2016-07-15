@@ -4,7 +4,7 @@ using LeagueSharp.Common;
 using SharpDX;
 using EloBuddy;
 
-using TargetSelector = PortAIO.TSManager; namespace VCursor
+ namespace VCursor
 {
     internal static class Utility
     {

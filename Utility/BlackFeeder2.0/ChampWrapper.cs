@@ -2,7 +2,7 @@
 using LeagueSharp;
 using EloBuddy;
 
-using TargetSelector = PortAIO.TSManager; namespace BlackFeeder
+ namespace BlackFeeder
 {
     public class ChampWrapper
     {

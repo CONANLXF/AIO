@@ -13,7 +13,7 @@ using Utility = LeagueSharp.Common.Utility;
 using EloBuddy.SDK;
 using Spell = LeagueSharp.Common.Spell;
 
-using TargetSelector = PortAIO.TSManager; namespace D_Kayle
+ namespace D_Kayle
 {
     internal class Program
     {
@@ -194,7 +194,7 @@ using TargetSelector = PortAIO.TSManager; namespace D_Kayle
             Game.OnUpdate += Game_OnGameUpdate;
             Drawing.OnDraw += Drawing_OnDraw;
             AntiGapcloser.OnEnemyGapcloser += AntiGapcloser_OnEnemyGapcloser;
-            LSEvents.BeforeAttack += Orbwalking_BeforeAttack;
+            Orbwalker.OnPreAttack += Orbwalking_BeforeAttack;
 
             Chat.Print("<font color='#881df2'>D-Kayle By Diabaths </font>Loaded!");
             Chat.Print(
@@ -232,32 +232,32 @@ using TargetSelector = PortAIO.TSManager; namespace D_Kayle
                 Escape();
             }
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 Combo();
             }
 
-            if (!PortAIO.OrbwalkerManager.isComboActive
-                && (PortAIO.OrbwalkerManager.isHarassActive
+            if (!Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo)
+                && (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass)
                     || getKeyBindItem(harassMenu, "harasstoggle"))
                 && (100 * (_player.Mana / _player.MaxMana)) > getSliderItem(harassMenu, "Harrasmana"))
             {
                 Harass();
             }
 
-            if (PortAIO.OrbwalkerManager.isLastHitActive
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LastHit)
                 && (100 * (_player.Mana / _player.MaxMana)) > getSliderItem(clearMenu, "lasthitmana"))
             {
                 Lasthit();
             }
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear)
                 && (100 * (_player.Mana / _player.MaxMana)) > getSliderItem(clearMenu, "Farmmana"))
             {
                 Farm();
             }
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear)
                 && (100 * (_player.Mana / _player.MaxMana)) > getSliderItem(clearMenu, "junglemana"))
             {
                 JungleFarm();
@@ -313,7 +313,7 @@ using TargetSelector = PortAIO.TSManager; namespace D_Kayle
         {
             if (_player.IsDead
                 || (getBoxItem(itemMenu, "Cleansemode") == 1)
-                    && !PortAIO.OrbwalkerManager.isComboActive)
+                    && !Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
                 return;
             if (Cleanse(_player) && getCheckBoxItem(itemMenu, "useqss"))
             {
@@ -441,9 +441,9 @@ using TargetSelector = PortAIO.TSManager; namespace D_Kayle
             return allies;
         }
 
-        private static void Orbwalking_BeforeAttack(BeforeAttackArgs args)
+        private static void Orbwalking_BeforeAttack(AttackableUnit target, Orbwalker.PreAttackArgs args)
         {
-            if (Getallies(1000) > 0 && ((Obj_AI_Base)PortAIO.OrbwalkerManager.LastTarget()).IsMinion
+            if (Getallies(1000) > 0 && ((Obj_AI_Base)Orbwalker.LastTarget).IsMinion
                 && /*args.Unit.IsMinion &&*/ getCheckBoxItem(miscMenu, "support"))
                 args.Process = false;
         }
@@ -519,7 +519,7 @@ using TargetSelector = PortAIO.TSManager; namespace D_Kayle
             if (_player.InFountain() || ObjectManager.Player.HasBuff("Recall")) return;
 
             if (ObjectManager.Player.LSCountEnemiesInRange(800) > 0
-                || (mobs.Count > 0 && PortAIO.OrbwalkerManager.isLaneClearActive && _smite != null))
+                || (mobs.Count > 0 && Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear) && _smite != null))
             {
                 if (iusepotionhp && iusehppotion
                     && !(ObjectManager.Player.HasBuff("RegenerationPotion")
@@ -834,7 +834,7 @@ using TargetSelector = PortAIO.TSManager; namespace D_Kayle
         //New map Monsters Name By SKO
         private static void Smiteuse()
         {
-            var jungle = PortAIO.OrbwalkerManager.isLaneClearActive;
+            var jungle = Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear);
             if (ObjectManager.Player.Spellbook.CanUseSpell(_smiteSlot) != SpellState.Ready) return;
             var useblue = getCheckBoxItem(smiteMenu, "Useblue");
             var usered = getCheckBoxItem(smiteMenu, "Usered");

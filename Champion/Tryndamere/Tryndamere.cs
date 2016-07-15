@@ -3,7 +3,7 @@ using ExorAIO.Utilities;
 using LeagueSharp.SDK;
 using EloBuddy.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Tryndamere
+ namespace ExorAIO.Champions.Tryndamere
 {
     /// <summary>
     ///     The champion class.
@@ -57,12 +57,12 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Tryndamere
                 return;
             }
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 Logics.Combo(args);
             }
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 Logics.Clear(args);
             }

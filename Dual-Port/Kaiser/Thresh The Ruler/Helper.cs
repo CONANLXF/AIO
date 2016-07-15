@@ -3,7 +3,7 @@ using System.Linq;
 using EloBuddy;
 using LeagueSharp.Common;
 
-using TargetSelector = PortAIO.TSManager; namespace ThreshTherulerofthesoul
+ namespace ThreshTherulerofthesoul
 {
     class Helper
     {

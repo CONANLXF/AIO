@@ -8,13 +8,13 @@ using LeagueSharp.Common;
 using ItemData = LeagueSharp.Common.Data.ItemData;
 using SharpDX;
 using Color = System.Drawing.Color;
-using TargetSelector = PortAIO.TSManager;
+
 
 namespace HeavenStrikeRyze
 {
     public static class Helper
     {
-        private static LSOrbwalker Orbwalker = PortAIO.Init.LSOrbwalker;
+        
         private static AIHeroClient Player { get { return ObjectManager.Player; } }
         private static string EBuffName = "RyzeE";
         public static double BonusMana

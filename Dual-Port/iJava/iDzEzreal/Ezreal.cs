@@ -13,7 +13,7 @@ using EloBuddy.SDK;
 using EloBuddy.SDK.Menu.Values;
 using EloBuddy.SDK.Menu;
 
-using TargetSelector = PortAIO.TSManager; namespace iDZEzreal
+ namespace iDZEzreal
 {
     internal class Ezreal
     {
@@ -35,7 +35,7 @@ using TargetSelector = PortAIO.TSManager; namespace iDZEzreal
         private static void LoadEvents()
         {
             Game.OnUpdate += OnUpdate;
-            LSEvents.AfterAttack += OrbwalkingOnAfterAttack;
+            Orbwalker.OnPostAttack += OrbwalkingOnAfterAttack;
             DZAntigapcloser.OnEnemyGapcloser += OnEnemyGapcloser;
             Drawing.OnDraw += OnDraw;
         }
@@ -93,9 +93,9 @@ using TargetSelector = PortAIO.TSManager; namespace iDZEzreal
         }
         
 
-        private static void OrbwalkingOnAfterAttack(AfterAttackArgs args)
+        private static void OrbwalkingOnAfterAttack(AttackableUnit targetA, EventArgs args)
         {
-            var target1 = args.Target;
+            var target1 = targetA;
             if (!(target1 is AIHeroClient))
             {
                 return;
@@ -103,7 +103,7 @@ using TargetSelector = PortAIO.TSManager; namespace iDZEzreal
 
             var target = (AIHeroClient)target1;
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 if (getCheckBoxItem(Variables.comboMenu, "ezreal.combo.q") && Variables.Spells[SpellSlot.Q].IsReady() && target.LSIsValidTarget(Variables.Spells[SpellSlot.Q].Range))
                 {
@@ -115,7 +115,7 @@ using TargetSelector = PortAIO.TSManager; namespace iDZEzreal
                 }
             }
 
-            if (PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 if (getCheckBoxItem(Variables.mixedMenu, "ezreal.mixed.q") && Variables.Spells[SpellSlot.Q].IsReady() && target.LSIsValidTarget(Variables.Spells[SpellSlot.Q].Range))
                 {
@@ -131,17 +131,17 @@ using TargetSelector = PortAIO.TSManager; namespace iDZEzreal
         private static void OnUpdate(EventArgs args)
         {
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 OnCombo();
             }
 
-            if (PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 OnMixed();
             }
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 OnFarm();
             }
@@ -334,7 +334,7 @@ using TargetSelector = PortAIO.TSManager; namespace iDZEzreal
             if (qMinion != null)
             {
 
-                if (PortAIO.OrbwalkerManager.isLaneClearActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
                 {
                     if (Variables.Spells[SpellSlot.Q].CanCast(qMinion))
                     {
@@ -345,7 +345,7 @@ using TargetSelector = PortAIO.TSManager; namespace iDZEzreal
                     }
                 }
 
-                if (PortAIO.OrbwalkerManager.isLastHitActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LastHit))
                 {
                     if (Variables.Spells[SpellSlot.Q].CanCast(qMinion))
                     {

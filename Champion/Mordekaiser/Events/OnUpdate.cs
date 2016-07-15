@@ -5,7 +5,7 @@ using EloBuddy.SDK;
 using LeagueSharp.Common;
 using Spell = LeagueSharp.Common.Spell;
 
-using TargetSelector = PortAIO.TSManager; namespace Mordekaiser.Events
+ namespace Mordekaiser.Events
 {
     internal class OnUpdate
     {

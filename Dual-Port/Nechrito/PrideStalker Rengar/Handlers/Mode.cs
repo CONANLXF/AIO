@@ -13,7 +13,7 @@ using EloBuddy.SDK;
 
 #endregion
 
-using TargetSelector = PortAIO.TSManager; namespace PrideStalker_Rengar.Handlers
+ namespace PrideStalker_Rengar.Handlers
 {
     internal class Mode : Core
     {

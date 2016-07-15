@@ -13,7 +13,7 @@ using Activators.Spells;
 using Activators.Summoners;
 using System.Collections.Generic;
 
-using TargetSelector = PortAIO.TSManager; namespace Activators.Base
+ namespace Activators.Base
 {
     public class Lists
     {

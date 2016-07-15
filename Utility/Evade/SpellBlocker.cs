@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using LeagueSharp;
 using EloBuddy;
 
-using TargetSelector = PortAIO.TSManager; namespace EvadeSharp
+ namespace EvadeSharp
 {
     public static class SpellBlocker
     {

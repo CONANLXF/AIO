@@ -8,7 +8,7 @@ using EloBuddy.SDK.Events;
 using EloBuddy.SDK.Menu;
 using EloBuddy.SDK.Menu.Values;
 
-using TargetSelector = PortAIO.TSManager; namespace MorganaE
+ namespace MorganaE
 {
     class Shield
     {

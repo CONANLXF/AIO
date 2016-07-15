@@ -9,7 +9,7 @@ using EloBuddy.SDK;
 
 #endregion
 
-using TargetSelector = PortAIO.TSManager; namespace Marksman.Champions
+ namespace Marksman.Champions
 {
     internal class Champion
     {
@@ -104,8 +104,8 @@ using TargetSelector = PortAIO.TSManager; namespace Marksman.Champions
 
         }
 
-        public virtual void Orbwalking_AfterAttack(AfterAttackArgs args) { }
-        public virtual void Orbwalking_BeforeAttack(BeforeAttackArgs args) { }
+        public virtual void Orbwalking_AfterAttack(AttackableUnit target, EventArgs args) { }
+        public virtual void Orbwalking_BeforeAttack(AttackableUnit target, Orbwalker.PreAttackArgs args) { }
         public virtual void Spellbook_OnCastSpell(Spellbook sender, SpellbookCastSpellEventArgs args) { }
         public virtual void OnCreateObject(GameObject sender, EventArgs args) { }
         public virtual void OnDeleteObject(GameObject sender, EventArgs args) { }

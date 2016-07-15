@@ -2,7 +2,7 @@ using EloBuddy.SDK.Menu.Values;
 using ExorAIO.Utilities;
 using LeagueSharp.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Anivia
+ namespace ExorAIO.Champions.Anivia
 {
     /// <summary>
     ///     The menu class.

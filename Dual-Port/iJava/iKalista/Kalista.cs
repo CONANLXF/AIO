@@ -22,7 +22,8 @@
 
 using System.Security.Cryptography.X509Certificates;
 
-using TargetSelector = PortAIO.TSManager; namespace IKalista
+
+namespace IKalista
 {
     using System;
     using System.Collections.Generic;
@@ -50,9 +51,9 @@ using TargetSelector = PortAIO.TSManager; namespace IKalista
         /// </summary>
         public static readonly Dictionary<SpellSlot, LeagueSharp.Common.Spell> spells = new Dictionary<SpellSlot, LeagueSharp.Common.Spell>
                                                                    {
-                                                                       { SpellSlot.Q, new LeagueSharp.Common.Spell(SpellSlot.Q, 1150) }, 
-                                                                       { SpellSlot.W, new LeagueSharp.Common.Spell(SpellSlot.W, 5200) }, 
-                                                                       { SpellSlot.E, new LeagueSharp.Common.Spell(SpellSlot.E, 950) }, 
+                                                                       { SpellSlot.Q, new LeagueSharp.Common.Spell(SpellSlot.Q, 1150) },
+                                                                       { SpellSlot.W, new LeagueSharp.Common.Spell(SpellSlot.W, 5200) },
+                                                                       { SpellSlot.E, new LeagueSharp.Common.Spell(SpellSlot.E, 950) },
                                                                        { SpellSlot.R, new LeagueSharp.Common.Spell(SpellSlot.R, 1200) }
                                                                    };
 
@@ -211,13 +212,13 @@ using TargetSelector = PortAIO.TSManager; namespace IKalista
                     break;
             }
         }
-        
+
         /// <summary>
         ///     Do Wall Flee
         /// </summary>
         private void DoWallFlee()
         {
-            if (!spells[SpellSlot.Q].IsReady() || !getKeyBindItem(miscMenu, "fleeKey") || PortAIO.OrbwalkerManager.isFleeActive)
+            if (!spells[SpellSlot.Q].IsReady() || !getKeyBindItem(miscMenu, "fleeKey") || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Flee))
             {
                 return;
             }
@@ -245,12 +246,12 @@ using TargetSelector = PortAIO.TSManager; namespace IKalista
         private IEnumerable<Obj_AI_Base> GetCollisionMinions(Obj_AI_Base source, Vector3 targetPosition)
         {
             var input = new PredictionInput
-                            {
-                                Unit = source,
-                                Radius = spells[SpellSlot.Q].Width,
-                                Delay = spells[SpellSlot.Q].Delay,
-                                Speed = spells[SpellSlot.Q].Speed
-                            };
+            {
+                Unit = source,
+                Radius = spells[SpellSlot.Q].Width,
+                Delay = spells[SpellSlot.Q].Delay,
+                Speed = spells[SpellSlot.Q].Speed
+            };
 
             input.CollisionObjects[0] = CollisionableObjects.Minions;
 
@@ -338,14 +339,8 @@ using TargetSelector = PortAIO.TSManager; namespace IKalista
 
             Obj_AI_Base.OnProcessSpellCast += this.OnProcessSpell;
 
-            if (PortAIO.OrbwalkerManager.isEBActive)
-            {
-                Orbwalker.OnUnkillableMinion += Orbwalker_OnUnkillableMinionEB;
-            }
-            else
-            {
-                PortAIO.OrbwalkerManager.LSOrbwalker.OnNonKillableMinion += Orbwalker_OnUnkillableMinion;
-            }
+            Orbwalker.OnUnkillableMinion += Orbwalker_OnUnkillableMinionEB;
+
 
             Drawing.OnDraw += args =>
                 {
@@ -691,7 +686,7 @@ using TargetSelector = PortAIO.TSManager; namespace IKalista
                     .FirstOrDefault();
 
             // ReSharper disable once ConstantNullCoalescingCondition
-            PortAIO.OrbwalkerManager.MoveA(Game.CursorPos);
+            Orbwalker.MoveTo(Game.CursorPos);
             this.DoWallFlee();
         }
 
@@ -873,7 +868,7 @@ using TargetSelector = PortAIO.TSManager; namespace IKalista
         {
             if (sender.IsMe && args.SData.Name == "KalistaExpungeWrapper")
             {
-                PortAIO.OrbwalkerManager.ResetAutoAttackTimer();
+                Orbwalker.ResetAutoAttack();
             }
 
             if (sender.Type == GameObjectType.AIHeroClient && sender.IsEnemy && args.Target != null && getCheckBoxItem(comboMenu, "saveAllyR"))
@@ -895,22 +890,22 @@ using TargetSelector = PortAIO.TSManager; namespace IKalista
         /// </param>
         private void OnUpdate(EventArgs args)
         {
-            if (PortAIO.OrbwalkerManager.isComboActive) 
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 OnCombo();
             }
 
-            if (PortAIO.OrbwalkerManager.isHarassActive) 
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 OnHarass();
             }
 
-            if (PortAIO.OrbwalkerManager.isLastHitActive) 
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LastHit))
             {
                 OnLastHit();
             }
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive) 
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 OnLaneClear();
             }
@@ -940,7 +935,7 @@ using TargetSelector = PortAIO.TSManager; namespace IKalista
                 this.DoMobSteal();
             }
 
-            if (getKeyBindItem(miscMenu, "fleeKey") || PortAIO.OrbwalkerManager.isFleeActive)
+            if (getKeyBindItem(miscMenu, "fleeKey") || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Flee))
             {
                 this.OnFlee();
             }

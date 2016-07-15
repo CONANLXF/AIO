@@ -13,7 +13,7 @@ using EloBuddy;
 
 #endregion
 
-using TargetSelector = PortAIO.TSManager; namespace Irelia
+ namespace Irelia
 {
     internal class Irelia
     {

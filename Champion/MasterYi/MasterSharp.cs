@@ -31,7 +31,7 @@ using Utility = LeagueSharp.Common.Utility;
  * */
 
 
-using TargetSelector = PortAIO.TSManager; namespace MasterSharp
+ namespace MasterSharp
 {
     internal class MasterSharp
     {
@@ -91,7 +91,7 @@ using TargetSelector = PortAIO.TSManager; namespace MasterSharp
                 SkillshotDetector.OnDetectSkillshot += OnDetectSkillshot;
                 SkillshotDetector.OnDeleteMissile += OnDeleteMissile;
                 CustomEvents.Unit.OnDash += onDash;
-                LSEvents.AfterAttack += Orbwalker_OnPostAttack;
+                Orbwalker.OnPostAttack += Orbwalker_OnPostAttack;
             }
             catch
             {
@@ -99,13 +99,13 @@ using TargetSelector = PortAIO.TSManager; namespace MasterSharp
             }
         }
 
-        private static void Orbwalker_OnPostAttack(AfterAttackArgs args)
+        private static void Orbwalker_OnPostAttack(AttackableUnit target, EventArgs args)
         {
 
-            if (MasterYi.W.IsReady() && getCheckBoxItem(comboMenu, "comboWreset") && getSliderItem(evadeMenu, "useWatHP") >= MasterYi.player.HealthPercent && args.Target is AIHeroClient && PortAIO.OrbwalkerManager.isComboActive)
+            if (MasterYi.W.IsReady() && getCheckBoxItem(comboMenu, "comboWreset") && getSliderItem(evadeMenu, "useWatHP") >= MasterYi.player.HealthPercent && target is AIHeroClient && Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
-                var dmg = ObjectManager.Player.GetAutoAttackDamage(args.Target as AIHeroClient);
-                var howmanyautos = (int)args.Target.Health / dmg;
+                var dmg = ObjectManager.Player.GetAutoAttackDamage(target as AIHeroClient);
+                var howmanyautos = (int)target.Health / dmg;
 
                 if (howmanyautos <= 3 && howmanyautos > 0 && getCheckBoxItem(comboMenu, "wSmart"))
                 {
@@ -113,9 +113,9 @@ using TargetSelector = PortAIO.TSManager; namespace MasterSharp
                     Utility.DelayAction.Add(100,
                         () =>
                         {
-                            PortAIO.OrbwalkerManager.ResetAutoAttackTimer();
+                            Orbwalker.ResetAutoAttack();
                             PortAIO.OrbwalkerManager.SetMovement(true);
-                            PortAIO.OrbwalkerManager.MoveA(Game.CursorPos);
+                            Orbwalker.MoveTo(Game.CursorPos);
                             Player.IssueOrder(GameObjectOrder.MoveTo, Game.CursorPos);
                         }
                         );
@@ -126,9 +126,9 @@ using TargetSelector = PortAIO.TSManager; namespace MasterSharp
                     Utility.DelayAction.Add(100,
                         () =>
                         {
-                            PortAIO.OrbwalkerManager.ResetAutoAttackTimer();
+                            Orbwalker.ResetAutoAttack();
                             PortAIO.OrbwalkerManager.SetMovement(true);
-                            PortAIO.OrbwalkerManager.MoveA(Game.CursorPos);
+                            Orbwalker.MoveTo(Game.CursorPos);
                             Player.IssueOrder(GameObjectOrder.MoveTo, Game.CursorPos);
                         }
                         );
@@ -138,8 +138,8 @@ using TargetSelector = PortAIO.TSManager; namespace MasterSharp
         
         private static void onDash(Obj_AI_Base sender, Dash.DashItem args)
         {
-            if (PortAIO.OrbwalkerManager.LastTarget() != null && sender.NetworkId == PortAIO.OrbwalkerManager.LastTarget().NetworkId &&
-                MasterYi.Q.IsReady() && PortAIO.OrbwalkerManager.isComboActive
+            if (Orbwalker.LastTarget != null && sender.NetworkId == Orbwalker.LastTarget.NetworkId &&
+                MasterYi.Q.IsReady() && Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo)
                 && sender.LSDistance(MasterYi.player) <= 600)
                 MasterYi.Q.Cast(sender);
         }
@@ -264,18 +264,18 @@ using TargetSelector = PortAIO.TSManager; namespace MasterSharp
                 }
             }
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 var target = TargetSelector.GetTarget(800, DamageType.Physical);
                 if (target != null)
                 {
-                    //PortAIO.OrbwalkerManager.ForcedTarget(target;
+                    //Orbwalker.ForcedTarget =(target;
                     MasterYi.slayMaderDuker(target);
                 }
             }
             else
             {
-                //PortAIO.OrbwalkerManager.ForcedTarget(null;
+                //Orbwalker.ForcedTarget =(null;
             }
 
             DetectedSkillshots.RemoveAll(skillshot => !skillshot.IsActive());

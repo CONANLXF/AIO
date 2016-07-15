@@ -6,7 +6,7 @@ using LeagueSharp.SDK;
 using LeagueSharp.SDK.Core.Utils;
 using EloBuddy.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.MissFortune
+ namespace ExorAIO.Champions.MissFortune
 {
     /// <summary>
     ///     The logics class.
@@ -48,7 +48,7 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.MissFortun
                 else if (GameObjects.Player.HasBuff("missfortunebulletsound") &&
                     !Vars.getKeyBindItem(Vars.RMenu, "key"))
                 {
-                    PortAIO.OrbwalkerManager.MoveA(Game.CursorPos);
+                    Orbwalker.MoveTo(Game.CursorPos);
                 }
             }
         }

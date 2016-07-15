@@ -9,7 +9,7 @@ using SharpDX;
 using Color = System.Drawing.Color;
 using Spell = LeagueSharp.Common.Spell;
 using UnderratedAIO.Helpers;
-using TargetSelector = PortAIO.TSManager;
+
 
 namespace GragasTheDrunkCarry
 {
@@ -181,12 +181,12 @@ namespace GragasTheDrunkCarry
         private static void Game_OnUpdate(EventArgs args)
         {
             var vTarget = TargetSelector.GetTarget(Q.Range, DamageType.Magical);
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 JungleFarm();
                 WaveClear();
             }
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 if (vTarget == null) return;
                 if (getCheckBoxItem(comboMenu, "UseQ") && Q.IsReady() && (System.Environment.TickCount - LastMove > 50))
@@ -216,7 +216,7 @@ namespace GragasTheDrunkCarry
                 }
             }
 
-            if (PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 if (vTarget == null) return;
                 if (getCheckBoxItem(harassMenu, "UseQH") && Q.IsReady())

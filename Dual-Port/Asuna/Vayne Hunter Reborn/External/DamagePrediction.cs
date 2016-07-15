@@ -20,7 +20,7 @@ using System.Security.AccessControl;
 using System;
 using System.Speech.Synthesis;
 
-using TargetSelector = PortAIO.TSManager; namespace VayneHunter_Reborn.External
+ namespace VayneHunter_Reborn.External
 {
     class DamagePrediction
     {

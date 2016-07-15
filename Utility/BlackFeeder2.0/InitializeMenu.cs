@@ -2,7 +2,7 @@
 using EloBuddy.SDK.Menu.Values;
 using LeagueSharp.Common;
 
-using TargetSelector = PortAIO.TSManager; namespace BlackFeeder
+ namespace BlackFeeder
 {
 
     public class InitializeMenu

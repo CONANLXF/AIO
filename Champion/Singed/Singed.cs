@@ -1,4 +1,4 @@
-﻿using TargetSelector = PortAIO.TSManager; namespace ElSinged
+﻿ namespace ElSinged
 {
     using System;
     using System.Collections.Generic;
@@ -67,7 +67,7 @@
 
             ElSingedMenu.Initialize();
             Game.OnUpdate += OnGameUpdate;
-            LSEvents.BeforeAttack += OrbwalkingBeforeAttack;
+            Orbwalker.OnPreAttack += OrbwalkingBeforeAttack;
             Drawing.OnDraw += Drawings.Drawing_OnDraw;
 
             Menu = ElSingedMenu.Menu;
@@ -262,33 +262,33 @@
         private static void OnGameUpdate(EventArgs args)
         {
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 //TurnOffQ();
                 Combo();
             }
 
-            if (PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 TurnOffQ();
                 Harass();
             }
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 TurnOffQ();
                 LaneClear();
             }
 
-            if (PortAIO.OrbwalkerManager.isNoneActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.None))
             {
                 TurnOffQ();
             }
         }
 
-        private static void OrbwalkingBeforeAttack(BeforeAttackArgs args)
+        private static void OrbwalkingBeforeAttack(AttackableUnit target, Orbwalker.PreAttackArgs args)
         {
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 if (spells[Spells.E].IsReady() && args.Target.LSIsValidTarget(spells[Spells.E].Range))
                 {

@@ -14,7 +14,7 @@ using static EloBuddy.SDK.Spell;
 using EloBuddy.SDK.Enumerations;
 using EloBuddy.SDK.Spells;
 
-using TargetSelector = PortAIO.TSManager; namespace YasuoSharpV2
+ namespace YasuoSharpV2
 {
     class Yasuo
     {

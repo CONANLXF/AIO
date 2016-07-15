@@ -26,7 +26,7 @@ using EloBuddy.SDK.Menu.Values;
 using Prediction = Challenger_Series.Utils.Prediction;
 using LeagueSharp.SDK.Enumerations;
 
-using TargetSelector = PortAIO.TSManager; namespace Challenger_Series
+ namespace Challenger_Series
 {
     public class Soraka : CSPlugin
     {
@@ -145,7 +145,7 @@ using TargetSelector = PortAIO.TSManager; namespace Challenger_Series
             if (ObjectManager.Player.LSIsRecalling()) return;
             WLogic();
             RLogic();
-            if (!getCheckBoxItem(MainMenu, "noneed4spacebar") && !PortAIO.OrbwalkerManager.isComboActive && !PortAIO.OrbwalkerManager.isHarassActive) return;
+            if (!getCheckBoxItem(MainMenu, "noneed4spacebar") && !Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) && !Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass)) return;
             QLogic();
             ELogic();
             EAntiMelee();

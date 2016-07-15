@@ -1,6 +1,6 @@
 ﻿using VayneHunter_Reborn.Modules.ModuleHelpers;
 
-using TargetSelector = PortAIO.TSManager; namespace VayneHunter_Reborn.Modules
+ namespace VayneHunter_Reborn.Modules
 {
     interface IModule
     {

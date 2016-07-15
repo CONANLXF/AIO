@@ -6,7 +6,7 @@ using LeagueSharp.SDK;
 using SharpDX;
 using LeagueSharp.Data.Enumerations;
 
-using TargetSelector = PortAIO.TSManager; namespace Challenger_Series.Plugins
+ namespace Challenger_Series.Plugins
 {
     using EloBuddy;
     using EloBuddy.SDK;
@@ -38,12 +38,12 @@ using TargetSelector = PortAIO.TSManager; namespace Challenger_Series.Plugins
             DelayedOnUpdate += OnUpdate;
             Events.OnGapCloser += EventsOnOnGapCloser;
             Events.OnInterruptableTarget += OnInterruptableTarget;
-            LeagueSharp.Common.LSEvents.AfterAttack += Orbwalker_OnPostAttack;
-            LeagueSharp.Common.LSEvents.BeforeAttack += Orbwalker_OnPreAttack;
+            Orbwalker.OnPostAttack += Orbwalker_OnPostAttack;
+            Orbwalker.OnPreAttack += Orbwalker_OnPreAttack;
             Spellbook.OnCastSpell += OnCastSpell;
         }
 
-        private void Orbwalker_OnPreAttack(LeagueSharp.Common.BeforeAttackArgs args)
+        private void Orbwalker_OnPreAttack(AttackableUnit target, Orbwalker.PreAttackArgs args)
         {
             //Anti Melee
             var possibleNearbyMeleeChampion =
@@ -68,9 +68,8 @@ using TargetSelector = PortAIO.TSManager; namespace Challenger_Series.Plugins
             }
         }
 
-        private void Orbwalker_OnPostAttack(LeagueSharp.Common.AfterAttackArgs args)
+        private void Orbwalker_OnPostAttack(AttackableUnit target, EventArgs args)
         {
-            var target = args.Target;
             //JungleClear
             if (target is Obj_AI_Base)
             {
@@ -106,7 +105,7 @@ using TargetSelector = PortAIO.TSManager; namespace Challenger_Series.Plugins
         bool QLogic(AttackableUnit target)
         {
             var hero = (AIHeroClient)target;
-            if (hero != null && PortAIO.OrbwalkerManager.isComboActive && UseQCombo)
+            if (hero != null && Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) && UseQCombo)
             {
                 Q.Cast(hero);
                 return true;
@@ -222,7 +221,7 @@ using TargetSelector = PortAIO.TSManager; namespace Challenger_Series.Plugins
             {
                 if (q2tg.Distance(ObjectManager.Player) > 600)
                 {
-                    if (!PortAIO.OrbwalkerManager.isNoneActive && (!PortAIO.OrbwalkerManager.isComboActive || q2tg.Health < Q.GetDamage(q2tg)))
+                    if (!Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.None) && (!Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) || q2tg.Health < Q.GetDamage(q2tg)))
                     {
                         var menuItem = HarassMenu["qexbl" + q2tg.CharData.BaseSkinName];
                         if (UseQExtended && ObjectManager.Player.ManaPercent > QExManaPercent && menuItem != null && !menuItem.Cast<CheckBox>().CurrentValue)
@@ -336,9 +335,9 @@ using TargetSelector = PortAIO.TSManager; namespace Challenger_Series.Plugins
             }
             if (Variables.TickCount - this.ECastTime > 300)
             {
-                if (!HasPassive && PortAIO.OrbwalkerManager.CanMove(0))
+                if (!HasPassive && Orbwalker.CanMove)
                 {
-                    if (PortAIO.OrbwalkerManager.isComboActive)
+                    if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
                     {
                         if (E.IsReady() && this.UseEMode != 3)
                         {
@@ -385,7 +384,7 @@ using TargetSelector = PortAIO.TSManager; namespace Challenger_Series.Plugins
                             this.QExHarass();
                         }
                     }
-                    if (!PortAIO.OrbwalkerManager.isNoneActive && !PortAIO.OrbwalkerManager.isComboActive)
+                    if (!Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.None) && !Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
                     {
                         this.QExHarass();
                     }
@@ -396,13 +395,13 @@ using TargetSelector = PortAIO.TSManager; namespace Challenger_Series.Plugins
                 var tg = TargetSelector.GetTarget(ObjectManager.Player.AttackRange, DamageType.Physical);
                 if (tg != null && tg.IsHPBarRendered)
                 {
-                    PortAIO.OrbwalkerManager.ForcedTarget(tg);
+                    Orbwalker.ForcedTarget =(tg);
                     return;
                 }
             }
             else
             {
-                PortAIO.OrbwalkerManager.ForcedTarget(null);
+                Orbwalker.ForcedTarget =(null);
             }
         }
 

@@ -3,7 +3,7 @@ using ExorAIO.Utilities;
 using LeagueSharp;
 using LeagueSharp.SDK.Core.Utils;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Akali
+ namespace ExorAIO.Champions.Akali
 {
     /// <summary>
     ///     The logics class.

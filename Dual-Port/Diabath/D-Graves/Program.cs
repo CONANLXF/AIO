@@ -12,7 +12,7 @@ using EloBuddy.SDK.Menu.Values;
 
 #endregion
 
-using TargetSelector = PortAIO.TSManager; namespace D_Graves
+ namespace D_Graves
 {
     using SharpDX;
 
@@ -161,7 +161,7 @@ using TargetSelector = PortAIO.TSManager; namespace D_Graves
             Game.OnUpdate += Game_OnGameUpdate;
             Drawing.OnDraw += Drawing_OnDraw;
             AntiGapcloser.OnEnemyGapcloser += AntiGapcloser_OnEnemyGapcloser;
-            LSEvents.AfterAttack += Orbwalking_AfterAttack;
+            Orbwalker.OnPostAttack += Orbwalking_AfterAttack;
             Chat.Print(
                 "<font color='#f2f21d'>Do you like it???  </font> <font color='#ff1900'>Drop 1 Upvote in Database </font>");
             Chat.Print(
@@ -197,32 +197,32 @@ using TargetSelector = PortAIO.TSManager; namespace D_Graves
                 if (t.LSIsValidTarget()) _r.Cast(t, true, true);
             }
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 Combo();
             }
 
-            if (!PortAIO.OrbwalkerManager.isComboActive
-                && (PortAIO.OrbwalkerManager.isHarassActive
+            if (!Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo)
+                && (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass)
                     || getKeyBindItem(harassMenu, "harasstoggle"))
                 && (100 * (_player.Mana / _player.MaxMana)) > getSliderItem(harassMenu, "Harrasmana"))
             {
                 Harass();
             }
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear)
                 && (100 * (_player.Mana / _player.MaxMana)) > getSliderItem(clearMenu, "Lanemana"))
             {
                 Laneclear();
             }
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear)
                 && (100 * (_player.Mana / _player.MaxMana)) > getSliderItem(jungleMenu, "Junglemana"))
             {
                 JungleClear();
             }
 
-            if (PortAIO.OrbwalkerManager.isLastHitActive
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LastHit)
                 && (100 * (_player.Mana / _player.MaxMana)) > getSliderItem(lasthitMenu, "Lastmana"))
             {
                 LastHit();
@@ -258,7 +258,7 @@ using TargetSelector = PortAIO.TSManager; namespace D_Graves
         //New map Monsters Name By SKO
         private static void Smiteuse()
         {
-            var jungle = PortAIO.OrbwalkerManager.isLaneClearActive;
+            var jungle = Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear);
             if (ObjectManager.Player.Spellbook.CanUseSpell(_smiteSlot) != SpellState.Ready) return;
             var useblue = getCheckBoxItem(smiteMenu, "Useblue");
             var usered = getCheckBoxItem(smiteMenu, "Usered");
@@ -327,7 +327,7 @@ using TargetSelector = PortAIO.TSManager; namespace D_Graves
         {
             if (_player.IsDead
                 || (getBoxItem(itemMenu, "Cleansemode") == 1)
-                    && !PortAIO.OrbwalkerManager.isComboActive)
+                    && !Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
                 return;
             if (Cleanse(_player) && getCheckBoxItem(itemMenu, "useqss"))
             {
@@ -510,14 +510,14 @@ using TargetSelector = PortAIO.TSManager; namespace D_Graves
             UseItemes();
         }
 
-        private static void Orbwalking_AfterAttack(AfterAttackArgs args)
+        private static void Orbwalking_AfterAttack(AttackableUnit target, EventArgs args)
         {
             var mana = _player.ManaPercent > getSliderItem(harassMenu, "Harrasmana");
-            if (args.Target.IsMe)
-                if (args.Target.Type == GameObjectType.AIHeroClient)
+            if (target.IsMe)
+                if (target.Type == GameObjectType.AIHeroClient)
                 {
-                    if (PortAIO.OrbwalkerManager.isComboActive
-                        || (PortAIO.OrbwalkerManager.isHarassActive && mana))
+                    if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo)
+                        || (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass) && mana))
                     {
                         var useQ = getCheckBoxItem(comboMenu, "UseQC") || getCheckBoxItem(harassMenu, "UseQH");
                         var useW = getCheckBoxItem(comboMenu, "UseWC") || getCheckBoxItem(harassMenu, "UseWH");
@@ -536,7 +536,7 @@ using TargetSelector = PortAIO.TSManager; namespace D_Graves
 
                     var useE = getCheckBoxItem(comboMenu, "UseEC");
                     var ta = TargetSelector.GetTarget(700, DamageType.Magical);
-                    if (PortAIO.OrbwalkerManager.isComboActive && _e.IsReady())
+                    if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) && _e.IsReady())
                     {
                         if (ObjectManager.Player.Position.LSExtend(Game.CursorPos, 700).CountEnemiesInRange(700) <= 1
                             && useE)
@@ -746,7 +746,7 @@ using TargetSelector = PortAIO.TSManager; namespace D_Graves
             if (_player.InFountain() || ObjectManager.Player.HasBuff("Recall")) return;
 
             if (ObjectManager.Player.CountEnemiesInRange(800) > 0
-                || (mobs.Count > 0 && PortAIO.OrbwalkerManager.isLaneClearActive))
+                || (mobs.Count > 0 && Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear)))
             {
                 if (iusepotionhp && iusehppotion
                     && !(ObjectManager.Player.HasBuff("RegenerationPotion")

@@ -7,7 +7,7 @@ using LeagueSharp.SDK.Core.Utils;
 using LeagueSharp.Data.Enumerations;
 using EloBuddy;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Twitch
+ namespace ExorAIO.Champions.Twitch
 {
     /// <summary>
     ///     The logics class.

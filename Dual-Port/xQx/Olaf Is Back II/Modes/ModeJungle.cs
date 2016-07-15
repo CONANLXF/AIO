@@ -14,7 +14,7 @@ using EloBuddy.SDK.Menu.Values;
 using EloBuddy;
 using EloBuddy.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace OlafxQx.Modes
+ namespace OlafxQx.Modes
 {
     internal static class ModeJungle
     {
@@ -66,7 +66,7 @@ using TargetSelector = PortAIO.TSManager; namespace OlafxQx.Modes
 
         private static void OnUpdate(EventArgs args)
         {
-            if ((PortAIO.OrbwalkerManager.isLaneClearActive) && ModeConfig.MenuFarm["Farm.Enable"].Cast<KeyBind>().CurrentValue)
+            if ((Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear)) && ModeConfig.MenuFarm["Farm.Enable"].Cast<KeyBind>().CurrentValue)
             {
                 ExecuteSimpleMode();
             }

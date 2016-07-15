@@ -13,7 +13,7 @@ using EloBuddy.SDK;
 
 #endregion
 
-using TargetSelector = PortAIO.TSManager; namespace Marksman.Champions
+ namespace Marksman.Champions
 {
     internal class Vayne : Champion
     {
@@ -92,12 +92,12 @@ using TargetSelector = PortAIO.TSManager; namespace Marksman.Champions
                     var silverBuffMarkedEnemy = VayneData.GetSilverBuffMarkedEnemy;
                     if (silverBuffMarkedEnemy != null)
                     {
-                        PortAIO.OrbwalkerManager.ForcedTarget((silverBuffMarkedEnemy));
+                        Orbwalker.ForcedTarget =((silverBuffMarkedEnemy));
                     }
                     else
                     {
                         var attackRange = Orbwalking.GetRealAutoAttackRange(ObjectManager.Player);
-                        PortAIO.OrbwalkerManager.ForcedTarget((TargetSelector.GetTarget(attackRange, DamageType.Physical)));
+                        Orbwalker.ForcedTarget =((TargetSelector.GetTarget(attackRange, DamageType.Physical)));
                     }
                 }
 
@@ -120,7 +120,7 @@ using TargetSelector = PortAIO.TSManager; namespace Marksman.Champions
                                     VayneData.GetSilverBuffMarkedCount == 2)
                                 {
                                     Q.Cast(Game.CursorPos);
-                                    PortAIO.OrbwalkerManager.ForcedTarget((t));
+                                    Orbwalker.ForcedTarget =((t));
                                 }
                                 break;
                             }
@@ -135,7 +135,7 @@ using TargetSelector = PortAIO.TSManager; namespace Marksman.Champions
                                 {
                                     Q.Cast(Game.CursorPos);
                                 }
-                                PortAIO.OrbwalkerManager.ForcedTarget((t));
+                                Orbwalker.ForcedTarget =((t));
                                 break;
                             }
                     }
@@ -270,7 +270,7 @@ using TargetSelector = PortAIO.TSManager; namespace Marksman.Champions
             }
         }
 
-        public override void Orbwalking_AfterAttack(AfterAttackArgs args)
+        public override void Orbwalking_AfterAttack(AttackableUnit target, EventArgs args)
         {
         }
 

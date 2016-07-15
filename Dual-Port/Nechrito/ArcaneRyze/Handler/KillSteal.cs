@@ -7,7 +7,7 @@ using static Arcane_Ryze.Core;
 
 #endregion
 
-using TargetSelector = PortAIO.TSManager; namespace Arcane_Ryze.Handler
+ namespace Arcane_Ryze.Handler
 {
     internal class KillSteal
     {

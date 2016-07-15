@@ -1,6 +1,6 @@
 using System;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Jhin
+ namespace ExorAIO.Champions.Jhin
 {
     /// <summary>
     ///     The logics class.

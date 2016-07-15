@@ -7,7 +7,7 @@ using SharpDX;
 
 #endregion
 
-using TargetSelector = PortAIO.TSManager; namespace NechritoRiven.Event
+ namespace NechritoRiven.Event
 {
     internal class FleeLogic
     {

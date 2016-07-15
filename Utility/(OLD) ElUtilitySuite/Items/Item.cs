@@ -2,7 +2,7 @@ using EloBuddy;
 using EloBuddy.SDK;
 using EloBuddy.SDK.Menu;
 
-using TargetSelector = PortAIO.TSManager; namespace ElUtilitySuite.Items
+ namespace ElUtilitySuite.Items
 {
     /// <summary>
     ///     Represents an item.
@@ -21,7 +21,7 @@ using TargetSelector = PortAIO.TSManager; namespace ElUtilitySuite.Items
         {
             get
             {
-                return Entry.getComboMenu() || PortAIO.OrbwalkerManager.isComboActive;
+                return Entry.getComboMenu() || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo);
             }
         }
 

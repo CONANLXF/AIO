@@ -10,7 +10,7 @@ using EloBuddy.SDK;
 
 //gg
 
-using TargetSelector = PortAIO.TSManager; namespace D_Jarvan
+ namespace D_Jarvan
 {
     internal class Program
     {
@@ -185,7 +185,7 @@ using TargetSelector = PortAIO.TSManager; namespace D_Jarvan
                 Forest();
             }
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 Combo();
             }
@@ -195,17 +195,17 @@ using TargetSelector = PortAIO.TSManager; namespace D_Jarvan
                 ComboEqr();
             }
 
-            if ((PortAIO.OrbwalkerManager.isHarassActive
+            if ((Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass)
                  || getKeyBindItem(harassMenu, "harasstoggle"))
                 && (100 * (_player.Mana / _player.MaxMana)) > getSliderItem(harassMenu, "harassmana")
-                && !(PortAIO.OrbwalkerManager.isComboActive
+                && !(Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo)
                      || getKeyBindItem(comboMenu, "ActiveComboEQR")
                      || getKeyBindItem(comboMenu, "ComboeqFlash")))
             {
                 Harass();
             }
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 if ((100 * (_player.Mana / _player.MaxMana)) > getSliderItem(clearMenu, "lanemana"))
                 {
@@ -218,7 +218,7 @@ using TargetSelector = PortAIO.TSManager; namespace D_Jarvan
                 }
             }
 
-            if (PortAIO.OrbwalkerManager.isLastHitActive
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LastHit)
                 && (100 * (_player.Mana / _player.MaxMana)) > getSliderItem(lastMenu, "lastmana"))
             {
                 LastHit();

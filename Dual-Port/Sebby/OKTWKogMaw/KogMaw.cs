@@ -8,7 +8,7 @@ using EloBuddy.SDK;
 using EloBuddy.SDK.Menu;
 using EloBuddy.SDK.Menu.Values;
 
-using TargetSelector = PortAIO.TSManager; namespace OneKeyToWin_AIO_Sebby
+ namespace OneKeyToWin_AIO_Sebby
 {
     class KogMaw
     {
@@ -79,8 +79,8 @@ using TargetSelector = PortAIO.TSManager; namespace OneKeyToWin_AIO_Sebby
 
             Game.OnUpdate += Game_OnUpdate;
             Drawing.OnDraw += Drawing_OnDraw;
-            LSEvents.BeforeAttack += BeforeAttack;
-            LSEvents.AfterAttack += afterAttack;
+            Orbwalker.OnPreAttack += BeforeAttack;
+            Orbwalker.OnPostAttack += afterAttack;
             AntiGapcloser.OnEnemyGapcloser += AntiGapcloser_OnEnemyGapcloser;
         }
 
@@ -118,7 +118,7 @@ using TargetSelector = PortAIO.TSManager; namespace OneKeyToWin_AIO_Sebby
             return;
         }
 
-        private static void afterAttack(AfterAttackArgs args)
+        private static void afterAttack(AttackableUnit target, EventArgs args)
         {
             attackNow = true;
             if (Program.LaneClear && W.IsReady() && Player.ManaPercent > getSliderItem(farmMenu, "Mana"))
@@ -133,7 +133,7 @@ using TargetSelector = PortAIO.TSManager; namespace OneKeyToWin_AIO_Sebby
             }
         }
 
-        private static void BeforeAttack(BeforeAttackArgs args)
+        private static void BeforeAttack(AttackableUnit target, Orbwalker.PreAttackArgs args)
         {
             attackNow = false;
         }
@@ -298,7 +298,7 @@ using TargetSelector = PortAIO.TSManager; namespace OneKeyToWin_AIO_Sebby
 
         private static bool Sheen()
         {
-            var target = PortAIO.OrbwalkerManager.LastTarget();
+            var target = Orbwalker.LastTarget;
             if (!(target is AIHeroClient))
                 attackNow = true;
             if (target.LSIsValidTarget() && Player.HasBuff("sheen") && getCheckBoxItem(miscMenu, "sheen") && target is AIHeroClient)

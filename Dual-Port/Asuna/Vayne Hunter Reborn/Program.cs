@@ -4,7 +4,7 @@ using LeagueSharp.Common;
 using VayneHunter_Reborn.Utility;
 using EloBuddy;
 
-using TargetSelector = PortAIO.TSManager; namespace VayneHunter_Reborn
+ namespace VayneHunter_Reborn
 {
     class Program
     {

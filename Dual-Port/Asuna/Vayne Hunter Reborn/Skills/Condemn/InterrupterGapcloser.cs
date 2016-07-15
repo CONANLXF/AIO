@@ -11,7 +11,7 @@ using EloBuddy;
 using EloBuddy.SDK.Menu;
 using EloBuddy.SDK.Menu.Values;
 
-using TargetSelector = PortAIO.TSManager; namespace VayneHunter_Reborn.Skills.Condemn
+ namespace VayneHunter_Reborn.Skills.Condemn
 {
     class InterrupterGapcloser
     {

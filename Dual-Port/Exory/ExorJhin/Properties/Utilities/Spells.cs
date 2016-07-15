@@ -4,7 +4,7 @@ using LeagueSharp;
 using LeagueSharp.SDK;
 using LeagueSharp.SDK.Enumerations;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Jhin
+ namespace ExorAIO.Champions.Jhin
 {
     /// <summary>
     ///     The settings class.

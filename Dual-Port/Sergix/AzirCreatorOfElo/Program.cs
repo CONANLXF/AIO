@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using TargetSelector = PortAIO.TSManager; namespace Azir_Creator_of_Elo
+ namespace Azir_Creator_of_Elo
 {
     class Program
     {

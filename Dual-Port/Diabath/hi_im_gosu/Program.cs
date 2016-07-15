@@ -13,7 +13,7 @@ using EloBuddy.SDK.Menu.Values;
 
 #endregion
 
-using TargetSelector = PortAIO.TSManager; namespace hi_im_gosu
+ namespace hi_im_gosu
 {
     public class Vayne
     {
@@ -121,7 +121,7 @@ using TargetSelector = PortAIO.TSManager; namespace hi_im_gosu
 
             E.SetTargetted(0.25f, 2200f);
             Game.OnUpdate += Game_OnGameUpdate;
-            LSEvents.AfterAttack += Orbwalking_AfterAttack;
+            Orbwalker.OnPostAttack += Orbwalking_AfterAttack;
             AntiGapcloser.OnEnemyGapcloser += AntiGapcloser_OnEnemyGapcloser;
             Interrupter2.OnInterruptableTarget += Interrupter2_OnInterruptableTarget;
         }
@@ -163,10 +163,9 @@ using TargetSelector = PortAIO.TSManager; namespace hi_im_gosu
         }
 
         
-        public static void Orbwalking_AfterAttack(AfterAttackArgs args)
+        public static void Orbwalking_AfterAttack(AttackableUnit target, EventArgs args)
         {
-            var target = args.Target;
-            if ((PortAIO.OrbwalkerManager.isLaneClearActive) && 100 * (Player.Mana / Player.MaxMana) > getSliderItem(qmenu, "Junglemana"))
+            if ((Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear)) && 100 * (Player.Mana / Player.MaxMana) > getSliderItem(qmenu, "Junglemana"))
             {
                 var mob = MinionManager.GetMinions(Player.ServerPosition, E.Range, MinionTypes.All, MinionTeam.Neutral, MinionOrderTypes.MaxHealth).FirstOrDefault();
                 var Minions = MinionManager.GetMinions(Player.Position.LSExtend(Game.CursorPos, Q.Range), Player.AttackRange, MinionTypes.All);
@@ -198,7 +197,7 @@ using TargetSelector = PortAIO.TSManager; namespace hi_im_gosu
                     Q.Cast(Game.CursorPos);
                 }
 
-                PortAIO.OrbwalkerManager.MoveA(Game.CursorPos);
+                Orbwalker.MoveTo(Game.CursorPos);
             }
 
             if (getKeyBindItem(emenu, "UseEaa"))
@@ -207,7 +206,7 @@ using TargetSelector = PortAIO.TSManager; namespace hi_im_gosu
                 emenu["UseEaa"].Cast<KeyBind>().CurrentValue = !getCheckBoxItem(emenu, "UseEaa");
             }
 
-            if (Q.IsReady() && ((PortAIO.OrbwalkerManager.isComboActive && getCheckBoxItem(qmenu, "UseQC")) || (PortAIO.OrbwalkerManager.isHarassActive && getCheckBoxItem(qmenu, "hq"))))
+            if (Q.IsReady() && ((Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) && getCheckBoxItem(qmenu, "UseQC")) || (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass) && getCheckBoxItem(qmenu, "hq"))))
             {
                 if (getCheckBoxItem(qmenu, "restrictq"))
                 {
@@ -269,7 +268,7 @@ using TargetSelector = PortAIO.TSManager; namespace hi_im_gosu
 
         public static void Game_OnGameUpdate(EventArgs args)
         {
-            if (getCheckBoxItem(menu, "useR") && R.IsReady() && ObjectManager.Player.LSCountEnemiesInRange(1000) >= getSliderItem(menu, "enemys") && PortAIO.OrbwalkerManager.isComboActive)
+            if (getCheckBoxItem(menu, "useR") && R.IsReady() && ObjectManager.Player.LSCountEnemiesInRange(1000) >= getSliderItem(menu, "enemys") && Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 R.Cast();
             }
@@ -281,11 +280,11 @@ using TargetSelector = PortAIO.TSManager; namespace hi_im_gosu
 
             if (getKeyBindItem(menu, "aaqaa"))
             {
-                PortAIO.OrbwalkerManager.MoveA(Game.CursorPos);
+                Orbwalker.MoveTo(Game.CursorPos);
             }
 
             if (!E.IsReady()) return;
-            if ((PortAIO.OrbwalkerManager.isComboActive && getCheckBoxItem(emenu, "UseEC")) || (PortAIO.OrbwalkerManager.isHarassActive && getCheckBoxItem(emenu, "he")) || getKeyBindItem(emenu, "UseET"))
+            if ((Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) && getCheckBoxItem(emenu, "UseEC")) || (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass) && getCheckBoxItem(emenu, "he")) || getKeyBindItem(emenu, "UseET"))
             {
                 foreach (var enemy in EntityManager.Heroes.Enemies.Where(x => x.LSIsValidTarget(E.Range) && !x.HasBuffOfType(BuffType.SpellShield) && !x.HasBuffOfType(BuffType.SpellImmunity) && threeSixty(x)))
                 {

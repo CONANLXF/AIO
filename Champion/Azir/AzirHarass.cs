@@ -19,7 +19,7 @@ using System.Linq;
 using System.Security.AccessControl;
 using System;
 using System.Speech.Synthesis;
-using TargetSelector = PortAIO.TSManager;
+
 namespace HeavenStrikeAzir
 {
     public static class AzirHarass
@@ -33,9 +33,9 @@ namespace HeavenStrikeAzir
 
         private static void Game_OnUpdate(EventArgs args)
         {
-            if (!PortAIO.OrbwalkerManager.isHarassActive)
+            if (!Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
                 return;
-            if (Program._q.IsReady() && PortAIO.OrbwalkerManager.CanMove(0) && Program.qharass && (!Program.donotqharass || (!Soldiers.enemies.Any() && !Soldiers.splashautoattackchampions.Any())))
+            if (Program._q.IsReady() && Orbwalker.CanMove && Program.qharass && (!Program.donotqharass || (!Soldiers.enemies.Any() && !Soldiers.splashautoattackchampions.Any())))
             {
                 var target = TargetSelector.GetTarget(Program._q.Range, DamageType.Magical);
                 foreach (var obj in Soldiers.soldier)
@@ -44,7 +44,7 @@ namespace HeavenStrikeAzir
                     Program._q.Cast(target);
                 }
             }
-            if (Program._w.IsReady() && PortAIO.OrbwalkerManager.CanMove(0) && !Soldiers.enemies.Any() && Program.wharass)
+            if (Program._w.IsReady() && Orbwalker.CanMove && !Soldiers.enemies.Any() && Program.wharass)
             {
                 var target = TargetSelector.GetTarget(Program._w.Range + 300, DamageType.Magical);
                 if (target.LSIsValidTarget() && !target.IsZombie && !Soldiers.enemies.Contains(target))
@@ -54,7 +54,7 @@ namespace HeavenStrikeAzir
                     Program._w.Cast(x);
                 }
             }
-            if (Program._w.IsReady() && PortAIO.OrbwalkerManager.CanMove(0) && !Soldiers.enemies.Any() && !Soldiers.soldier.Any() && Program.wharass && Program.Qisready())
+            if (Program._w.IsReady() && Orbwalker.CanMove && !Soldiers.enemies.Any() && !Soldiers.soldier.Any() && Program.wharass && Program.Qisready())
             {
                 var target = TargetSelector.GetTarget(Program._w.Range + 300, DamageType.Magical);
                 if (target == null || !target.LSIsValidTarget() || target.IsZombie)

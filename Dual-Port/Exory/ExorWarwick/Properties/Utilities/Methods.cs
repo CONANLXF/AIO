@@ -2,7 +2,7 @@ using EloBuddy;
 using LeagueSharp;
 using LeagueSharp.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Warwick
+ namespace ExorAIO.Champions.Warwick
 {
     /// <summary>
     ///     The methods class.

@@ -6,7 +6,7 @@ using LeagueSharp.SDK;
 using EloBuddy;
 using EloBuddy.SDK;
 using LeagueSharp.SDK.Core.Utils;
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Draven
+ namespace ExorAIO.Champions.Draven
 {
     /// <summary>
     ///     The targets class.

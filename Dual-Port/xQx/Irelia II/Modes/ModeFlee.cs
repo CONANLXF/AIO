@@ -12,7 +12,7 @@ using EloBuddy.SDK.Menu.Values;
 using EloBuddy;
 using EloBuddy.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace Irelia.Modes
+ namespace Irelia.Modes
 {
     internal static class ModeFlee
     {
@@ -30,7 +30,7 @@ using TargetSelector = PortAIO.TSManager; namespace Irelia.Modes
             Game.OnUpdate += OnUpdate;
             Drawing.OnDraw += delegate(EventArgs args)
             {
-                if (!PortAIO.OrbwalkerManager.isFleeActive)
+                if (!Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Flee))
                 {
                     return;
                 }
@@ -64,13 +64,13 @@ using TargetSelector = PortAIO.TSManager; namespace Irelia.Modes
 
         private static void OnUpdate(EventArgs args)
         {
-            if (!PortAIO.OrbwalkerManager.isFleeActive)
+            if (!Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Flee))
             {
                 return;
             }
 
             EloBuddy.Player.IssueOrder(GameObjectOrder.MoveTo, Game.CursorPos);
-            PortAIO.OrbwalkerManager.SetAttack(!(PortAIO.OrbwalkerManager.isComboActive));
+            PortAIO.OrbwalkerManager.SetAttack(!(Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo)));
             
 
             var t = TargetSelector.GetTarget(Champion.PlayerSpells.Q.Range, DamageType.Physical);

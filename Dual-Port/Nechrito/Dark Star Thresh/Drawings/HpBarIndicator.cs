@@ -5,7 +5,7 @@ using SharpDX.Direct3D9;
 using Color = System.Drawing.Color;
 using EloBuddy;
 
-using TargetSelector = PortAIO.TSManager; namespace Dark_Star_Thresh.Drawings
+ namespace Dark_Star_Thresh.Drawings
 {
     internal class HpBarIndicator
     {

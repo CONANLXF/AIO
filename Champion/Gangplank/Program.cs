@@ -11,7 +11,7 @@ using EloBuddy;
 using EloBuddy.SDK.Menu;
 using EloBuddy.SDK.Menu.Values;
 using EloBuddy.SDK;
-using TargetSelector = PortAIO.TSManager;
+
 namespace UnderratedAIO.Champions
 {
     internal class Gangplank
@@ -144,22 +144,22 @@ namespace UnderratedAIO.Champions
 
             //Jungle.CastSmite(config.Item("useSmite").GetValue<KeyBind>().Active);
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 Combo(barrels, shouldAAbarrel, QMana);
             }
 
-            if (PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 Harass(barrels, shouldAAbarrel, QMana);
             }
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 Clear();
             }
 
-            if (PortAIO.OrbwalkerManager.isLastHitActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LastHit))
             {
                 if (menuM["useqLHH"].Cast<CheckBox>().CurrentValue && !justE)
                 {
@@ -252,29 +252,29 @@ namespace UnderratedAIO.Champions
                         }
                         else
                         {
-                            if (PortAIO.OrbwalkerManager.CanMove(100))
+                            if (Orbwalker.CanMove)
                             {
                                 PortAIO.OrbwalkerManager.SetMovement(true);
-                                PortAIO.OrbwalkerManager.MoveA(Game.CursorPos);
+                                Orbwalker.MoveTo(Game.CursorPos);
                             }
                         }
                     }
                 }
                 else
                 {
-                    if (PortAIO.OrbwalkerManager.CanMove(100))
+                    if (Orbwalker.CanMove)
                     {
                         PortAIO.OrbwalkerManager.SetMovement(true);
-                        PortAIO.OrbwalkerManager.MoveA(Game.CursorPos);
+                        Orbwalker.MoveTo(Game.CursorPos);
                     }
                 }
             }
             else if (menuC["EQtoCursor"].Cast<KeyBind>().CurrentValue)
             {
-                if (PortAIO.OrbwalkerManager.CanMove(100))
+                if (Orbwalker.CanMove)
                 {
                     PortAIO.OrbwalkerManager.SetMovement(true);
-                    PortAIO.OrbwalkerManager.MoveA(Game.CursorPos);
+                    Orbwalker.MoveTo(Game.CursorPos);
                 }
             }
             if (menuC["QbarrelCursor"].Cast<KeyBind>().CurrentValue && Q.IsReady())
@@ -286,7 +286,7 @@ namespace UnderratedAIO.Champions
                             o =>
                                 o.Health > 1 && o.LSDistance(player) < Orbwalking.GetRealAutoAttackRange(o) &&
                                 !KillableBarrel(o, true));
-                if (meleeRangeBarrel != null && PortAIO.OrbwalkerManager.CanAttack())
+                if (meleeRangeBarrel != null && Orbwalker.CanAutoAttack)
                 {
                     PortAIO.OrbwalkerManager.SetMovement(false);
                     EloBuddy.Player.IssueOrder(GameObjectOrder.AttackUnit, meleeRangeBarrel);
@@ -305,7 +305,7 @@ namespace UnderratedAIO.Champions
                 {
                     Q.CastOnUnit(barrel);
                 }
-                if (NeedToBeDestroyed != null && NeedToBeDestroyed.IsValidTarget() && NeedToBeDestroyed.IsValidTarget() && PortAIO.OrbwalkerManager.CanAttack() && NeedToBeDestroyed.IsInAttackRange())
+                if (NeedToBeDestroyed != null && NeedToBeDestroyed.IsValidTarget() && NeedToBeDestroyed.IsValidTarget() && Orbwalker.CanAutoAttack && NeedToBeDestroyed.IsInAttackRange())
                 {
                     Console.WriteLine("NeedToBeDestroyed");
                     PortAIO.OrbwalkerManager.SetAttack(false);
@@ -480,7 +480,7 @@ namespace UnderratedAIO.Champions
                                     .OrderBy(t => t.LSDistance(player))
                                     .ThenByDescending(t => t.Health))
                             {
-                                PortAIO.OrbwalkerManager.ForcedTarget(m);
+                                Orbwalker.ForcedTarget =(m);
                                 return;
                             }
                         }
@@ -579,7 +579,7 @@ namespace UnderratedAIO.Champions
 
             if (menuC["useeAlways"].Cast<CheckBox>().CurrentValue && E.IsReady() && player.LSDistance(target) < E.Range &&
                 !justE && target.Health > Q.GetDamage(target) + player.GetAutoAttackDamage(target) &&
-                PortAIO.OrbwalkerManager.CanMove(100) && menuC["eStacksC"].Cast<Slider>().CurrentValue < E.Instance.Ammo)
+                Orbwalker.CanMove && menuC["eStacksC"].Cast<Slider>().CurrentValue < E.Instance.Ammo)
             {
                 CastE(target, barrels);
             }
@@ -593,7 +593,7 @@ namespace UnderratedAIO.Champions
             {
                 dontQ = true;
             }
-            if (menuC["useq"].Cast<CheckBox>().CurrentValue && Q.CanCast(target) && PortAIO.OrbwalkerManager.CanMove(100) && !justE &&
+            if (menuC["useq"].Cast<CheckBox>().CurrentValue && Q.CanCast(target) && Orbwalker.CanMove && !justE &&
                 (!menuC["useqBlock"].Cast<CheckBox>().CurrentValue || !dontQ))
             {
                 CastQonHero(target, barrels);
@@ -610,7 +610,7 @@ namespace UnderratedAIO.Champions
                 if (bestBarrelMelee != null && shouldAAbarrel)
                 {
                     PortAIO.OrbwalkerManager.SetMovement(false);
-                    if (PortAIO.OrbwalkerManager.CanAttack())
+                    if (Orbwalker.CanAutoAttack)
                     {
                         if (Orbwalking.GetRealAutoAttackRange(bestBarrelMelee) < player.LSDistance(bestBarrelMelee))
                         {
@@ -1107,7 +1107,7 @@ namespace UnderratedAIO.Champions
                                 sender.LSDistance(b.barrel) / args.SData.MissileSpeed));
                 foreach (var barrelData in targetBarrels)
                 {
-                    if (PortAIO.OrbwalkerManager.CanAttack() && NeedToBeDestroyed.IsInAttackRange())
+                    if (Orbwalker.CanAutoAttack && NeedToBeDestroyed.IsInAttackRange())
                     {
                         NeedToBeDestroyed = barrelData.barrel;
                         LeagueSharp.Common.Utility.DelayAction.Add(230, () => NeedToBeDestroyed = null);

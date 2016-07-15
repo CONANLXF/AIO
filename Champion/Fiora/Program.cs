@@ -13,7 +13,7 @@ using LeagueSharp.Common;
 using SharpDX;
 using System.Linq;
 using FioraProject.Evade;
-using TargetSelector = PortAIO.TSManager;
+
 namespace FioraProject
 {
     using static FioraPassive;
@@ -135,9 +135,9 @@ namespace FioraProject
 
             //GameObject.OnCreate += GameObject_OnCreate;
             Game.OnUpdate += Game_OnGameUpdate;
-            LSEvents.AfterAttack += AfterAttack;
-            LSEvents.AfterAttack += Orbwalking_AfterAttackNoTarget;
-            LSEvents.OnAttack += OnAttack;
+            Orbwalker.OnPostAttack += AfterAttack;
+            Orbwalker.OnPostAttack += Orbwalking_AfterAttackNoTarget;
+            Orbwalker.OnAttack += OnAttack;
             Obj_AI_Base.OnProcessSpellCast += oncast;
             Game.OnWndProc += Game_OnWndProc;
             CustomDamageIndicator.Initialize(GetFastDamage);
@@ -149,9 +149,9 @@ namespace FioraProject
         }
 
         // events 
-        public static void AfterAttack(AfterAttackArgs args)
+        public static void AfterAttack(AttackableUnit target, EventArgs args)
         {
-            if (PortAIO.OrbwalkerManager.isComboActive || OrbwalkerPassive || OrbwalkLastClickActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) || OrbwalkerPassive || OrbwalkLastClickActive)
             {
                 if (Ecombo && E.IsReady())
                 {
@@ -162,7 +162,7 @@ namespace FioraProject
                     CastItem();
                 }
             }
-            if (PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 if (Eharass && E.IsReady() && Player.ManaPercent >= Manaharass)
                 {
@@ -173,26 +173,26 @@ namespace FioraProject
                     CastItem();
                 }
             }
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 // jungclear
-                if (EJclear && E.IsReady() && Player.Mana * 100 / Player.MaxMana >= ManaJclear && !PortAIO.OrbwalkerManager.ShouldWait()
+                if (EJclear && E.IsReady() && Player.Mana * 100 / Player.MaxMana >= ManaJclear && !Orbwalker.ShouldWait
                     && Player.Position.CountMinionsInRange(Player.AttackRange + 200, true) >= 1)
                 {
                     E.Cast();
                 }
-                else if (TimatJClear && HasItem() && !PortAIO.OrbwalkerManager.ShouldWait()
+                else if (TimatJClear && HasItem() && !Orbwalker.ShouldWait
                     && Player.Position.CountMinionsInRange(Player.AttackRange + 200, true) >= 1)
                 {
                     CastItem();
                 }
                 // laneclear
-                if (ELclear && E.IsReady() && Player.Mana * 100 / Player.MaxMana >= ManaLclear && !PortAIO.OrbwalkerManager.ShouldWait()
+                if (ELclear && E.IsReady() && Player.Mana * 100 / Player.MaxMana >= ManaLclear && !Orbwalker.ShouldWait
                     && Player.Position.CountMinionsInRange(Player.AttackRange + 200, false) >= 1)
                 {
                     E.Cast();
                 }
-                else if (TimatLClear && HasItem() && !PortAIO.OrbwalkerManager.ShouldWait()
+                else if (TimatLClear && HasItem() && !Orbwalker.ShouldWait
                     && Player.Position.CountMinionsInRange(Player.AttackRange + 200, false) >= 1)
                 {
                     CastItem();
@@ -200,9 +200,9 @@ namespace FioraProject
             }
 
         }
-        private static void Orbwalking_AfterAttackNoTarget(AfterAttackArgs args)
+        private static void Orbwalking_AfterAttackNoTarget(AttackableUnit target, EventArgs args)
         {
-            if (PortAIO.OrbwalkerManager.isComboActive || OrbwalkerPassive || OrbwalkLastClickActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) || OrbwalkerPassive || OrbwalkLastClickActive)
             {
                 if (Ecombo && E.IsReady() && Player.CountEnemiesInRange(Player.AttackRange + 200) >= 1)
                 {
@@ -213,7 +213,7 @@ namespace FioraProject
                     CastItem();
                 }
             }
-            if (PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 if (Eharass && E.IsReady() && Player.ManaPercent >= Manaharass
                     && Player.CountEnemiesInRange(Player.AttackRange + 200) >= 1)
@@ -225,26 +225,26 @@ namespace FioraProject
                     CastItem();
                 }
             }
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 // jungclear
-                if (EJclear && E.IsReady() && Player.Mana * 100 / Player.MaxMana >= ManaJclear && !PortAIO.OrbwalkerManager.ShouldWait()
+                if (EJclear && E.IsReady() && Player.Mana * 100 / Player.MaxMana >= ManaJclear && !Orbwalker.ShouldWait
                     && Player.Position.CountMinionsInRange(Player.AttackRange + 200, true) >= 1)
                 {
                     E.Cast();
                 }
-                else if (TimatJClear && HasItem() && !PortAIO.OrbwalkerManager.ShouldWait()
+                else if (TimatJClear && HasItem() && !Orbwalker.ShouldWait
                     && Player.Position.CountMinionsInRange(Player.AttackRange + 200, true) >= 1)
                 {
                     CastItem();
                 }
                 // laneclear
-                if (ELclear && E.IsReady() && Player.Mana * 100 / Player.MaxMana >= ManaLclear && !PortAIO.OrbwalkerManager.ShouldWait()
+                if (ELclear && E.IsReady() && Player.Mana * 100 / Player.MaxMana >= ManaLclear && !Orbwalker.ShouldWait
                     && Player.Position.CountMinionsInRange(Player.AttackRange + 200, false) >= 1)
                 {
                     E.Cast();
                 }
-                else if (TimatLClear && HasItem() && !PortAIO.OrbwalkerManager.ShouldWait()
+                else if (TimatLClear && HasItem() && !Orbwalker.ShouldWait
                     && Player.Position.CountMinionsInRange(Player.AttackRange + 200, false) >= 1)
                 {
                     CastItem();
@@ -259,15 +259,15 @@ namespace FioraProject
             FioraPassiveUpdate();
             OrbwalkToPassive();
             WallJump();
-            if (PortAIO.OrbwalkerManager.isComboActive || OrbwalkerPassive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) || OrbwalkerPassive)
             {
                 Combo();
             }
-            if (PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 Harass();
             }
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
 
             }
@@ -287,21 +287,21 @@ namespace FioraProject
             }
             if (spell.Name == "FioraE")
             {
-                PortAIO.OrbwalkerManager.ResetAutoAttackTimer();
+                Orbwalker.ResetAutoAttack();
             }
             if (spell.Name == "ItemTitanicHydraCleave")
             {
-                PortAIO.OrbwalkerManager.ResetAutoAttackTimer();
+                Orbwalker.ResetAutoAttack();
             }
             if (spell.Name.ToLower().Contains("fiorabasicattack"))
             {
             }
 
         }
-        public static void OnAttack(OnAttackArgs args)
+        public static void OnAttack(AttackableUnit target, EventArgs args)
         {
             var item = new Item(ItemId.Youmuus_Ghostblade, 0);
-            if ((PortAIO.OrbwalkerManager.isComboActive || OrbwalkerPassive || OrbwalkLastClickActive))
+            if ((Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) || OrbwalkerPassive || OrbwalkLastClickActive))
             {
                 if (item.IsReady())
                     item.Cast();
@@ -612,11 +612,11 @@ namespace FioraProject
                     {
                         var point = status.PassivePredictedPositions.OrderBy(x => x.LSDistance(Player.Position.LSTo2D())).FirstOrDefault();
                         point = point.IsValid() ? point : Game.CursorPos.LSTo2D();
-                        PortAIO.OrbwalkerManager.MoveA(point.To3D());
+                        Orbwalker.MoveTo(point.To3D());
                     }
-                    else PortAIO.OrbwalkerManager.MoveA(Game.CursorPos);
+                    else Orbwalker.MoveTo(Game.CursorPos);
                 }
-                else PortAIO.OrbwalkerManager.MoveA(Game.CursorPos);
+                else Orbwalker.MoveTo(Game.CursorPos);
             }
         }
         #endregion OrbwalkToPassive

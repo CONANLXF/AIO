@@ -1,7 +1,7 @@
 ﻿using EloBuddy;
 using LeagueSharp;
 using LeagueSharp.Common;
-using TargetSelector = PortAIO.TSManager;
+
 namespace iKalistaReborn.Utils
 {
     /// <summary>

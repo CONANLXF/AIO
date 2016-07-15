@@ -11,7 +11,7 @@ using EloBuddy.SDK;
 using EloBuddy.SDK.Menu.Values;
 using EloBuddy.SDK.Menu;
 
-using TargetSelector = PortAIO.TSManager; namespace VayneHunter_Reborn.Skills.Condemn.Methods
+ namespace VayneHunter_Reborn.Skills.Condemn.Methods
 {
     class Marksman
     {
@@ -60,7 +60,7 @@ using TargetSelector = PortAIO.TSManager; namespace VayneHunter_Reborn.Skills.Co
                 var j4Flag = getCheckBoxItem(MenuGenerator.miscMenu, "dz191.vhr.misc.condemn.condemnflag") && (finalPosition.IsJ4Flag(target) || finalPosition2.IsJ4Flag(target));
                 if (finalPosition.IsWall() || finalPosition2.IsWall() || j4Flag)
                 {
-                    if (getCheckBoxItem(MenuGenerator.miscMenu, "dz191.vhr.misc.condemn.onlystuncurrent") && PortAIO.OrbwalkerManager.LastTarget() != null && !target.NetworkId.Equals(PortAIO.OrbwalkerManager.LastTarget().NetworkId))
+                    if (getCheckBoxItem(MenuGenerator.miscMenu, "dz191.vhr.misc.condemn.onlystuncurrent") && Orbwalker.LastTarget != null && !target.NetworkId.Equals(Orbwalker.LastTarget.NetworkId))
                     {
                         return null;
                     }

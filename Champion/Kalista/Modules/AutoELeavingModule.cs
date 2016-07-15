@@ -7,7 +7,7 @@ using DZLib.Modules;
 using iKalistaReborn.Utils;
 using LeagueSharp;
 using LeagueSharp.Common;
-using TargetSelector = PortAIO.TSManager;
+
 using EloBuddy;
 using EloBuddy.SDK.Menu.Values;
 using EloBuddy.SDK.Menu;

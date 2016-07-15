@@ -3,7 +3,7 @@ using EloBuddy.SDK;
 using EloBuddy.SDK.Menu;
 using LeagueSharp.Common;
 using Spell = LeagueSharp.Common.Spell;
-using TargetSelector = PortAIO.TSManager;
+
 
 namespace Staberina
 {
@@ -31,7 +31,7 @@ namespace Staberina
 
         public static bool IsActive(this Spell spell, bool ks = false)
         {
-            var mode = PortAIO.OrbwalkerManager.isComboActive;
+            var mode = Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo);
             var name = string.Format("{0}{1}{2}", ks ? "KS" : string.Empty, spell.Slot.ToString().ToUpper(),
                 ks ? string.Empty : (mode ? "Combo" : "Harass"));
             var item = false;

@@ -63,16 +63,16 @@ namespace OneKeyToWin_AIO_Sebby.Core
                 var posPred = CalculateReturnPos();
                 if (posPred != Vector3.Zero)
                 {
-                    if (!PortAIO.OrbwalkerManager.isNoneActive)
+                    if (!Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.None))
                     {
-                        PortAIO.OrbwalkerManager.MoveA(posPred);
+                        Orbwalker.MoveTo(posPred);
                     }
                 }
                 else
                 {
-                    if (!PortAIO.OrbwalkerManager.isNoneActive)
+                    if (!Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.None))
                     {
-                        PortAIO.OrbwalkerManager.MoveA(Game.CursorPos);
+                        Orbwalker.MoveTo(Game.CursorPos);
                     }
                 }
             }

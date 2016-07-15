@@ -9,7 +9,7 @@ using SebbyLib;
 using SharpDX;
 using Color = System.Drawing.Color;
 using Orbwalking = SebbyLib.Orbwalking;
-using TargetSelector = PortAIO.TSManager;
+
 using Spell = LeagueSharp.Common.Spell;
 using Utility = LeagueSharp.Common.Utility;
 
@@ -119,7 +119,7 @@ namespace OneKeyToWin_AIO_Sebby.Champions
 
             Drawing.OnDraw += Drawing_OnDraw;
             Game.OnUpdate += OnUpdate;
-            LSEvents.BeforeAttack += Orbwalker_OnPreAttack;
+            Orbwalker.OnPreAttack += Orbwalker_OnPreAttack;
             Obj_AI_Base.OnProcessSpellCast += Obj_AI_Base_OnProcessSpellCast;
             Spellbook.OnCastSpell += Spellbook_OnCastSpell;
             Interrupter2.OnInterruptableTarget += Interrupter2_OnInterruptableTarget;
@@ -224,7 +224,7 @@ namespace OneKeyToWin_AIO_Sebby.Champions
             }
         }
 
-        private static void Orbwalker_OnPreAttack(BeforeAttackArgs args)
+        private static void Orbwalker_OnPreAttack(AttackableUnit target, Orbwalker.PreAttackArgs args)
         {
             if (W.IsReady() && getCheckBoxItem(wMenu, "autoW") && Range && args.Target is AIHeroClient)
             {
@@ -249,7 +249,7 @@ namespace OneKeyToWin_AIO_Sebby.Champions
 
             if (Range)
             {
-                if (getCheckBoxItem(wMenu, "autoWmove") && PortAIO.OrbwalkerManager.LastTarget() != null &&
+                if (getCheckBoxItem(wMenu, "autoWmove") && Orbwalker.LastTarget != null &&
                     Player.HasBuff("jaycehyperchargevfx"))
                     PortAIO.OrbwalkerManager.SetMovement(false);
                 else
@@ -389,8 +389,8 @@ namespace OneKeyToWin_AIO_Sebby.Champions
 
         private static void LogicW()
         {
-            if (Program.Combo && R.IsReady() && Range && PortAIO.OrbwalkerManager.LastTarget().LSIsValidTarget() &&
-                PortAIO.OrbwalkerManager.LastTarget() is AIHeroClient)
+            if (Program.Combo && R.IsReady() && Range && Orbwalker.LastTarget.LSIsValidTarget() &&
+                Orbwalker.LastTarget is AIHeroClient)
             {
                 W.Cast();
             }

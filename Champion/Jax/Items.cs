@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using LeagueSharp.Common;
-using TargetSelector = PortAIO.TSManager;
+
 
 namespace JaxQx
 {

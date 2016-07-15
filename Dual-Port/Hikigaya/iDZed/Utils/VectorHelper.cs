@@ -18,7 +18,7 @@ using EloBuddy.SDK;
 using LeagueSharp.Common;
 using SharpDX;
 
-using TargetSelector = PortAIO.TSManager; namespace iDZed.Utils
+ namespace iDZed.Utils
 {
     internal static class VectorHelper
     {

@@ -4,7 +4,7 @@ using LeagueSharp.SDK;
 using ExorAIO.Utilities;
 using EloBuddy;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Tryndamere
+ namespace ExorAIO.Champions.Tryndamere
 {
     /// <summary>
     ///     The logics class.

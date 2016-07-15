@@ -10,7 +10,7 @@ using Color = SharpDX.Color;
 using EloBuddy;
 using EloBuddy.SDK.Menu;
 
-using TargetSelector = PortAIO.TSManager; namespace Irelia.Common
+ namespace Irelia.Common
 {
     internal static class CommonManaManager
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using LeagueSharp.Common;
 
-using TargetSelector = PortAIO.TSManager; namespace DZAwarenessAIO
+ namespace DZAwarenessAIO
 {
     class Program
     {

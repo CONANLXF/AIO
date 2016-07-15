@@ -1,4 +1,4 @@
-﻿using TargetSelector = PortAIO.TSManager; namespace Snitched
+﻿ namespace Snitched
 {
     using System;
     using System.Collections.Generic;
@@ -129,7 +129,7 @@
         private void StealKills()
         {
             if (Config.Instance.ksMenu["DontStealOnCombo"].Cast<CheckBox>().CurrentValue
-                && PortAIO.OrbwalkerManager.isComboActive)
+                && Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 return;
             }

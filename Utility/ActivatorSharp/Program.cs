@@ -18,7 +18,7 @@ using System.Security.Permissions;
 using LeagueSharp.Data.DataTypes;
 using LeagueSharp.Data.Enumerations;
 
-#region using TargetSelector = PortAIO.TSManager; namespaces © 2015
+#region  namespaces © 2015
 using LeagueSharp;
 using LeagueSharp.Common;
 using Activators.Base;
@@ -32,7 +32,7 @@ using EloBuddy;
 using EloBuddy.SDK.Menu.Values;
 #endregion
 
-using TargetSelector = PortAIO.TSManager; namespace Activators
+ namespace Activators
 {
     internal class Activator
     {

@@ -13,7 +13,7 @@ using Utility = LeagueSharp.Common.Utility;
 
 #endregion
 
-using TargetSelector = PortAIO.TSManager; namespace D_Shyvana
+ namespace D_Shyvana
 {
     internal class Program
     {
@@ -109,25 +109,25 @@ using TargetSelector = PortAIO.TSManager; namespace D_Shyvana
         
         private static void Game_OnGameUpdate(EventArgs args)
         {
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 Combo();
             }
 
-            if (!PortAIO.OrbwalkerManager.isComboActive &&
-                (PortAIO.OrbwalkerManager.isHarassActive ||
+            if (!Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) &&
+                (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass) ||
                  getKeyBindItem(harassMenu, "harasstoggle")))
             {
                 Harass();
             }
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 Laneclear();
                 JungleClear();
             }
 
-            if (PortAIO.OrbwalkerManager.isLastHitActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LastHit))
             {
                 LastHit();
             }
@@ -171,7 +171,7 @@ using TargetSelector = PortAIO.TSManager; namespace D_Shyvana
             var spell = args.SData;
             if (spell.Name.ToLower().Contains("shyvanadoubleattack"))
             {
-                Utility.DelayAction.Add(450, PortAIO.OrbwalkerManager.ResetAutoAttackTimer);
+                Utility.DelayAction.Add(450, Orbwalker.ResetAutoAttack);
             }
         }
 

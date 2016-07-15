@@ -3,7 +3,7 @@ using ExorAIO.Utilities;
 using LeagueSharp;
 using LeagueSharp.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Jax
+ namespace ExorAIO.Champions.Jax
 {
     /// <summary>
     ///     The spells class.

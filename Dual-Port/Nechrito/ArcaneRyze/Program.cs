@@ -14,7 +14,7 @@ using EloBuddy.SDK;
 
 #endregion
 
-using TargetSelector = PortAIO.TSManager; namespace Arcane_Ryze
+ namespace Arcane_Ryze
 {
     internal class Program : Core
     {
@@ -33,7 +33,7 @@ using TargetSelector = PortAIO.TSManager; namespace Arcane_Ryze
 
             Spells.Load();
             MenuConfig.Load();
-            LeagueSharp.Common.LSEvents.AfterAttack += BeforeAA.OnAction;
+            Orbwalker.OnPostAttack += BeforeAA.OnAction;
 
             Game.OnUpdate += OnUpdate;
             Drawing.OnEndScene += Drawing_OnEndScene;
@@ -50,20 +50,20 @@ using TargetSelector = PortAIO.TSManager; namespace Arcane_Ryze
 
             // Useless Code.
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 Combo.ComboLogic();
             }
-            if (PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 Harass.HarassLogic();
             }
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 Jungle.JungleLogic();
                 Lane.LaneLogic();
             }
-            if (PortAIO.OrbwalkerManager.isLastHitActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LastHit))
             {
                 LastHit.LastHitLogic();
             }

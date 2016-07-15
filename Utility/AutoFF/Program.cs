@@ -1,4 +1,4 @@
-using TargetSelector = PortAIO.TSManager; namespace AutoFF
+ namespace AutoFF
 {
     using System;
 

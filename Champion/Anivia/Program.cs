@@ -9,7 +9,7 @@ using LeagueSharp.Common;
 using SebbyLib;
 using Orbwalking = SebbyLib.Orbwalking;
 using Spell = LeagueSharp.Common.Spell;
-using TargetSelector = PortAIO.TSManager;
+
 
 namespace PortAIO.Champion.Anivia
 {

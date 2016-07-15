@@ -19,7 +19,7 @@ using System.Linq;
 using System.Security.AccessControl;
 using System;
 using System.Speech.Synthesis;
-using TargetSelector = PortAIO.TSManager;
+
 namespace HeavenStrikeAzir
 {
     public static class Insec
@@ -88,9 +88,9 @@ namespace HeavenStrikeAzir
             }
             if (!Program.insec)
                 return;
-            if (PortAIO.OrbwalkerManager.CanMove(0))
+            if (Orbwalker.CanMove)
             {
-                PortAIO.OrbwalkerManager.MoveA(Game.CursorPos);
+                Orbwalker.MoveTo(Game.CursorPos);
             }
             if (!InsecPoint.IsValid())
                 return;

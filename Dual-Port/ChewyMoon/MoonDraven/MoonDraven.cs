@@ -20,7 +20,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-using TargetSelector = PortAIO.TSManager; namespace MoonDraven
+namespace MoonDraven
 {
     using System;
     using System.Collections.Generic;
@@ -202,23 +202,21 @@ using TargetSelector = PortAIO.TSManager; namespace MoonDraven
         {
             var catchOption = axeMenu["AxeMode"].Cast<ComboBox>().CurrentValue;
 
-            if (((catchOption == 0 && PortAIO.OrbwalkerManager.isComboActive)
-                 || (catchOption == 1 && !PortAIO.OrbwalkerManager.isNoneActive))
-                || catchOption == 2)
+            if (((catchOption == 0 && Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo)) || (catchOption == 1 && !Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.None))) || catchOption == 2)
             {
                 var bestReticle =
                     this.QReticles.Where(
                         x =>
-                        x.Object.Position.Distance(Game.CursorPos)
+                        x.Object.Position.LSDistance(Game.CursorPos)
                         < axeMenu["CatchAxeRange"].Cast<Slider>().CurrentValue)
-                        .OrderBy(x => x.Position.Distance(this.Player.ServerPosition))
-                        .ThenBy(x => x.Position.Distance(Game.CursorPos))
+                        .OrderBy(x => x.Position.LSDistance(this.Player.ServerPosition))
+                        .ThenBy(x => x.Position.LSDistance(Game.CursorPos))
                         .ThenBy(x => x.ExpireTime)
                         .FirstOrDefault();
 
-                if (bestReticle != null && bestReticle.Object.Position.Distance(this.Player.ServerPosition) > 100)
+                if (bestReticle != null && bestReticle.Object.Position.LSDistance(this.Player.ServerPosition) > 100)
                 {
-                    var eta = 1000 * (this.Player.Distance(bestReticle.Position) / this.Player.MoveSpeed);
+                    var eta = 1000 * (this.Player.LSDistance(bestReticle.Position) / this.Player.MoveSpeed);
                     var expireTime = bestReticle.ExpireTime - Environment.TickCount;
 
                     if (eta >= expireTime && axeMenu["UseWForQ"].Cast<CheckBox>().CurrentValue)
@@ -231,50 +229,61 @@ using TargetSelector = PortAIO.TSManager; namespace MoonDraven
                         // If we're under the turret as well as the axe, catch the axe
                         if (this.Player.UnderTurret(true) && bestReticle.Object.Position.UnderTurret(true))
                         {
-                            if (PortAIO.OrbwalkerManager.isNoneActive)
+                            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.None))
                             {
                                 EloBuddy.Player.IssueOrder(GameObjectOrder.MoveTo, bestReticle.Position);
                             }
                             else
                             {
-                                PortAIO.OrbwalkerManager.SetOrbwalkingPoint(bestReticle.Position);
+                                Orbwalker.DisableMovement = false;
+                                Orbwalker.DisableAttacking = true;
+                                Orbwalker.OrbwalkTo(bestReticle.Position);
+                                Orbwalker.DisableMovement = true;
+                                Orbwalker.DisableAttacking = false;
                             }
                         }
                         else if (!bestReticle.Position.UnderTurret(true))
                         {
-                            if (PortAIO.OrbwalkerManager.isNoneActive)
+                            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.None))
                             {
                                 EloBuddy.Player.IssueOrder(GameObjectOrder.MoveTo, bestReticle.Position);
                             }
                             else
                             {
-                                PortAIO.OrbwalkerManager.SetOrbwalkingPoint(bestReticle.Position);
+                                Orbwalker.DisableMovement = false;
+                                Orbwalker.DisableAttacking = true;
+                                Orbwalker.OrbwalkTo(bestReticle.Position);
+                                Orbwalker.DisableMovement = true;
+                                Orbwalker.DisableAttacking = false;
                             }
                         }
                     }
                     else
                     {
-                        if (PortAIO.OrbwalkerManager.isNoneActive)
+                        if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.None))
                         {
                             EloBuddy.Player.IssueOrder(GameObjectOrder.MoveTo, bestReticle.Position);
                         }
                         else
                         {
-                            PortAIO.OrbwalkerManager.SetOrbwalkingPoint(bestReticle.Position);
+                            Orbwalker.DisableMovement = false;
+                            Orbwalker.DisableAttacking = true;
+                            Orbwalker.OrbwalkTo(bestReticle.Position);
+                            Orbwalker.DisableMovement = true;
+                            Orbwalker.DisableAttacking = false;
                         }
                     }
                 }
                 else
                 {
-                    PortAIO.OrbwalkerManager.SetOrbwalkingPoint(Game.CursorPos);
+                    //Orbwalker.OrbwalkTo(Game.CursorPos);
                 }
             }
             else
             {
-                PortAIO.OrbwalkerManager.SetOrbwalkingPoint(Game.CursorPos);
+                //Orbwalker.OrbwalkTo(Game.CursorPos);
             }
         }
-        
 
         /// <summary>
         ///     Does the combo.
@@ -485,17 +494,17 @@ using TargetSelector = PortAIO.TSManager; namespace MoonDraven
                 this.W.Cast();
             }
 
-            if (PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 this.Harass();
             }
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 this.Combo();
             }
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 this.LaneClear();
             }
@@ -558,9 +567,9 @@ using TargetSelector = PortAIO.TSManager; namespace MoonDraven
                 return;
             }
 
-            if (useQ && this.QCount <  axeMenu["MaxAxes"].Cast<Slider>().CurrentValue - 1 && this.Q.IsReady()
-                && PortAIO.OrbwalkerManager.LastTarget() is Obj_AI_Minion && !this.Player.Spellbook.IsAutoAttacking
-                && !ObjectManager.Player.Spellbook.IsAutoAttacking)
+            if (useQ && this.QCount < axeMenu["MaxAxes"].Cast<Slider>().CurrentValue - 1 && this.Q.IsReady()
+                && Orbwalker.LastTarget is Obj_AI_Minion && !this.Player.Spellbook.IsAutoAttacking
+                && !Orbwalker.IsAutoAttacking)
             {
                 this.Q.Cast();
             }

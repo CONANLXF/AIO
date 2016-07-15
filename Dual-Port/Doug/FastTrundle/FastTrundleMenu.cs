@@ -6,7 +6,7 @@ using EloBuddy.SDK.Menu;
 using EloBuddy.SDK.Menu.Values;
 using EloBuddy;
 
-using TargetSelector = PortAIO.TSManager; namespace FastTrundle
+ namespace FastTrundle
 {
     public class FastTrundleMenu
     {

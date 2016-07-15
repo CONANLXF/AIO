@@ -5,7 +5,7 @@ using LeagueSharp;
 using LeagueSharp.SDK;
 using EloBuddy;
 using EloBuddy.SDK;
-using TargetSelector = PortAIO.TSManager;
+
 namespace ExorAIO.Champions.Darius
 {
     /// <summary>

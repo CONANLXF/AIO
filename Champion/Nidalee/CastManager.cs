@@ -12,7 +12,7 @@ using PredictionInput = SebbyLib.Prediction.PredictionInput;
 using SkillshotType = SebbyLib.Prediction.SkillshotType;
 using Spell = LeagueSharp.Common.Spell;
 
-using TargetSelector = PortAIO.TSManager; namespace KurisuNidalee
+ namespace KurisuNidalee
 {
     internal class CastManager
     {
@@ -205,7 +205,7 @@ using TargetSelector = PortAIO.TSManager; namespace KurisuNidalee
             if (!target.LSIsValidTarget(KL.Spells["ExPounce"].Range))
                 return;
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 if (KL.Player.HealthPercent <= getSliderItem(wCMenu, "ndcwcHPChecl"))
                 {

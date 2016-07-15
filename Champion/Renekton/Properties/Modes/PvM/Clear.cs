@@ -6,7 +6,7 @@ using LeagueSharp.SDK;
 using EloBuddy;
 using EloBuddy.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Renekton
+ namespace ExorAIO.Champions.Renekton
 {
     /// <summary>
     ///     The logics class.
@@ -53,7 +53,7 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Renekton
         /// <param name="args">The args.</param>
         public static void JungleClear(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
-            if (PortAIO.OrbwalkerManager.LastTarget() as Obj_AI_Minion == null)
+            if (Orbwalker.LastTarget as Obj_AI_Minion == null)
             {
                 return;
             }
@@ -63,7 +63,7 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Renekton
             /// </summary>
             if (Vars.W.IsReady() &&
                 Vars.getCheckBoxItem(Vars.WMenu, "jungleclear") &&
-                Targets.JungleMinions.Contains(PortAIO.OrbwalkerManager.LastTarget() as Obj_AI_Minion))
+                Targets.JungleMinions.Contains(Orbwalker.LastTarget as Obj_AI_Minion))
             {
                 Vars.W.Cast();
             }
@@ -76,9 +76,9 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Renekton
         /// <param name="args">The args.</param>
         public static void BuildingClear(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
-            if (!(PortAIO.OrbwalkerManager.LastTarget() is Obj_HQ) &&
-                !(PortAIO.OrbwalkerManager.LastTarget() is Obj_AI_Turret) &&
-                !(PortAIO.OrbwalkerManager.LastTarget() is Obj_BarracksDampener))
+            if (!(Orbwalker.LastTarget is Obj_HQ) &&
+                !(Orbwalker.LastTarget is Obj_AI_Turret) &&
+                !(Orbwalker.LastTarget is Obj_BarracksDampener))
             {
                 return;
             }

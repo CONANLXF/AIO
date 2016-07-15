@@ -4,7 +4,7 @@ using LeagueSharp.Common;
 using EloBuddy.SDK.Menu;
 using EloBuddy.SDK.Menu.Values;
 
-using TargetSelector = PortAIO.TSManager; namespace iDZEzreal.MenuHelper
+ namespace iDZEzreal.MenuHelper
 {
     public static class MenuGenerator
     {

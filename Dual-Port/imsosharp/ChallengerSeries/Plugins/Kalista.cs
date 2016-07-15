@@ -14,7 +14,7 @@ using EloBuddy.SDK;
 using EloBuddy;
 //using LeagueSharp.Common;
 
-using TargetSelector = PortAIO.TSManager; namespace Challenger_Series.Plugins
+ namespace Challenger_Series.Plugins
 {
     using LeagueSharp.SDK.Core.Utils;
     using LeagueSharp.SDK.Enumerations;
@@ -46,17 +46,17 @@ using TargetSelector = PortAIO.TSManager; namespace Challenger_Series.Plugins
             DelayedOnUpdate += OnUpdate;
             Drawing.OnDraw += HpBarDamageIndicator.Drawing_OnDraw;
             Drawing.OnDraw += OnDraw;
-            LeagueSharp.Common.LSEvents.AfterAttack += Orbwalker_OnPostAttack;
-            LeagueSharp.Common.LSEvents.BeforeAttack += Orbwalker_OnPreAttack;
+            Orbwalker.OnPostAttack += Orbwalker_OnPostAttack;
+            Orbwalker.OnPreAttack += Orbwalker_OnPreAttack;
             Obj_AI_Base.OnProcessSpellCast += UltLogic_OnSpellcast;
             Game.OnUpdate += UltLogic_OnUpdate;
         }
 
-        private void Orbwalker_OnPreAttack(LeagueSharp.Common.BeforeAttackArgs args)
+        private void Orbwalker_OnPreAttack(AttackableUnit target, Orbwalker.PreAttackArgs args)
         {
             if (FocusWBuffedEnemyBool)
             {
-                PortAIO.OrbwalkerManager.ForcedTarget(
+                Orbwalker.ForcedTarget =(
                     ValidTargets.FirstOrDefault(
                         h =>
                         h.Distance(ObjectManager.Player.ServerPosition) < 600
@@ -64,10 +64,10 @@ using TargetSelector = PortAIO.TSManager; namespace Challenger_Series.Plugins
             }
         }
 
-        private void Orbwalker_OnPostAttack(LeagueSharp.Common.AfterAttackArgs args)
+        private void Orbwalker_OnPostAttack(AttackableUnit targetA, EventArgs args)
         {
-            var target = args.Target;
-            PortAIO.OrbwalkerManager.ForcedTarget(null);
+            var target = targetA;
+            Orbwalker.ForcedTarget =(null);
             var t = target as Obj_AI_Base;
             if (Q.IsReady() && target.LSIsValidTarget() && !t.IsMinion)
             {
@@ -83,7 +83,7 @@ using TargetSelector = PortAIO.TSManager; namespace Challenger_Series.Plugins
         public override void OnUpdate(EventArgs args)
         {
             if (E.IsReady()) this.ELogic();
-            if (PortAIO.OrbwalkerManager.isComboActive && Q.IsReady() && PortAIO.OrbwalkerManager.CanMove(0))
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) && Q.IsReady() && Orbwalker.CanMove)
             {
                 foreach (var enemy in ValidTargets.Where(e => e.Distance(ObjectManager.Player) < 900))
                 {
@@ -96,7 +96,7 @@ using TargetSelector = PortAIO.TSManager; namespace Challenger_Series.Plugins
             }
 
             #region Orbwalk On Minions
-            if (OrbwalkOnMinions && PortAIO.OrbwalkerManager.isComboActive && ValidTargets.Count(e => e.IsInAutoAttackRange(ObjectManager.Player)) == 0)
+            if (OrbwalkOnMinions && Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) && ValidTargets.Count(e => e.IsInAutoAttackRange(ObjectManager.Player)) == 0)
             {
                 var minion = GameObjects.EnemyMinions.Where(m => m.IsInAutoAttackRange(ObjectManager.Player)).OrderBy(m => m.Health).FirstOrDefault();
                 if (minion != null)
@@ -223,7 +223,7 @@ using TargetSelector = PortAIO.TSManager; namespace Challenger_Series.Plugins
         {
             if (target != null)
             {
-                if (PortAIO.OrbwalkerManager.isComboActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
                 {
                     var hero = target as AIHeroClient;
                     if (hero != null)
@@ -254,7 +254,7 @@ using TargetSelector = PortAIO.TSManager; namespace Challenger_Series.Plugins
                         }
                     }
                 }
-                if (PortAIO.OrbwalkerManager.isLaneClearActive || PortAIO.OrbwalkerManager.isHarassActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
                 {
                     var minion = target as Obj_AI_Minion;
                     if (minion != null && GetRendBuff(minion).Count >= UseQStackTransferMinStacksSlider
@@ -300,7 +300,7 @@ using TargetSelector = PortAIO.TSManager; namespace Challenger_Series.Plugins
                 }
             }
 
-            if ((PortAIO.OrbwalkerManager.isLaneClearActive || PortAIO.OrbwalkerManager.isLastHitActive) &&
+            if ((Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LastHit)) &&
                 GameObjects.EnemyMinions.Any(m => IsRendKillable(m) && Health.GetPrediction(m, (int)((Game.Ping / 2) + ObjectManager.Player.AttackCastDelay * 1000)) < 1 && Health.GetPrediction(m, (int)((Game.Ping / 2) + 100)) > 1))
             {
                 E.Cast();

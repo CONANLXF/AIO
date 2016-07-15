@@ -5,7 +5,7 @@ using LeagueSharp;
 using LeagueSharp.Common;
 using EloBuddy;
 
-using TargetSelector = PortAIO.TSManager; namespace Marksman.Utils
+ namespace Marksman.Utils
 {
 
     public static class CData

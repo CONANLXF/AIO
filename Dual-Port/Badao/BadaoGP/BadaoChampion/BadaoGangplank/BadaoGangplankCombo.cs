@@ -10,7 +10,7 @@ using Color = System.Drawing.Color;
 using EloBuddy;
 using EloBuddy.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace BadaoKingdom.BadaoChampion.BadaoGangplank
+ namespace BadaoKingdom.BadaoChampion.BadaoGangplank
 {
     public static class BadaoGangplankCombo
     {
@@ -24,7 +24,7 @@ using TargetSelector = PortAIO.TSManager; namespace BadaoKingdom.BadaoChampion.B
 
         private static void Game_OnUpdate(EventArgs args)
         {
-            if (!PortAIO.OrbwalkerManager.isComboActive)
+            if (!Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
                 return;
             if (Environment.TickCount - LastCondition >= 100 + Game.Ping)
             {
@@ -131,7 +131,7 @@ using TargetSelector = PortAIO.TSManager; namespace BadaoKingdom.BadaoChampion.B
                                 PortAIO.OrbwalkerManager.SetAttack(true);
                             });
                             Console.WriteLine("3");
-                            PortAIO.OrbwalkerManager.ForcedTarget(barrel.Bottle;
+                            Orbwalker.ForcedTarget =(barrel.Bottle;
                             EloBuddy.Player.IssueOrder(GameObjectOrder.AttackUnit, barrel.Bottle);
                             Console.WriteLine("4");
                             if (EloBuddy.Player.IssueOrder(GameObjectOrder.AttackUnit, barrel.Bottle))

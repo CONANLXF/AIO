@@ -13,7 +13,7 @@ using LeagueSharp.Common;
 using LeagueSharp.Common.Data;
 using HTrackerSDK;
 
-using TargetSelector = PortAIO.TSManager; namespace NabbTracker
+ namespace NabbTracker
 {
     /// <summary>
     /// The main class.

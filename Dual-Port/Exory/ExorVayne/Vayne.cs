@@ -9,7 +9,7 @@ using SharpDX;
 using EloBuddy;
 using EloBuddy.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Vayne
+ namespace ExorAIO.Champions.Vayne
 {
     /// <summary>
     ///     The champion class.
@@ -72,7 +72,7 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Vayne
                 return;
             }
 
-            if (PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 Logics.Harass(args);
             }
@@ -88,17 +88,17 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Vayne
             if (sender.IsMe &&
                 AutoAttack.IsAutoAttack(args.SData.Name))
             {
-                if (PortAIO.OrbwalkerManager.isComboActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
                 {
                     Logics.Weaving(sender, args);
                 }
 
-                if (PortAIO.OrbwalkerManager.isLastHitActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LastHit))
                 {
                     Logics.Clear(sender, args);
                 }
 
-                if (PortAIO.OrbwalkerManager.isLaneClearActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
                 {
                     Logics.Clear(sender, args);
                     Logics.JungleClear(sender, args);
@@ -171,7 +171,7 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Vayne
             }
         }
 
-        public static void Orbwalker_OnPreAttack(LeagueSharp.Common.BeforeAttackArgs args)
+        public static void Orbwalker_OnPreAttack(AttackableUnit target, Orbwalker.PreAttackArgs args)
         {
 
             /// <summary>
@@ -210,11 +210,11 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Vayne
                         t.LSIsValidTarget(Vars.AARange) &&
                         t.GetBuffCount("vaynesilvereddebuff") == 2))
                 {
-                    PortAIO.OrbwalkerManager.ForcedTarget(null);
+                    Orbwalker.ForcedTarget =(null);
                     return;
                 }
 
-                PortAIO.OrbwalkerManager.ForcedTarget(GameObjects.EnemyHeroes.FirstOrDefault(
+                Orbwalker.ForcedTarget =(GameObjects.EnemyHeroes.FirstOrDefault(
                     t =>
                         t.LSIsValidTarget(Vars.AARange) &&
                         t.GetBuffCount("vaynesilvereddebuff") == 2));

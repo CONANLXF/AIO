@@ -11,7 +11,7 @@ using Utility = LeagueSharp.Common.Utility;
 using Spell = LeagueSharp.Common.Spell;
 using EloBuddy.SDK.Menu.Values;
 
-using TargetSelector = PortAIO.TSManager; namespace iSivir
+ namespace iSivir
 {
     class Sivir
     {
@@ -131,7 +131,7 @@ using TargetSelector = PortAIO.TSManager; namespace iSivir
             LoadMenu();
 
             Game.OnUpdate += OnUpdate;
-            LSEvents.AfterAttack += OnAfterAttack;
+            Orbwalker.OnPostAttack += OnAfterAttack;
             Obj_AI_Base.OnProcessSpellCast += OnSpellCast;
             GameObject.OnCreate += OnCreateObject;
         }
@@ -176,15 +176,15 @@ using TargetSelector = PortAIO.TSManager; namespace iSivir
         
         private static void OnUpdate(EventArgs args)
         {
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 Combo();
             }
-            if (PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 Harass();
             }
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 Laneclear();
             }
@@ -199,12 +199,11 @@ using TargetSelector = PortAIO.TSManager; namespace iSivir
         }
 
 
-        private static void OnAfterAttack(AfterAttackArgs args)
+        private static void OnAfterAttack(AttackableUnit target, EventArgs args)
         {
-            var target = args.Target;
             if (!target.IsMe || !target.IsValid) return;
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 if (getCheckBoxItem(comboMenu, "com.isivir.combo.useW") && target.IsValid<AIHeroClient>())
                     {
@@ -214,7 +213,7 @@ using TargetSelector = PortAIO.TSManager; namespace iSivir
                         Spells[SpellSlot.W].Cast();
                     }
 
-                if (PortAIO.OrbwalkerManager.isHarassActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
                 {
                     if (getCheckBoxItem(harassMenu, "com.isivir.harass.useW") && target.IsValid<AIHeroClient>()
                         && ObjectManager.Player.ManaPercent
@@ -223,7 +222,7 @@ using TargetSelector = PortAIO.TSManager; namespace iSivir
                         Spells[SpellSlot.W].Cast();
                     }
 
-                    if (PortAIO.OrbwalkerManager.isLaneClearActive)
+                    if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
                     {
                         if (getCheckBoxItem(laneMenu, "com.isivir.laneclear.useW") && target.IsValid<Obj_AI_Minion>()
                         && ObjectManager.Player.ManaPercent

@@ -1,4 +1,4 @@
-﻿using TargetSelector = PortAIO.TSManager; namespace ElRengarRevamped
+﻿ namespace ElRengarRevamped
 {
     using System.Collections.Generic;
     using System.Linq;

@@ -6,7 +6,7 @@ using LeagueSharp.SDK;
 using EloBuddy;
 using EloBuddy.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Tristana
+ namespace ExorAIO.Champions.Tristana
 {
     /// <summary>
     ///     The logics class.
@@ -20,7 +20,7 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Tristana
         public static void Automatic(EventArgs args)
         {
             if (Bools.HasSheenBuff() ||
-                !(PortAIO.OrbwalkerManager.LastTarget() as Obj_AI_Base).IsValidTarget())
+                !(Orbwalker.LastTarget as Obj_AI_Base).IsValidTarget())
             {
                 return;
             }
@@ -33,7 +33,7 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Tristana
                 Vars.getCheckBoxItem(Vars.QMenu, "logical"))
             {
                 if (!Vars.E.IsReady() ||
-                    (PortAIO.OrbwalkerManager.LastTarget() as Obj_AI_Base).HasBuff("TristanaECharge"))
+                    (Orbwalker.LastTarget as Obj_AI_Base).HasBuff("TristanaECharge"))
                 {
                     Vars.Q.Cast();
                 }

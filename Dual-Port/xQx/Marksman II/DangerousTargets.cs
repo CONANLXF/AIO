@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using EloBuddy;
 
-using TargetSelector = PortAIO.TSManager; namespace Marksman
+ namespace Marksman
 {
     public class DangerousTargets
     {

@@ -12,7 +12,7 @@ using Color = System.Drawing.Color;
 using Spell = LeagueSharp.Common.Spell;
 using Utility = LeagueSharp.Common.Utility;
 
-using TargetSelector = PortAIO.TSManager; namespace D_Nidalee
+ namespace D_Nidalee
 {
     internal class Program
     {
@@ -269,7 +269,7 @@ using TargetSelector = PortAIO.TSManager; namespace D_Nidalee
                 AutoE();
             }
 
-            if (PortAIO.OrbwalkerManager.isFleeActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Flee))
             {
                 Escapeterino();
             }
@@ -287,30 +287,30 @@ using TargetSelector = PortAIO.TSManager; namespace D_Nidalee
             //            OrbwalkerLS.SetAttack(true);
 
             CheckSpells();
-            if (PortAIO.OrbwalkerManager.isLastHitActive &&
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LastHit) &&
                 (100 * (Player.Mana / Player.MaxMana)) > getSliderItem(laneMenu, "lastmana"))
             {
                 LastHit();
             }
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 Combo();
             }
 
-            if ((PortAIO.OrbwalkerManager.isHarassActive ||
+            if ((Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass) ||
                 getKeyBindItem(harassMenu, "harasstoggle") &&
                 (100 * (Player.Mana / Player.MaxMana)) > getSliderItem(harassMenu, "Harrasmana")))
             {
                 Harass();
             }
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 Farm();
             }
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 Jungleclear();
             }
@@ -355,7 +355,7 @@ using TargetSelector = PortAIO.TSManager; namespace D_Nidalee
             if (spell.Name.ToLower().Contains("takedown"))
             {
                 // Chat.Print("reset");
-                Utility.DelayAction.Add(450, PortAIO.OrbwalkerManager.ResetAutoAttackTimer);
+                Utility.DelayAction.Add(450, Orbwalker.ResetAutoAttack);
             }
 
             /* if (sender.IsMe)
@@ -474,7 +474,7 @@ using TargetSelector = PortAIO.TSManager; namespace D_Nidalee
         //New map Monsters Name By SKO
         private static void Smiteuse()
         {
-            var jungle = PortAIO.OrbwalkerManager.isLaneClearActive;
+            var jungle = Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear);
             if (ObjectManager.Player.Spellbook.CanUseSpell(_smiteSlot) != SpellState.Ready) return;
             var useblue = getCheckBoxItem(smiteMenu, "Useblue");
             var usered = getCheckBoxItem(smiteMenu, "Usered");
@@ -761,7 +761,7 @@ using TargetSelector = PortAIO.TSManager; namespace D_Nidalee
             if (Player.InFountain() || ObjectManager.Player.HasBuff("Recall")) return;
 
             if (Utility.LSCountEnemiesInRange(800) > 0
-                || (mobs.Count > 0 && PortAIO.OrbwalkerManager.isLaneClearActive && _smite != null))
+                || (mobs.Count > 0 && Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear) && _smite != null))
             {
                 if (iusepotionhp && iusehppotion
                     && !(ObjectManager.Player.HasBuff("RegenerationPotion")
@@ -994,7 +994,7 @@ using TargetSelector = PortAIO.TSManager; namespace D_Nidalee
         {
             if (Player.Spellbook.CanUseSpell(SpellSlot.E) == SpellState.Ready && Player.IsMe)
             {
-                if (PortAIO.OrbwalkerManager.isFleeActive) return;
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Flee)) return;
                 var forms = getCheckBoxItem(Heal, "AutoSwitchform");
                 var health = Player.Health
                              <= Player.MaxHealth * getSliderItem(Heal, "HPercent") / 100;

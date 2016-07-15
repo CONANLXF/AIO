@@ -1,6 +1,6 @@
 using LeagueSharp;
 
-using TargetSelector = PortAIO.TSManager; namespace Leblanc
+ namespace Leblanc
 {
     internal class Program
     {

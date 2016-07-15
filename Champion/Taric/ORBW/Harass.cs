@@ -1,4 +1,4 @@
-﻿using TargetSelector = PortAIO.TSManager; namespace SkyLv_Taric
+﻿ namespace SkyLv_Taric
 {
     using System;
 
@@ -73,7 +73,7 @@
         
         private static void Game_OnUpdate(EventArgs args)
         {
-            if (PortAIO.OrbwalkerManager.isHarassActive || getKeyBindItem(SkyLv_Taric.Harass, "Taric.HarassActiveT"))
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass) || getKeyBindItem(SkyLv_Taric.Harass, "Taric.HarassActiveT"))
             {
                 HarassLogic();
             }

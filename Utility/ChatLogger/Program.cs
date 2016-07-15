@@ -8,7 +8,7 @@ using LeagueSharp.Common;
 using EloBuddy;
 using System.Security.Permissions;
 
-using TargetSelector = PortAIO.TSManager; namespace Chat_Logger
+ namespace Chat_Logger
 {
     public static class Program
     {

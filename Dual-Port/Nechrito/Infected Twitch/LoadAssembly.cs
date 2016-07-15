@@ -7,7 +7,7 @@ using EloBuddy;
 
 #endregion
 
-using TargetSelector = PortAIO.TSManager; namespace Infected_Twitch
+ namespace Infected_Twitch
 {
     internal class LoadAssembly
     {

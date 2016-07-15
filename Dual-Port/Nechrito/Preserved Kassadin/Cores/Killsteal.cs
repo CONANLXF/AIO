@@ -1,7 +1,7 @@
 ﻿using LeagueSharp.SDK;
 using System;
 
-using TargetSelector = PortAIO.TSManager; namespace Preserved_Kassadin.Cores
+ namespace Preserved_Kassadin.Cores
 {
     class Killsteal : Coree
     {

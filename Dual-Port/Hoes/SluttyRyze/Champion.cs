@@ -6,7 +6,7 @@ using EloBuddy.SDK;
 using EloBuddy.SDK.Menu;
 using EloBuddy.SDK.Menu.Values;
 
-using TargetSelector = PortAIO.TSManager; namespace Slutty_ryze
+ namespace Slutty_ryze
 {
     class Champion
     {
@@ -135,9 +135,9 @@ using TargetSelector = PortAIO.TSManager; namespace Slutty_ryze
                 E.Cast(target);
         }
         
-        public static void Orbwalking_BeforeAttack(BeforeAttackArgs args)
+        public static void Orbwalking_BeforeAttack(AttackableUnit target, Orbwalker.PreAttackArgs args)
         {
-            if (W.IsReady() && W.Level > 0 && PortAIO.OrbwalkerManager.isComboActive)
+            if (W.IsReady() && W.Level > 0 && Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 args.Process = false;
             }

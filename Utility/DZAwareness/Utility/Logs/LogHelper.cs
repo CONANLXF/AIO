@@ -5,7 +5,7 @@ using System.Linq;
 using LeagueSharp;
 using EloBuddy;
 
-using TargetSelector = PortAIO.TSManager; namespace DZAwarenessAIO.Utility.Logs
+ namespace DZAwarenessAIO.Utility.Logs
 {
     class LogHelper
     {

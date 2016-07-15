@@ -95,8 +95,8 @@ namespace SCommon.PluginBase
             Game.OnUpdate += Game_OnUpdate;
             Drawing.OnDraw += Drawing_OnDraw;
 
-            LSEvents.BeforeAttack += OrbwalkingEvents_BeforeAttack;
-            LSEvents.AfterAttack += OrbwalkingEvents_AfterAttack;
+            Orbwalker.OnPreAttack += OrbwalkingEvents_BeforeAttack;
+            Orbwalker.OnPostAttack += OrbwalkingEvents_AfterAttack;
 
             AntiGapcloser.OnEnemyGapcloser += AntiGapcloser_OnEnemyGapcloser;
             Interrupter2.OnInterruptableTarget += Interrupter_OnPossibleToInterrupt;
@@ -127,25 +127,25 @@ namespace SCommon.PluginBase
             if (OnUpdate != null)
                 OnUpdate();
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 if (OnCombo != null)
                     OnCombo();
             }
 
-            if (PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 if (OnHarass != null)
                     OnHarass();
             }
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 if (OnLaneClear != null)
                     OnLaneClear();
             }
 
-            if (PortAIO.OrbwalkerManager.isLastHitActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LastHit))
             {
                 if (OnLastHit != null)
                     OnLastHit();
@@ -169,7 +169,7 @@ namespace SCommon.PluginBase
         ///     The BeforeAttack event which called by orbwalker.
         /// </summary>
         /// <param name="args">The args.</param>
-        protected virtual void OrbwalkingEvents_BeforeAttack(BeforeAttackArgs args)
+        protected virtual void OrbwalkingEvents_BeforeAttack(AttackableUnit target, Orbwalker.PreAttackArgs args)
         {
             //
         }
@@ -178,7 +178,7 @@ namespace SCommon.PluginBase
         ///     The AfterAttack event which called by orbwalker.
         /// </summary>
         /// <param name="args">The args.</param>
-        protected virtual void OrbwalkingEvents_AfterAttack(AfterAttackArgs args)
+        protected virtual void OrbwalkingEvents_AfterAttack(AttackableUnit target, EventArgs args)
         {
             //
         }

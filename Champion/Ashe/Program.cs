@@ -12,7 +12,7 @@ using Prediction = SebbyLib.Prediction.Prediction;
 using PredictionInput = SebbyLib.Prediction.PredictionInput;
 using Spell = LeagueSharp.Common.Spell;
 using System.Collections.Generic;
-using TargetSelector = PortAIO.TSManager;
+
 
 namespace PortAIO.Champion.Ashe
 {
@@ -131,7 +131,7 @@ namespace PortAIO.Champion.Ashe
 
             Game.OnUpdate += Game_OnUpdate;
             Drawing.OnDraw += Drawing_OnDraw;
-            LSEvents.BeforeAttack += BeforeAttack;
+            Orbwalker.OnPreAttack += BeforeAttack;
             AntiGapcloser.OnEnemyGapcloser += AntiGapcloser_OnEnemyGapcloser;
             Interrupter2.OnInterruptableTarget += Interrupter2_OnInterruptableTarget;
             Obj_AI_Base.OnProcessSpellCast += Obj_AI_Base_OnProcessSpellCast;
@@ -169,7 +169,7 @@ namespace PortAIO.Champion.Ashe
             }
         }
 
-        private static void BeforeAttack(BeforeAttackArgs args)
+        private static void BeforeAttack(AttackableUnit target, Orbwalker.PreAttackArgs args)
         {
             LogicQ();
         }
@@ -283,7 +283,7 @@ namespace PortAIO.Champion.Ashe
 
         private static void LogicQ()
         {
-            var t = PortAIO.OrbwalkerManager.LastTarget() as AIHeroClient;
+            var t = Orbwalker.LastTarget as AIHeroClient;
             if (t != null && t.LSIsValidTarget())
             {
                 if (SebbyLib.Program.Combo &&
@@ -295,7 +295,7 @@ namespace PortAIO.Champion.Ashe
             }
             else if (SebbyLib.Program.LaneClear)
             {
-                var minion = PortAIO.OrbwalkerManager.LastTarget() as Obj_AI_Minion;
+                var minion = Orbwalker.LastTarget as Obj_AI_Minion;
                 if (minion != null && Player.ManaPercent > getSliderItem(FarmMenu, "Mana") &&
                     getCheckBoxItem(FarmMenu, "farmQ") && Player.Mana > RMANA + QMANA)
                 {
@@ -307,7 +307,7 @@ namespace PortAIO.Champion.Ashe
 
         private static void LogicW()
         {
-            var t = PortAIO.OrbwalkerManager.LastTarget() as AIHeroClient ?? TargetSelector.GetTarget(W.Range, DamageType.Physical);
+            var t = Orbwalker.LastTarget as AIHeroClient ?? TargetSelector.GetTarget(W.Range, DamageType.Physical);
 
             if (t.LSIsValidTarget())
             {

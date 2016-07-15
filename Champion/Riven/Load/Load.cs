@@ -11,7 +11,7 @@ using NechritoRiven.Menus;
 
 #endregion
 
-using TargetSelector = PortAIO.TSManager; namespace NechritoRiven.Load
+ namespace NechritoRiven.Load
 {
     internal class Load
     {
@@ -44,7 +44,7 @@ using TargetSelector = PortAIO.TSManager; namespace NechritoRiven.Load
             {
                 if (args.Slot == SpellSlot.W && sender.IsMe)
                 {
-                    PortAIO.OrbwalkerManager.ResetAutoAttackTimer();
+                    Orbwalker.ResetAutoAttack();
                 }
             };
 

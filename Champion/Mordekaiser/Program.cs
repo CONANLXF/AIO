@@ -5,7 +5,7 @@ using LeagueSharp.Common;
 using Mordekaiser.Events;
 using Mordekaiser.Logics;
 
-using TargetSelector = PortAIO.TSManager; namespace Mordekaiser
+ namespace Mordekaiser
 {
     internal class Program
     {

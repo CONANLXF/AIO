@@ -11,7 +11,7 @@ using Color = System.Drawing.Color;
 using CommonGeometry = OlafxQx.Common.CommonGeometry;
 using Font = SharpDX.Direct3D9.Font;
 
-using TargetSelector = PortAIO.TSManager; namespace OlafxQx.Modes
+ namespace OlafxQx.Modes
 {
     using System.Linq;
     using LeagueSharp;

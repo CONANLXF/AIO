@@ -10,7 +10,7 @@ using EloBuddy;
 
 #endregion
 
-using TargetSelector = PortAIO.TSManager; namespace Syndra
+ namespace Syndra
 {
     public static class OrbManager
     {

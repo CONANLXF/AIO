@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using TargetSelector = PortAIO.TSManager; namespace EvadeA.Pathfinding
+ namespace EvadeA.Pathfinding
 {
     public class Path<node> : IEnumerable<node>
     {

@@ -11,7 +11,7 @@ using EloBuddy.SDK.Menu.Values;
 using iKalistaReborn.Modules;
 using iKalistaReborn.Utils;
 using LeagueSharp.Common;
-using TargetSelector = PortAIO.TSManager;
+
 using SharpDX;
 
 namespace iKalistaReborn
@@ -55,49 +55,30 @@ namespace iKalistaReborn
                 }
             };
 
-            if (PortAIO.OrbwalkerManager.isEBActive)
+            Orbwalker.OnUnkillableMinion += (Obj_AI_Base target, Orbwalker.UnkillableMinionArgs args) =>
             {
-                Orbwalker.OnUnkillableMinion += (Obj_AI_Base target, Orbwalker.UnkillableMinionArgs args) =>
+                var killableMinion = target as Obj_AI_Base;
+                if (killableMinion == null || !SpellManager.Spell[SpellSlot.E].IsReady() || ObjectManager.Player.HasBuff("summonerexhaust") || !killableMinion.HasRendBuff())
                 {
-                    var killableMinion = target as Obj_AI_Base;
-                    if (killableMinion == null || !SpellManager.Spell[SpellSlot.E].IsReady() || ObjectManager.Player.HasBuff("summonerexhaust") || !killableMinion.HasRendBuff())
-                    {
-                        return;
-                    }
+                    return;
+                }
 
-                    if (getCheckBoxItem(laneclearMenu, "com.ikalista.laneclear.useEUnkillable") &&
-                        killableMinion.IsMobKillable())
-                    {
-                        SpellManager.Spell[SpellSlot.E].Cast();
-                    }
-                };
-            }
-            else
-            {
-                PortAIO.Init.LSOrbwalker.OnNonKillableMinion += (AttackableUnit minion) =>
+                if (getCheckBoxItem(laneclearMenu, "com.ikalista.laneclear.useEUnkillable") &&
+                    killableMinion.IsMobKillable())
                 {
-                    var killableMinion = minion as Obj_AI_Base;
-                    if (killableMinion == null || !SpellManager.Spell[SpellSlot.E].IsReady() || ObjectManager.Player.HasBuff("summonerexhaust") || !killableMinion.HasRendBuff())
-                    {
-                        return;
-                    }
+                    SpellManager.Spell[SpellSlot.E].Cast();
+                }
+            };
 
-                    if (getCheckBoxItem(laneclearMenu, "com.ikalista.laneclear.useEUnkillable") &&
-                        killableMinion.IsMobKillable())
-                    {
-                        SpellManager.Spell[SpellSlot.E].Cast();
-                    }
-                };
-            }
 
-            LSEvents.BeforeAttack += (BeforeAttackArgs args) =>
+            Orbwalker.OnPreAttack += (AttackableUnit target, Orbwalker.PreAttackArgs args) =>
             {
                 if (!getCheckBoxItem(miscMenu, "com.ikalista.misc.forceW")) return;
 
-                args.Target = HeroManager.Enemies.FirstOrDefault(x => ObjectManager.Player.LSDistance(x) <= 600 && x.HasBuff("kalistacoopstrikemarkally"));
+                target = HeroManager.Enemies.FirstOrDefault(x => ObjectManager.Player.LSDistance(x) <= 600 && x.HasBuff("kalistacoopstrikemarkally"));
                 if (args.Target != null)
                 {
-                    PortAIO.OrbwalkerManager.ForcedTarget(args.Target as Obj_AI_Base);
+                    Orbwalker.ForcedTarget =(args.Target as Obj_AI_Base);
                 }
             };
         }
@@ -470,8 +451,7 @@ namespace iKalistaReborn
                 }
             }
 
-            if (getCheckBoxItem(drawingMenu, "com.ikalista.drawing.junpSpots")
-                 && PortAIO.OrbwalkerManager.isCustomKeyActive)
+            if (getCheckBoxItem(drawingMenu, "com.ikalista.drawing.junpSpots"))
             {
                 foreach (var spot in possibleJumpSpots)
                 {
@@ -511,7 +491,7 @@ namespace iKalistaReborn
         {
             if (sender.IsMe && args.SData.Name == "KalistaExpungeWrapper")
             {
-                PortAIO.OrbwalkerManager.ResetAutoAttackTimer();
+                Orbwalker.ResetAutoAttack();
             }
 
             if (sender.Type == GameObjectType.obj_AI_Base && sender.IsEnemy && args.Target != null &&
@@ -536,19 +516,19 @@ namespace iKalistaReborn
         /// <param name="args">gay</param>
         private void OnUpdate(EventArgs args)
         {
-            PortAIO.OrbwalkerManager.ForcedTarget(null);
+            Orbwalker.ForcedTarget =(null);
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 OnCombo();
             }
 
-            if (PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 OnMixed();
             }
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 OnLaneclear();
             }
@@ -613,7 +593,7 @@ namespace iKalistaReborn
                             .FirstOrDefault();
                     if (minion != null)
                     {
-                        PortAIO.OrbwalkerManager.ForcedTarget(minion);
+                        Orbwalker.ForcedTarget =(minion);
                     }
                 }
             }

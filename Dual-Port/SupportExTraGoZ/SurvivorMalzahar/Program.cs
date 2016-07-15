@@ -13,7 +13,7 @@ using EloBuddy.SDK.Menu;
 using EloBuddy.SDK.Menu.Values;
 using EloBuddy.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace SurvivorMalzahar
+ namespace SurvivorMalzahar
 {
     class Program
     {
@@ -155,7 +155,7 @@ using TargetSelector = PortAIO.TSManager; namespace SurvivorMalzahar
                 }
             }
             //Combo
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 Combo();
             }
@@ -165,7 +165,7 @@ using TargetSelector = PortAIO.TSManager; namespace SurvivorMalzahar
                 Oneshot();
             }
             //Lane
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 Lane();
             }
@@ -360,7 +360,7 @@ using TargetSelector = PortAIO.TSManager; namespace SurvivorMalzahar
                 PortAIO.OrbwalkerManager.SetMovement(true);
             }
 
-            PortAIO.OrbwalkerManager.MoveA(Game.CursorPos);
+            Orbwalker.MoveTo(Game.CursorPos);
             var m = TargetSelector.GetTarget(Q.Range, DamageType.Magical);
             if (!m.LSIsValidTarget())
             {

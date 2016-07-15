@@ -8,7 +8,7 @@ using LeagueSharp.SDK.Core.Utils;
 
 #endregion
 
-using TargetSelector = PortAIO.TSManager; namespace Infected_Twitch.Event
+ namespace Infected_Twitch.Event
 {
     internal class Recall
     {

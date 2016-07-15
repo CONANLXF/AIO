@@ -1,4 +1,4 @@
-using TargetSelector = PortAIO.TSManager; namespace ElUtilitySuite.Items
+ namespace ElUtilitySuite.Items
 {
     using System.Linq;
 
@@ -26,7 +26,7 @@ using TargetSelector = PortAIO.TSManager; namespace ElUtilitySuite.Items
         {
             get
             {
-                return PortAIO.OrbwalkerManager.isComboActive;
+                return Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo);
             }
         }
 

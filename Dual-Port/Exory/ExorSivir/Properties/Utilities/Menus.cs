@@ -5,7 +5,7 @@ using LeagueSharp.Data.Enumerations;
 using LeagueSharp.SDK;
 using LeagueSharp.SDK.Core.Utils;
 using System.Linq;
-using TargetSelector = PortAIO.TSManager;
+
 namespace ExorAIO.Champions.Sivir
 {
     /// <summary>

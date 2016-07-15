@@ -7,7 +7,7 @@ using static Firestorm_AIO.Helpers.Helpers;
 using EloBuddy;
 using EloBuddy.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace Firestorm_AIO.Helpers
+ namespace Firestorm_AIO.Helpers
 {
     public static class SmartCaster
     {
@@ -18,7 +18,7 @@ using TargetSelector = PortAIO.TSManager; namespace Firestorm_AIO.Helpers
             if (target == null) return;
             if (!spell.CanCast(target)) return;
 
-            if (PortAIO.OrbwalkerManager.isComboActive || PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 if (spell.IsSkillshot)
                 {
@@ -49,7 +49,7 @@ using TargetSelector = PortAIO.TSManager; namespace Firestorm_AIO.Helpers
                 }
             }
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 if (spell.Collision)
                 {
@@ -102,7 +102,7 @@ using TargetSelector = PortAIO.TSManager; namespace Firestorm_AIO.Helpers
                 spell.CastOnUnit(target);
             }
 
-            if (PortAIO.OrbwalkerManager.isLastHitActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LastHit))
             {
                 if (spell.IsSkillshot)
                 {

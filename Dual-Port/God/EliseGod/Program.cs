@@ -11,7 +11,7 @@ using EloBuddy.SDK.Menu.Values;
 using Utility = LeagueSharp.Common.Utility;
 using EloBuddy.SDK;
 using Spell = LeagueSharp.Common.Spell;
-using TargetSelector = PortAIO.TSManager; namespace EliseGod
+ namespace EliseGod
 {
     internal class Program
     {
@@ -44,9 +44,9 @@ using TargetSelector = PortAIO.TSManager; namespace EliseGod
 
             Game.OnUpdate += OnUpdate;
             Obj_AI_Base.OnProcessSpellCast += OnProcessSpellCast;
-            LSEvents.OnAttack += OnAttack;
+            Orbwalker.OnAttack += OnAttack;
             AntiGapcloser.OnEnemyGapcloser += OnEnemyGapcloser;
-            LSEvents.BeforeAttack += BeforeAttack;
+            Orbwalker.OnPreAttack += BeforeAttack;
             Obj_AI_Base.OnPlayAnimation += OnPlayAnimation;
             Drawing.OnDraw += Drawing_OnDraw;
             Interrupter2.OnInterruptableTarget += OnInterruptableTarget;
@@ -121,19 +121,19 @@ using TargetSelector = PortAIO.TSManager; namespace EliseGod
             Cooldowns();
             Rappel();
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 Combo();
             }
-            if (PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 Harass();
             }
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 JungleClear();
             }
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 LaneClear();
             }
@@ -561,12 +561,12 @@ using TargetSelector = PortAIO.TSManager; namespace EliseGod
                 if (args.Animation.Contains("Ult_E"))
                 {
                     _e1Cd = Game.Time + CalculateCd(SpiderEcd[E.Level - 1]);
-                    Utility.DelayAction.Add(100, PortAIO.OrbwalkerManager.ResetAutoAttackTimer);
+                    Utility.DelayAction.Add(100, Orbwalker.ResetAutoAttack);
                 }
             }
         }
 
-        private static void BeforeAttack(BeforeAttackArgs args)
+        private static void BeforeAttack(AttackableUnit target, Orbwalker.PreAttackArgs args)
         {
             if (getCheckBoxItem(miscMenu, "bAuto") && Human() && Q.IsReady() &&
                 Player.LSDistance(args.Target.Position) >= Player.AttackRange)
@@ -596,9 +596,8 @@ using TargetSelector = PortAIO.TSManager; namespace EliseGod
             }
         }
 
-        public static void OnAttack(OnAttackArgs args)
+        public static void OnAttack(AttackableUnit target, EventArgs args)
         {
-            var target = args.Target;
             if (realcdSW > 0) return;
             if (!target.IsMe || target.Name.Contains("elisespiderling")) return;
 
@@ -606,15 +605,15 @@ using TargetSelector = PortAIO.TSManager; namespace EliseGod
 
             if (getCheckBoxItem(comboMenu, "wCombo"))
                 if (target.Type == GameObjectType.AIHeroClient &&
-                    PortAIO.OrbwalkerManager.isComboActive)
+                    Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
                     Utility.DelayAction.Add((int)aaDelay, () => W1.Cast());
 
             if (getCheckBoxItem(harassMenu, "wHarass"))
                 if (target.Type == GameObjectType.AIHeroClient &&
-                    PortAIO.OrbwalkerManager.isHarassActive)
+                    Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
                     Utility.DelayAction.Add((int)aaDelay, () => W1.Cast());
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 if (getCheckBoxItem(jungleClearMenu, "jungleclear.w.spider")
                     && target.Type == GameObjectType.NeutralMinionCamp)

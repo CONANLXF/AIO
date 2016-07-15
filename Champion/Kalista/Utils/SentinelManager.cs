@@ -7,7 +7,7 @@ using SharpDX;
 using LeagueSharp.Common;
 using EloBuddy.SDK.Menu;
 using EloBuddy.SDK.Menu.Values;
-using TargetSelector = PortAIO.TSManager;
+
 
 namespace iKalistaReborn.Utils
 {
@@ -130,7 +130,7 @@ namespace iKalistaReborn.Utils
             // Auto sentinel management
             if (getCheckBoxItem(Kalista.miscMenu, "enabled") && W.IsReady() && Player.Instance.ManaPercent >= getSliderItem(Kalista.miscMenu, "mana") && !Player.Instance.IsRecalling())
             {
-                if (!getCheckBoxItem(Kalista.miscMenu, "noMode") || PortAIO.OrbwalkerManager.isNoneActive)
+                if (!getCheckBoxItem(Kalista.miscMenu, "noMode") || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.None))
                 {
                     if (OpenLocations.Count > 0 && SentLocation == null)
                     {

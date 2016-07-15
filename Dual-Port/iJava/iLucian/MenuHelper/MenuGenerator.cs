@@ -7,7 +7,7 @@ using LeagueSharp.Common;
 using EloBuddy.SDK.Menu;
 using EloBuddy.SDK.Menu.Values;
 
-using TargetSelector = PortAIO.TSManager; namespace iLucian.MenuHelper
+ namespace iLucian.MenuHelper
 {
     class MenuGenerator
     {

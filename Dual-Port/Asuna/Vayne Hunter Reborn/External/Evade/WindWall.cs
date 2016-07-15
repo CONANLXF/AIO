@@ -5,7 +5,7 @@ using EloBuddy;
 using SharpDX;
 using LeagueSharp.Common;
 
-using TargetSelector = PortAIO.TSManager; namespace VayneHunter_Reborn.External.Evade
+ namespace VayneHunter_Reborn.External.Evade
 {
     internal class WindWall
     {

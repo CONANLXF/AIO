@@ -8,7 +8,7 @@ using LeagueSharp.Common;
 using SharpDX;
 using Color = System.Drawing.Color;
 
-using TargetSelector = PortAIO.TSManager; namespace BadaoKingdom.BadaoChampion.BadaoGangplank
+ namespace BadaoKingdom.BadaoChampion.BadaoGangplank
 {
     public static class BadaoGangplank
     {

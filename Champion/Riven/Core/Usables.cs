@@ -3,7 +3,7 @@ using LeagueSharp.Common.Data;
 using NechritoRiven.Menus;
 using EloBuddy.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace NechritoRiven.Core
+ namespace NechritoRiven.Core
 {
     class Usables : Core
     {
@@ -19,7 +19,7 @@ using TargetSelector = PortAIO.TSManager; namespace NechritoRiven.Core
             else if (ItemData.Tiamat_Melee_Only.GetItem().IsReady())
                 ItemData.Tiamat_Melee_Only.GetItem().Cast();
 
-            PortAIO.OrbwalkerManager.ResetAutoAttackTimer();
+            Orbwalker.ResetAutoAttack();
         }
         public static void CastYoumoo()
         {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using TargetSelector = PortAIO.TSManager; namespace iLucian.Utils
+ namespace iLucian.Utils
 {
     using System.IO;
 
@@ -236,9 +236,9 @@ using TargetSelector = PortAIO.TSManager; namespace iLucian.Utils
         /// <returns></returns>
         public static AIHeroClient GetClosestEnemy(Vector3 from)
         {
-            if (PortAIO.OrbwalkerManager.LastTarget() is AIHeroClient)
+            if (Orbwalker.LastTarget is AIHeroClient)
             {
-                var owAi = PortAIO.OrbwalkerManager.LastTarget() as AIHeroClient;
+                var owAi = Orbwalker.LastTarget as AIHeroClient;
                 if (owAi.LSIsValidTarget(Orbwalking.GetRealAutoAttackRange(null) + 120f, true, from))
                 {
                     return owAi;

@@ -4,7 +4,7 @@ using LeagueSharp;
 using LeagueSharp.Common;
 using Nechrito_Nidalee.Extras;
 
-using TargetSelector = PortAIO.TSManager; namespace Nechrito_Nidalee.Handlers
+ namespace Nechrito_Nidalee.Handlers
 {
     class Dmg : Core
     {

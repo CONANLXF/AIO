@@ -9,7 +9,7 @@ using SharpDX;
 using Geometry = ExorAIO.Utilities.Geometry;
 using Color = System.Drawing.Color;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.MissFortune
+ namespace ExorAIO.Champions.MissFortune
 {
     /// <summary>
     ///     The prediction drawings class.

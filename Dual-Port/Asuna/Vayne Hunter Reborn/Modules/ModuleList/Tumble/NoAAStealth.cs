@@ -8,7 +8,7 @@ using EloBuddy;
 using EloBuddy.SDK;
 using EloBuddy.SDK.Menu.Values;
 
-using TargetSelector = PortAIO.TSManager; namespace VayneHunter_Reborn.Modules.ModuleList.Tumble
+ namespace VayneHunter_Reborn.Modules.ModuleList.Tumble
 {
     class NoAAStealth : IModule
     {
@@ -16,15 +16,15 @@ using TargetSelector = PortAIO.TSManager; namespace VayneHunter_Reborn.Modules.M
         {
             if (MenuGenerator.miscMenu["dz191.vhr.misc.tumble.ijava"].Cast<CheckBox>().CurrentValue)
             {
-                LSEvents.BeforeAttack += iJava;
+                Orbwalker.OnPreAttack += iJava;
             }
             else
             {
-                LSEvents.BeforeAttack += OW;
+                Orbwalker.OnPreAttack += OW;
             }
         }
 
-        private void iJava(BeforeAttackArgs args)
+        private void iJava(AttackableUnit target, Orbwalker.PreAttackArgs args)
         {
             if (!ShouldGetExecuted() || !args.Target.IsEnemy)
                 return;
@@ -44,7 +44,7 @@ using TargetSelector = PortAIO.TSManager; namespace VayneHunter_Reborn.Modules.M
             }
         }
 
-        private void OW(BeforeAttackArgs args)
+        private void OW(AttackableUnit target, Orbwalker.PreAttackArgs args)
         {
             if (ShouldGetExecuted() && ObjectManager.Player.Buffs.Any(m => m.Name.ToLower() == "vaynetumblefade"))
             {

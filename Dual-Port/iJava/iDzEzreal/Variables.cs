@@ -10,7 +10,7 @@ using LeagueSharp.Common;
 using EloBuddy;
 using EloBuddy.SDK.Menu;
 
-using TargetSelector = PortAIO.TSManager; namespace iDZEzreal
+ namespace iDZEzreal
 {
     internal class Variables
     {

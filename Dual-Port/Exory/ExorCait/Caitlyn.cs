@@ -7,7 +7,7 @@ using LeagueSharp.SDK.Core.Utils;
 using EloBuddy.SDK;
 using System.Linq;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Caitlyn
+ namespace ExorAIO.Champions.Caitlyn
 {
     /// <summary>
     ///     The champion class.
@@ -66,17 +66,17 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Caitlyn
                 return;
             }
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 Logics.Combo(args);
             }
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 Logics.Harass(args);
             }
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 Logics.Clear(args);
             }
@@ -91,7 +91,7 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Caitlyn
         {
             if (sender.IsMe)
             {
-                if (PortAIO.OrbwalkerManager.isComboActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
                 {
                     switch (args.SData.Name)
                     {
@@ -209,7 +209,7 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Caitlyn
                     GameObjects.Player.HasBuff("caitlynheadshotrangecheck") &&
                     (args.Target as AIHeroClient).HasBuff("caitlynyordletrapdebuff"))
                 {
-                    PortAIO.OrbwalkerManager.ResetAutoAttackTimer();
+                    Orbwalker.ResetAutoAttack();
                 }
             }
         }

@@ -10,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using TargetSelector = PortAIO.TSManager; namespace Azir_Creator_of_Elo
+ namespace Azir_Creator_of_Elo
 {
     internal class AzirMain
     {
@@ -52,7 +52,7 @@ using TargetSelector = PortAIO.TSManager; namespace Azir_Creator_of_Elo
 
         public void Orbwalk(Vector3 pos)
         {
-            PortAIO.OrbwalkerManager.MoveA(pos);
+            Orbwalker.MoveTo(pos);
         }
 
         private void Ondraw(EventArgs args)

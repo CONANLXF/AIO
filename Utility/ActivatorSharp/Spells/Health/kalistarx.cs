@@ -4,7 +4,7 @@ using Activators.Base;
 using LeagueSharp;
 using LeagueSharp.Common;
 
-using TargetSelector = PortAIO.TSManager; namespace Activators.Spells.Health
+ namespace Activators.Spells.Health
 {
     internal class kalistarx : CoreSpell
     {

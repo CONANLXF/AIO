@@ -4,7 +4,7 @@ using LeagueSharp.SDK;
 using System;
 using System.Linq;
 
-using TargetSelector = PortAIO.TSManager; namespace SDK_SkinChanger
+ namespace SDK_SkinChanger
 {
     class Program
     {

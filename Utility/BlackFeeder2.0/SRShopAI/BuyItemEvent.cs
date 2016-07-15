@@ -5,7 +5,7 @@ using LeagueSharp;
 using LeagueSharp.Common;
 using EloBuddy;
 
-using TargetSelector = PortAIO.TSManager; namespace BlackFeeder.SRShopAI
+ namespace BlackFeeder.SRShopAI
 {
     internal static class BuyItemEvent
     {

@@ -9,7 +9,7 @@ using SharpDX;
 
 #endregion
 
-using TargetSelector = PortAIO.TSManager; namespace Syndra
+ namespace Syndra
 {
     using EloBuddy;
     using EloBuddy.SDK;
@@ -138,7 +138,7 @@ using TargetSelector = PortAIO.TSManager; namespace Syndra
             //Add the events we are going to use:
             Game.OnUpdate += Game_OnGameUpdate;
             Game.OnWndProc += Game_OnWndProc;
-            LSEvents.BeforeAttack += Orbwalking_BeforeAttack;
+            Orbwalker.OnPreAttack += Orbwalking_BeforeAttack;
 
             Obj_AI_Base.OnProcessSpellCast += AIHeroClient_OnProcessSpellCast;
             Interrupter2.OnInterruptableTarget += Interrupter2_OnInterruptableTarget;
@@ -174,9 +174,9 @@ using TargetSelector = PortAIO.TSManager; namespace Syndra
         }
         
         // ReSharper disable once InconsistentNaming
-        private static void Orbwalking_BeforeAttack(BeforeAttackArgs args)
+        private static void Orbwalking_BeforeAttack(AttackableUnit target, Orbwalker.PreAttackArgs args)
         {
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 args.Process = !(Q.IsReady() || W.IsReady());
             }
@@ -417,7 +417,7 @@ using TargetSelector = PortAIO.TSManager; namespace Syndra
             {
                 return;
             }
-            if (!PortAIO.OrbwalkerManager.CanMove(0))
+            if (!Orbwalker.CanMove)
             {
                 return;
             }
@@ -542,21 +542,21 @@ using TargetSelector = PortAIO.TSManager; namespace Syndra
                 }
             }
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 Combo();
             }
             else
             {
-                if (PortAIO.OrbwalkerManager.isHarassActive || menuKeys["Key.HarassT"].Cast<KeyBind>().CurrentValue)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass) || menuKeys["Key.HarassT"].Cast<KeyBind>().CurrentValue)
                     Harass();
 
-                var lc = PortAIO.OrbwalkerManager.isLaneClearActive;
-                if (lc || PortAIO.OrbwalkerManager.isLastHitActive)
+                var lc = Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear);
+                if (lc || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LastHit))
                 {
                     Farm(lc);
 
-                    if (!PortAIO.OrbwalkerManager.isLastHitActive)
+                    if (!Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LastHit))
                         JungleFarm();
                 }
             }

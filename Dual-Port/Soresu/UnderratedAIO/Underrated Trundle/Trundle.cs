@@ -17,7 +17,7 @@ using Environment = UnderratedAIO.Helpers.Environment;
 using Prediction = LeagueSharp.Common.Prediction;
 using EloBuddy.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace UnderratedAIO.Champions
+ namespace UnderratedAIO.Champions
 {
     internal class Trundle
     {
@@ -34,7 +34,7 @@ using TargetSelector = PortAIO.TSManager; namespace UnderratedAIO.Champions
             Game.OnUpdate += Game_OnUpdate;
             Drawing.OnDraw += Drawing_OnDraw;
             Obj_AI_Base.OnDamage += Obj_AI_Base_OnDamage;
-            LSEvents.AfterAttack += AfterAttack;
+            Orbwalker.OnPostAttack += AfterAttack;
             Interrupter2.OnInterruptableTarget += Interrupter2_OnInterruptableTarget;
             LeagueSharp.Common.Utility.HpBarDamageIndicator.DamageToUnit = ComboDamage;
             CustomEvents.Unit.OnDash += Unit_OnDash;
@@ -100,14 +100,13 @@ using TargetSelector = PortAIO.TSManager; namespace UnderratedAIO.Champions
             }
         }
         
-        private void AfterAttack(AfterAttackArgs args)
+        private void AfterAttack(AttackableUnit target, EventArgs args)
         {
-            var target = args.Target;
             AIHeroClient targetO = TargetSelector.GetTarget(E.Range, DamageType.Physical);
 
             if (Q.IsReady() && target != null)
             {
-                if (PortAIO.OrbwalkerManager.isLaneClearActive &&
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear) &&
                     getCheckBoxItem(farmMenu, "useqLC"))
                 {
                     var minis = MinionManager.GetMinions(
@@ -118,28 +117,28 @@ using TargetSelector = PortAIO.TSManager; namespace UnderratedAIO.Champions
                         (minis.Count() > 1 || player.GetAutoAttackDamage((Obj_AI_Base) target, true) < target.Health))
                     {
                         Q.Cast();
-                        PortAIO.OrbwalkerManager.ResetAutoAttackTimer();
+                        Orbwalker.ResetAutoAttack();
                     }
                 }
                 if (targetO != null && targetO.NetworkId != target.NetworkId)
                 {
                     return;
                 }
-                if (PortAIO.OrbwalkerManager.isHarassActive &&
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass) &&
                     getCheckBoxItem(harassMenu, "useqH"))
                 {
                     float perc = getSliderItem(harassMenu, "minmanaH") / 100f;
                     if (player.Mana > player.MaxMana * perc)
                     {
                         Q.Cast();
-                        PortAIO.OrbwalkerManager.ResetAutoAttackTimer();
+                        Orbwalker.ResetAutoAttack();
                     }
                 }
-                if (PortAIO.OrbwalkerManager.isComboActive &&
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) &&
                     getCheckBoxItem(comboMenu, "useq"))
                 {
                     Q.Cast();
-                    PortAIO.OrbwalkerManager.ResetAutoAttackTimer();
+                    Orbwalker.ResetAutoAttack();
                 }
             }
         }
@@ -188,12 +187,12 @@ using TargetSelector = PortAIO.TSManager; namespace UnderratedAIO.Champions
         private void Game_OnUpdate(EventArgs args)
         {
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 Combo();
             }
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 Clear();
             }
@@ -221,7 +220,7 @@ using TargetSelector = PortAIO.TSManager; namespace UnderratedAIO.Champions
             {
                 return;
             }
-            if (getCheckBoxItem(farmMenu, "useqLC") && Q.IsReady() && !PortAIO.OrbwalkerManager.CanAttack())
+            if (getCheckBoxItem(farmMenu, "useqLC") && Q.IsReady() && !Orbwalker.CanAutoAttack)
             {
                 Q.Cast();
             }
@@ -241,7 +240,7 @@ using TargetSelector = PortAIO.TSManager; namespace UnderratedAIO.Champions
         private void Combo()
         {
             AIHeroClient target = TargetSelector.GetTarget(E.Range, DamageType.Physical);
-            if (player.Spellbook.IsAutoAttacking || target == null || !PortAIO.OrbwalkerManager.CanMove(0))
+            if (player.Spellbook.IsAutoAttacking || target == null || !Orbwalker.CanMove)
             {
                 return;
             }

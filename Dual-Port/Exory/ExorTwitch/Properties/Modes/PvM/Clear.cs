@@ -7,7 +7,7 @@ using LeagueSharp.Data.Enumerations;
 using EloBuddy;
 using EloBuddy.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Twitch
+ namespace ExorAIO.Champions.Twitch
 {
     /// <summary>
     ///     The logics class.
@@ -79,8 +79,8 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Twitch
         /// <param name="args">The args.</param>
         public static void JungleClear(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
-            if (PortAIO.OrbwalkerManager.LastTarget() as Obj_AI_Minion == null ||
-                !Targets.JungleMinions.Contains(PortAIO.OrbwalkerManager.LastTarget() as Obj_AI_Minion))
+            if (Orbwalker.LastTarget as Obj_AI_Minion == null ||
+                !Targets.JungleMinions.Contains(Orbwalker.LastTarget as Obj_AI_Minion))
             {
                 return;
             }
@@ -104,9 +104,9 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Twitch
         /// <param name="args">The args.</param>
         public static void BuildingClear(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
-            if (!(PortAIO.OrbwalkerManager.LastTarget() is Obj_HQ) &&
-                !(PortAIO.OrbwalkerManager.LastTarget() is Obj_AI_Turret) &&
-                !(PortAIO.OrbwalkerManager.LastTarget() is Obj_BarracksDampener))
+            if (!(Orbwalker.LastTarget is Obj_HQ) &&
+                !(Orbwalker.LastTarget is Obj_AI_Turret) &&
+                !(Orbwalker.LastTarget is Obj_BarracksDampener))
             {
                 return;
             }

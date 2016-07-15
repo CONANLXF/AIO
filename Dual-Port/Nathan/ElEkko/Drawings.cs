@@ -9,7 +9,7 @@ using EloBuddy.SDK.Menu.Values;
 using SharpDX;
 using Color = System.Drawing.Color;
 
-using TargetSelector = PortAIO.TSManager; namespace ElEkko
+ namespace ElEkko
 {
     internal class Drawings
     {

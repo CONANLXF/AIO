@@ -14,7 +14,7 @@ using EloBuddy.SDK;
 using EloBuddy.SDK.Menu.Values;
 using ezEvade;
 
-using TargetSelector = PortAIO.TSManager; namespace jesuisFiora
+ namespace jesuisFiora
 {
     internal static class Program
     {
@@ -232,7 +232,7 @@ using TargetSelector = PortAIO.TSManager; namespace jesuisFiora
 
         public static void DuelistMode()
         {
-            if (!getCheckBoxItem(rMenu, "RCombo") || !PortAIO.OrbwalkerManager.isComboActive ||
+            if (!getCheckBoxItem(rMenu, "RCombo") || !Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) ||
                 !getBoxItem(rMenu, "RMode").Equals(0) || !R.IsReady() ||
                 Player.CountEnemiesInRange(R.Range) == 0)
 
@@ -273,7 +273,7 @@ using TargetSelector = PortAIO.TSManager; namespace jesuisFiora
 
         public static bool IsFarmMode()
         {
-            return PortAIO.OrbwalkerManager.isLastHitActive || PortAIO.OrbwalkerManager.isLaneClearActive;
+            return Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LastHit) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear);
         }
 
         public static void Farm()
@@ -490,7 +490,7 @@ using TargetSelector = PortAIO.TSManager; namespace jesuisFiora
             var point = path.Length < 3 ? pos : path.Skip(path.Length / 2).FirstOrDefault();
             //  Console.WriteLine(path.Length);
             Console.WriteLine("ORBWALK TO PASSIVE: " + Player.LSDistance(pos));
-            PortAIO.OrbwalkerManager.MoveA(target.IsMoving ? point : pos);
+            Orbwalker.MoveTo(target.IsMoving ? point : pos);
         }
 
         public static AIHeroClient GetTarget(bool aaTarget = false)
@@ -526,14 +526,14 @@ using TargetSelector = PortAIO.TSManager; namespace jesuisFiora
                 return;
             }
 
-            //PortAIO.OrbwalkerManager.MoveA(Vector3.Zero);
+            //Orbwalker.MoveTo(Vector3.Zero);
 
-            if (PortAIO.OrbwalkerManager.isNoneActive || PortAIO.OrbwalkerManager.isLastHitActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.None) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LastHit))
             {
                 return;
             }
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive && !getKeyBindItem(farm, "FarmEnabled"))
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear) && !getKeyBindItem(farm, "FarmEnabled"))
             {
                 return;
             }
@@ -712,7 +712,7 @@ using TargetSelector = PortAIO.TSManager; namespace jesuisFiora
             PassiveManager.Initialize();
 
             Game.OnUpdate += Game_OnGameUpdate;
-            LSEvents.AfterAttack += AfterAttack;
+            Orbwalker.OnPostAttack += AfterAttack;
             Obj_AI_Base.OnProcessSpellCast += AIHeroClient_OnProcessSpellCast;
             Drawing.OnDraw += Drawing_OnDraw;
             Chat.Print("<font color=\"{0}\">jesuisFiora Loaded!</font>", System.Drawing.Color.DeepPink);
@@ -742,7 +742,7 @@ using TargetSelector = PortAIO.TSManager; namespace jesuisFiora
 
         public static bool IsComboMode()
         {
-            return PortAIO.OrbwalkerManager.isComboActive || PortAIO.OrbwalkerManager.isHarassActive;
+            return Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass);
         }
 
         private static void Game_OnGameUpdate(EventArgs args)
@@ -774,7 +774,7 @@ using TargetSelector = PortAIO.TSManager; namespace jesuisFiora
 
             string s;
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 s = "Combo";
             }
@@ -794,7 +794,7 @@ using TargetSelector = PortAIO.TSManager; namespace jesuisFiora
                         OrbwalkToPassive(aaTarget, passive);
                     }
                 }
-                PortAIO.OrbwalkerManager.ForcedTarget(aaTarget;
+                Orbwalker.ForcedTarget =(aaTarget;
             }
 
             var target = GetTarget();
@@ -805,7 +805,7 @@ using TargetSelector = PortAIO.TSManager; namespace jesuisFiora
 
             var vital = aaTarget != null && target.NetworkId.Equals(aaTarget.NetworkId) ? passive : target.GetNearestPassive();
 
-            if (PortAIO.OrbwalkerManager.isHarassActive && Player.ManaPercent < getSliderItem(misc, "ManaHarass"))
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass) && Player.ManaPercent < getSliderItem(misc, "ManaHarass"))
             {
                 return;
             }

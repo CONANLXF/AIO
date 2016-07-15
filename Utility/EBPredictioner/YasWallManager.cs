@@ -4,7 +4,7 @@ using EloBuddy;
 using EloBuddy.SDK;
 using SharpDX;
 
-using TargetSelector = PortAIO.TSManager; namespace EBPredictioner
+ namespace EBPredictioner
 {
     public static class YasuoWallManager
     {

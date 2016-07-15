@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using EloBuddy;
 
-using TargetSelector = PortAIO.TSManager; namespace KurisuMorgana
+ namespace KurisuMorgana
 {
     public enum Skilltype
     {

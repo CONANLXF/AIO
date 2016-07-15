@@ -9,7 +9,7 @@ using LeagueSharp.Common;
 using PortAIO.Utility.BrianSharp;
 using Spell = LeagueSharp.Common.Spell;
 
-using TargetSelector = PortAIO.TSManager; namespace BrianSharp.Plugin
+ namespace BrianSharp.Plugin
 {
     internal class Rammus : Helper
     {
@@ -117,17 +117,17 @@ using TargetSelector = PortAIO.TSManager; namespace BrianSharp.Plugin
                 return;
             }
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 Fight();
             }
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 Clear();
             }
 
-            if (PortAIO.OrbwalkerManager.isFleeActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Flee))
             {
                 if (getCheckBoxItem(fleeMenu, "Q") && !HaveQ && Q.Cast())
                 {

@@ -11,7 +11,7 @@ using SharpDX;
 using Color = System.Drawing.Color;
 using Prediction = LeagueSharp.Common.Prediction;
 using Spell = LeagueSharp.Common.Spell;
-using TargetSelector = PortAIO.TSManager;
+
 
 namespace PortAIO.Champion.Ekko
 {

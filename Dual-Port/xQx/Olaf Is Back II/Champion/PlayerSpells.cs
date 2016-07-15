@@ -10,7 +10,7 @@ using SharpDX;
 using EloBuddy;
 using EloBuddy.SDK.Menu.Values;
 
-using TargetSelector = PortAIO.TSManager; namespace OlafxQx.Champion
+ namespace OlafxQx.Champion
 {
     internal static class PlayerSpells
     {

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using SharpDX;
 
-using TargetSelector = PortAIO.TSManager; namespace EvadeSharp.Pathfinding
+ namespace EvadeSharp.Pathfinding
 {
     public class Node
     {

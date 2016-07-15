@@ -2,7 +2,7 @@
 using LeagueSharp;
 using EloBuddy;
 
-using TargetSelector = PortAIO.TSManager; namespace VayneHunter_Reborn.Utility.Helpers
+ namespace VayneHunter_Reborn.Utility.Helpers
 {
     /// <summary>
     ///     Provides events for OnStealth

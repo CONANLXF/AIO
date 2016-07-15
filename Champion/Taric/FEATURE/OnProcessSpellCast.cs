@@ -1,4 +1,4 @@
-﻿using TargetSelector = PortAIO.TSManager; namespace SkyLv_Taric
+﻿ namespace SkyLv_Taric
 {
     using System.Linq;
 
@@ -63,7 +63,7 @@
                 var PacketCast = getCheckBoxItem(SkyLv_Taric.Misc, "Taric.UsePacketCast");
 
 
-                if (PortAIO.OrbwalkerManager.isComboActive && getCheckBoxItem(SkyLv_Taric.Combo, "Taric.UseWIncomingDamageCombo") && W.IsReady() && W.ManaCost <= Player.Mana)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) && getCheckBoxItem(SkyLv_Taric.Combo, "Taric.UseWIncomingDamageCombo") && W.IsReady() && W.ManaCost <= Player.Mana)
                 {
                     if (Player.LSDistance(args.End) <= Player.BoundingRadius && sender.LSGetSpellDamage(Player, args.SData.Name.ToString()) > 0)
                     {
@@ -79,7 +79,7 @@
 
                         case 0:
                             {
-                                if (PortAIO.OrbwalkerManager.isComboActive)
+                                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
                                 {
                                     if (W.IsReady() && Player.Mana >= W.ManaCost)
                                     {

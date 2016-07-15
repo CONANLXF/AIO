@@ -10,7 +10,7 @@ using Color = System.Drawing.Color;
 using CommonGeometry = Leblanc.Common.CommonGeometry;
 using Font = SharpDX.Direct3D9.Font;
 
-using TargetSelector = PortAIO.TSManager; namespace Leblanc.Modes
+ namespace Leblanc.Modes
 {
     using System.Linq;
     using LeagueSharp;
@@ -237,7 +237,7 @@ using TargetSelector = PortAIO.TSManager; namespace Leblanc.Modes
 
             if (canJump && W.IsReady() && !W.StillJumped())
             {
-                if (PortAIO.OrbwalkerManager.isComboActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
                 {
                     W.Cast(nJumpPoint);
                 }

@@ -9,7 +9,7 @@ using LeagueSharp.SDK.Enumerations;
 
 #endregion
 
-using TargetSelector = PortAIO.TSManager; namespace Swiftly_Teemo
+ namespace Swiftly_Teemo
 {
     internal class Core
     {

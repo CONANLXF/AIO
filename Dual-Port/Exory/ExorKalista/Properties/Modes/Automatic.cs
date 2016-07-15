@@ -9,7 +9,7 @@ using LeagueSharp.Data.Enumerations;
 using EloBuddy;
 using EloBuddy.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Kalista
+ namespace ExorAIO.Champions.Kalista
 {
     /// <summary>
     ///     The logics class.
@@ -56,7 +56,7 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Kalista
             if (Vars.W.IsReady() &&
                 !GameObjects.Player.LSIsRecalling() &&
                 !GameObjects.Player.IsUnderEnemyTurret() &&
-                PortAIO.OrbwalkerManager.isNoneActive &&
+                Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.None) &&
                 GameObjects.Player.CountEnemyHeroesInRange(1500f) == 0 &&
                 GameObjects.Player.ManaPercent >
                     ManaManager.GetNeededMana(Vars.W.Slot, Vars.getSliderItem(Vars.WMenu, "logical")) &&
@@ -101,7 +101,7 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Kalista
                     /// <summary>
                     ///     Check for Mana Manager if not in combo mode and the killable minion is only one, else do not use it.
                     /// </summary>
-                    if (!PortAIO.OrbwalkerManager.isComboActive &&
+                    if (!Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) &&
                         Targets.Minions.Count(
                             m =>
                                 Bools.IsPerfectRendTarget(m) &&

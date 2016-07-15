@@ -1,4 +1,4 @@
-﻿using TargetSelector = PortAIO.TSManager; namespace ElUtilitySuite.Items.DefensiveItems
+﻿ namespace ElUtilitySuite.Items.DefensiveItems
 {
     using EloBuddy;
     using EloBuddy.SDK.Menu.Values;

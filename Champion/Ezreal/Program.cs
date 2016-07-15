@@ -13,7 +13,7 @@ using HealthPrediction = SebbyLib.HealthPrediction;
 using Orbwalking = SebbyLib.Orbwalking;
 using Spell = LeagueSharp.Common.Spell;
 using Utility = LeagueSharp.Common.Utility;
-using TargetSelector = PortAIO.TSManager;
+
 namespace OneKeyToWin_AIO_Sebby
 {
     internal class Ezreal
@@ -50,7 +50,7 @@ namespace OneKeyToWin_AIO_Sebby
         {
             get
             {
-                return PortAIO.OrbwalkerManager.isLaneClearActive || PortAIO.OrbwalkerManager.isHarassActive || PortAIO.OrbwalkerManager.isLastHitActive;
+                return Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LastHit);
             }
         }
 
@@ -139,7 +139,7 @@ namespace OneKeyToWin_AIO_Sebby
 
             Game.OnUpdate += Game_OnUpdate;
             Drawing.OnDraw += Drawing_OnDraw;
-            LSEvents.AfterAttack += afterAttack;
+            Orbwalker.OnPostAttack += afterAttack;
             Obj_AI_Base.OnSpellCast += Obj_AI_Base_OnBuffAdd;
         }
 
@@ -155,9 +155,9 @@ namespace OneKeyToWin_AIO_Sebby
             }
         }
 
-        private static void afterAttack(AfterAttackArgs args)
+        private static void afterAttack(AttackableUnit target, EventArgs args)
         {
-            if (W.IsReady() && getCheckBoxItem(wMenu, "wPush") && args.Target.IsValid<Obj_AI_Turret>() && Player.Mana > RMANA + EMANA + QMANA + WMANA + WMANA + RMANA)
+            if (W.IsReady() && getCheckBoxItem(wMenu, "wPush") && target.IsValid<Obj_AI_Turret>() && Player.Mana > RMANA + EMANA + QMANA + WMANA + WMANA + RMANA)
             {
                 foreach (var ally in Program.Allies)
                 {
@@ -451,8 +451,8 @@ namespace OneKeyToWin_AIO_Sebby
             var minions = EntityManager.MinionsAndMonsters.EnemyMinions.Where(x => x.IsInRange(Player, Q.Range));
             var orbTarget = 0;
 
-            if (PortAIO.OrbwalkerManager.LastTarget() != null)
-                orbTarget = PortAIO.OrbwalkerManager.LastTarget().NetworkId;
+            if (Orbwalker.LastTarget != null)
+                orbTarget = Orbwalker.LastTarget.NetworkId;
 
             if (getCheckBoxItem(farmMenu, "FQ"))
             {

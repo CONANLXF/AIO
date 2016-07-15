@@ -7,7 +7,7 @@ using NechritoRiven.Menus;
 using SharpDX;
 using EloBuddy;
 
-using TargetSelector = PortAIO.TSManager; namespace NechritoRiven.Draw
+ namespace NechritoRiven.Draw
 {
     class DrawDmg
     {

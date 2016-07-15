@@ -13,7 +13,7 @@ using EloBuddy;
 using EloBuddy.SDK.Menu.Values;
 using EloBuddy.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace OlafxQx.Modes
+ namespace OlafxQx.Modes
 {
     internal static class ModeCombo
     {
@@ -32,17 +32,17 @@ using TargetSelector = PortAIO.TSManager; namespace OlafxQx.Modes
             MenuLocal.Add("Combo.E", new ComboBox("E:", 1, "Off", "On"));
 
             Game.OnUpdate += OnUpdate;
-            LSEvents.BeforeAttack += OrbwalkingOnBeforeAttack;
+            Orbwalker.OnPreAttack += OrbwalkingOnBeforeAttack;
         }
 
-        private static void OrbwalkingOnBeforeAttack(BeforeAttackArgs args)
+        private static void OrbwalkingOnBeforeAttack(AttackableUnit target, Orbwalker.PreAttackArgs args)
         {
             if (!Common.CommonHelper.ShouldCastSpell(TargetSelector.GetTarget(Orbwalking.GetRealAutoAttackRange(null) + 65, DamageType.Physical)))
             {
                 return;
             }
 
-            if (!W.IsReady() || !PortAIO.OrbwalkerManager.isComboActive || MenuLocal["Combo.W"].Cast<ComboBox>().CurrentValue == 0)
+            if (!W.IsReady() || !Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) || MenuLocal["Combo.W"].Cast<ComboBox>().CurrentValue == 0)
             {
                 return;
             }
@@ -55,7 +55,7 @@ using TargetSelector = PortAIO.TSManager; namespace OlafxQx.Modes
         
         private static void OnUpdate(EventArgs args)
         {
-            if (!PortAIO.OrbwalkerManager.isComboActive)
+            if (!Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 return;
             }

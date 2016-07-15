@@ -6,7 +6,7 @@ using NabbTracker;
 using SharpDX;
 using Program = Vayne1.Program;
 
-using TargetSelector = PortAIO.TSManager; namespace SoloVayne.Skills.Tumble
+ namespace SoloVayne.Skills.Tumble
 {
     internal static class TumbleExtensions
     {

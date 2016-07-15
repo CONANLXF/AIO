@@ -9,7 +9,7 @@ using EloBuddy;
 using EloBuddy.SDK.Menu;
 using EloBuddy.SDK.Menu.Values;
 
-using TargetSelector = PortAIO.TSManager; namespace OneKeyToWin_AIO_Sebby.Champions
+ namespace OneKeyToWin_AIO_Sebby.Champions
 {
     class Blitzcrank
     {
@@ -66,8 +66,8 @@ using TargetSelector = PortAIO.TSManager; namespace OneKeyToWin_AIO_Sebby.Champi
             drawMenu.Add("onlyRdy", new CheckBox("Draw when skill rdy", true));
 
             Game.OnUpdate += Game_OnGameUpdate;
-            LSEvents.BeforeAttack += BeforeAttack;
-            LSEvents.AfterAttack += afterAttack;
+            Orbwalker.OnPreAttack += BeforeAttack;
+            Orbwalker.OnPostAttack += afterAttack;
             AntiGapcloser.OnEnemyGapcloser += AntiGapcloser_OnEnemyGapcloser;
             Interrupter2.OnInterruptableTarget += Interrupter2_OnInterruptableTarget;
             Drawing.OnDraw += Drawing_OnDraw;
@@ -94,9 +94,9 @@ using TargetSelector = PortAIO.TSManager; namespace OneKeyToWin_AIO_Sebby.Champi
             return m[item].Cast<ComboBox>().CurrentValue;
         }
 
-        private static void afterAttack(AfterAttackArgs args)
+        private static void afterAttack(AttackableUnit target, EventArgs args)
         {
-            if (getCheckBoxItem(rMenu, "afterAA") && R.IsReady() && args.Target is AIHeroClient)
+            if (getCheckBoxItem(rMenu, "afterAA") && R.IsReady() && target is AIHeroClient)
             {
                 R.Cast();
             }
@@ -174,7 +174,7 @@ using TargetSelector = PortAIO.TSManager; namespace OneKeyToWin_AIO_Sebby.Champi
             }
         }
 
-        private static void BeforeAttack(BeforeAttackArgs args)
+        private static void BeforeAttack(AttackableUnit target, Orbwalker.PreAttackArgs args)
         {
             if (E.IsReady() && args.Target.IsValid<AIHeroClient>() && getCheckBoxItem(weMenu, "autoE"))
                 E.Cast();

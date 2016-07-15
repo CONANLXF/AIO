@@ -10,7 +10,7 @@ using LeagueSharp.Common;
 using EloBuddy;
 using EloBuddy.SDK.Menu.Values;
 
-using TargetSelector = PortAIO.TSManager; namespace BlackFeeder.SRShopAI
+ namespace BlackFeeder.SRShopAI
 {
     class Main
     {

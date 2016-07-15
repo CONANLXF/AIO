@@ -6,7 +6,7 @@ using EloBuddy.SDK.Menu.Values;
 
 #endregion
 
-using TargetSelector = PortAIO.TSManager; namespace Swiftly_Teemo.Main
+ namespace Swiftly_Teemo.Main
 {
     internal class MenuConfig
     {

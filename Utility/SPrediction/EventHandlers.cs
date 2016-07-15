@@ -13,7 +13,7 @@ using SebbyLib;
 using EloBuddy.SDK.Menu;
 using EloBuddy.SDK.Menu.Values;
 
-using TargetSelector = PortAIO.TSManager; namespace SPredictioner
+ namespace SPredictioner
 {
     public class EventHandlers
     {
@@ -71,7 +71,7 @@ using TargetSelector = PortAIO.TSManager; namespace SPredictioner
         {
             if (sender.Owner.IsMe)
             {
-                if (getCheckBoxItem(menu, "ENABLED") && (PortAIO.OrbwalkerManager.isComboActive || PortAIO.OrbwalkerManager.isHarassActive))
+                if (getCheckBoxItem(menu, "ENABLED") && (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass)))
                 {
                     if (!ShineCommon.Utility.IsValidSlot(args.Slot))
                         return;

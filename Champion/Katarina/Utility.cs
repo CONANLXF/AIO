@@ -7,7 +7,7 @@ using LeagueSharp.Common.Data;
 using SharpDX;
 using Damage = LeagueSharp.Common.Damage;
 using Spell = LeagueSharp.Common.Spell;
-using TargetSelector = PortAIO.TSManager;
+
 
 //using TreeLib.Extensions;
 

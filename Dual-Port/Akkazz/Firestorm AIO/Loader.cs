@@ -10,7 +10,7 @@ using LeagueSharp;
 using EloBuddy;
 using Firestorm_AIO.Champions.Anivia;
 
-using TargetSelector = PortAIO.TSManager; namespace Firestorm_AIO
+ namespace Firestorm_AIO
 {
     internal class Loader
     {

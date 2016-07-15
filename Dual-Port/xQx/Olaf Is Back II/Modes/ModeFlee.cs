@@ -12,7 +12,7 @@ using EloBuddy;
 using EloBuddy.SDK.Menu.Values;
 using EloBuddy.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace OlafxQx.Modes
+ namespace OlafxQx.Modes
 {
     internal static class ModeFlee
     {
@@ -30,7 +30,7 @@ using TargetSelector = PortAIO.TSManager; namespace OlafxQx.Modes
             Game.OnUpdate += OnUpdate;
             Drawing.OnDraw += delegate(EventArgs args)
             {
-                if (!PortAIO.OrbwalkerManager.isFleeActive)
+                if (!Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Flee))
                 {
                     return;
                 }
@@ -44,13 +44,13 @@ using TargetSelector = PortAIO.TSManager; namespace OlafxQx.Modes
         
         private static void OnUpdate(EventArgs args)
         {
-            if (!PortAIO.OrbwalkerManager.isFleeActive)
+            if (!Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Flee))
             {
                 return;
             }
 
             EloBuddy.Player.IssueOrder(GameObjectOrder.MoveTo, Game.CursorPos);
-            PortAIO.OrbwalkerManager.SetAttack(!(PortAIO.OrbwalkerManager.isFleeActive));
+            PortAIO.OrbwalkerManager.SetAttack(!(Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Flee)));
             
 
             var t = TargetSelector.GetTarget(Champion.PlayerSpells.Q.Range, DamageType.Physical);

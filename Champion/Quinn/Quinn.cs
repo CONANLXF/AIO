@@ -9,7 +9,7 @@ using LeagueSharp.Common;
 using ItemData = LeagueSharp.Common.Data.ItemData;
 using Spell = LeagueSharp.Common.Spell;
 
-using TargetSelector = PortAIO.TSManager; namespace GFUELQuinn
+ namespace GFUELQuinn
 {
     internal class Quinn
     {
@@ -53,7 +53,7 @@ using TargetSelector = PortAIO.TSManager; namespace GFUELQuinn
                 Drawing.OnDraw += OnDraw;
                 AntiGapcloser.OnEnemyGapcloser += AntiGapcloser_OnEnemyGapcloser;
                 Interrupter2.OnInterruptableTarget += Interrupter2_OnInterruptableTarget;
-                LSEvents.BeforeAttack += OrbwalkingBeforeAttack;
+                Orbwalker.OnPreAttack += OrbwalkingBeforeAttack;
             }
             catch (Exception exception)
             {
@@ -157,7 +157,7 @@ using TargetSelector = PortAIO.TSManager; namespace GFUELQuinn
             }
 
             var passiveTarget = HeroManager.Enemies.Find(x => x.HasBuff("quinnw") && x.LSIsValidTarget(Q.Range));
-            PortAIO.OrbwalkerManager.ForcedTarget(passiveTarget ?? null);
+            Orbwalker.ForcedTarget =(passiveTarget ?? null);
 
             if (getCheckBoxItem(comboMenu, "GFUELQuinn.Combo.Ghostblade"))
             {
@@ -174,7 +174,7 @@ using TargetSelector = PortAIO.TSManager; namespace GFUELQuinn
             {
                 if (!isBirdForm)
                 {
-                    PortAIO.OrbwalkerManager.ForcedTarget(enemy);
+                    Orbwalker.ForcedTarget =(enemy);
                     return;
                 }
             }
@@ -228,7 +228,7 @@ using TargetSelector = PortAIO.TSManager; namespace GFUELQuinn
                 }
 
                 var passiveTarget = HeroManager.Enemies.Find(x => x.HasBuff("quinnw") && x.LSIsValidTarget(Q.Range));
-                PortAIO.OrbwalkerManager.ForcedTarget(passiveTarget ?? null);
+                Orbwalker.ForcedTarget =(passiveTarget ?? null);
 
                 if (getCheckBoxItem(harassMenu, "GFUELQuinn.Harass.Q") && target.LSDistance(Player.Position) < Q.Range &&
                     Q.IsReady())
@@ -271,7 +271,7 @@ using TargetSelector = PortAIO.TSManager; namespace GFUELQuinn
                 var passiveTarget =
                     MinionManager.GetMinions(Player.Position, Q.Range + Q.Width)
                         .Find(x => x.HasBuff("quinnw") && x.LSIsValidTarget(Q.Range));
-                PortAIO.OrbwalkerManager.ForcedTarget(passiveTarget ?? null);
+                Orbwalker.ForcedTarget =(passiveTarget ?? null);
 
                 if (getCheckBoxItem(jungleclearMenu, "GFUELQuinn.jungleclear.Q"))
                 {
@@ -327,7 +327,7 @@ using TargetSelector = PortAIO.TSManager; namespace GFUELQuinn
                 var passiveTarget =
                     MinionManager.GetMinions(Player.Position, Q.Range + Q.Width)
                         .Find(x => x.HasBuff("quinnw") && x.LSIsValidTarget(Q.Range));
-                PortAIO.OrbwalkerManager.ForcedTarget(passiveTarget ?? null);
+                Orbwalker.ForcedTarget =(passiveTarget ?? null);
 
                 if (getCheckBoxItem(laneclearMenu, "GFUELQuinn.laneclear.Q"))
                 {
@@ -521,17 +521,17 @@ using TargetSelector = PortAIO.TSManager; namespace GFUELQuinn
                         R.Cast();
                 }
 
-                if (PortAIO.OrbwalkerManager.isComboActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
                 {
                     DoCombo();
                 }
 
-                if (PortAIO.OrbwalkerManager.isHarassActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
                 {
                     DoHarass();
                 }
 
-                if (PortAIO.OrbwalkerManager.isLaneClearActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
                 {
                     DoJungleclear();
                     DoLaneclear();
@@ -558,11 +558,11 @@ using TargetSelector = PortAIO.TSManager; namespace GFUELQuinn
 
         // QuinnR
 
-        private static void OrbwalkingBeforeAttack(BeforeAttackArgs args)
+        private static void OrbwalkingBeforeAttack(AttackableUnit target, Orbwalker.PreAttackArgs args)
         {
             try
             {
-                if (PortAIO.OrbwalkerManager.isComboActive || PortAIO.OrbwalkerManager.isHarassActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
                 {
                     if (!(args.Target is AIHeroClient))
                     {
@@ -576,17 +576,17 @@ using TargetSelector = PortAIO.TSManager; namespace GFUELQuinn
                     }
                     if (Orbwalking.InAutoAttackRange(targeta))
                     {
-                        PortAIO.OrbwalkerManager.ForcedTarget(targeta);
+                        Orbwalker.ForcedTarget =(targeta);
                     }
                 }
 
-                if (PortAIO.OrbwalkerManager.isLastHitActive
-                    || PortAIO.OrbwalkerManager.isLaneClearActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LastHit)
+                    || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
                 {
                     var minion = args.Target as Obj_AI_Minion;
                     if (minion != null && minion.HasBuff("quinnw"))
                     {
-                        PortAIO.OrbwalkerManager.ForcedTarget(minion);
+                        Orbwalker.ForcedTarget =(minion);
                     }
                 }
             }

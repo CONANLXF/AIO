@@ -13,7 +13,7 @@ using SebbyLib;
 using EloBuddy.SDK.Menu;
 using EloBuddy.SDK.Menu.Values;
 
-using TargetSelector = PortAIO.TSManager; namespace EBPredictioner
+ namespace EBPredictioner
 {
     public class EventHandlers
     {
@@ -73,7 +73,7 @@ using TargetSelector = PortAIO.TSManager; namespace EBPredictioner
         {
             if (sender.Owner.IsMe)
             {
-                if (getCheckBoxItem(menu, "ENABLED") && (PortAIO.OrbwalkerManager.isComboActive || PortAIO.OrbwalkerManager.isHarassActive))
+                if (getCheckBoxItem(menu, "ENABLED") && (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass)))
                 {
                     if (menu[String.Format("{0}{1}", ObjectManager.Player.ChampionName, args.Slot)] == null)
                         return;

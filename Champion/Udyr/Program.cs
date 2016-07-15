@@ -9,7 +9,7 @@ using LeagueSharp.Common;
 using Spell = LeagueSharp.Common.Spell;
 using Utility = LeagueSharp.Common.Utility;
 
-using TargetSelector = PortAIO.TSManager; namespace D_Udyr
+ namespace D_Udyr
 {
     internal class Program
     {
@@ -143,7 +143,7 @@ using TargetSelector = PortAIO.TSManager; namespace D_Udyr
         private static void OnGameUpdate(EventArgs args)
         {
             _player = ObjectManager.Player;
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 Combo();
             }
@@ -153,7 +153,7 @@ using TargetSelector = PortAIO.TSManager; namespace D_Udyr
                 StunCycle();
             }
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive &&
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear) &&
                 100*(_player.Mana/_player.MaxMana) > getSliderItem(farm, "Farm-Mana"))
             {
                 Farm();
@@ -161,7 +161,7 @@ using TargetSelector = PortAIO.TSManager; namespace D_Udyr
             }
 
             if (getCheckBoxItem(comboMenu, "AutoShield") &&
-                !PortAIO.OrbwalkerManager.isComboActive)
+                !Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 AutoW();
             }

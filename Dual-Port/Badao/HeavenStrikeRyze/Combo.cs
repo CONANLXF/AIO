@@ -9,7 +9,7 @@ using ItemData = LeagueSharp.Common.Data.ItemData;
 using SharpDX;
 using Color = System.Drawing.Color;
 using EloBuddy.SDK;
-using TargetSelector = PortAIO.TSManager;
+
 
 namespace HeavenStrikeRyze
 {
@@ -25,14 +25,14 @@ namespace HeavenStrikeRyze
 
         private static void Spellbook_OnCastSpell(Spellbook sender, SpellbookCastSpellEventArgs args)
         {
-            if (!PortAIO.OrbwalkerManager.isComboActive)
+            if (!Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
                 return;
 
         }
 
         private static void Game_OnUpdate(EventArgs args)
         {
-            if (!PortAIO.OrbwalkerManager.isComboActive)
+            if (!Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
                 return;
 
             var target = TargetSelector.GetTarget(600, DamageType.Magical);

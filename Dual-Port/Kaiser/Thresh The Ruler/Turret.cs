@@ -7,7 +7,7 @@ using EloBuddy;
 using LeagueSharp.Common;
 using SharpDX;
 
-using TargetSelector = PortAIO.TSManager; namespace ThreshTherulerofthesoul
+ namespace ThreshTherulerofthesoul
 {
     class Turret
     {

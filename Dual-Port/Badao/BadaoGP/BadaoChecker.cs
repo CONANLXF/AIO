@@ -10,7 +10,7 @@ using Color = System.Drawing.Color;
 using ItemData = LeagueSharp.Common.Data.ItemData;
 using EloBuddy;
 
-using TargetSelector = PortAIO.TSManager; namespace BadaoKingdom
+ namespace BadaoKingdom
 {
     public static class BadaoChecker
     {

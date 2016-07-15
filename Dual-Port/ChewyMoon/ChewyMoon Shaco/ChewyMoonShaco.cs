@@ -14,7 +14,7 @@ using EloBuddy.SDK;
 
 #endregion
 
-using TargetSelector = PortAIO.TSManager; namespace ChewyMoonsShaco
+ namespace ChewyMoonsShaco
 {
     internal class ChewyMoonShaco
     {
@@ -50,7 +50,7 @@ using TargetSelector = PortAIO.TSManager; namespace ChewyMoonsShaco
 
             Game.OnUpdate += GameOnOnGameUpdate;
             Drawing.OnDraw += Drawing_OnDraw;
-            LSEvents.AfterAttack += OrbwalkingOnAfterAttack;
+            Orbwalker.OnPostAttack += OrbwalkingOnAfterAttack;
             
             Obj_AI_Base.OnProcessSpellCast += Obj_AI_Base_OnProcessSpellCast;
         }
@@ -86,9 +86,8 @@ using TargetSelector = PortAIO.TSManager; namespace ChewyMoonsShaco
         }
 
 
-        private static void OrbwalkingOnAfterAttack(AfterAttackArgs args)
+        private static void OrbwalkingOnAfterAttack(AttackableUnit target, EventArgs args)
         {
-            var target = args.Target;
             if (!(target is AIHeroClient))
             {
                 return;
@@ -245,12 +244,12 @@ using TargetSelector = PortAIO.TSManager; namespace ChewyMoonsShaco
                 Illuminati.PlaceInitialBox();
             }
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 Combo();
             }
 
-            if (PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 Harass();
             }

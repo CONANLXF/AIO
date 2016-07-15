@@ -1,4 +1,4 @@
-﻿using TargetSelector = PortAIO.TSManager; namespace Irelia_Reloaded
+﻿ namespace Irelia_Reloaded
 {
     using System;
     using System.Collections.Generic;
@@ -447,28 +447,28 @@
         {
             KillSteal();
 
-            if (PortAIO.OrbwalkerManager.isLastHitActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LastHit))
             {
                 LastHit();
             }
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 JungleClear();
                 WaveClear();
             }
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 Combo();
             }
 
-            if (PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 Harass();
             }
 
-            if (PortAIO.OrbwalkerManager.isFleeActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Flee))
             {
                 if (E.IsReady() && getCheckBoxItem(fleeMenu, "FleeE"))
                 {
@@ -498,7 +498,7 @@
                     R.Cast(rprediction.CastPosition);
                 }
                 WALK:
-                PortAIO.OrbwalkerManager.MoveA(Game.CursorPos);
+                Orbwalker.MoveTo(Game.CursorPos);
             }
 
             Flee();
@@ -593,7 +593,7 @@
             var useW = getCheckBoxItem(jungleClearMenu, "UseWJungleClear");
             var useE = getCheckBoxItem(jungleClearMenu, "UseEJungleClear");
 
-            var orbwalkerTarget = PortAIO.OrbwalkerManager.LastTarget();
+            var orbwalkerTarget = Orbwalker.LastTarget;
             var minion = orbwalkerTarget as Obj_AI_Minion;
 
             if (minion == null || minion.Team != GameObjectTeam.Neutral)
@@ -877,7 +877,7 @@
 
             if (useW && W.IsReady())
             {
-                if (PortAIO.OrbwalkerManager.LastTarget() is Obj_AI_Minion && W.IsInRange(PortAIO.OrbwalkerManager.LastTarget().Position, W.Range))
+                if (Orbwalker.LastTarget is Obj_AI_Minion && W.IsInRange(Orbwalker.LastTarget.Position, W.Range))
                 {
                     W.Cast();
                 }

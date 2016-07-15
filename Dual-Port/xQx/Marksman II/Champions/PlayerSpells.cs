@@ -8,7 +8,7 @@ using LeagueSharp.Common;
 using Marksman.Common;
 using EloBuddy;
 
-using TargetSelector = PortAIO.TSManager; namespace Marksman.Champions
+ namespace Marksman.Champions
 {
     internal static class PlayerSpells
     {

@@ -6,7 +6,7 @@ using LeagueSharp.SDK;
 using EloBuddy;
 using EloBuddy.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Nautilus
+ namespace ExorAIO.Champions.Nautilus
 {
     /// <summary>
     ///     The targets class.

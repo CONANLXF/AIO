@@ -16,7 +16,7 @@ using Prediction = LeagueSharp.Common.Prediction;
 using Spell = LeagueSharp.Common.Spell;
 using Utility = LeagueSharp.Common.Utility;
 
-using TargetSelector = PortAIO.TSManager; namespace HeavenStrikeRiven
+ namespace HeavenStrikeRiven
 {
     public class Program
     {
@@ -87,8 +87,8 @@ using TargetSelector = PortAIO.TSManager; namespace HeavenStrikeRiven
             Drawing.OnDraw += OnDraw;
 
             Game.OnUpdate += Game_OnGameUpdate;
-            LSEvents.AfterAttack += AfterAttack;
-            LSEvents.BeforeAttack += OnAttack;
+            Orbwalker.OnPostAttack += AfterAttack;
+            Orbwalker.OnPreAttack += OnAttack;
             Obj_AI_Base.OnProcessSpellCast += oncast;
             Obj_AI_Base.OnPlayAnimation += Obj_AI_Base_OnPlayAnimation;
             Interrupter2.OnInterruptableTarget += interrupt;
@@ -98,7 +98,7 @@ using TargetSelector = PortAIO.TSManager; namespace HeavenStrikeRiven
             {
                 if (args.Slot == SpellSlot.W && sender.IsMe)
                 {
-                    PortAIO.OrbwalkerManager.ResetAutoAttackTimer();
+                    Orbwalker.ResetAutoAttack();
                 }
             };
         }
@@ -129,19 +129,19 @@ using TargetSelector = PortAIO.TSManager; namespace HeavenStrikeRiven
                 return;
             if (args.Animation == "Spell1a")
             {
-                if (!PortAIO.OrbwalkerManager.isNoneActive)
+                if (!Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.None))
                     Utility.DelayAction.Add(291 - spelldelay - (Game.Ping - pingdelay), () => Chat.Say("/d"));
                 Qstate = 2;
             }
             else if (args.Animation == "Spell1b")
             {
-                if (!PortAIO.OrbwalkerManager.isNoneActive)
+                if (!Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.None))
                     Utility.DelayAction.Add(290 - spelldelay - (Game.Ping - pingdelay), () => Chat.Say("/d"));
                 Qstate = 3;
             }
             else if (args.Animation == "Spell1c")
             {
-                if (!PortAIO.OrbwalkerManager.isNoneActive)
+                if (!Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.None))
                     Utility.DelayAction.Add(343 - spelldelay - (Game.Ping - pingdelay), () => Chat.Say("/d"));
                 Qstate = 1;
             }
@@ -175,17 +175,17 @@ using TargetSelector = PortAIO.TSManager; namespace HeavenStrikeRiven
         {
             SolvingWaitList();
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 Combo();
             }
 
-            if (PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 fastharass();
             }
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 Clear();
             }
@@ -219,10 +219,9 @@ using TargetSelector = PortAIO.TSManager; namespace HeavenStrikeRiven
                     }
                 }
         }
-        private static void AfterAttack(AfterAttackArgs args)
+        private static void AfterAttack(AttackableUnit target, EventArgs args)
         {
-            var target = args.Target;
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 if (HasItem())
                 {
@@ -256,7 +255,7 @@ using TargetSelector = PortAIO.TSManager; namespace HeavenStrikeRiven
                     E.Cast(target.Position);
                 }
             }
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 if (HasItem() && UseTiamatClear)
                 {
@@ -329,7 +328,7 @@ using TargetSelector = PortAIO.TSManager; namespace HeavenStrikeRiven
                     E.Cast(target.Position);
                 }
             }
-            if (PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 if (HasItem())
                 {
@@ -379,7 +378,7 @@ using TargetSelector = PortAIO.TSManager; namespace HeavenStrikeRiven
             }
             if (spell.Name.Contains("ItemTiamatCleave"))
             {
-                if (PortAIO.OrbwalkerManager.isComboActive || PortAIO.OrbwalkerManager.isHarassActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
                 {
                     if (Q.IsReady())
                     {
@@ -395,8 +394,8 @@ using TargetSelector = PortAIO.TSManager; namespace HeavenStrikeRiven
             {
 
                 waitQ = false;
-                //PortAIO.OrbwalkerManager.ResetAutoAttackTimer();
-                //if (!PortAIO.OrbwalkerManager.isNoneActive)
+                //Orbwalker.ResetAutoAttack();
+                //if (!Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.None))
                 //{
                     //Utility.DelayAction.Add(40, () => Reset(40));
                 //}
@@ -430,7 +429,7 @@ using TargetSelector = PortAIO.TSManager; namespace HeavenStrikeRiven
 
         private static void Reset(int t)
         {
-            Utility.DelayAction.Add(0, () => PortAIO.OrbwalkerManager.ResetAutoAttackTimer());
+            Utility.DelayAction.Add(0, () => Orbwalker.ResetAutoAttack());
             for (int i = 10; i < t; i = i + 10)
             {
                 if (i - Game.Ping >= 0)
@@ -442,9 +441,9 @@ using TargetSelector = PortAIO.TSManager; namespace HeavenStrikeRiven
            EloBuddy.Player.IssueOrder(GameObjectOrder.MoveTo, Player.Position.LSExtend(Game.CursorPos, Player.LSDistance(Game.CursorPos) + 500));
             if (Qstrangecancel) Chat.Say("/d");
         }
-        public static void OnAttack(BeforeAttackArgs args)
+        public static void OnAttack(AttackableUnit target, Orbwalker.PreAttackArgs args)
         {
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 if (ItemData.Youmuus_Ghostblade.GetItem().IsReady())
                     ItemData.Youmuus_Ghostblade.GetItem().Cast();
@@ -454,8 +453,8 @@ using TargetSelector = PortAIO.TSManager; namespace HeavenStrikeRiven
         private static void Burst()
         {
             var target = TargetSelector.SelectedTarget;
-            PortAIO.OrbwalkerManager.ForcedTarget(target);
-            PortAIO.OrbwalkerManager.MoveA(target.ServerPosition);
+            Orbwalker.ForcedTarget =(target);
+            Orbwalker.MoveTo(target.ServerPosition);
             if (target != null && target.LSIsValidTarget() && !target.IsZombie)
             {
                 if (Orbwalking.InAutoAttackRange(target) && (!R.IsReady() || (R.IsReady() && R.Instance.Name == R1name)))
@@ -640,7 +639,7 @@ using TargetSelector = PortAIO.TSManager; namespace HeavenStrikeRiven
             if (waitQ == true && TTTar.LSIsValidTarget())
             {
                 //if (Utils.GameTimeTickCount - cQ >= 350 + Player.AttackCastDelay - Game.Ping / 2)
-                if (PortAIO.OrbwalkerManager.isLaneClearActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
                 {
                     if (Qmode == 0 && TTTar != null)
                         Q.Cast(TTTar.Position);

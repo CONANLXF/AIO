@@ -8,7 +8,7 @@ using Utility = LeagueSharp.Common.Utility;
 
 //using DetuksSharp;
 
-using TargetSelector = PortAIO.TSManager;
+
 namespace MasterSharp
 {
     internal class MasterYi
@@ -79,7 +79,7 @@ namespace MasterSharp
                 }
 
                 if (MasterSharp.getCheckBoxItem(MasterSharp.comboMenu, "useQ") &&
-                    (PortAIO.OrbwalkerManager.CanMove(0) || Q.IsKillable(target)))
+                    (Orbwalker.CanMove || Q.IsKillable(target)))
                     useQSmart(target);
                 if (MasterSharp.getCheckBoxItem(MasterSharp.comboMenu, "useE"))
                     useESmart(target);
@@ -123,7 +123,7 @@ namespace MasterSharp
                 if (distToNext <= dist)
                     return;
                 var msDif = player.MoveSpeed - target.MoveSpeed;
-                if (msDif <= 0 && !ObjectManager.Player.IsInAutoAttackRange(target) && PortAIO.OrbwalkerManager.CanAttack())
+                if (msDif <= 0 && !ObjectManager.Player.IsInAutoAttackRange(target) && Orbwalker.CanAutoAttack)
                     Q.Cast(target);
 
                 var reachIn = dist / msDif;
@@ -203,7 +203,7 @@ namespace MasterSharp
         public static void evadeSkillShot(Skillshot sShot)
         {
             var sd = SpellDatabase.GetByMissileName(sShot.SpellData.MissileSpellName);
-            if (PortAIO.OrbwalkerManager.isComboActive &&
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) &&
                 (MasterSharp.skillShotMustBeEvaded(sd.MenuItemName) ||
                  MasterSharp.skillShotMustBeEvadedW(sd.MenuItemName)))
             {
@@ -224,7 +224,7 @@ namespace MasterSharp
                 }
             }
 
-            if (!PortAIO.OrbwalkerManager.isNoneActive &&
+            if (!Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.None) &&
                 (MasterSharp.skillShotMustBeEvadedAllways(sd.MenuItemName) ||
                  MasterSharp.skillShotMustBeEvadedWAllways(sd.MenuItemName)))
             {
@@ -257,14 +257,14 @@ namespace MasterSharp
                     return;
                 }
 
-                if (PortAIO.OrbwalkerManager.LastTarget().IsValid<Obj_AI_Minion>())
+                if (Orbwalker.LastTarget.IsValid<Obj_AI_Minion>())
                 {
                     return;
                 }
 
-                var target = PortAIO.OrbwalkerManager.LastTarget() as AIHeroClient;
+                var target = Orbwalker.LastTarget as AIHeroClient;
 
-                if (PortAIO.OrbwalkerManager.LastTarget() != null)
+                if (Orbwalker.LastTarget != null)
                 {
                     if (target.LSDistance(player) < 600)
                     {

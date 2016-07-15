@@ -1,4 +1,4 @@
-﻿using TargetSelector = PortAIO.TSManager; namespace DZAwarenessAIO.Utility
+﻿ namespace DZAwarenessAIO.Utility
 {
     /// <summary>
     /// The ModuleTypes enum

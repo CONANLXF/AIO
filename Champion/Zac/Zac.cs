@@ -14,7 +14,7 @@ using Prediction = LeagueSharp.Common.Prediction;
 using Spell = LeagueSharp.Common.Spell;
 using Utility = LeagueSharp.Common.Utility;
 
-using TargetSelector = PortAIO.TSManager; namespace UnderratedAIO.Champions
+ namespace UnderratedAIO.Champions
 {
     internal class Zac
     {
@@ -94,17 +94,17 @@ using TargetSelector = PortAIO.TSManager; namespace UnderratedAIO.Champions
             }
 
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 Combo();
             }
 
-            if (PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 Harass();
             }
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 Clear();
             }
@@ -170,7 +170,7 @@ using TargetSelector = PortAIO.TSManager; namespace UnderratedAIO.Champions
                                 o.LSDistance(player) < Orbwalking.GetRealAutoAttackRange(player))
                         .OrderBy(o => o.LSDistance(player))
                         .FirstOrDefault();
-                if (blob != null && !PortAIO.OrbwalkerManager.CanAttack() && !ObjectManager.Player.Spellbook.IsAutoAttacking)
+                if (blob != null && !Orbwalker.CanAutoAttack && !ObjectManager.Player.Spellbook.IsAutoAttacking)
                 {
                     PortAIO.OrbwalkerManager.SetMovement(false);
                     Player.IssueOrder(GameObjectOrder.MoveTo, blob.Position);

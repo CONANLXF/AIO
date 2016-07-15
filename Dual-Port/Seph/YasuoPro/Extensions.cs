@@ -10,7 +10,7 @@ using EloBuddy.SDK.Menu;
 using System.Collections;
 using System.Collections.Generic;
 
-using TargetSelector = PortAIO.TSManager; namespace YasuoPro
+ namespace YasuoPro
 {
     static class Extensions
     {

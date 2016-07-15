@@ -4,7 +4,7 @@ using LeagueSharp.Common;
 using SharpDX;
 using SharpDX.Direct3D9;
 
-using TargetSelector = PortAIO.TSManager; namespace Syndra
+ namespace Syndra
 {
     using EloBuddy;
     using EloBuddy.SDK.Menu.Values;

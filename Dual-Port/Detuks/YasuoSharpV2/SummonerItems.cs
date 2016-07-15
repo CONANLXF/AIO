@@ -5,7 +5,7 @@ using LeagueSharp.Common;
 using SharpDX;
 using EloBuddy;
 
-using TargetSelector = PortAIO.TSManager; namespace YasuoSharpV2
+ namespace YasuoSharpV2
 {
     class SummonerItems
     {

@@ -7,7 +7,7 @@ using Marksman.Utils;
 
 #endregion
 
-using TargetSelector = PortAIO.TSManager; namespace Marksman.Champions
+ namespace Marksman.Champions
 {
     using System.Collections.Generic;
     using SharpDX;
@@ -61,7 +61,7 @@ using TargetSelector = PortAIO.TSManager; namespace Marksman.Champions
             Utils.PrintMessage("Sivir loaded.");
         }
 
-        public override void Orbwalking_BeforeAttack(BeforeAttackArgs args)
+        public override void Orbwalking_BeforeAttack(AttackableUnit target, Orbwalker.PreAttackArgs args)
         {
             if (!W.IsReady())
             {
@@ -245,9 +245,8 @@ using TargetSelector = PortAIO.TSManager; namespace Marksman.Champions
             }
         }
 
-        public override void Orbwalking_AfterAttack(AfterAttackArgs args)
+        public override void Orbwalking_AfterAttack(AttackableUnit target, EventArgs args)
         {
-            var target = args.Target;
             var t = target as AIHeroClient;
             if (t != null && (ComboActive || HarassActive))
             {

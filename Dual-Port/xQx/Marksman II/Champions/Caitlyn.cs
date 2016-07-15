@@ -16,7 +16,7 @@ using EloBuddy.SDK.Menu.Values;
 #endregion
 
 
-using TargetSelector = PortAIO.TSManager; namespace Marksman.Champions
+ namespace Marksman.Champions
 {
     internal class Caitlyn : Champion
     {
@@ -511,7 +511,7 @@ using TargetSelector = PortAIO.TSManager; namespace Marksman.Champions
                 }
             }
 
-            if ((!ComboActive && !HarassActive) || !PortAIO.OrbwalkerManager.CanMove(0))
+            if ((!ComboActive && !HarassActive) || !Orbwalker.CanMove)
             {
                 return;
             }
@@ -609,15 +609,15 @@ using TargetSelector = PortAIO.TSManager; namespace Marksman.Champions
             }
         }
 
-        public override void Orbwalking_AfterAttack(AfterAttackArgs args)
+        public override void Orbwalking_AfterAttack(AttackableUnit target, EventArgs args)
         {
-            var t = args.Target as AIHeroClient;
+            var t = target as AIHeroClient;
             if (t == null || (!ComboActive && !HarassActive)) return;
 
             //var useQ = GetValue<bool>("UseQ" + (ComboActive ? "C" : "H"));
             //if (useQ) Q.Cast(t, false, true);
 
-            base.Orbwalking_AfterAttack(args);
+            base.Orbwalking_AfterAttack(target,args);
         }
 
         public override bool ComboMenu(Menu config)

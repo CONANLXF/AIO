@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using SharpDX;
 using EloBuddy;
 
-using TargetSelector = PortAIO.TSManager; namespace Azir_Creator_of_Elo
+ namespace Azir_Creator_of_Elo
 {
     class SoldierManager
     {

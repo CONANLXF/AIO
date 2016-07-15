@@ -12,7 +12,7 @@ using EloBuddy;
 using EloBuddy.SDK.Menu;
 using EloBuddy.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace VayneHunter_Reborn.Utility
+ namespace VayneHunter_Reborn.Utility
 {
     class Variables
     {

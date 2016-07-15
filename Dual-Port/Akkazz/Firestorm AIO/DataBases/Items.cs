@@ -7,7 +7,7 @@ using LeagueSharp;
 using static LeagueSharp.SDK.Items;
 using EloBuddy;
 
-using TargetSelector = PortAIO.TSManager; namespace Firestorm_AIO.DataBases
+ namespace Firestorm_AIO.DataBases
 {
     class Items
     {

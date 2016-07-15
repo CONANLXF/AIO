@@ -5,7 +5,7 @@ using LeagueSharp.SDK.Core.Utils;
 using EloBuddy.SDK.Menu.Values;
 using EloBuddy.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace NabbActivator
+ namespace NabbActivator
 {
     /// <summary>
     ///     The activator class.
@@ -25,8 +25,8 @@ using TargetSelector = PortAIO.TSManager; namespace NabbActivator
                 return;
             }
 
-            if (!PortAIO.OrbwalkerManager.isComboActive &&
-                !PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (!Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) &&
+                !Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 return;
             }

@@ -6,7 +6,7 @@ using LeagueSharp.SDK.Core.Utils;
 using EloBuddy.SDK.Menu.Values;
 using EloBuddy.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace NabbActivator
+ namespace NabbActivator
 {
     /// <summary>
     ///     The activator class.
@@ -198,9 +198,9 @@ using TargetSelector = PortAIO.TSManager; namespace NabbActivator
                 /// </summary>
                 if (Vars.SmiteMiscMenu["combo"].Cast<CheckBox>().CurrentValue)
                 {
-                    if (PortAIO.OrbwalkerManager.LastTarget() as AIHeroClient != null)
+                    if (Orbwalker.LastTarget as AIHeroClient != null)
                     {
-                        Vars.Smite.CastOnUnit(PortAIO.OrbwalkerManager.LastTarget() as AIHeroClient);
+                        Vars.Smite.CastOnUnit(Orbwalker.LastTarget as AIHeroClient);
                     }
                 }
 

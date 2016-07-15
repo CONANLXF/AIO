@@ -9,7 +9,7 @@ using EloBuddy.SDK.Menu;
 using EloBuddy.SDK.Menu.Values;
 using EloBuddy.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace HastaKalistaBaby
+ namespace HastaKalistaBaby
 {
     internal class Helper
     {
@@ -26,7 +26,7 @@ using TargetSelector = PortAIO.TSManager; namespace HastaKalistaBaby
                 if (spellName == "KalistaExpungeWrapper")
                 {
                     Program.lastecast = Game.Time;
-                    PortAIO.OrbwalkerManager.ResetAutoAttackTimer();
+                    Orbwalker.ResetAutoAttack();
                 }
             }
 

@@ -1,4 +1,4 @@
-using TargetSelector = PortAIO.TSManager; namespace ElEasy.Plugins
+ namespace ElEasy.Plugins
 {
     using System;
     using System.Collections.Generic;
@@ -168,7 +168,7 @@ using TargetSelector = PortAIO.TSManager; namespace ElEasy.Plugins
 
             Game.OnUpdate += this.OnUpdate;
             Drawing.OnDraw += this.OnDraw;
-            LSEvents.BeforeAttack += this.OrbwalkingBeforeAttack;
+            Orbwalker.OnPreAttack += this.OrbwalkingBeforeAttack;
             AntiGapcloser.OnEnemyGapcloser += this.AntiGapcloser_OnEnemyGapcloser;
         }
 
@@ -833,22 +833,22 @@ using TargetSelector = PortAIO.TSManager; namespace ElEasy.Plugins
                 return;
             }
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 this.OnCombo();
             }
 
-            if (PortAIO.OrbwalkerManager.isLastHitActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LastHit))
             {
                 this.OnLasthit();
             }
 
-            if (PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 this.OnHarass();
             }
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 this.OnLaneclear();
                 this.OnJungleclear();
@@ -860,15 +860,15 @@ using TargetSelector = PortAIO.TSManager; namespace ElEasy.Plugins
             }
         }
 
-        private void OrbwalkingBeforeAttack(BeforeAttackArgs args)
+        private void OrbwalkingBeforeAttack(AttackableUnit target, Orbwalker.PreAttackArgs args)
         {
-            if (getCheckBoxItem(miscellaneousMenu, "ElEasy.Ryze.AA") && PortAIO.OrbwalkerManager.isComboActive)
+            if (getCheckBoxItem(miscellaneousMenu, "ElEasy.Ryze.AA") && Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 args.Process = false;
             }
             else
             {
-                if (PortAIO.OrbwalkerManager.isComboActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
                 {
                     args.Process =
                         !(spells[Spells.Q].IsReady() || spells[Spells.W].IsReady() || spells[Spells.E].IsReady()

@@ -21,7 +21,7 @@ using System;
 using System.Speech.Synthesis;
 using TreeLib.Extensions;
 
-using TargetSelector = PortAIO.TSManager; namespace LuluLicious
+ namespace LuluLicious
 {
     internal static class SpellManager
     {
@@ -78,7 +78,7 @@ using TargetSelector = PortAIO.TSManager; namespace LuluLicious
 
             string s = "";
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 s = "Combo";
             }

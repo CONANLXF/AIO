@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using LeagueSharp;
 using LeagueSharp.Common;
 
-using TargetSelector = PortAIO.TSManager; namespace Marksman.Utils
+ namespace Marksman.Utils
 {
     using EloBuddy;
     using EloBuddy.SDK.Menu;

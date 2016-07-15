@@ -1,4 +1,4 @@
-using TargetSelector = PortAIO.TSManager; namespace ElRengarRevamped
+ namespace ElRengarRevamped
 {
     using System;
     using System.Collections.Generic;
@@ -28,7 +28,7 @@ using TargetSelector = PortAIO.TSManager; namespace ElRengarRevamped
                 return;
             }*/
 
-            var forced = PortAIO.OrbwalkerManager.ForcedTarget();
+            var forced = Orbwalker.ForcedTarget;
             if (forced != null && forced.LSIsValidTarget() && forced is AIHeroClient &&
                     Orbwalking.InAutoAttackRange(forced))
             {
@@ -485,7 +485,7 @@ using TargetSelector = PortAIO.TSManager; namespace ElRengarRevamped
             }
 
             var youmuus = Youmuu;
-            if (Youmuu.IsOwned() && Youmuu.IsReady() && PortAIO.OrbwalkerManager.isComboActive || PortAIO.OrbwalkerManager.isHarassActive && youmuus.Cast())
+            if (Youmuu.IsOwned() && Youmuu.IsReady() && Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass) && youmuus.Cast())
             {
                 return true;
             }

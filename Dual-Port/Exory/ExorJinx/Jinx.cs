@@ -7,7 +7,7 @@ using LeagueSharp.SDK.Core.Utils;
 using EloBuddy;
 using EloBuddy.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Jinx
+ namespace ExorAIO.Champions.Jinx
 {
     /// <summary>
     ///     The champion class.
@@ -69,12 +69,12 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Jinx
             /// <summary>
             ///     Initializes the orbwalkingmodes.
             /// </summary>
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 Logics.Combo(args);
             }
 
-            if (PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 Logics.Harass(args);
             }

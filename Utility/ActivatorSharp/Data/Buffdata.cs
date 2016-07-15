@@ -12,7 +12,7 @@ using EloBuddy;
 using LeagueSharp;
 using System.Collections.Generic;
 
-using TargetSelector = PortAIO.TSManager; namespace Activators.Data
+ namespace Activators.Data
 {
     public class Buffdata
     {

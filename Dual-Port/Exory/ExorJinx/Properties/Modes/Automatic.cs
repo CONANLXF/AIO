@@ -8,7 +8,7 @@ using LeagueSharp.SDK.Core.Utils;
 using EloBuddy;
 using EloBuddy.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Jinx
+ namespace ExorAIO.Champions.Jinx
 {
     /// <summary>
     ///     The logics class.
@@ -41,13 +41,13 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Jinx
                     ///     The Q Combo Enable Logics,
                     ///     The Q Harass Enable Logics.
                     /// </summary>
-                    if (PortAIO.OrbwalkerManager.isComboActive || PortAIO.OrbwalkerManager.isHarassActive)
+                    if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
                     {
                         /// <summary>
                         ///     Enable if:
                         ///     If you are in combo mode, the combo option is enabled. (Option check).
                         /// </summary>
-                        if (PortAIO.OrbwalkerManager.isComboActive)
+                        if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
                         {
                             if (!Vars.getCheckBoxItem(Vars.QMenu, "combo"))
                             {
@@ -61,7 +61,7 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Jinx
                         ///     If you are in mixed mode, the mixed option is enabled.. (Option check).
                         ///     and respects the ManaManager check. (Mana check).
                         /// </summary>
-                        else if (PortAIO.OrbwalkerManager.isHarassActive)
+                        else if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
                         {
                             if (GameObjects.Player.ManaPercent < ManaManager.GetNeededMana(Vars.W.Slot, Vars.getSliderItem(Vars.QMenu, "harass")))
                             {
@@ -75,7 +75,7 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Jinx
                         ///     No hero in PowPow Range but 1 or more heroes in FishBones range. (Range Logic).
                         /// </summary>
                         if (!GameObjects.EnemyHeroes.Any(t => t.LSIsValidTarget(Vars.PowPow.Range)) &&
-                            GameObjects.EnemyHeroes.Any(t2 => t2.LSIsValidTarget(PortAIO.OrbwalkerManager.isHarassActive
+                            GameObjects.EnemyHeroes.Any(t2 => t2.LSIsValidTarget(Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass)
                                 ? Vars.Q.Range
                                 : Vars.W.Range)))
                         {
@@ -85,7 +85,7 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Jinx
                         }
                     }
 
-                    if (PortAIO.OrbwalkerManager.isLaneClearActive)
+                    if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
                     {
 
                         /// <summary>
@@ -166,7 +166,7 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Jinx
                         }
                     }
 
-                    if (PortAIO.OrbwalkerManager.isLastHitActive)
+                    if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LastHit))
                     {
 
                         /// <summary>
@@ -208,14 +208,14 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Jinx
                 /// </summary>
                 else
                 {
-                    if (PortAIO.OrbwalkerManager.isLaneClearActive)
+                    if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
                     {
 
                         /// <summary>
                         ///     Disable if:
                         ///     If you are in combo mode, the combo option is disabled. (Option check).
                         /// </summary>
-                        if (PortAIO.OrbwalkerManager.isComboActive)
+                        if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
                         {
                             if (!Vars.getCheckBoxItem(Vars.QMenu, "combo"))
                             {
@@ -230,7 +230,7 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Jinx
                         ///     If you are in mixed mode, the mixed option is disabled.. (Option check).
                         ///     or it doesn't respect the ManaManager check. (Mana check).
                         /// </summary>
-                        else if (PortAIO.OrbwalkerManager.isHarassActive)
+                        else if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
                         {
                             if (GameObjects.Player.ManaPercent <
                                     ManaManager.GetNeededMana(Vars.W.Slot, Vars.getSliderItem(Vars.QMenu, "harass")))
@@ -245,8 +245,8 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Jinx
                         ///     Disable if:
                         ///     The target is not a hero. (Target check),
                         /// </summary>
-                        if (PortAIO.OrbwalkerManager.LastTarget() as AIHeroClient != null &&
-                            (PortAIO.OrbwalkerManager.LastTarget() as AIHeroClient).LSIsValidTarget())
+                        if (Orbwalker.LastTarget as AIHeroClient != null &&
+                            (Orbwalker.LastTarget as AIHeroClient).LSIsValidTarget())
                         {
                             /// <summary>
                             ///     Disable if:
@@ -254,7 +254,7 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Jinx
                             ///     Any hero in PowPow Range. (Range Logic).
                             /// </summary>
                             if (GameObjects.EnemyHeroes.Any(t => t.LSIsValidTarget(Vars.PowPow.Range)) &&
-                                (PortAIO.OrbwalkerManager.LastTarget() as AIHeroClient).CountEnemyHeroesInRange(200f) < 2)
+                                (Orbwalker.LastTarget as AIHeroClient).CountEnemyHeroesInRange(200f) < 2)
                             {
                                 Vars.Q.Cast();
                                 Console.WriteLine("ExorAIO: Jinx - Combo/Hybrid - Disabled.");
@@ -263,7 +263,7 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Jinx
                         }
                     }
 
-                    else if (PortAIO.OrbwalkerManager.isLaneClearActive)
+                    else if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
                     {
 
                         /// <summary>
@@ -307,7 +307,7 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Jinx
                         }
                     }
 
-                    else if (PortAIO.OrbwalkerManager.isLastHitActive)
+                    else if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LastHit))
                     {
                         /// <summary>
                         ///     Disable if:

@@ -31,7 +31,7 @@ using EloBuddy.SDK.Menu.Values;
 using LeagueSharp.Common;
 using Spell = LeagueSharp.Common.Spell;
 
-using TargetSelector = PortAIO.TSManager; namespace Sophies_Soraka
+ namespace Sophies_Soraka
 {
     /// <summary>
     ///     The sophies soraka.
@@ -123,7 +123,7 @@ using TargetSelector = PortAIO.TSManager; namespace Sophies_Soraka
             AntiGapcloser.OnEnemyGapcloser += AntiGapcloserOnOnEnemyGapcloser;
             Game.OnUpdate += GameOnOnGameUpdate;
             Drawing.OnDraw += DrawingOnOnDraw;
-            LSEvents.BeforeAttack += OrbwalkingOnBeforeAttack;
+            Orbwalker.OnPreAttack += OrbwalkingOnBeforeAttack;
         }
 
         /// <summary>
@@ -369,12 +369,12 @@ using TargetSelector = PortAIO.TSManager; namespace Sophies_Soraka
         /// </param>
         private static void GameOnOnGameUpdate(EventArgs args)
         {
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 Combo();
             }
 
-            if (PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 Harass();
             }
@@ -459,11 +459,11 @@ using TargetSelector = PortAIO.TSManager; namespace Sophies_Soraka
         ///     Called before the orbwalker attacks a unit.
         /// </summary>
         /// <param name="args">The <see cref="Orbwalking.BeforeAttackEventArgs" /> instance containing the event data.</param>
-        private static void OrbwalkingOnBeforeAttack(BeforeAttackArgs args)
+        private static void OrbwalkingOnBeforeAttack(AttackableUnit target, Orbwalker.PreAttackArgs args)
         {
             if (args.Target.IsValid<Obj_AI_Minion>() &&
-                (PortAIO.OrbwalkerManager.isHarassActive ||
-                PortAIO.OrbwalkerManager.isLastHitActive) 
+                (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass) ||
+                Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LastHit)) 
                 && !getCheckBoxItem(miscMenu, "AttackMinions") && ObjectManager.Player.CountAlliesInRange(1200) > 0)
             {
                 args.Process = false;

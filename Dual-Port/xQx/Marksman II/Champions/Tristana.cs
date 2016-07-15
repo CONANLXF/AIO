@@ -17,7 +17,7 @@ using EloBuddy.SDK;
 
 #endregion
 
-using TargetSelector = PortAIO.TSManager; namespace Marksman.Champions
+ namespace Marksman.Champions
 {
     internal class Tristana : Champion
     {
@@ -70,7 +70,7 @@ using TargetSelector = PortAIO.TSManager; namespace Marksman.Champions
                 R.CastOnUnit(unit);
         }
 
-        public override void Orbwalking_BeforeAttack(BeforeAttackArgs args)
+        public override void Orbwalking_BeforeAttack(AttackableUnit target, Orbwalker.PreAttackArgs args)
         {
             if (Program.misc["Misc.UseQ.Inhibitor"].Cast<CheckBox>().CurrentValue && args.Target is Obj_BarracksDampener && Q.IsReady())
             {
@@ -122,7 +122,7 @@ using TargetSelector = PortAIO.TSManager; namespace Marksman.Champions
             {
                 return;
             }
-            if (!PortAIO.OrbwalkerManager.CanMove(0))
+            if (!Orbwalker.CanMove)
             {
                 return;
             }
@@ -130,12 +130,12 @@ using TargetSelector = PortAIO.TSManager; namespace Marksman.Champions
             var getEMarkedEnemy = TristanaData.GetEMarkedEnemy;
             if (getEMarkedEnemy != null)
             {
-                PortAIO.OrbwalkerManager.ForcedTarget((getEMarkedEnemy));
+                Orbwalker.ForcedTarget =((getEMarkedEnemy));
             }
             else
             {
                 var attackRange = Orbwalking.GetRealAutoAttackRange(Player);
-                PortAIO.OrbwalkerManager.ForcedTarget(TargetSelector.GetTarget(attackRange, DamageType.Physical));
+                Orbwalker.ForcedTarget =(TargetSelector.GetTarget(attackRange, DamageType.Physical));
             }
 
             Q.Range = 600 + 5 * (Player.Level - 1);
@@ -168,7 +168,7 @@ using TargetSelector = PortAIO.TSManager; namespace Marksman.Champions
                 if (TristanaData.GetEMarkedEnemy != null)
                 {
                     t = TristanaData.GetEMarkedEnemy;
-                    PortAIO.OrbwalkerManager.ForcedTarget(TristanaData.GetEMarkedEnemy);
+                    Orbwalker.ForcedTarget =(TristanaData.GetEMarkedEnemy);
                 }
                 else
                 {

@@ -14,7 +14,7 @@ using SharpDX.Direct3D9;
 
 #endregion
 
-using TargetSelector = PortAIO.TSManager; namespace Marksman
+ namespace Marksman
 {
     using EloBuddy;
     using EloBuddy.SDK;
@@ -329,8 +329,8 @@ using TargetSelector = PortAIO.TSManager; namespace Marksman
                 PermaActive();
             };
 
-            LSEvents.AfterAttack += Orbwalking_AfterAttack;
-            LSEvents.BeforeAttack += Orbwalking_BeforeAttack;
+            Orbwalker.OnPostAttack += Orbwalking_AfterAttack;
+            Orbwalker.OnPreAttack += Orbwalking_BeforeAttack;
             GameObject.OnCreate += OnCreateObject;
             GameObject.OnDelete += OnDeleteObject;
 
@@ -378,12 +378,12 @@ using TargetSelector = PortAIO.TSManager; namespace Marksman
                 return;
             }
 
-            if ((turnOffDrawings == 2 || turnOffDrawings == 4) && PortAIO.OrbwalkerManager.isComboActive)
+            if ((turnOffDrawings == 2 || turnOffDrawings == 4) && Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 return;
             }
 
-            if ((turnOffDrawings == 3 || turnOffDrawings == 4) && (PortAIO.OrbwalkerManager.isLastHitActive || PortAIO.OrbwalkerManager.isLaneClearActive))
+            if ((turnOffDrawings == 3 || turnOffDrawings == 4) && (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LastHit) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear)))
             {
                 return;
             }
@@ -422,21 +422,21 @@ using TargetSelector = PortAIO.TSManager; namespace Marksman
         private static void Game_OnGameUpdate(EventArgs args)
         {
             //Update the combo and harass values.
-            ChampionClass.ComboActive = PortAIO.OrbwalkerManager.isComboActive;
+            ChampionClass.ComboActive = Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo);
 
             var vHarassManaPer = harass["HarassMana"].Cast<Slider>().CurrentValue;
-            ChampionClass.HarassActive = PortAIO.OrbwalkerManager.isHarassActive && ObjectManager.Player.ManaPercent >= vHarassManaPer;
+            ChampionClass.HarassActive = Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass) && ObjectManager.Player.ManaPercent >= vHarassManaPer;
 
-            ChampionClass.ToggleActive = ObjectManager.Player.ManaPercent >= vHarassManaPer && !PortAIO.OrbwalkerManager.isComboActive && !ObjectManager.Player.LSIsRecalling();
+            ChampionClass.ToggleActive = ObjectManager.Player.ManaPercent >= vHarassManaPer && !Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) && !ObjectManager.Player.LSIsRecalling();
 
             var vLaneClearManaPer = HeroManager.Enemies.Find(e => e.LSIsValidTarget(2000) && !e.IsZombie) == null
                 ? laneclear["LaneMana.Alone"].Cast<Slider>().CurrentValue
                 : laneclear["LaneMana.Enemy"].Cast<Slider>().CurrentValue;
 
-            ChampionClass.LaneClearActive = (PortAIO.OrbwalkerManager.isLaneClearActive) && ObjectManager.Player.ManaPercent >= vLaneClearManaPer && laneclear["Lane.Enabled"].Cast<KeyBind>().CurrentValue;
+            ChampionClass.LaneClearActive = (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear)) && ObjectManager.Player.ManaPercent >= vLaneClearManaPer && laneclear["Lane.Enabled"].Cast<KeyBind>().CurrentValue;
 
             ChampionClass.JungleClearActive = false;
-            if ((PortAIO.OrbwalkerManager.isLaneClearActive) && jungleClear["Jungle.Enabled"].Cast<KeyBind>().CurrentValue)
+            if ((Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear)) && jungleClear["Jungle.Enabled"].Cast<KeyBind>().CurrentValue)
             {
                 List<Obj_AI_Base> mobs = MinionManager.GetMinions(ObjectManager.Player.Position, 1000, MinionTypes.All, MinionTeam.Neutral);
 
@@ -473,10 +473,10 @@ using TargetSelector = PortAIO.TSManager; namespace Marksman
 
             //Items
             if (
-                !((PortAIO.OrbwalkerManager.isComboActive &&
+                !((Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) &&
                    (useItemModes == 2 || useItemModes == 3))
                   ||
-                  (PortAIO.OrbwalkerManager.isHarassActive &&
+                  (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass) &&
                    (useItemModes == 1 || useItemModes == 3))))
                 return;
 
@@ -484,12 +484,12 @@ using TargetSelector = PortAIO.TSManager; namespace Marksman
             var ghostblade = MenuActivator["GHOSTBLADE"].Cast<CheckBox>().CurrentValue;
             var sword = MenuActivator["SWORD"].Cast<CheckBox>().CurrentValue;
             var muramana = MenuActivator["MURAMANA"].Cast<CheckBox>().CurrentValue;
-            var target = PortAIO.OrbwalkerManager.LastTarget() as Obj_AI_Base;
+            var target = Orbwalker.LastTarget as Obj_AI_Base;
 
             var smiteReady = (SmiteSlot != SpellSlot.Unknown &&
                               ObjectManager.Player.Spellbook.CanUseSpell(SmiteSlot) == SpellState.Ready);
 
-            if (smiteReady && PortAIO.OrbwalkerManager.isComboActive)
+            if (smiteReady && Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
                 Smiteontarget(target as AIHeroClient);
 
             if (botrk)
@@ -542,12 +542,12 @@ using TargetSelector = PortAIO.TSManager; namespace Marksman
 
         public static void UseSummoners()
         {
-            if (!PortAIO.OrbwalkerManager.isComboActive)
+            if (!Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 return;
             }
 
-            var t = PortAIO.OrbwalkerManager.LastTarget() as AIHeroClient;
+            var t = Orbwalker.LastTarget as AIHeroClient;
 
             if (t != null && IgniteSlot != SpellSlot.Unknown &&
                 ObjectManager.Player.Spellbook.CanUseSpell(IgniteSlot) == SpellState.Ready)
@@ -561,14 +561,14 @@ using TargetSelector = PortAIO.TSManager; namespace Marksman
             }
         }
 
-        private static void Orbwalking_AfterAttack(AfterAttackArgs args)
+        private static void Orbwalking_AfterAttack(AttackableUnit target, EventArgs args)
         {
-            ChampionClass.Orbwalking_AfterAttack(args);
+            ChampionClass.Orbwalking_AfterAttack(target, args);
         }
 
-        private static void Orbwalking_BeforeAttack(BeforeAttackArgs args)
+        private static void Orbwalking_BeforeAttack(AttackableUnit target, Orbwalker.PreAttackArgs args)
         {
-            ChampionClass.Orbwalking_BeforeAttack(args);
+            ChampionClass.Orbwalking_BeforeAttack(target, args);
         }
 
         private static void ExecuteJungleClear()

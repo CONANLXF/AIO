@@ -12,7 +12,7 @@ using Color = System.Drawing.Color;
 using LeagueSharp.Common;
 using LeagueSharp.Common.Data;
 
-using TargetSelector = PortAIO.TSManager;
+
 namespace PortAIO.Utility
 {
     class Loader
@@ -723,7 +723,7 @@ namespace PortAIO.Utility
             {
                 PortAIO.OrbwalkerManager.SetAttack(true);
                 PortAIO.OrbwalkerManager.SetMovement(true);
-                PortAIO.OrbwalkerManager.ForcedTarget(null);
+                Orbwalker.ForcedTarget =(null);
                 Console.Clear();
                 Miscc["resetorb"].Cast<CheckBox>().CurrentValue = false;
             }

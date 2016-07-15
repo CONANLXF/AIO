@@ -10,14 +10,14 @@ using Color = System.Drawing.Color;
 using EloBuddy;
 using EloBuddy.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace BadaoKingdom.BadaoChampion.BadaoPoppy
+ namespace BadaoKingdom.BadaoChampion.BadaoPoppy
 {
     public static class BadaoPoppyAssasinate
     {
         public static void BadaoActivate()
         {
             Game.OnUpdate += Game_OnUpdate;
-            LSEvents.AfterAttack += Orbwalking_AfterAttack;
+            Orbwalker.OnPostAttack += Orbwalking_AfterAttack;
             Drawing.OnDraw += Drawing_OnDraw;
         }
 
@@ -40,9 +40,8 @@ using TargetSelector = PortAIO.TSManager; namespace BadaoKingdom.BadaoChampion.B
             }
         }
 
-        private static void Orbwalking_AfterAttack(AfterAttackArgs args)
+        private static void Orbwalking_AfterAttack(AttackableUnit target, EventArgs args)
         {
-            var target = args.Target;
             if (!BadaoPoppyHelper.AssasinateActive())
                 return;
             if (target.Position.LSDistance(ObjectManager.Player.Position) <= 200 + 125 + 140)
@@ -54,7 +53,7 @@ using TargetSelector = PortAIO.TSManager; namespace BadaoKingdom.BadaoChampion.B
             if (!BadaoPoppyHelper.AssasinateActive())
                 return;
             var selectedTarget = TargetSelector.SelectedTarget;
-            PortAIO.OrbwalkerManager.MoveA(Game.CursorPos);
+            Orbwalker.MoveTo(Game.CursorPos);
             if (!selectedTarget.BadaoIsValidTarget())
                 return;
             if (BadaoPoppyHelper.UseRComboKillable())

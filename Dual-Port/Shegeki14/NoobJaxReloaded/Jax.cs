@@ -12,7 +12,7 @@ using EloBuddy.SDK;
 using EloBuddy.SDK.Menu;
 using EloBuddy.SDK.Menu.Values;
 
-using TargetSelector = PortAIO.TSManager; namespace NoobJaxReloaded
+ namespace NoobJaxReloaded
 {
     class Program
     {
@@ -95,7 +95,7 @@ using TargetSelector = PortAIO.TSManager; namespace NoobJaxReloaded
             miscMenu.Add("jumpkey", new KeyBind("Wardjump Key", false, KeyBind.BindTypes.HoldActive, 'Z'));
 
             OnDoCast();
-            LSEvents.OnAttack += OnAa;
+            Orbwalker.OnAttack += OnAa;
             Game.OnUpdate += OnUpdate;
             Drawing.OnDraw += OnDraw;
             Obj_AI_Base.OnProcessSpellCast += OnProcessSpellCast;
@@ -140,7 +140,7 @@ using TargetSelector = PortAIO.TSManager; namespace NoobJaxReloaded
         
         private static void Combo(bool anyTarget = false)
         {
-            if (!PortAIO.OrbwalkerManager.isComboActive)
+            if (!Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
                 return;
             AIHeroClient target = TargetSelector.GetTarget(700, DamageType.Magical);
 
@@ -209,13 +209,13 @@ using TargetSelector = PortAIO.TSManager; namespace NoobJaxReloaded
                 //if (!sender.IsMe || !Orbwalking.IsAutoAttack((args.SData.Name))) return;
                 if (sender.IsMe && args.SData.IsAutoAttack())
                 {
-                    if (PortAIO.OrbwalkerManager.isComboActive || PortAIO.OrbwalkerManager.isHarassActive)
+                    if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
                     {
                         if (getCheckBoxItem(comboMenu, "useW") && W.IsReady()) W.Cast();
                     }
 
                     // Jungleclear 
-                    if (PortAIO.OrbwalkerManager.isLaneClearActive)
+                    if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
                     {
                         if (args.Target is Obj_AI_Minion)
                         {
@@ -248,7 +248,7 @@ using TargetSelector = PortAIO.TSManager; namespace NoobJaxReloaded
                     }
 
                     // Laneclear
-                    if (PortAIO.OrbwalkerManager.isLaneClearActive)
+                    if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
                     {
                         if (args.Target is Obj_AI_Minion)
                         {
@@ -272,7 +272,7 @@ using TargetSelector = PortAIO.TSManager; namespace NoobJaxReloaded
 
         private static void OnProcessSpellCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
-            if (args.Target != null && args.Target.IsMe && args.SData.IsAutoAttack() && getCheckBoxItem(jungleclear, "jungleclearE") && E.IsReady() && (PortAIO.OrbwalkerManager.isLaneClearActive) && sender.Team == GameObjectTeam.Neutral)
+            if (args.Target != null && args.Target.IsMe && args.SData.IsAutoAttack() && getCheckBoxItem(jungleclear, "jungleclearE") && E.IsReady() && (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear)) && sender.Team == GameObjectTeam.Neutral)
             {
                 E.Cast();
             }
@@ -307,10 +307,10 @@ using TargetSelector = PortAIO.TSManager; namespace NoobJaxReloaded
             }
         }
 
-        private static void OnAa(OnAttackArgs args)
+        private static void OnAa(AttackableUnit target, EventArgs args)
         {
             AIHeroClient y = TargetSelector.GetTarget(185, DamageType.Physical);
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 if (hydra.IsOwned() && Player.LSDistance(y) < hydra.Range && hydra.IsReady() && !W.IsReady()
                     && !IsWUsed)
@@ -319,7 +319,7 @@ using TargetSelector = PortAIO.TSManager; namespace NoobJaxReloaded
                     && !IsWUsed)
                     tiamat.Cast();
             }
-            if (PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 if (hydra.IsOwned() && Player.LSDistance(y) < hydra.Range && hydra.IsReady() && !W.IsReady()
                         && !IsWUsed)

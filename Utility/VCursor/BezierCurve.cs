@@ -1,6 +1,6 @@
 ﻿using System;
 
-using TargetSelector = PortAIO.TSManager; namespace VCursor
+ namespace VCursor
 {
     internal class BezierCurve
     {

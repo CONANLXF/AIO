@@ -9,7 +9,7 @@ using SharpDX;
 using Color = System.Drawing.Color;
 using EloBuddy;
 
-using TargetSelector = PortAIO.TSManager; namespace EvadeA.Pathfinding
+ namespace EvadeA.Pathfinding
 {
     public static class PathFollower
     {

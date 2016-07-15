@@ -11,7 +11,7 @@ using LeagueSharp.SDK.Core.Utils;
 using SkillshotType = LeagueSharp.SDK.Enumerations.SkillshotType;
 using LeagueSharp.SDK.Enumerations;
 
-using TargetSelector = PortAIO.TSManager; namespace Taliyah
+ namespace Taliyah
 {
     class Program
     {
@@ -269,7 +269,7 @@ using TargetSelector = PortAIO.TSManager; namespace Taliyah
         {
             if (main_menu["taliyah.pullenemy"].Cast<KeyBind>().CurrentValue || main_menu["taliyah.pushenemy"].Cast<KeyBind>().CurrentValue)
             {
-                PortAIO.OrbwalkerManager.MoveA(Game.CursorPos);
+                Orbwalker.MoveTo(Game.CursorPos);
                 if (!pull_push_enemy && TargetSelector.SelectedTarget != null && TargetSelector.SelectedTarget.IsValidTarget(W.Range))
                 {
                     Vector3 push_position = ObjectManager.Player.ServerPosition;
@@ -294,22 +294,22 @@ using TargetSelector = PortAIO.TSManager; namespace Taliyah
 
         private static void Game_OnUpdate(EventArgs args)
         {
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 Combo();
             }
 
-            if (PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 Harass();
             }
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 LaneClear();
             }
 
-            if (PortAIO.OrbwalkerManager.isNoneActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.None))
             {
                 CheckKeyBindings();
             }

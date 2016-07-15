@@ -13,7 +13,7 @@ using EloBuddy.SDK.Menu;
 using EloBuddy.SDK.Menu.Values;
 using EloBuddy.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace ThreshWarden {
+ namespace ThreshWarden {
 	class ThreshWarden {
 
 		public static AIHeroClient Player = ObjectManager.Player;
@@ -41,7 +41,7 @@ using TargetSelector = PortAIO.TSManager; namespace ThreshWarden {
 			Spellbook.OnCastSpell += Spellbook_OnCastSpell;
 			Obj_AI_Base.OnProcessSpellCast += Obj_AI_Base_OnProcessSpellCast;
 			Game.OnWndProc += Game_OnWndProc;
-            LSEvents.BeforeAttack += Orbwalker_OnPreAttack;
+            Orbwalker.OnPreAttack += Orbwalker_OnPreAttack;
         }
         public static void LoadSpell()
         {
@@ -109,12 +109,12 @@ using TargetSelector = PortAIO.TSManager; namespace ThreshWarden {
             TowerConfig.Add("QEtargetintoallyturret", new CheckBox("Q/E target into ally turret", true));
             TowerConfig.Add("DontQ2inenemyturret", new CheckBox("Don't Q2 in enemy turret", true));
         }
-        private static void Orbwalker_OnPreAttack(BeforeAttackArgs args)
+        private static void Orbwalker_OnPreAttack(AttackableUnit target, Orbwalker.PreAttackArgs args)
         {
 
                if (getCheckBoxItem(SupportConfig, "SupportMode")
                 && GetAdc(getSliderItem(SupportConfig, "SupportModeRange")) != null
-				&& (PortAIO.OrbwalkerManager.isHarassActive || PortAIO.OrbwalkerManager.isLaneClearActive || PortAIO.OrbwalkerManager.isLastHitActive))
+				&& (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LastHit)))
 			{
 				args.Process = false;
 			}
@@ -227,7 +227,7 @@ using TargetSelector = PortAIO.TSManager; namespace ThreshWarden {
 
 			if (getCheckBoxItem(TowerConfig, "DontQ2inenemyturret"))
 			{
-				if (sender.Owner.IsMe && args.Slot == SpellSlot.Q && SpellQ.GetState()== QState.threshqleap && PortAIO.OrbwalkerManager.isComboActive)
+				if (sender.Owner.IsMe && args.Slot == SpellSlot.Q && SpellQ.GetState()== QState.threshqleap && Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
 				{
 					if (QTarget.UnderTurret(true) || QTarget.InFountain())
 					{
@@ -267,14 +267,14 @@ using TargetSelector = PortAIO.TSManager; namespace ThreshWarden {
 			AutoPushTower();
 
 			AutoBox();
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
                 LaneClear();
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
                 Combo();
 
             if (getKeyBindItem(SpellConfig, "FlayPush") || getKeyBindItem(SpellConfig, "FlayPull"))
             {
-                PortAIO.OrbwalkerManager.MoveA(Game.CursorPos);
+                Orbwalker.MoveTo(Game.CursorPos);
             }
 
             if (getKeyBindItem(SpellConfig, "FlayPush") && Etarget != null &&

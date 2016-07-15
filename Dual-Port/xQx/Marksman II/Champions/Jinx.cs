@@ -17,7 +17,7 @@ using EloBuddy.SDK;
 
 #endregion
 
-using TargetSelector = PortAIO.TSManager; namespace Marksman.Champions
+ namespace Marksman.Champions
 {
     internal class Jinx : Champion
     {
@@ -135,7 +135,7 @@ using TargetSelector = PortAIO.TSManager; namespace Marksman.Champions
                     //Marksman.Utils.Utils.MPing.Ping(enemy.Position.To2D());
                 }
             }
-            if (Q.IsReady() && Program.misc["SwapDistance"].Cast<CheckBox>().CurrentValue && PortAIO.OrbwalkerManager.isComboActive)
+            if (Q.IsReady() && Program.misc["SwapDistance"].Cast<CheckBox>().CurrentValue && Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 var activeQ = ObjectManager.Player.Spellbook.GetSpell(SpellSlot.Q).Level * 25 + 650;
                 var t = TargetSelector.GetTarget(activeQ, DamageType.Physical);
@@ -261,7 +261,7 @@ using TargetSelector = PortAIO.TSManager; namespace Marksman.Champions
                 Q.Cast();
             }
 
-            if ((!ComboActive && !HarassActive) || !PortAIO.OrbwalkerManager.CanMove(0))
+            if ((!ComboActive && !HarassActive) || !Orbwalker.CanMove)
             {
                 return;
             }
@@ -345,9 +345,9 @@ using TargetSelector = PortAIO.TSManager; namespace Marksman.Champions
             }
         }
 
-        public override void Orbwalking_AfterAttack(AfterAttackArgs args)
+        public override void Orbwalking_AfterAttack(AttackableUnit targetA, EventArgs args)
         {
-            var target = args.Target;
+            var target = targetA;
             if ((ComboActive || HarassActive) && (target is AIHeroClient))
             {
                 var useQ = ComboActive ? Program.combo["UseQC"].Cast<CheckBox>().CurrentValue : Program.harass["UseQH"].Cast<CheckBox>().CurrentValue;

@@ -14,7 +14,7 @@ using Environment = System.Environment;
 using Prediction = LeagueSharp.Common.Prediction;
 using Spell = LeagueSharp.Common.Spell;
 
-using TargetSelector = PortAIO.TSManager; namespace UnderratedAIO.Champions
+ namespace UnderratedAIO.Champions
 {
     internal class Fiora
     {
@@ -32,7 +32,7 @@ using TargetSelector = PortAIO.TSManager; namespace UnderratedAIO.Champions
             InitMenu();
             Game.OnUpdate += Game_OnGameUpdate;
             Drawing.OnDraw += Game_OnDraw;
-            LSEvents.AfterAttack += AfterAttack;
+            Orbwalker.OnPostAttack += AfterAttack;
             Obj_AI_Base.OnProcessSpellCast += Game_ProcessSpell;
             GameObject.OnCreate += GameObject_OnCreate;
             GameObject.OnDelete += GameObject_OnDelete;
@@ -100,13 +100,13 @@ using TargetSelector = PortAIO.TSManager; namespace UnderratedAIO.Champions
 
             ClearList();
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 Combo();
             }
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive ||
-                PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear) ||
+                Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 Clear();
             }
@@ -116,7 +116,7 @@ using TargetSelector = PortAIO.TSManager; namespace UnderratedAIO.Champions
             {
                 var enemy = TargetSelector.GetTarget(W.Range, DamageType.Physical);
                 if ((getCheckBoxItem(comboMenu, "usew") &&
-                     PortAIO.OrbwalkerManager.isComboActive && enemy != null &&
+                     Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) && enemy != null &&
                      data.DamageTaken >= enemy.GetAutoAttackDamage(player) - 5) ||
                     (getCheckBoxItem(comboMenu, "usewDangerous") && data.DamageTaken > player.Health*0.1f))
                 {
@@ -149,9 +149,9 @@ using TargetSelector = PortAIO.TSManager; namespace UnderratedAIO.Champions
             }
         }
 
-        private static void AfterAttack(AfterAttackArgs args)
+        private static void AfterAttack(AttackableUnit targetA, EventArgs args)
         {
-            var targetO = args.Target;
+            var targetO = targetA;
             if (!(targetO is AIHeroClient))
             {
                 return;
@@ -161,14 +161,14 @@ using TargetSelector = PortAIO.TSManager; namespace UnderratedAIO.Champions
             var passivePositions = GetPassivePositions(targetO);
             var rapid = player.GetAutoAttackDamage(targ)*3 + ComboDamage(targ) > targ.Health ||
                         (player.Health < targ.Health && player.Health < player.MaxHealth/2);
-            if (E.IsReady() && PortAIO.OrbwalkerManager.isComboActive &&
+            if (E.IsReady() && Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) &&
                 (getCheckBoxItem(comboMenu, "usee") || getKeyBindItem(comboMenu, "RapidAttack") || rapid) &&
-                !PortAIO.OrbwalkerManager.CanAttack())
+                !Orbwalker.CanAutoAttack)
             {
                 E.Cast(getCheckBoxItem(config, "packets"));
             }
-            if (PortAIO.OrbwalkerManager.isComboActive && Q.IsReady() &&
-                (getKeyBindItem(comboMenu, "RapidAttack") || rapid) && !PortAIO.OrbwalkerManager.CanAttack() &&
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) && Q.IsReady() &&
+                (getKeyBindItem(comboMenu, "RapidAttack") || rapid) && !Orbwalker.CanAutoAttack &&
                 passivePositions.Any())
             {
                 var passive = GetClosestPassivePosition(targ);
@@ -188,7 +188,7 @@ using TargetSelector = PortAIO.TSManager; namespace UnderratedAIO.Champions
             }
             //var pos = GetClosestPassivePosition(targetO);
             var target = TargetSelector.GetTarget(W.Range, DamageType.Physical);
-            if (PortAIO.OrbwalkerManager.isComboActive && targetO.NetworkId == target.NetworkId &&
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) && targetO.NetworkId == target.NetworkId &&
                 R.IsReady() && R.CanCast(target) &&
                 HealthPrediction.GetHealthPrediction(target, 1000) > player.GetAutoAttackDamage(target) &&
                 ComboDamage(target) + player.GetAutoAttackDamage(target)*5 > target.Health &&
@@ -243,7 +243,7 @@ using TargetSelector = PortAIO.TSManager; namespace UnderratedAIO.Champions
             }
 
             var closestPassive = GetClosestPassivePosition(target);
-            if (closestPassive.IsValid() && getCheckBoxItem(comboMenu, "MoveToVitals") && !PortAIO.OrbwalkerManager.CanAttack() &&
+            if (closestPassive.IsValid() && getCheckBoxItem(comboMenu, "MoveToVitals") && !Orbwalker.CanAutoAttack &&
                 !ObjectManager.Player.Spellbook.IsAutoAttacking && Game.CursorPos.LSDistance(target.Position) < 350)
             {
                 //PortAIO.OrbwalkerManager.SetMovement(false);
@@ -309,7 +309,7 @@ using TargetSelector = PortAIO.TSManager; namespace UnderratedAIO.Champions
             {
                 if (args.SData.Name == "FioraE")
                 {
-                    PortAIO.OrbwalkerManager.ResetAutoAttackTimer();
+                    Orbwalker.ResetAutoAttack();
                 }
             }
         }

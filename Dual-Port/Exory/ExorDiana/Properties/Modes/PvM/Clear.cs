@@ -4,7 +4,7 @@ using ExorAIO.Utilities;
 using LeagueSharp;
 using LeagueSharp.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Diana
+ namespace ExorAIO.Champions.Diana
 {
     /// <summary>
     ///     The logics class.

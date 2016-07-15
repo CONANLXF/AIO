@@ -1,6 +1,6 @@
 ﻿using LeagueSharp.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace AsunaCondemn
+ namespace AsunaCondemn
 {
     /// <summary>
     ///     The application class.

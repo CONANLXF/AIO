@@ -13,7 +13,7 @@ using EloBuddy.SDK.Menu.Values;
 using EloBuddy.SDK;
 using Spell = LeagueSharp.Common.Spell;
 
-using TargetSelector = PortAIO.TSManager; namespace Thresh___The_Chain_Warden
+ namespace Thresh___The_Chain_Warden
 {
     class Program
     {
@@ -95,7 +95,7 @@ using TargetSelector = PortAIO.TSManager; namespace Thresh___The_Chain_Warden
             debugMenu.Add("debugFlash", new CheckBox("Debug flash+hook", false));
 
 
-            LSEvents.BeforeAttack += OnBeforeAttack; //You can use OnBeforeAttack event here instead of declaring new delegate in function
+            Orbwalker.OnPreAttack += OnBeforeAttack; //You can use OnBeforeAttack event here instead of declaring new delegate in function
             Game.OnUpdate += OnGameUpdate;
             Drawing.OnDraw += OnDraw;
             AntiGapcloser.OnEnemyGapcloser += OnEnemyGapcloser;
@@ -247,12 +247,12 @@ using TargetSelector = PortAIO.TSManager; namespace Thresh___The_Chain_Warden
                 ThrowLantern();
             }
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 Combo();
             }
 
-            if (PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 Harass();
             }
@@ -284,9 +284,9 @@ using TargetSelector = PortAIO.TSManager; namespace Thresh___The_Chain_Warden
         }
         
 
-        private static void OnBeforeAttack(BeforeAttackArgs args)
+        private static void OnBeforeAttack(AttackableUnit target, Orbwalker.PreAttackArgs args)
         {
-          if (args.Target.IsValid<Obj_AI_Minion>() && PortAIO.OrbwalkerManager.isHarassActive)
+          if (args.Target.IsValid<Obj_AI_Minion>() && Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
 
               {
                  args.Process = false;

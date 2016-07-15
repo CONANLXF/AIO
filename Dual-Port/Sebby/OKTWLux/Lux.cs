@@ -10,7 +10,7 @@ using EloBuddy;
 using EloBuddy.SDK.Menu;
 using EloBuddy.SDK.Menu.Values;
 
-using TargetSelector = PortAIO.TSManager; namespace OneKeyToWin_AIO_Sebby.Champions
+ namespace OneKeyToWin_AIO_Sebby.Champions
 {
     class Lux
     {
@@ -229,7 +229,7 @@ using TargetSelector = PortAIO.TSManager; namespace OneKeyToWin_AIO_Sebby.Champi
                 return;
             }
 
-            var t = PortAIO.OrbwalkerManager.LastTarget() as AIHeroClient;
+            var t = Orbwalker.LastTarget as AIHeroClient;
             if (!t.LSIsValidTarget())
                 t = TargetSelector.GetTarget(Q.Range, DamageType.Magical);
             if (t.LSIsValidTarget() && getCheckBoxItem(qMenu, "Qon" + t.ChampionName))

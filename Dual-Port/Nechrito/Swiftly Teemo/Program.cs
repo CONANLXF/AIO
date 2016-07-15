@@ -12,7 +12,7 @@ using EloBuddy.SDK;
 
 #endregion
 
-using TargetSelector = PortAIO.TSManager; namespace Swiftly_Teemo
+ namespace Swiftly_Teemo
 {
     internal class Program : Core
     {
@@ -31,7 +31,7 @@ using TargetSelector = PortAIO.TSManager; namespace Swiftly_Teemo
 
             Drawing.OnDraw += Drawings.OnDraw;
             Drawing.OnEndScene += Drawing_OnEndScene;
-            LeagueSharp.Common.LSEvents.AfterAttack += AfterAa.Orbwalker_OnPostAttack;
+            Orbwalker.OnPostAttack += AfterAa.Orbwalker_OnPostAttack;
             Spellbook.OnCastSpell += Mode.OnCastSpell;
             Game.OnUpdate += OnUpdate;
         }
@@ -44,11 +44,11 @@ using TargetSelector = PortAIO.TSManager; namespace Swiftly_Teemo
             }
             Killsteal.KillSteal();
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 Mode.Combo();
             }
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 Mode.Lane();
                 Mode.Jungle();

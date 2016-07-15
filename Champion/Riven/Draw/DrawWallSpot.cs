@@ -10,7 +10,7 @@ using EloBuddy;
 
 #endregion
 
-using TargetSelector = PortAIO.TSManager; namespace NechritoRiven.Draw
+ namespace NechritoRiven.Draw
 {
     internal class DrawWallSpot : Core.Core
     {

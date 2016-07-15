@@ -10,7 +10,7 @@ using Color = System.Drawing.Color;
 using CommonGeometry = Irelia.Common.CommonGeometry;
 using Font = SharpDX.Direct3D9.Font;
 
-using TargetSelector = PortAIO.TSManager; namespace Irelia.Modes
+ namespace Irelia.Modes
 {
     using System.Linq;
     using LeagueSharp;

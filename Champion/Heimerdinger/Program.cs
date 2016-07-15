@@ -29,7 +29,7 @@ using SharpDX;
 using Damage = LeagueSharp.Common.Damage;
 using Spell = LeagueSharp.Common.Spell;
 using Utility = LeagueSharp.Common.Utility;
-using TargetSelector = PortAIO.TSManager;
+
 
 namespace Two_Girls_One_Donger
 {
@@ -153,20 +153,20 @@ namespace Two_Girls_One_Donger
             var Wfarmpos = W.GetLineFarmLocation(MinionsW, W.Width);
             var Efarmpos = E.GetCircularFarmLocation(MinionsE, E.Width);
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive && Wfarmpos.MinionsHit >= 3 &&
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear) && Wfarmpos.MinionsHit >= 3 &&
                 getCheckBoxItem(laneClearMenu, "LaneclearW")
                 && Player.ManaPercent >= lanemana)
             {
                 W.Cast(Wfarmpos.Position);
             }
-            if (PortAIO.OrbwalkerManager.isLaneClearActive && Efarmpos.MinionsHit >= 3 &&
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear) && Efarmpos.MinionsHit >= 3 &&
                 MinionsE.Count >= 1 && getCheckBoxItem(laneClearMenu, "LaneclearE")
                 && Player.ManaPercent >= lanemana)
             {
                 E.Cast(Efarmpos.Position);
             }
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 Combo();
             }
@@ -280,7 +280,7 @@ namespace Two_Girls_One_Donger
 
             var wpred = W.GetPrediction(target);
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 if (Q.IsReady() && R.IsReady() && getCheckBoxItem(comboMenu, "UseQRCombo") &&
                     getCheckBoxItem(comboMenu, "UseQCombo") && target.LSIsValidTarget(650) &&

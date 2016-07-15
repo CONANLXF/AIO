@@ -3,7 +3,7 @@ using LeagueSharp;
 using LeagueSharp.Common;
 using SharpDX;
 
-using TargetSelector = PortAIO.TSManager; namespace VCursor
+ namespace VCursor
 {
     internal static class Cursor
     {

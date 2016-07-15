@@ -4,7 +4,7 @@ using SharpDX;
 using SharpDX.Direct3D9;
 using Color = System.Drawing.Color;
 
-using TargetSelector = PortAIO.TSManager; namespace HoolaRiven
+ namespace HoolaRiven
 {
     internal class HpBarIndicator
     {

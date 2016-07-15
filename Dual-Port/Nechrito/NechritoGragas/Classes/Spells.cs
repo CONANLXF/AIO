@@ -2,7 +2,7 @@
 using LeagueSharp.Common;
 using Spell = LeagueSharp.Common.Spell;
 
-using TargetSelector = PortAIO.TSManager; namespace Nechrito_Gragas
+ namespace Nechrito_Gragas
 {
     class Spells
     {

@@ -8,10 +8,10 @@ using LeagueSharp.Common;
 using ItemData = LeagueSharp.Common.Data.ItemData;
 using SharpDX;
 using Color = System.Drawing.Color;
-using TargetSelector = PortAIO.TSManager;
+
 using EloBuddy.SDK.Menu;
 using EloBuddy.SDK.Menu.Values;
-
+using EloBuddy.SDK;
 
 namespace HeavenStrikeRyze
 {
@@ -19,9 +19,9 @@ namespace HeavenStrikeRyze
     {
         private static AIHeroClient Player { get { return ObjectManager.Player; } }
 
-        private static LSOrbwalker Orbwalker = PortAIO.Init.LSOrbwalker;
+        
 
-        public static Spell _q, _q2, _w, _e, _r;
+        public static LeagueSharp.Common.Spell _q, _q2, _w, _e, _r;
 
         public static Menu _menu, comboMenu, autoMenu, drawMenu, laneMenu, jungleMenu, lasthitMenu;
 
@@ -32,11 +32,11 @@ namespace HeavenStrikeRyze
                 return;
 
             //Spells
-            _q = new Spell(SpellSlot.Q, 900);
-            _q2 = new Spell(SpellSlot.Q, 900); // xxx bounce range
-            _w = new Spell(SpellSlot.W, 600); // 600
-            _e = new Spell(SpellSlot.E, 600); // 200 bounce 
-            _r = new Spell(SpellSlot.R); // xx ramge
+            _q = new LeagueSharp.Common.Spell(SpellSlot.Q, 900);
+            _q2 = new LeagueSharp.Common.Spell(SpellSlot.Q, 900); // xxx bounce range
+            _w = new LeagueSharp.Common.Spell(SpellSlot.W, 600); // 600
+            _e = new LeagueSharp.Common.Spell(SpellSlot.E, 600); // 200 bounce 
+            _r = new LeagueSharp.Common.Spell(SpellSlot.R); // xx ramge
 
             _q.SetSkillshot(0.26f, 50f, 1700f, true, SkillshotType.SkillshotLine);
             _q2.SetSkillshot(0.26f, 50f, 1700f, false, SkillshotType.SkillshotLine);
@@ -178,23 +178,23 @@ namespace HeavenStrikeRyze
             //Game.PrintChat(Helper.CanShield().ToString());
             //Game.PrintChat(Helper.BonusMana.ToString());
             //Game.PrintChat(Helper.Qstack().ToString());
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
-                var target = Orbwalker.GetTarget();
+                var target = Orbwalker.LastTarget;
                 if ((_w.IsReady() || (Player.Mana >= _q.ManaCost + _e.ManaCost)) && BlockAA
                     && target.LSIsValidTarget() && (!target.LSIsValidTarget(350) || Player.LSCountEnemiesInRange(800) >= 2)
                     || !target.LSIsValidTarget())
                 {
-                    Orbwalker.SetAttack(false);
+                    PortAIO.OrbwalkerManager.SetAttack(false);
                 }
                 else
                 {
-                    Orbwalker.SetAttack(true);
+                    PortAIO.OrbwalkerManager.SetAttack(true);
                 }
             }
             else
             {
-                Orbwalker.SetAttack(true);
+                PortAIO.OrbwalkerManager.SetAttack(true);
             }
             foreach (var hero in HeroManager.Enemies.Where(x => x.LSIsValidTarget(_q.Range) && !x.IsZombie))
             {

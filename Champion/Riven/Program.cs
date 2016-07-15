@@ -7,7 +7,7 @@ using EloBuddy;
 
 #endregion
 
-using TargetSelector = PortAIO.TSManager; namespace NechritoRiven
+ namespace NechritoRiven
 {
     public class Program
     {

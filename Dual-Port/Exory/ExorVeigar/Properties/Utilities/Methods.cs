@@ -3,7 +3,7 @@ using EloBuddy.SDK;
 using LeagueSharp;
 using LeagueSharp.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Veigar
+ namespace ExorAIO.Champions.Veigar
 {
     /// <summary>
     ///     The methods class.
@@ -18,7 +18,7 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Veigar
             Game.OnUpdate += Veigar.OnUpdate;
             Events.OnGapCloser += Veigar.OnGapCloser;
             Events.OnInterruptableTarget += Veigar.OnInterruptableTarget;
-            LeagueSharp.Common.LSEvents.BeforeAttack += Veigar.OnAction;
+            Orbwalker.OnPreAttack += Veigar.OnAction;
         }
     }
 }

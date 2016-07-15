@@ -14,7 +14,7 @@ using Spell = LeagueSharp.Common.Spell;
 using Utility = LeagueSharp.Common.Utility;
 using Version = System.Version;
 
-using TargetSelector = PortAIO.TSManager; namespace SephLissandra
+ namespace SephLissandra
 {
     internal static class Lissandra
     {
@@ -120,20 +120,20 @@ using TargetSelector = PortAIO.TSManager; namespace SephLissandra
             {
                 KillSteal();
             }
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 ComboHandler();
             }
-            if (PortAIO.OrbwalkerManager.isHarassActive ||
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass) ||
                 getKeyBindItem(harassMenu, "Keys.HarassT"))
             {
                 HarassHandler();
             }
-            if (PortAIO.OrbwalkerManager.isLastHitActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LastHit))
             {
                 FarmHandler();
             }
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 WaveClearHandler();
             }

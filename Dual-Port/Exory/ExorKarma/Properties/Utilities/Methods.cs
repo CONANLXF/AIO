@@ -3,7 +3,7 @@ using EloBuddy.SDK;
 using LeagueSharp;
 using LeagueSharp.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Karma
+ namespace ExorAIO.Champions.Karma
 {
     /// <summary>
     ///     The methods class.
@@ -18,7 +18,7 @@ using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Karma
             Game.OnUpdate += Karma.OnUpdate;
             Events.OnGapCloser += Karma.OnGapCloser;
             Obj_AI_Base.OnProcessSpellCast += Karma.OnProcessSpellCast;
-            LeagueSharp.Common.LSEvents.BeforeAttack += Karma.OnAction;
+            Orbwalker.OnPreAttack += Karma.OnAction;
         }
     }
 }

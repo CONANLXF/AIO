@@ -7,7 +7,7 @@ using System;
 using System.Linq;
 using Spell = LeagueSharp.SDK.Spell;
 
-using TargetSelector = PortAIO.TSManager; namespace PrideStalker_Rengar
+ namespace PrideStalker_Rengar
 {
     class Core
     {

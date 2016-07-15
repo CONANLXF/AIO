@@ -3,7 +3,7 @@ using EloBuddy.SDK;
 using LeagueSharp;
 using LeagueSharp.Common;
 
-using TargetSelector = PortAIO.TSManager; namespace NechritoRiven.Core
+ namespace NechritoRiven.Core
 {
     internal partial class Core
     {

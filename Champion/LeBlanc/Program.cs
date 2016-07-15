@@ -14,7 +14,7 @@ using Prediction = LeagueSharp.Common.Prediction;
 using Spell = LeagueSharp.Common.Spell;
 using Utility = LeagueSharp.Common.Utility;
 
-using TargetSelector = PortAIO.TSManager; namespace PopBlanc
+ namespace PopBlanc
 {
     internal static class Program
     {
@@ -166,14 +166,14 @@ using TargetSelector = PortAIO.TSManager; namespace PopBlanc
                 return;
             }
 
-            if (PortAIO.OrbwalkerManager.isComboActive ||
-                PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) ||
+                Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 OnCombo();
             }
 
-            if (PortAIO.OrbwalkerManager.isLaneClearActive ||
-                PortAIO.OrbwalkerManager.isLastHitActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear) ||
+                Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LastHit))
             {
                 OnFarm();
             }
@@ -236,7 +236,7 @@ using TargetSelector = PortAIO.TSManager; namespace PopBlanc
                 }
             }
 
-            if (getKeyBindItem(fleeMenu, "Flee") || PortAIO.OrbwalkerManager.isFleeActive)
+            if (getKeyBindItem(fleeMenu, "Flee") || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Flee))
             {
                 Flee();
                 return;
@@ -253,7 +253,7 @@ using TargetSelector = PortAIO.TSManager; namespace PopBlanc
             if (getCheckBoxItem(comboMenu, "ComboOrbwalk"))
             {
                 //Orbwalking.Orbwalk(Orbwalker.GetTarget(), Game.CursorPos);
-                PortAIO.OrbwalkerManager.MoveA(Game.CursorPos);
+                Orbwalker.MoveTo(Game.CursorPos);
             }
         }
 
@@ -331,7 +331,7 @@ using TargetSelector = PortAIO.TSManager; namespace PopBlanc
         private static bool CastSecondW()
         {
             return getCheckBoxItem(wMenu, "WBackHarass") &&
-                   PortAIO.OrbwalkerManager.isHarassActive &&
+                   Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass) &&
                    W.IsReady() && !W.IsFirstW() && !Q.IsReady() && W.Cast();
         }
 

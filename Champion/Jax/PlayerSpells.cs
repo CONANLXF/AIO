@@ -3,7 +3,7 @@ using System.Linq;
 using EloBuddy;
 using EloBuddy.SDK.Menu;
 using LeagueSharp.Common;
-using TargetSelector = PortAIO.TSManager;
+
 
 namespace JaxQx
 {

@@ -11,7 +11,7 @@ using EloBuddy.SDK.Menu;
 using EloBuddy.SDK;
 using Marksman.Common;
 
-using TargetSelector = PortAIO.TSManager; namespace Marksman.Champions
+ namespace Marksman.Champions
 {
     internal class Reticles
     {
@@ -152,7 +152,7 @@ using TargetSelector = PortAIO.TSManager; namespace Marksman.Champions
             if (drawCatchRadius)
             {
                 if (GetOrbwalkPos() != Game.CursorPos &&
-                    (ComboActive || LaneClearActive || PortAIO.OrbwalkerManager.isLastHitActive))
+                    (ComboActive || LaneClearActive || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LastHit)))
                 {
                     Render.Circle.DrawCircle(Game.CursorPos, Program.misc["CatchRadius"].Cast<Slider>().CurrentValue,
                         Color.Red);
@@ -190,15 +190,15 @@ using TargetSelector = PortAIO.TSManager; namespace Marksman.Champions
             var orbwalkPos = GetOrbwalkPos();
             var cursor = Game.CursorPos;
 
-            if (ComboActive || LaneClearActive || PortAIO.OrbwalkerManager.isLastHitActive)
+            if (ComboActive || LaneClearActive || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LastHit))
             {
                 if (orbwalkPos != cursor)
                 {
-                    PortAIO.OrbwalkerManager.MoveA(orbwalkPos);
+                    Orbwalker.MoveTo(orbwalkPos);
                 }
                 else
                 {
-                    PortAIO.OrbwalkerManager.MoveA(cursor);
+                    Orbwalker.MoveTo(cursor);
                 }
             }
 
@@ -256,7 +256,7 @@ using TargetSelector = PortAIO.TSManager; namespace Marksman.Champions
             }
         }
 
-        public override void Orbwalking_AfterAttack(AfterAttackArgs args)
+        public override void Orbwalking_AfterAttack(AttackableUnit target, EventArgs args)
         {
             Console.WriteLine("Hai");
             Console.WriteLine(Program.misc["maxqamount"].Cast<Slider>().CurrentValue);

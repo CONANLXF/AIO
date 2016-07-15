@@ -3,7 +3,7 @@ using LeagueSharp.Common;
 using EloBuddy.SDK.Menu.Values;
 using EloBuddy.SDK.Menu;
 
-using TargetSelector = PortAIO.TSManager; namespace DZAwarenessAIO.Utility.MenuUtility
+ namespace DZAwarenessAIO.Utility.MenuUtility
 {
     static class MenuExtensions
     {

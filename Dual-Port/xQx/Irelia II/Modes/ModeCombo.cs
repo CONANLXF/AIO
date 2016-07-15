@@ -15,7 +15,7 @@ using EloBuddy.SDK.Menu.Values;
 using EloBuddy;
 using EloBuddy.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace Irelia.Modes
+ namespace Irelia.Modes
 {
     internal static class ModeCombo
     {
@@ -37,7 +37,7 @@ using TargetSelector = PortAIO.TSManager; namespace Irelia.Modes
             MenuLocal.Add("Combo.R", new ComboBox("R:", 1, "Off", "On"));
 
             Game.OnUpdate += OnUpdate;
-            LSEvents.BeforeAttack += OrbwalkingOnBeforeAttack;
+            Orbwalker.OnPreAttack += OrbwalkingOnBeforeAttack;
 
             Drawing.OnDraw += DrawingOnOnDraw;
         }
@@ -169,14 +169,14 @@ using TargetSelector = PortAIO.TSManager; namespace Irelia.Modes
             return m[item].Cast<ComboBox>().CurrentValue;
         }
 
-        private static void OrbwalkingOnBeforeAttack(BeforeAttackArgs args)
+        private static void OrbwalkingOnBeforeAttack(AttackableUnit target, Orbwalker.PreAttackArgs args)
         {
             if (!Common.CommonHelper.ShouldCastSpell(TargetSelector.GetTarget(Orbwalking.GetRealAutoAttackRange(null) + 65, DamageType.Physical)))
             {
                 return;
             }
 
-            if (!W.IsReady() || !PortAIO.OrbwalkerManager.isComboActive || getBoxItem(MenuLocal, "Combo.W") == 0)
+            if (!W.IsReady() || !Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) || getBoxItem(MenuLocal, "Combo.W") == 0)
             {
                 return;
             }
@@ -197,7 +197,7 @@ using TargetSelector = PortAIO.TSManager; namespace Irelia.Modes
             //Console.WriteLine("-------------------------------------------------");
 
 
-            if (!PortAIO.OrbwalkerManager.isComboActive)
+            if (!Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 return;
             }

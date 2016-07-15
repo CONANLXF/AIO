@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-using TargetSelector = PortAIO.TSManager; namespace Marksman.Common
+ namespace Marksman.Common
 {
     using System.Net;
 

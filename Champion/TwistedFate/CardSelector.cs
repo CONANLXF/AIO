@@ -6,7 +6,7 @@ using LeagueSharp.Common;
 
 #endregion
 
-using TargetSelector = PortAIO.TSManager; namespace TwistedFate
+ namespace TwistedFate
 {
     public enum Cards
     {

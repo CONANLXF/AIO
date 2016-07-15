@@ -14,7 +14,7 @@ using Utility = LeagueSharp.Common.Utility;
 using Spell = LeagueSharp.Common.Spell;
 using EloBuddy.SDK.Menu.Values;
 
-using TargetSelector = PortAIO.TSManager; namespace EkkoGod
+ namespace EkkoGod
 {
     class Program
     {
@@ -202,15 +202,15 @@ using TargetSelector = PortAIO.TSManager; namespace EkkoGod
                 return;
             }
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 Combo();
             }
-            if (PortAIO.OrbwalkerManager.isHarassActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 Harass();
             }
-            if (PortAIO.OrbwalkerManager.isFleeActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Flee))
             {
                 Escape();
             }
@@ -263,7 +263,7 @@ using TargetSelector = PortAIO.TSManager; namespace EkkoGod
             {
               EloBuddy.Player.IssueOrder(GameObjectOrder.AttackUnit, jumpfar);
             }
-            PortAIO.OrbwalkerManager.MoveA(Game.CursorPos);
+            Orbwalker.MoveTo(Game.CursorPos);
         }
 
         private static void WCC()
@@ -467,7 +467,7 @@ using TargetSelector = PortAIO.TSManager; namespace EkkoGod
             {
                 // make sure orbwalker doesnt mess up after casting E
 
-                if (PortAIO.OrbwalkerManager.isComboActive || PortAIO.OrbwalkerManager.isHarassActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
                 {
                     if (enemy == null)
                         return;

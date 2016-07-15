@@ -1,7 +1,7 @@
 using EloBuddy;
 using LeagueSharp;
 
-using TargetSelector = PortAIO.TSManager; namespace ExorAIO.Champions.Veigar
+ namespace ExorAIO.Champions.Veigar
 {
     /// <summary>
     ///     The logics class.

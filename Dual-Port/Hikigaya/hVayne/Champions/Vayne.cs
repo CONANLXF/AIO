@@ -9,7 +9,7 @@ using Color = System.Drawing.Color;
 using EloBuddy.SDK;
 using EloBuddy.SDK.Notifications;
 
-using TargetSelector = PortAIO.TSManager; namespace hVayne.Champions
+ namespace hVayne.Champions
 {
     public class Vayne
     {
@@ -27,37 +27,37 @@ using TargetSelector = PortAIO.TSManager; namespace hVayne.Champions
             Config.ExecuteMenu();
 
             Game.OnUpdate += OnUpdate;
-            LeagueSharp.Common.LSEvents.AfterAttack += OnAction;
+            Orbwalker.OnPostAttack += OnAction;
         }
         
-        private static void OnAction(LeagueSharp.Common.AfterAttackArgs args)
+        private static void OnAction(AttackableUnit target, EventArgs args)
         {
-            var dgfg = args.Target;
+            var dgfg = target;
             if (dgfg is AIHeroClient)
             {
                 var Target = dgfg as AIHeroClient;
 
             {
-                if (PortAIO.OrbwalkerManager.isComboActive && Config.getCheckBoxItem(Config.comboMenu, "combo.q") && Spells.Q.IsReady()
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) && Config.getCheckBoxItem(Config.comboMenu, "combo.q") && Spells.Q.IsReady()
                     && Target.LSIsValidTarget(777) && Config.ComboMethod == 0)
                 {
                     SpellManager.ExecuteQ(((AIHeroClient)Target));
                 }
 
-                if (PortAIO.OrbwalkerManager.isComboActive && Config.getCheckBoxItem(Config.comboMenu, "combo.q") && Spells.Q.IsReady()
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) && Config.getCheckBoxItem(Config.comboMenu, "combo.q") && Spells.Q.IsReady()
                     && Target.LSIsValidTarget(777) && Config.ComboMethod == 1 &&
                     ((AIHeroClient)Target).GetBuffCount("vaynesilvereddebuff") >= 1)
                 {
                     SpellManager.ExecuteQ(((AIHeroClient)Target));
                 }
 
-                if (PortAIO.OrbwalkerManager.isComboActive && Config.getCheckBoxItem(Config.itemMenu, "use.youmuu") && Items.HasItem(3142)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) && Config.getCheckBoxItem(Config.itemMenu, "use.youmuu") && Items.HasItem(3142)
                     && Items.CanUseItem(3142) && Target.LSIsValidTarget(ObjectManager.Player.AttackRange))
                 {
                     Items.UseItem(3142);
                 }
 
-                if (PortAIO.OrbwalkerManager.isComboActive && Config.getCheckBoxItem(Config.itemMenu, "use.botrk") && Items.HasItem(3153)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) && Config.getCheckBoxItem(Config.itemMenu, "use.botrk") && Items.HasItem(3153)
                     && Items.CanUseItem(3153) && Target.LSIsValidTarget(550))
                 {
                     if ((((AIHeroClient)Target).Health / ((AIHeroClient)Target).MaxHealth) < Config.getSliderItem(Config.itemMenu, "botrk.enemy.hp") && ((ObjectManager.Player.Health / ObjectManager.Player.MaxHealth) < Config.getSliderItem(Config.itemMenu, "botrk.vayne.hp")))
@@ -66,7 +66,7 @@ using TargetSelector = PortAIO.TSManager; namespace hVayne.Champions
                     }
                 }
 
-                if (PortAIO.OrbwalkerManager.isHarassActive && Config.getCheckBoxItem(Config.harassMenu, "harass.q") && Spells.Q.IsReady()
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass) && Config.getCheckBoxItem(Config.harassMenu, "harass.q") && Spells.Q.IsReady()
                     && ObjectManager.Player.ManaPercent >= Config.getSliderItem(Config.harassMenu, "harass.mana") && Target.LSIsValidTarget(777)
                     && ((AIHeroClient)Target).GetBuffCount("vaynesilvereddebuff") >= 1 && Config.HarassMethod == 0)
                 {
@@ -78,7 +78,7 @@ using TargetSelector = PortAIO.TSManager; namespace hVayne.Champions
 
             if (Target.Type == GameObjectType.obj_AI_Minion && 
                 Target.Team == GameObjectTeam.Neutral && ObjectManager.Player.ManaPercent >= Config.getSliderItem(Config.jungleMenu, "jungle.mana")
-                && Spells.Q.IsReady() && PortAIO.OrbwalkerManager.isLaneClearActive)
+                && Spells.Q.IsReady() && Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 Spells.Q.Cast(Game.CursorPos);
             }
@@ -88,15 +88,15 @@ using TargetSelector = PortAIO.TSManager; namespace hVayne.Champions
         private static void OnUpdate(EventArgs args)
         {
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 OnCombo();
             }
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 OnJungle();
             }
-            if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 OnHybrid();
             }

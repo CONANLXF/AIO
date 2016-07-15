@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using LeagueSharp.Common;
 using SharpDX;
 
-using TargetSelector = PortAIO.TSManager; namespace EvadeSharp.Pathfinding
+ namespace EvadeSharp.Pathfinding
 {
     class Utils
     {

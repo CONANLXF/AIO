@@ -10,7 +10,7 @@ using EloBuddy.SDK.Menu.Values;
 using SharpDX;
 using Color = System.Drawing.Color;
 using LeagueSharp.Common;
-using TargetSelector = PortAIO.TSManager;
+
 namespace RevampedDraven
 {
     internal class AxeDropObjectData
@@ -22,10 +22,10 @@ namespace RevampedDraven
     public static class Program
     {
         private static readonly List<AxeDropObjectData> _axeDropObjectDataList = new List<AxeDropObjectData>();
-        
+
         private static EloBuddy.SDK.Spell.Skillshot E, R;
         private static EloBuddy.SDK.Spell.Active Q, W;
-        private static GameObject _bestDropObject = null;
+        private static readonly GameObject _bestDropObject = null;
 
         private static Menu Menu;
 
@@ -97,14 +97,14 @@ namespace RevampedDraven
 
             Menu.AddSeparator();
 
-            Q = new EloBuddy.SDK.Spell.Active(SpellSlot.Q, (uint) myHero.GetAutoAttackRange());
+            Q = new EloBuddy.SDK.Spell.Active(SpellSlot.Q, (uint)myHero.GetAutoAttackRange());
             W = new EloBuddy.SDK.Spell.Active(SpellSlot.W);
             E = new EloBuddy.SDK.Spell.Skillshot(SpellSlot.E, 1020, SkillShotType.Linear, 250, 1400, 120);
             R = new EloBuddy.SDK.Spell.Skillshot(SpellSlot.R, 2500, SkillShotType.Linear, 400, 2000, 160);
 
             Game.OnTick += OnUpdate;
             Drawing.OnDraw += Drawing_OnDraw;
-            LSEvents.BeforeAttack += Orbwalker_OnPreAttack;
+            Orbwalker.OnPreAttack += Orbwalker_OnPreAttack;
             GameObject.OnCreate += GameObject_OnCreate;
             GameObject.OnDelete += GameObject_OnDelete;
             Player.OnIssueOrder += Player_OnIssueOrder;
@@ -153,7 +153,7 @@ namespace RevampedDraven
                         Drawing.DrawText(objectPos.X, objectPos.Y,
                             _bestDropObject != null && _bestDropObject.IsValid
                                 ? data.Object.NetworkId == _bestDropObject.NetworkId ? Color.YellowGreen : Color.Gray
-                                : Color.Gray, ((float) (data.ExpireTime - Environment.TickCount)/1000).ToString("0.0"));
+                                : Color.Gray, ((float)(data.ExpireTime - Environment.TickCount) / 1000).ToString("0.0"));
                     }
                 }
             }
@@ -182,7 +182,7 @@ namespace RevampedDraven
                                             var position = myHero.Position.LSExtend(args.TargetPosition, i);
                                             if (_bestDropObject.Position.LSDistance(position) < 120)
                                             {
-                                                Player.IssueOrder(GameObjectOrder.MoveTo, (Vector3) position);
+                                                Player.IssueOrder(GameObjectOrder.MoveTo, (Vector3)position);
                                                 args.Process = false;
                                                 break;
                                             }
@@ -216,11 +216,11 @@ namespace RevampedDraven
             }
         }
 
-        private static void Orbwalker_OnPreAttack(BeforeAttackArgs args)
+        private static void Orbwalker_OnPreAttack(AttackableUnit target, Orbwalker.PreAttackArgs args)
         {
             _axeDropObjectDataList.RemoveAll(x => !x.Object.IsValid);
 
-            if (PortAIO.OrbwalkerManager.isComboActive)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 if (args.Target.Type == GameObjectType.AIHeroClient)
                 {
@@ -236,7 +236,7 @@ namespace RevampedDraven
                     }
                 }
             }
-            else if (PortAIO.OrbwalkerManager.isHarassActive)
+            else if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 if (useQH)
                 {
@@ -252,7 +252,8 @@ namespace RevampedDraven
                     }
                 }
             }
-            else if (PortAIO.OrbwalkerManager.isLaneClearActive)
+            else if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) ||
+                     Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
                 if (EntityManager.MinionsAndMonsters.GetLaneMinions().Any(x => x.NetworkId == args.Target.NetworkId))
                 {
@@ -328,10 +329,11 @@ namespace RevampedDraven
         {
             if (LastAATick <= Environment.TickCount)
             {
-                return Environment.TickCount + Game.Ping/2 >= LastAATick + myHero.AttackCastDelay*1000 + extraWindup;
+                return Environment.TickCount + Game.Ping / 2 >= LastAATick + myHero.AttackCastDelay * 1000 + extraWindup;
             }
             return false;
         }
+
         private static void OnUpdate(EventArgs args)
         {
             if (!myHero.IsDead)
@@ -341,56 +343,81 @@ namespace RevampedDraven
 
                 if (catchaxe)
                 {
-                    var bestObject =
-                        _axeDropObjectDataList.Where(x => x.Object.IsValid)
-                            .OrderBy(x => x.ExpireTime)
-                            .FirstOrDefault(
-                                x =>
-                                    Game.CursorPos.Distance(x.Object.Position) <=
-                                    catchaxerange);
-                    if (bestObject != null)
+                    if (bestObjecta != null)
                     {
-                        _bestDropObject = bestObject.Object;
-                        if (ObjectManager.Player.GetPath(bestObject.Object.Position).ToList().To2D().PathLength() /
-                            ObjectManager.Player.MoveSpeed + Environment.TickCount >= bestObject.ExpireTime)
+                        if (onlycatch)
                         {
-                            if (PortAIO.OrbwalkerManager.isComboActive)
+                            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) ||
+                                Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) ||
+                                Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear) ||
+                                Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
                             {
-                                if (useW)
-                                    W.Cast();
-                            }
-
-                            if (PortAIO.OrbwalkerManager.isHarassActive)
-                            {
-                                if (useWH)
-                                    W.Cast();
-                            }
-                        }
-
-                        if (bestObject.Object.Position.Distance(ObjectManager.Player.Position) < 120)
-                        {
-                            if (!PortAIO.OrbwalkerManager.isNoneActive)
-                            {
-                                PortAIO.OrbwalkerManager.SetOrbwalkingPoint(Game.CursorPos);
+                                if (Game.CursorPos.LSDistance(bestObjecta.Object.Position) <= catchaxerange)
+                                {
+                                    if (
+                                        ObjectManager.Get<GameObject>()
+                                            .FirstOrDefault(x => x.Name.Equals("Draven_Base_Q_reticle_self.troy"))
+                                            .Position.LSDistance(myHero.ServerPosition) <= 80f)
+                                    {
+                                        Orbwalker.DisableMovement = true;
+                                        Orbwalker.OrbwalkTo(
+                                            ObjectManager.Get<GameObject>()
+                                                .FirstOrDefault(x => x.Name.Equals("Draven_Base_Q_reticle_self.troy"))
+                                                .Position);
+                                        Orbwalker.DisableMovement = false;
+                                    }
+                                    else
+                                    {
+                                        Orbwalker.DisableMovement = false;
+                                        Orbwalker.DisableAttacking = true;
+                                        Orbwalker.OrbwalkTo(
+                                            ObjectManager.Get<GameObject>()
+                                                .FirstOrDefault(x => x.Name.Equals("Draven_Base_Q_reticle_self.troy"))
+                                                .Position);
+                                        Orbwalker.DisableMovement = true;
+                                        Orbwalker.DisableAttacking = false;
+                                    }
+                                }
                             }
                         }
                         else
                         {
-                            if (PortAIO.OrbwalkerManager.isNoneActive)
-                                EloBuddy.Player.IssueOrder(GameObjectOrder.MoveTo, bestObject.Object.Position);
-                            else
-                                PortAIO.OrbwalkerManager.SetOrbwalkingPoint(bestObject.Object.Position);
+                            if (Game.CursorPos.LSDistance(bestObjecta.Object.Position) <= catchaxerange)
+                            {
+                                if (
+                                    ObjectManager.Get<GameObject>()
+                                        .FirstOrDefault(x => x.Name.Equals("Draven_Base_Q_reticle_self.troy"))
+                                        .Position.LSDistance(myHero.ServerPosition) <= 80f)
+                                {
+                                    Orbwalker.DisableMovement = true;
+                                    Orbwalker.OrbwalkTo(
+                                        ObjectManager.Get<GameObject>()
+                                            .FirstOrDefault(x => x.Name.Equals("Draven_Base_Q_reticle_self.troy"))
+                                            .Position);
+                                    Orbwalker.DisableMovement = false;
+                                }
+                                else
+                                {
+                                    Orbwalker.DisableMovement = false;
+                                    Orbwalker.DisableAttacking = true;
+                                    Orbwalker.OrbwalkTo(
+                                        ObjectManager.Get<GameObject>()
+                                            .FirstOrDefault(x => x.Name.Equals("Draven_Base_Q_reticle_self.troy"))
+                                            .Position);
+                                    Orbwalker.DisableMovement = true;
+                                    Orbwalker.DisableAttacking = false;
+                                }
+                            }
                         }
                     }
                     else
                     {
-                        _bestDropObject = null;
-                        PortAIO.OrbwalkerManager.SetOrbwalkingPoint(Game.CursorPos);
+                        Orbwalker.DisableMovement = false;
+                        Orbwalker.DisableAttacking = false;
                     }
                 }
-            
 
-                if (PortAIO.OrbwalkerManager.isComboActive)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
                 {
                     if (useW)
                     {
@@ -434,7 +461,7 @@ namespace RevampedDraven
                         }
                     }
                 }
-                else if (PortAIO.OrbwalkerManager.isHarassActive)
+                else if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
                 {
                     if (useWH)
                     {
@@ -468,7 +495,8 @@ namespace RevampedDraven
                         }
                     }
                 }
-                else if (PortAIO.OrbwalkerManager.isLaneClearActive)
+                else if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) ||
+                         Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
                 {
                     foreach (
                         var minion in
@@ -485,7 +513,7 @@ namespace RevampedDraven
                                         EntityManager.MinionsAndMonsters.GetLaneMinions(
                                             EntityManager.UnitTeam.Enemy, myHero.ServerPosition, E.Range);
                                     var farmLocation = EntityManager.MinionsAndMonsters.GetLineFarmLocation(
-                                        minions, E.Width, (int) E.Range);
+                                        minions, E.Width, (int)E.Range);
                                     if (farmLocation.HitNumber >= 3)
                                     {
                                         E.Cast(farmLocation.CastPosition);
@@ -513,7 +541,7 @@ namespace RevampedDraven
                                         EntityManager.MinionsAndMonsters.GetJungleMonsters(myHero.ServerPosition,
                                             E.Range);
                                     var farmLocation = EntityManager.MinionsAndMonsters.GetLineFarmLocation(
-                                        minions, E.Width, (int) E.Range);
+                                        minions, E.Width, (int)E.Range);
                                     if (farmLocation.HitNumber >= 2)
                                     {
                                         E.Cast(farmLocation.CastPosition);
@@ -584,7 +612,7 @@ namespace RevampedDraven
                 if (!target.HasBuff("manabarriercooldown"))
                 {
                     if (target.Health + target.HPRegenRate +
-                        (damageType == DamageType.Physical ? target.AttackShield : target.MagicShield) + target.Mana*0.6 +
+                        (damageType == DamageType.Physical ? target.AttackShield : target.MagicShield) + target.Mana * 0.6 +
                         target.PARRegenRate < calculatedDamage)
                     {
                         return true;

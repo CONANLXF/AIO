@@ -10,7 +10,7 @@ using EloBuddy.SDK.Menu.Values;
 using EloBuddy.SDK.Menu;
 using EloBuddy.SDK;
 
-using TargetSelector = PortAIO.TSManager; namespace xSLx_Orbwalker
+ namespace xSLx_Orbwalker
 {
     // ReSharper disable once InconsistentNaming
     public class xSLxOrbwalker

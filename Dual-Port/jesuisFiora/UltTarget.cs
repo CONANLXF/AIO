@@ -20,7 +20,7 @@ using System.Security.AccessControl;
 using System;
 using System.Speech.Synthesis;
 
-using TargetSelector = PortAIO.TSManager; namespace jesuisFiora
+ namespace jesuisFiora
 {
     internal static class UltTarget
     {

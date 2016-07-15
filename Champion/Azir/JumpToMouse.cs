@@ -4,7 +4,7 @@ using LeagueSharp.Common;
 using SharpDX;
 using System;
 using SAutoCarry.Champions.Helpers;
-using TargetSelector = PortAIO.TSManager;
+
 namespace HeavenStrikeAzir
 {
     public static class JumpToMouse
@@ -26,7 +26,7 @@ namespace HeavenStrikeAzir
             if (sender.IsMe)
             {
                 if (args.SData.Name == "azirq")
-                    PortAIO.OrbwalkerManager.ResetAutoAttackTimer();
+                    Orbwalker.ResetAutoAttack();
 
                 if (Program.eqmouse)
                 {
@@ -107,9 +107,9 @@ namespace HeavenStrikeAzir
         {
             if (!Program.eqmouse)
                 return;
-            if (PortAIO.OrbwalkerManager.CanMove(0))
+            if (Orbwalker.CanMove)
             {
-                PortAIO.OrbwalkerManager.MoveA(Game.CursorPos);
+                Orbwalker.MoveTo(Game.CursorPos);
             }
             Jump(Game.CursorPos, true);
         }
