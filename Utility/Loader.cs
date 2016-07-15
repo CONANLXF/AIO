@@ -141,6 +141,7 @@ namespace PortAIO.Utility
         public static int varus { get { return Miscc["varus"].Cast<ComboBox>().CurrentValue; } }
         public static int malzahar { get { return Miscc["malzahar"].Cast<ComboBox>().CurrentValue; } }
         public static int orbwalkerCB { get { return Miscc["orbwalkerCB"].Cast<ComboBox>().CurrentValue; } }
+        public static bool universalMinimap { get { return Miscc["universalMinimap"].Cast<CheckBox>().CurrentValue; } }
 
         public static Menu Miscc;
 
@@ -644,6 +645,7 @@ namespace PortAIO.Utility
             Miscc.AddSeparator();
             Miscc.Add("cursor", new CheckBox("Enable VCursor?", false));
             Miscc.Add("condemn", new CheckBox("Enable Asuna Condemn (Vayne Only)?", false));
+            Miscc.Add("universalMinimap", new CheckBox("Enable UniversalMiniMapHack?", false));
 
             var credits = Miscc.AddSubMenu("Credits");
             credits.AddLabel("Nathan or jQuery");
