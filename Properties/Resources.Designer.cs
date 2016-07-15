@@ -1481,16 +1481,6 @@ namespace PortAIO.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap hud {
-            get {
-                object obj = ResourceManager.GetObject("hud", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap hud_exp {
             get {
                 object obj = ResourceManager.GetObject("hud_exp", resourceCulture);
@@ -1525,6 +1515,16 @@ namespace PortAIO.Properties {
             get {
                 object obj = ResourceManager.GetObject("hud_vanilla1", resourceCulture);
                 return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap hudTRACKER {
+            get {
+                object obj = ResourceManager.GetObject("hudTRACKER", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         

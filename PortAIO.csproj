@@ -58,7 +58,7 @@
   <ItemGroup>
     <Reference Include="Berb.Common, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\AppData\Roaming\EloBuddy\Repositories\2D739859\Berb.Common\bin\Release\Berb.Common.dll</HintPath>
+      <HintPath>..\Berb.Common\Berb.Common\bin\Debug\Berb.Common.dll</HintPath>
     </Reference>
     <Reference Include="EloBuddy">
       <HintPath>..\..\..\AppData\Roaming\EloBuddy\Addons\Libraries\EloBuddy.dll</HintPath>
@@ -2000,6 +2000,9 @@
     <Compile Include="Utility\TheCheater\SacOrbwalkerDetector.cs" />
     <Compile Include="Utility\TheCheater\TheCheater.cs" />
     <Compile Include="Utility\ToxicReform\Program.cs" />
+    <Compile Include="Utility\Tracker\HbTracker.cs" />
+    <Compile Include="Utility\Tracker\Program.cs" />
+    <Compile Include="Utility\Tracker\WardTracker.cs" />
     <Compile Include="Utility\TrapTracker\Program.cs" />
     <Compile Include="Utility\UniversalGankAlerter\Program.cs" />
     <Compile Include="Utility\UniversalPingBlock\Program.cs" />
@@ -2457,6 +2460,7 @@
     <Content Include="Resources\DZAwareness\Ziggs_Square_0.png" />
     <Content Include="Resources\DZAwareness\Zilean_Square_0.png" />
     <Content Include="Resources\DZAwareness\Zyra_Square_0.png" />
+    <None Include="Resources\hud.png" />
     <Content Include="Resources\Images\cursor_drag.png" />
     <Content Include="Resources\Images\notifications_arrow.png" />
     <Content Include="Resources\Images\notifications_check.png" />
@@ -2572,6 +2576,12 @@
     <None Include="Resources\KalistaRx.png" />
     <None Include="Resources\ShenStandUnited.png" />
     <None Include="Resources\ShenR.png" />
+    <None Include="Resources\itemsmiteaoe.png" />
+    <None Include="Resources\Minimap_Ward_Green_Enemy.png" />
+    <None Include="Resources\Minimap_Ward_Pink_Enemy.png" />
+    <None Include="Resources\s5_summonersmiteduel.png" />
+    <None Include="Resources\s5_summonersmiteplayerganker.png" />
+    <None Include="Resources\s5_summonersmitequick.png" />
     <Content Include="Resources\SPRITES\EloDisplayer\EloGui.png" />
     <None Include="Resources\Swain.png" />
     <None Include="Resources\Syndra.png" />
@@ -2628,9 +2638,17 @@
     <None Include="Resources\ZedR.png" />
     <None Include="Resources\ZiggsR.png" />
     <None Include="Resources\VayneInquisition.png" />
+    <None Include="Resources\SummonerBarrier.png" />
+    <None Include="Resources\SummonerBoost.png" />
+    <None Include="Resources\SummonerDot.png" />
+    <None Include="Resources\SummonerExhaust.png" />
+    <None Include="Resources\SummonerFlash.png" />
+    <None Include="Resources\SummonerHaste.png" />
+    <None Include="Resources\SummonerHeal.png" />
+    <None Include="Resources\SummonerOdinGarrison.png" />
+    <None Include="Resources\SummonerSmite.png" />
+    <None Include="Resources\SummonerTeleport.png" />
     <Content Include="TO-DO.txt" />
-    <None Include="Resources\Minimap_Ward_Pink_Enemy.png" />
-    <None Include="Resources\Minimap_Ward_Green_Enemy.png" />
     <None Include="Resources\ScopeSprite.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

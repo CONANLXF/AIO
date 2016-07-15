@@ -7,8 +7,8 @@ using System.Linq;
 using EloBuddy;
 using LeagueSharp.Common;
 using SharpDX;
-using Tracker.Properties;
 using Color = System.Drawing.Color;
+using PortAIO.Properties;
 
 #endregion
 

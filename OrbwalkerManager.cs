@@ -171,7 +171,7 @@ namespace PortAIO
             }
             else
             {
-                return LSOrbwalker.CanMove();
+                return LSOrbwalker.CanMove(time);
             }
         }
 

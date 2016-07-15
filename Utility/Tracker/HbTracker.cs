@@ -9,10 +9,10 @@ using EloBuddy.SDK.Menu;
 using EloBuddy.SDK.Menu.Values;
 using LeagueSharp.Common;
 using SharpDX;
-using Tracker.Properties;
 using Color = SharpDX.Color;
 using Rectangle = SharpDX.Rectangle;
 using SharpDX.Direct3D9;
+using PortAIO.Properties;
 
 #endregion
 
@@ -55,7 +55,7 @@ namespace Tracker
                     SummonerTextures.Add(sName, GetSummonerTexture(sName));
                 }
 
-                CdFrame = new Render.Sprite(Resources.hud, Vector2.Zero );
+                CdFrame = new Render.Sprite(Resources.hudTRACKER, Vector2.Zero );
                 ReadyLine = new Render.Line(Vector2.Zero, Vector2.Zero, 2, Color.Black);
                 Text = new Render.Text("", Vector2.Zero, 13, Color.Black);
             }
@@ -120,31 +120,31 @@ namespace Tracker
             switch (name)
             {
                 case "SummonerOdinGarrison":
-                    bitmap = Resources.SummonerOdinGarrison;
+                    bitmap = Resources.SummonerOdinGarrison1;
                     break;
                 case "SummonerBoost":
-                    bitmap = Resources.SummonerBoost;
+                    bitmap = Resources.SummonerBoost1;
                     break;
                 case "SummonerTeleport":
-                    bitmap = Resources.SummonerTeleport;
+                    bitmap = Resources.SummonerTeleport1;
                     break;
                 case "SummonerHeal":
-                    bitmap = Resources.SummonerHeal;
+                    bitmap = Resources.SummonerHeal1;
                     break;
                 case "SummonerExhaust":
-                    bitmap = Resources.SummonerExhaust;
+                    bitmap = Resources.SummonerExhaust1;
                     break;
                 case "SummonerSmite":
-                    bitmap = Resources.SummonerSmite;
+                    bitmap = Resources.SummonerSmite1;
                     break;
                 case "SummonerDot":
-                    bitmap = Resources.SummonerDot;
+                    bitmap = Resources.SummonerDot1;
                     break;
                 case "SummonerHaste":
-                    bitmap = Resources.SummonerHaste;
+                    bitmap = Resources.SummonerHaste1;
                     break;
                 case "SummonerFlash":
-                    bitmap = Resources.SummonerFlash;
+                    bitmap = Resources.SummonerFlash1;
                     break;
                 case "s5_summonersmiteduel":
                     bitmap = Resources.s5_summonersmiteduel;
@@ -159,7 +159,7 @@ namespace Tracker
                     bitmap = Resources.itemsmiteaoe;
                     break;
                 default:
-                    bitmap = Resources.SummonerBarrier;
+                    bitmap = Resources.SummonerBarrier1;
                     break;
             }
 
