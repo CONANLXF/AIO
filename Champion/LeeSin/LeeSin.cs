@@ -186,7 +186,7 @@
                         }
                         else if (args.Buff.Name == "blindmonkrroot" && Common.CanFlash)
                         {
-                            CastRFlash(sender);
+                            CastRFlash((AIHeroClient)sender);
                         }
                     }
                 };
@@ -402,7 +402,7 @@
             }
         }
 
-        private static void CastRFlash(Obj_AI_Base target)
+        private static void CastRFlash(AIHeroClient target)
         {
             var targetSelect = TargetSelector.SelectedTarget;
             if (!targetSelect.LSIsValidTarget() || !targetSelect.Compare(target)
@@ -421,7 +421,7 @@
             }
             else if (getKeyBindItem(insecMenu, "R") && Insec.IsRecentRFlash)
             {
-                pos = Insec.GetPositionKickTo((AIHeroClient)target);
+                pos = Insec.GetPositionKickTo(target);
             }
             if (pos.IsValid())
             {
@@ -749,10 +749,10 @@
             }
             if (getCheckBoxItem(ksMenu, "R") && R.IsReady())
             {
-                var targetList = EntityManager.Heroes.Enemies.Where(x => !x.IsDead && R.IsInRange(x) && getCheckBoxItem(ksMenu, "RCast" + x.NetworkId) && x.LSIsValidTarget()).ToList();
-                if (targetList.Count > 0)
+                var targets = EntityManager.Heroes.Enemies.Where(x => !x.IsDead && R.IsInRange(x) && getCheckBoxItem(ksMenu, "RCast" + x.NetworkId) && x.LSIsValidTarget()).ToList();
+                if (targets.Count > 0)
                 {
-                    var targetR = targetList.FirstOrDefault(i => i.Health + i.AttackShield <= R.GetDamage(i));
+                    var targetR = targets.FirstOrDefault(i => i.Health + i.AttackShield <= R.GetDamage(i));
                     if (targetR != null)
                     {
                         R.CastOnUnit(targetR);
@@ -760,7 +760,7 @@
                     else if (getCheckBoxItem(ksMenu, "Q") && getCheckBoxItem(ksMenu, "Q2") && Q.IsReady() && !IsQOne)
                     {
                         var targetQ2R =
-                            targetList.FirstOrDefault(
+                            targets.FirstOrDefault(
                                 i =>
                                 HaveQ(i)
                                 && i.Health + i.AttackShield
@@ -992,7 +992,7 @@
                 }
                 else if (getKeyBindItem(insecMenu, "R"))
                 {
-                    Insec.Start(Insec.GetTarget);
+                    Insec.Start();
                 }
             }
 
@@ -1092,6 +1092,8 @@
 
             internal static bool IsWardFlash;
 
+            internal static int LastWardTime, LastJumpTme;
+
             private static Vector3 lastEndPos, lastFlashPos;
 
             private static int lastInsecTime, lastMoveTime, lastRFlashTime, lastFlashRTime;
@@ -1101,37 +1103,6 @@
             #endregion
 
             #region Properties
-
-            internal static AIHeroClient GetTarget
-            {
-                get
-                {
-                    AIHeroClient target = null;
-                    if (getCheckBoxItem(insecMenu, "TargetSelect"))
-                    {
-                        var sub = TargetSelector.SelectedTarget;
-                        if (sub.LSIsValidTarget())
-                        {
-                            target = sub;
-                        }
-                    }
-                    else
-                    {
-                        target = Q.GetTarget(-100);
-                        if ((getCheckBoxItem(insecMenu, "Q") && Q.IsReady()) || objQ.LSIsValidTarget(Q2.Range))
-                        {
-                            target = Q2.GetTarget(CanWardFlash ? GetRange(null, true) : FlashRange);
-                        }
-                    }
-                    return target;
-                }
-            }
-
-            internal static float GetDistance(AIHeroClient target)
-            {
-                return Math.Min((Player.BoundingRadius + target.BoundingRadius + 50) * 1.4f, 300);
-            }
-
             internal static bool IsRecentRFlash => Variables.TickCount - lastRFlashTime < 5000;
 
             private static bool CanInsec
@@ -1144,14 +1115,50 @@
                     getCheckBoxItem(insecMenu, "Flash") && getCheckBoxItem(insecMenu, "FlashJump") && WardManager.CanWardJump
                     && Common.CanFlash;
 
+            private static AIHeroClient GetTarget
+            {
+                get
+                {
+                    AIHeroClient target;
+                    if (getCheckBoxItem(insecMenu, "TargetSelect"))
+                    {
+                        var sub = TargetSelector.SelectedTarget;
+                        target = sub.IsValidTarget() ? sub : null;
+                    }
+                    else
+                    {
+                        var extraRange = CanWardFlash
+                                             ? GetRange(null, true)
+                                             : (WardManager.CanWardJump ? WardManager.WardRange : FlashRange);
+                        if (getCheckBoxItem(insecMenu, "Q") && Q.IsReady() && IsQOne)
+                        {
+                            target = Q.GetTarget(extraRange);
+                        }
+                        else if (objQ.IsValidTarget(Q2.Range))
+                        {
+                            target = Q2.GetTarget(extraRange);
+                        }
+                        else
+                        {
+                            target = TargetSelector.GetTarget(extraRange, R.DamageType);
+                        }
+                    }
+                    return target;
+                }
+            }
+
+            internal static float GetDistance(AIHeroClient target)
+            {
+                return Math.Min((Player.BoundingRadius + target.BoundingRadius + 50) * 1.4f, 300);
+            }
+
+
             private static bool IsRecent
                 => IsRecentWardJump || (getCheckBoxItem(insecMenu, "Flash") && Variables.TickCount - lastFlashRTime < 5000);
 
 
             private static bool IsRecentWardJump
-                =>
-                    Variables.TickCount - WardManager.LastInsecWardTime < 5000
-                    || Variables.TickCount - WardManager.LastInsecJumpTme < 5000;
+                => Variables.TickCount - LastWardTime < 5000 || Variables.TickCount - LastJumpTme < 5000;
 
             #endregion
 
@@ -1275,7 +1282,7 @@
                         if (!lastFlashPos.IsValid() || !sender.IsMe
                             || !getKeyBindItem(insecMenu, "R")
                             || args.SData.Name != "SummonerFlash" || !getCheckBoxItem(insecMenu, "Flash")
-                            || Variables.TickCount - lastFlashRTime > 1250 || args.End.Distance(lastFlashPos) > 80)
+                            || Variables.TickCount - lastFlashRTime > 1250 || args.End.Distance(lastFlashPos) > 100)
                         {
                             return;
                         }
@@ -1297,8 +1304,9 @@
                     };
             }
 
-            internal static void Start(AIHeroClient target)
+            internal static void Start()
             {
+                var target = GetTarget;
                 if (Orbwalker.CanMove && Variables.TickCount - lastMoveTime > 250)
                 {
                     var posMove = Game.CursorPos;
@@ -1479,7 +1487,7 @@
                     lastMoveTime = Variables.TickCount;
                 }
                 lastEndPos = GetPositionAfterKick(target);
-                lastInsecTime = WardManager.LastInsecWardTime = WardManager.LastInsecJumpTme = Variables.TickCount;
+                lastInsecTime = LastWardTime = LastJumpTme = Variables.TickCount;
                 Orbwalker.ForcedTarget =(target);
                 WardManager.Place(posBehind, 1);
             }
@@ -1538,8 +1546,10 @@
             private static float GetRange(AIHeroClient target, bool isWardFlash = false)
             {
                 return !isWardFlash
-                           ? (WardManager.CanWardJump ? WardManager.WardRange : FlashRange) - GetDistance(target)
-                           : WardManager.WardRange + R.Range - ((target ?? Player).BoundingRadius + 20);
+                    ? (WardManager.CanWardJump ? WardManager.WardRange : FlashRange) - GetDistance(target)
+                    : WardManager.WardRange + R.Range
+                    - ((target ?? Player).BoundingRadius + 30
+                    + (getBoxItem(insecMenu, "FlashMode") == 1 ? 50 : 0));
             }
 
             #endregion
@@ -1554,8 +1564,6 @@
             #endregion
 
             #region Static Fields
-
-            internal static int LastInsecWardTime, LastInsecJumpTme;
 
             private static Vector3 lastPlacePos;
 
@@ -1601,33 +1609,31 @@
                             return;
                         }
                         var ward = args.Target as Obj_AI_Minion;
-                        if (ward == null || !ward.IsValid() || !ward.IsWard() || ward.Distance(lastPlacePos) > 80)
+                        if (ward == null || !ward.IsValid() || !ward.IsWard() || ward.Distance(lastPlacePos) > 100)
                         {
                             return;
                         }
-                        var tick = Variables.TickCount;
-                        if (tick - LastInsecJumpTme < 1250)
+                        if (Variables.TickCount - Insec.LastJumpTme < 1250)
                         {
-                            LastInsecJumpTme = tick;
+                            Insec.LastJumpTme = Variables.TickCount;
                         }
                         Insec.IsWardFlash = false;
                         lastPlacePos = new Vector3();
                     };
                 GameObjectNotifier<Obj_AI_Minion>.OnCreate += (sender, minion) =>
                 {
-                    if (!lastPlacePos.IsValid() || minion.Distance(lastPlacePos) > 80 || !minion.IsAlly
+                    if (!lastPlacePos.IsValid() || minion.Distance(lastPlacePos) > 100 || !minion.IsAlly
                         || !minion.IsWard() || !W.IsInRange(minion))
                     {
                         return;
                     }
-                    var tick = Variables.TickCount;
-                    if (tick - LastInsecWardTime < 1250)
+                    if (Variables.TickCount - Insec.LastWardTime < 1250)
                     {
-                        LastInsecWardTime = tick;
+                        Insec.LastWardTime = Variables.TickCount;
                     }
-                    if (tick - lastPlaceTime < 1250 && W.IsReady() && IsWOne && W.CastOnUnit(minion))
+                    if (Variables.TickCount - lastPlaceTime < 1250 && W.IsReady() && IsWOne && W.CastOnUnit(minion))
                     {
-                        lastW = tick;
+                        lastW = Variables.TickCount;
                     }
                 };
             }
@@ -1638,20 +1644,17 @@
                 {
                     return;
                 }
-                var ward = Items.GetWardSlot();
-                var posPlayer = Player.ServerPosition;
-                var posPlace = pos.Distance(posPlayer) < WardRange ? pos : posPlayer.LSExtend(pos, WardRange);
-                Player.Spellbook.CastSpell(ward.SpellSlot, posPlace);
+                lastPlacePos = pos.DistanceToPlayer() < WardRange ? pos : Player.ServerPosition.LSExtend(pos, WardRange);
                 switch (mode)
                 {
                     case 0:
                         lastPlaceTime = Variables.TickCount + 1100;
                         break;
                     case 1:
-                        lastPlaceTime = LastInsecWardTime = LastInsecJumpTme = Variables.TickCount;
+                        lastPlaceTime = Insec.LastWardTime = Insec.LastJumpTme = Variables.TickCount;
                         break;
                 }
-                lastPlacePos = posPlace;
+                Player.Spellbook.CastSpell(Items.GetWardSlot().SpellSlot, lastPlacePos);
             }
 
             private static void Jump(Vector3 pos)
@@ -1662,7 +1665,7 @@
                 }
                 var wardObj =
                     GameObjects.AllyWards.Where(
-                        i => i.LSIsValidTarget(W.Range, false) && i.IsWard() && i.Distance(pos) < 80)
+                        i => i.LSIsValidTarget(W.Range, false) && i.IsWard() && i.Distance(pos) < 100)
                         .MinOrDefault(i => i.Distance(pos));
                 if (wardObj != null && W.CastOnUnit(wardObj))
                 {

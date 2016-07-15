@@ -62,6 +62,8 @@ using EloBuddy.SDK.Menu.Values;
                 combo1Menu.Add("useE", new CheckBox("Use E (Spell Flux)"));
                 combo1Menu.Add("useR", new CheckBox("Use R (Desperate Power)"));
                 combo1Menu.Add("useRww", new CheckBox("Only Use R if Target is Rooted"));
+                combo1Menu.Add("combomode", new ComboBox("Combo Mode", 0, "Burst", "AOE/Shield/Tank"));
+                combo1Menu.Add("forcehpshield", new Slider("Force Q Shield Proc at low hp", 10, 0, 100));
                 combo1Menu.Add("AAblock", new CheckBox("Block Auto Attack in Combo", false));
                 combo1Menu.Add("minaarange", new Slider("Disable AA If Target Distance from target >", 550, 100, 550));
             }

@@ -30,7 +30,7 @@ namespace Valvrave_Sharp.Plugin
     {
         #region Constants
 
-        private const float QDelay = 0.38f, Q2Delay = 0.35f, QDelays = 0.19f, Q2Delays = 0.3f;
+        private const float QDelay = 0.38f, Q2Delay = 0.35f, QDelays = 0.2f, Q2Delays = 0.3f;
 
         private const int RWidth = 400;
 
@@ -88,7 +88,7 @@ namespace Valvrave_Sharp.Plugin
 
             Q = new LeagueSharp.SDK.Spell(SpellSlot.Q, 505).SetSkillshot(QDelay, 20, float.MaxValue, false, SkillshotType.SkillshotLine);
             Q2 = new LeagueSharp.SDK.Spell(Q.Slot, 1100).SetSkillshot(Q2Delay, 90, 1200, true, Q.Type);
-            Q3 = new LeagueSharp.SDK.Spell(Q.Slot, 250).SetSkillshot(0.01f, 250, float.MaxValue, false, SkillshotType.SkillshotCircle);
+            Q3 = new LeagueSharp.SDK.Spell(Q.Slot, 225).SetSkillshot(0.005f, 225, float.MaxValue, false, SkillshotType.SkillshotCircle);
             W = new LeagueSharp.SDK.Spell(SpellSlot.W, 400).SetTargetted(0.25f, float.MaxValue);
             E = new LeagueSharp.SDK.Spell(SpellSlot.E, 475).SetTargetted(0, 1200);
             E2 = new LeagueSharp.SDK.Spell(E.Slot, E.Range).SetTargetted(Q3.Delay, E.Speed);
@@ -196,7 +196,7 @@ namespace Valvrave_Sharp.Plugin
                     {
                         isDash = false;
                         DelayAction.Add(
-                            50,
+                            70,
                             () =>
                             {
                                 if (!isDash)
@@ -257,12 +257,8 @@ namespace Valvrave_Sharp.Plugin
                             break;
                         case "yasuoeqcombosoundmiss":
                         case "YasuoEQComboSoundHit":
-                            DelayAction.Add(
-                                70,
-                                () =>
-                                {
-                                    EloBuddy.Player.IssueOrder(GameObjectOrder.AttackTo, Player.ServerPosition.LSExtend(Game.CursorPos, Player.BoundingRadius));
-                                });
+                            Orbwalker.DisableAttacking = (true);
+                            DelayAction.Add(220, () => Orbwalker.DisableAttacking = (false));
                             break;
                     }
                 };
@@ -351,7 +347,37 @@ namespace Valvrave_Sharp.Plugin
 
         private static List<Obj_AI_Base> GetQCirTarget => EntityManager.Heroes.Enemies.Where(i => Q3.WillHit(Q3.GetPredPosition(i), posDash) && Q3.IsInRange(i) && i.LSIsValidTarget()).Cast<Obj_AI_Base>().ToList();
 
-        private static List<AIHeroClient> GetRTarget => EntityManager.Heroes.Enemies.Where(i => i.LSIsValidTarget(R.Range) && HaveR(i)).ToList();
+        private static AIHeroClient GetRTarget
+        {
+            get
+            {
+                var result = new Tuple<AIHeroClient, List<AIHeroClient>>(null, new List<AIHeroClient>());
+                foreach (var target in GetRTargets)
+                {
+                    var nears =
+                        GameObjects.EnemyHeroes.Where(
+                            i => !i.Compare(target) && i.IsValidTarget(RWidth, true, target.ServerPosition) && HaveR(i))
+                            .ToList();
+                    nears.Add(target);
+                    if (nears.Count > result.Item2.Count
+                        && ((nears.Count > 1
+                             && nears.Any(i => i.Health + i.AttackShield <= R.GetDamage(i) + GetQDmg(i)))
+                            || nears.Sum(i => i.HealthPercent) / nears.Count < getSliderItem(comboMenu, "RHpU")
+                            || nears.Count >= getSliderItem(comboMenu, "RCountA")))
+                    {
+                        result = new Tuple<AIHeroClient, List<AIHeroClient>>(target, nears);
+                    }
+                }
+                return getCheckBoxItem(comboMenu, "RDelay")
+                       && (Player.HealthPercent >= 20
+                           || GameObjects.EnemyHeroes.Count(i => i.IsValidTarget(600) && !HaveR(i)) == 0)
+                           ? (result.Item2.Any(CanCastDelayR) ? result.Item1 : null)
+                           : result.Item1;
+            }
+        }
+
+        private static List<AIHeroClient> GetRTargets
+            => EntityManager.Heroes.Enemies.Where(x => R.IsInRange(x) && HaveR(x) && x.LSIsValidTarget() && x.IsVisible).ToList();
 
         private static bool IsDashing => Variables.TickCount - lastE <= 70 || Player.IsDashing() || posDash.IsValid();
 
@@ -477,22 +503,10 @@ namespace Valvrave_Sharp.Plugin
         {
             if (R.IsReady() && getKeyBindItem(comboMenu, "R"))
             {
-                var targetR = GetRTarget;
-                if (targetR.Count > 0)
+                var target = GetRTarget;
+                if (target != null && R.CastOnUnit(target))
                 {
-                    var targets = (from enemy in targetR let nearEnemy = EntityManager.Heroes.Enemies.Where(i => i.LSIsValidTarget(RWidth, true, enemy.ServerPosition) && HaveR(i)).ToList() where (nearEnemy.Count > 1 && nearEnemy.Any(i => i.Health + i.AttackShield <= R.GetDamage(i) + GetQDmg(i))) || nearEnemy.Sum(i => i.HealthPercent) / nearEnemy.Count < getSliderItem(comboMenu, "RHpU") || nearEnemy.Count >= getSliderItem(comboMenu, "RCountA") orderby nearEnemy.Count descending select enemy).ToList();
-                    if (getCheckBoxItem(comboMenu, "RDelay") && (Player.HealthPercent >= 20 || GameObjects.EnemyHeroes.Count(i => i.IsValidTarget(600) && !HaveR(i)) == 0))
-                    {
-                        targets = targets.Where(CanCastDelayR).ToList();
-                    }
-                    if (targets.Count > 0)
-                    {
-                        var target = targets.MaxOrDefault(i => new Priority().GetDefaultPriority(i));
-                        if (target != null && R.CastOnUnit(target))
-                        {
-                            return;
-                        }
-                    }
+                    return;
                 }
             }
 
@@ -875,20 +889,15 @@ namespace Valvrave_Sharp.Plugin
             }
             if (getCheckBoxItem(ksMenu, "R") && R.IsReady())
             {
-                var targets = GetRTarget;
-                if (targets.Count > 0)
+                var target =
+                    GetRTargets.Where(
+                        i =>
+                        getCheckBoxItem(ksMenu, "RCast" + i.NetworkId)
+                        && i.Health + i.AttackShield <= R.GetDamage(i) + (Q.IsReady(1000) ? GetQDmg(i) : 0))
+                        .MaxOrDefault(i => new Priority().GetDefaultPriority(i));
+                if (target != null)
                 {
-                    var target =
-                        targets.Where(
-                            i =>
-                            getCheckBoxItem(ksMenu, "RCast" + i.NetworkId)
-                            && (i.Health + i.AttackShield <= R.GetDamage(i)
-                                || (Q.IsReady(1000) && i.Health + i.AttackShield <= R.GetDamage(i) + GetQDmg(i))))
-                            .MaxOrDefault(i => new Priority().GetDefaultPriority(i));
-                    if (target != null)
-                    {
-                        R.CastOnUnit(target);
-                    }
+                    R.CastOnUnit(target);
                 }
             }
         }
@@ -1106,7 +1115,7 @@ namespace Valvrave_Sharp.Plugin
                     Render.Circle.DrawCircle(
                         Player.Position,
                         R.Range,
-                        GetRTarget.Count > 0 ? Color.LimeGreen : Color.IndianRed);
+                        GetRTargets.Count > 0 ? Color.LimeGreen : Color.IndianRed);
                 }
                 if (getCheckBoxItem(drawMenu, "UseR"))
                 {

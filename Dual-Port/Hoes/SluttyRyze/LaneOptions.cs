@@ -9,7 +9,7 @@ using EloBuddy.SDK.Menu;
 using EloBuddy.SDK.Menu.Values;
 using EloBuddy.SDK;
 
- namespace Slutty_ryze
+namespace Slutty_ryze
 {
     internal class LaneOptions
     {
@@ -117,7 +117,7 @@ using EloBuddy.SDK;
 
             foreach (var minion in minionCount)
             {
-                
+
                 if (qlcSpell && Champion.Q.IsReady())
                 {
                     Champion.Q.Cast(minion);
@@ -131,7 +131,7 @@ using EloBuddy.SDK;
                 if (wlcSpell && Champion.W.IsReady() && minion.IsValidTarget(Champion.W.Range))
                 {
                     Champion.W.Cast(minion);
-                }           
+                }
                 var minionHp = minion.Health; // Reduce Calls and add in randomization buffer.
 
                 if (minion.IsDead) return;
@@ -328,61 +328,147 @@ using EloBuddy.SDK;
             }
         }
 
+        public static bool HasPassive1()
+        {
+            return Champion.Player.HasBuff("ryzeqiconnocharge");
+        }
+
+        public static bool HasPassive2()
+        {
+            return Champion.Player.HasBuff("ryzeqiconhalfcharge");
+        }
+
+        public static bool HasPassive3()
+        {
+            return Champion.Player.HasBuff("ryzeqiconfullcharge");
+        }
+
         public static void Combo()
         {
             var target = TargetSelector.GetTarget(Champion.Q.Range, DamageType.Magical);
 
-            if (!target.LSIsValidTarget())
+            if (!target.IsValidTarget())
                 return;
-
-            if (Champion.E.IsReady() && Champion.W.IsReady() && !Champion.Q.IsReady())
+            switch (getBoxItem(MenuManager.combo1Menu, "combomode"))
             {
-                Champion.E.Cast(target);
+                case 1:
+                    if (Champion.Q.Level >= 1 && Champion.E.Level >= 1 && Champion.W.Level >= 1)
+                    {
+                        if (!target.IsValidTarget(Champion.E.Range - 20) && Champion.Q.IsReady())
+                        {
+                            Champion.Q.Cast(target);
+                        }
+
+                        if (Champion.Q.IsReady() && HasPassive2() && (Champion.W.IsReady() || Champion.E.IsReady()))
+                        {
+                            if (Champion.E.IsReady())
+                            {
+                                Champion.E.Cast(target);
+                            }
+                            if (Champion.W.IsReady())
+                            {
+                                Champion.W.Cast(target);
+                            }
+                        }
+                        var expires = (Champion.Player.Spellbook.GetSpell(SpellSlot.E)).CooldownExpires;
+                        var CD =
+                            (expires -
+                             (Game.Time - 1));
+
+                        var expires1 = (Champion.Player.Spellbook.GetSpell(SpellSlot.W)).CooldownExpires;
+                        var CD1 =
+                            (expires1 -
+                             (Game.Time - 1));
+
+                        if (HasPassive2() && !Champion.E.IsReady() && !Champion.W.IsReady() && CD > 1.3 && CD1 > 1.3)
+                        {
+                            Champion.Qn.Cast(target);
+                        }
+
+                        if (HasPassive1() && !Champion.E.IsReady() && !Champion.W.IsReady())
+                        {
+                            Champion.Qn.Cast(target);
+                        }
+
+                        if (!HasPassive3())
+                        {
+
+                            Champion.E.Cast(target);
+                            Champion.W.Cast(target);
+                        }
+                        else
+                        {
+                            Champion.Qn.Cast(target);
+                        }
+                    }
+                    else
+                    {
+                        if (target.IsValidTarget(Champion.Q.Range) && Champion.Q.IsReady())
+                        {
+                            Champion.Q.Cast(target);
+                        }
+
+                        if (target.IsValidTarget(Champion.W.Range) && Champion.W.IsReady())
+                        {
+                            Champion.W.Cast(target);
+                        }
+
+                        if (target.IsValidTarget(Champion.E.Range) && Champion.E.IsReady())
+                        {
+                            Champion.E.Cast(target);
+                        }
+                    }
+                    break;
+
+                case 0:
+                    if (HasPassive3() && target.IsValidTarget(Champion.Q.Range) && Champion.Q.IsReady())
+                    {
+                        Champion.Qn.Cast(target);
+                    }
+
+                    if (Champion.Player.HealthPercent <= getSliderItem(MenuManager.combo1Menu, "forcehpshield"))
+                    {
+                        if (!HasPassive3())
+                        {
+
+                            Champion.E.Cast(target);
+                            Champion.W.Cast(target);
+                        }
+                        else
+                        {
+                            Champion.Qn.Cast(target);
+                        }
+                        return;
+                    }
+                    if (Champion.Player.HealthPercent >
+                        getSliderItem(MenuManager.combo1Menu, "forcehpshield"))
+                    {
+                        if (Champion.E.IsReady() && Champion.W.IsReady() && !Champion.Q.IsReady())
+                        {
+                            Champion.E.Cast(target);
+                        }
+                        if (Champion.Q.IsReady())
+                        {
+                            Champion.Q.Cast(target);
+                        }
+
+                        if (Champion.E.IsReady() && target.IsValidTarget(Champion.E.Range) &&
+                            (!Champion.Q.IsReady() || Champion.Q.GetPrediction(target).CollisionObjects.Count != 0))
+                        {
+                            Champion.E.Cast(target);
+                        }
+
+                        if (Champion.W.IsReady() && target.IsValidTarget(Champion.W.Range) &&
+                            (!Champion.Q.IsReady() || Champion.Q.GetPrediction(target).CollisionObjects.Count != 0))
+                        {
+                            if (Champion.E.IsReady() && Champion.W.IsReady() && !Champion.Q.IsReady())
+                                return;
+                            Champion.W.Cast(target);
+                        }
+                    }
+                    break;
             }
-            if (Champion.Q.IsReady())
-            {
-                Champion.Q.Cast(target);
-            }
-
-            if (Champion.E.IsReady() && target.LSIsValidTarget(Champion.E.Range) &&
-                (!Champion.Q.IsReady() || Champion.Q.GetPrediction(target).CollisionObjects.Count != 0))
-            {
-                Champion.E.Cast(target);
-            }
-
-            if (Champion.W.IsReady() && target.LSIsValidTarget(Champion.W.Range) &&
-                (!Champion.Q.IsReady() || Champion.Q.GetPrediction(target).CollisionObjects.Count != 0))
-            {
-                if (Champion.E.IsReady() && Champion.W.IsReady() && !Champion.Q.IsReady())
-                    return;
-                Champion.W.Cast(target);
-            }
-
-
-            //if ((!target.HasBuff("RyzeE") && Champion.E.IsReady()) ||
-            //    (Champion.E.IsReady() && target.IsValidTarget(Champion.E.Range)) ||
-            //    (!Champion.Q.IsReady() && !Champion.W.IsReady()))
-            //{
-            //    if (target.IsValidTarget(Champion.E.Range) && Champion.E.IsReady())
-            //    {
-            //        Champion.E.Cast(target);
-            //    }
-            //}
-            //else
-            //{
-            //    if (target.IsValidTarget(Champion.W.Range) && Champion.W.IsReady())
-            //    {
-            //            Champion.W.Cast(target);
-            //    }
-            //    else if (target.IsValidTarget(Champion.Q.Range) && Champion.Q.IsReady() &&
-            //             (!Champion.W.IsReady() || !target.IsValidTarget(Champion.W.Range))) 
-            //    {
-            //            Champion.Q.Cast(target);
-
-            //    }
-            //}
         }
-
     }
 }
 

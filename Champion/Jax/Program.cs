@@ -339,7 +339,8 @@ namespace JaxQx
                         {
                             if (Player.LSDistance(t) >= minQRange && t.LSIsValidTarget(Q.Range))
                                 Q.Cast(t);
-                            E.Cast();
+                            if (E.IsReady() && t.LSIsValidTarget(Orbwalking.GetRealAutoAttackRange(null) + 95))
+                                E.Cast();
                         }
                         break;
                     case 1:

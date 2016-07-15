@@ -354,6 +354,22 @@ using EloBuddy.SDK;
             }
 
             /// <summary>
+            ///     The Automatic E Logic.
+            /// </summary>
+            if (Vars.E.IsReady() &&
+                Vars.getCheckBoxItem(Vars.EMenu, "logical"))
+            {
+                foreach (var target in GameObjects.EnemyHeroes.Where(
+                    t =>
+                        Bools.IsImmobile(t) &&
+                        t.IsValidTarget(Vars.E.Range) &&
+                        !Invulnerable.Check(t, DamageType.Magical, false)))
+                {
+                    Vars.E.Cast(target.ServerPosition);
+                }
+            }
+
+            /// <summary>
             ///     The Automatic W Logic.
             /// </summary>
             if (Vars.W.IsReady() &&
@@ -365,29 +381,12 @@ using EloBuddy.SDK;
                     t =>
                         Bools.IsImmobile(t) &&
                         !Invulnerable.Check(t) &&
-                        t.LSIsValidTarget(Vars.W.Range)))
+                        t.IsValidTarget(Vars.W.Range)))
                 {
-                    if (!Vars.W.GetPrediction(Targets.Target).CollisionObjects.Any(c => Targets.Minions.Contains(c)))
+                    if (!Vars.W.GetPrediction(target).CollisionObjects.Any())
                     {
                         Vars.W.Cast(target.ServerPosition);
-                        return;
                     }
-                }
-            }
-
-            /// <summary>
-            ///     The Automatic E Logic.
-            /// </summary>
-            if (Vars.E.IsReady() &&
-                Vars.getCheckBoxItem(Vars.EMenu, "logical"))
-            {
-                foreach (var target in GameObjects.EnemyHeroes.Where(
-                    t =>
-                        Bools.IsImmobile(t) &&
-                        t.LSIsValidTarget(Vars.E.Range) &&
-                        !Invulnerable.Check(t, DamageType.Magical, false)))
-                {
-                    Vars.E.Cast(target.ServerPosition);
                 }
             }
         }

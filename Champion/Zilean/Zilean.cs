@@ -1,4 +1,4 @@
-﻿ namespace ElZilean
+﻿namespace ElZilean
 {
     using System;
     using System.Linq;
@@ -185,7 +185,7 @@
                 IncomingDamageManager.Skillshots = true;
 
 
-                Q = new Spell(SpellSlot.Q, 900f);
+                Q = new Spell(SpellSlot.Q, 900f - 100f);
                 W = new Spell(SpellSlot.W, Player.GetAutoAttackRange(Player));
                 E = new Spell(SpellSlot.E, 700f);
                 R = new Spell(SpellSlot.R, 900f);
@@ -371,100 +371,83 @@
         /// </summary>
         private static void OnCombo()
         {
-            var target = TargetSelector.GetTarget(Q.Range, DamageType.Magical);
-            if (target == null)
             {
-                return;
-            }
-
-            if (getCheckBoxItem(comboMenu, "ElZilean.Combo.E") && E.IsReady())
-            {
-               /* if (!Q.IsReady() || Q.Instance.CooldownExpires - Game.Time < 2)
-                {
-                    return;
-                } */
-
-                if (Player.GetEnemiesInRange(E.Range).Any())
-                {
-                    var closestEnemy =
-                        Player.GetEnemiesInRange(E.Range)
-                            .OrderByDescending(h => (h.PhysicalDamageDealtPlayer + h.MagicDamageDealtPlayer))
-                            .FirstOrDefault();
-
-                    if (closestEnemy == null)
-                    {
-                        return;
-                    }
-
-                    if (closestEnemy.HasBuffOfType(BuffType.Stun))
-                    {
-                        return;
-                    }
-
-                    E.Cast(closestEnemy);
-                }
-
-                if (Player.GetAlliesInRange(E.Range).Any() && Player.GetEnemiesInRange(800f).Count >= 1)
-                {
-                    var closestToTarget =
-                        Player.GetAlliesInRange(E.Range)
-                            .OrderByDescending(h => (h.PhysicalDamageDealtPlayer + h.MagicDamageDealtPlayer))
-                            .FirstOrDefault();
-
-                    E.Cast(closestToTarget);
-                }
-            }
-
-            if (getCheckBoxItem(comboMenu, "ElZilean.Combo.Q") && Q.IsReady() && target.LSIsValidTarget(Q.Range) && !target.IsZombie)
-            {
-                var pred = Q.GetPrediction(target);
-                if (pred.Hitchance >= HitChance.VeryHigh)
-                {
-                    Q.Cast(pred.CastPosition);
-                }
-            }
-
-            // Check if target has a bomb
-            var isBombed = HeroManager.Enemies.Find(x => x.HasBuff("ZileanQEnemyBomb") && x.LSIsValidTarget(Q.Range));
-
-            if (!isBombed.LSIsValidTarget())
-            {
-                return;
-            }
-
-            if (isBombed != null && isBombed.LSIsValidTarget(Q.Range))
-            {
-                if (Q.Instance.CooldownExpires - Game.Time < 3)
+                var target = TargetSelector.GetTarget(Q.Range, DamageType.Magical);
+                if (target == null)
                 {
                     return;
                 }
 
-                if (isBombed != null)
+                if (getCheckBoxItem(comboMenu, "ElZilean.Combo.Q") && Q.IsReady() && target.IsValidTarget(Q.Range))
                 {
+                    var pred = Q.GetPrediction(target);
+                    if (pred.Hitchance >= HitChance.VeryHigh)
+                    {
+                        Q.Cast(pred.CastPosition);
+                    }
+                }
+
+                // Check if target has a bomb
+                var isBombed = HeroManager.Enemies.Find(x => x.HasBuff("ZileanQEnemyBomb") && x.IsValidTarget(Q.Range));
+                if (!isBombed.IsValidTarget())
+                {
+                    return;
+                }
+
+                if (isBombed != null && isBombed.IsValidTarget(Q.Range))
+                {
+                    if (Q.Instance.CooldownExpires - Game.Time < 3)
+                    {
+                        return;
+                    }
+
                     if (getCheckBoxItem(comboMenu, "ElZilean.Combo.W"))
                     {
-                        Utility.DelayAction.Add(300, () => W.Cast());
+                        W.Cast();
                     }
                 }
-            }
 
-            if (getCheckBoxItem(comboMenu, "ElZilean.Combo.W") && getCheckBoxItem(comboMenu, "ElZilean.Combo.W2") && W.IsReady() && !Q.IsReady())
-            {
-                W.Cast();
-            }
-
-            if (getCheckBoxItem(comboMenu, "ElZilean.Ignite") && isBombed != null)
-            {
-                if (Player.GetSpellSlot("summonerdot") == SpellSlot.Unknown)
+                if (getCheckBoxItem(comboMenu, "ElZilean.Combo.W") && getCheckBoxItem(comboMenu, "ElZilean.Combo.W2") && W.IsReady() && !Q.IsReady())
                 {
-                    return;
+                    if (HeroManager.Enemies.Any(x => x.Health > Q.GetDamage(x) && x.IsValidTarget(Q.Range)))
+                    {
+                        return;
+                    }
+
+                    W.Cast();
                 }
 
-                if (Q.GetDamage(isBombed) + IgniteSpell.GetDamage(isBombed) > isBombed.Health)
+                if (getCheckBoxItem(comboMenu, "ElZilean.Combo.E") && E.IsReady())
                 {
-                    if (isBombed.LSIsValidTarget(Q.Range))
+                    if (Player.GetEnemiesInRange(E.Range).Any())
                     {
-                        Player.Spellbook.CastSpell(IgniteSpell.Slot, isBombed);
+                        var closestEnemy =
+                            Player.GetEnemiesInRange(E.Range)
+                                .OrderByDescending(h => (h.PhysicalDamageDealtPlayer + h.MagicDamageDealtPlayer))
+                                .FirstOrDefault();
+
+                        if (closestEnemy == null || closestEnemy.HasBuffOfType(BuffType.Stun))
+                        {
+                            return;
+                        }
+
+                        E.Cast(closestEnemy);
+                    }
+                }
+
+                if (getCheckBoxItem(comboMenu, "ElZilean.Ignite") && isBombed != null)
+                {
+                    if (Player.GetSpellSlot("summonerdot") == SpellSlot.Unknown)
+                    {
+                        return;
+                    }
+
+                    if (Q.GetDamage(isBombed) + IgniteSpell.GetDamage(isBombed) > isBombed.Health)
+                    {
+                        if (isBombed.IsValidTarget(Q.Range))
+                        {
+                            Player.Spellbook.CastSpell(IgniteSpell.Slot, isBombed);
+                        }
                     }
                 }
             }
@@ -540,14 +523,16 @@
 
             // Check if target has a bomb
             var isBombed =
-                HeroManager.Enemies.FirstOrDefault(x => x.HasBuff("ZileanQEnemyBomb") && x.LSIsValidTarget(Q.Range));
+                HeroManager.Enemies.FirstOrDefault(x => x.HasBuff("ZileanQEnemyBomb") && x.IsValidTarget(Q.Range));
 
-            if (isBombed.LSIsValidTarget())
+            if (!isBombed.IsValidTarget())
             {
-                if (getCheckBoxItem(harassMenu, "ElZilean.Harass.W"))
-                {
-                    Utility.DelayAction.Add(100, () => W.Cast());
-                }
+                return;
+            }
+
+            if (getCheckBoxItem(harassMenu, "ElZilean.Harass.W"))
+            {
+                Utility.DelayAction.Add(100, () => W.Cast());
             }
         }
 
@@ -652,7 +637,7 @@
                 }
             }
         }
-        
+
         /// <summary>
         ///     Called when the game updates
         /// </summary>
@@ -673,11 +658,11 @@
 
                     if (passiveTarget != null)
                     {
-                        Orbwalker.ForcedTarget =(passiveTarget);
+                        Orbwalker.ForcedTarget = (passiveTarget);
                     }
                     else
                     {
-                        Orbwalker.ForcedTarget =(null);
+                        Orbwalker.ForcedTarget = (null);
                     }
                 }
 
