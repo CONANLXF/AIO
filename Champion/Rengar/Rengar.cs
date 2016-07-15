@@ -55,7 +55,6 @@
                 Game.OnUpdate += OnUpdate;
                 Drawing.OnDraw += OnDraw;
                 CustomEvents.Unit.OnDash += OnDash;
-                Drawing.OnEndScene += OnDrawEndScene;
                 Obj_AI_Base.OnProcessSpellCast += OnProcessSpellCast;
                 Orbwalker.OnPostAttack += AfterAttack;
                 Orbwalker.OnPreAttack += BeforeAttack;
@@ -369,26 +368,6 @@
                                 "Prioritized spell: Q");
                             break;
                     }
-                }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-            }
-        }
-
-        private static void OnDrawEndScene(EventArgs args)
-        {
-            try
-            {
-                if (Player.IsDead)
-                {
-                    return;
-                }
-
-                if (MenuInit.getCheckBoxItem(MenuInit.miscMenu, "Misc.Drawings.Minimap") && spells[Spells.R].Level > 0)
-                {
-                    Utility.DrawCircle(ObjectManager.Player.Position, spells[Spells.R].Range, Color.White, 1, 23, true);
                 }
             }
             catch (Exception e)
