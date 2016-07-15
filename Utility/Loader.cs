@@ -598,7 +598,7 @@ namespace PortAIO.Utility
             Miscc.AddGroupLabel("Util Dual-Port :");
             Miscc.Add("evadeCB", new ComboBox("Which Evade?", 0, "ezEvade", "Evade#"));
             Miscc.Add("activatorCB", new ComboBox("Which Activator?", 0, "ElUtilitySuite", "NabbActivator", "Activator#"));
-            Miscc.Add("trackerCB", new ComboBox("Which Tracker?", 0, "NabbTracker"));
+            Miscc.Add("trackerCB", new ComboBox("Which Tracker?", 0, "NabbTracker", "Tracker#"));
             Miscc.Add("predictionerCB", new ComboBox("Which Predictioner?", 0, "EB", "SDK", "OKTW", "SPred", "L#"));
             Miscc.Add("orbwalkerCB", new ComboBox("Which Orbwalk/TargetSelect?", 1, "NOPE", "L#"));
             Miscc.AddSeparator();

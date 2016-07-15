@@ -1518,4 +1518,49 @@
   <data name="Button1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Button.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="hud" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\hud.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="itemsmiteaoe1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\itemsmiteaoe.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="s5_summonersmiteduel1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\s5_summonersmiteduel.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="s5_summonersmiteplayerganker1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\s5_summonersmiteplayerganker.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="s5_summonersmitequick1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\s5_summonersmitequick.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SummonerBarrier1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SummonerBarrier.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SummonerBoost1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SummonerBoost.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SummonerDot1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SummonerDot.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SummonerExhaust1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SummonerExhaust.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SummonerFlash1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SummonerFlash.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SummonerHaste1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SummonerHaste.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SummonerHeal1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SummonerHeal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SummonerOdinGarrison1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SummonerOdinGarrison.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SummonerSmite1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SummonerSmite.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SummonerTeleport1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SummonerTeleport.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

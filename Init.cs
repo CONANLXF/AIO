@@ -114,6 +114,9 @@ namespace PortAIO
                         case 0:
                             NabbTracker.Program.Game_OnGameLoad();
                             break;
+                        case 1:
+                            Tracker.Program.Game_OnGameLoad();
+                            break;
                         default:
                             NabbTracker.Program.Game_OnGameLoad();
                             break;
