@@ -330,11 +330,6 @@ namespace PortAIO
                     RandomUlt.Program.Main();
                 }
 
-                if (Loader.universalMinimap)
-                {
-                    UniversalMinimapHack.Program.Game_OnGameLoad();
-                }
-
                 //if (Loader.orbwalker)
                 //{
                 //PuppyStandaloneOrbwalker.Program.Game_OnGameLoad();
