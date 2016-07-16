@@ -153,17 +153,16 @@ namespace Two_Girls_One_Donger
             var Wfarmpos = W.GetLineFarmLocation(MinionsW, W.Width);
             var Efarmpos = E.GetCircularFarmLocation(MinionsE, E.Width);
 
-            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear) && Wfarmpos.MinionsHit >= 3 &&
-                getCheckBoxItem(laneClearMenu, "LaneclearW")
-                && Player.ManaPercent >= lanemana)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
-                W.Cast(Wfarmpos.Position);
-            }
-            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear) && Efarmpos.MinionsHit >= 3 &&
-                MinionsE.Count >= 1 && getCheckBoxItem(laneClearMenu, "LaneclearE")
-                && Player.ManaPercent >= lanemana)
-            {
-                E.Cast(Efarmpos.Position);
+                if (Wfarmpos.MinionsHit >= 3 && getCheckBoxItem(laneClearMenu, "LaneclearW") && Player.ManaPercent >= lanemana)
+                {
+                    W.Cast(Wfarmpos.Position);
+                }
+                if (Efarmpos.MinionsHit >= 3 && MinionsE.Count >= 1 && getCheckBoxItem(laneClearMenu, "LaneclearE") && Player.ManaPercent >= lanemana)
+                {
+                    E.Cast(Efarmpos.Position);
+                }
             }
 
             if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
@@ -357,7 +356,7 @@ namespace Two_Girls_One_Donger
                 damage += (float)ObjectManager.Player.GetSummonerSpellDamage(target, Damage.SummonerSpell.Ignite);
 
 
-            if (getCheckBoxItem(comboMenu, "UseE")) // edamage
+            if (getCheckBoxItem(comboMenu, "UseECombo")) // edamage
             {
                 if (E.IsReady())
                 {
@@ -365,18 +364,18 @@ namespace Two_Girls_One_Donger
                 }
             }
 
-            if (E.IsReady() && getCheckBoxItem(comboMenu, "UseE")) // rdamage
+            if (E.IsReady() && getCheckBoxItem(comboMenu, "UseECombo")) // rdamage
             {
                 damage += E.GetDamage(target);
             }
 
-            if (W.IsReady() && getCheckBoxItem(comboMenu, "UseW"))
+            if (W.IsReady() && getCheckBoxItem(comboMenu, "UseWCombo"))
             {
                 damage += W.GetDamage(target);
             }
-            if (W.IsReady() && getCheckBoxItem(comboMenu, "UseW"))
+            if (W.IsReady() && getCheckBoxItem(comboMenu, "UseWCombo"))
             {
-                if (R.IsReady() && getCheckBoxItem(comboMenu, "UseW") && getCheckBoxItem(comboMenu, "UseR"))
+                if (R.IsReady() && getCheckBoxItem(comboMenu, "UseWCombo") && getCheckBoxItem(comboMenu, "UseRCombo"))
                     damage += (float)(W.GetDamage(target) * 2.2);
             }
             return (int)damage;

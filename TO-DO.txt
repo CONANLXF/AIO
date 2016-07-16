@@ -70,3 +70,4 @@ AIOS in an AIO :
 - xSaliceRessurected 
 - Heaven Strike Series
 - VST
+- h3h3's support
