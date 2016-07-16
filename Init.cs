@@ -88,7 +88,15 @@ namespace PortAIO
             var spellName = Spell.SData.Name;
             if (unit.IsMe && IsAutoAttackReset(spellName))
             {
-                Orbwalker.ResetAutoAttack();
+                if (spellName.ToLower().Contains("vaynetumble"))
+                {
+                    Console.WriteLine("1");
+                    LeagueSharp.Common.Utility.DelayAction.Add(100, Orbwalker.ResetAutoAttack);
+                }
+                else
+                {
+                    Orbwalker.ResetAutoAttack();
+                }
             }
         }
 

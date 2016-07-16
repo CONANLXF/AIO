@@ -1623,7 +1623,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Resources\SPRITES\EloDisplayer\EloDisplayer.Designer.cs" />
-    <Compile Include="TSManager.cs" />
     <Compile Include="Utility\ActivatorSharp\Base\Champion.cs" />
     <Compile Include="Utility\ActivatorSharp\Base\Enumerations.cs" />
     <Compile Include="Utility\ActivatorSharp\Base\Essentials.cs" />

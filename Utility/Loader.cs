@@ -140,7 +140,6 @@ namespace PortAIO.Utility
         public static int urgot { get { return Miscc["urgot"].Cast<ComboBox>().CurrentValue; } }
         public static int varus { get { return Miscc["varus"].Cast<ComboBox>().CurrentValue; } }
         public static int malzahar { get { return Miscc["malzahar"].Cast<ComboBox>().CurrentValue; } }
-        public static int orbwalkerCB { get { return Miscc["orbwalkerCB"].Cast<ComboBox>().CurrentValue; } }
         public static bool universalMinimap { get { return Miscc["universalMinimap"].Cast<CheckBox>().CurrentValue; } }
 
         public static Menu Miscc;
@@ -601,7 +600,6 @@ namespace PortAIO.Utility
             Miscc.Add("activatorCB", new ComboBox("Which Activator?", 0, "ElUtilitySuite", "NabbActivator", "Activator#"));
             Miscc.Add("trackerCB", new ComboBox("Which Tracker?", 0, "NabbTracker", "Tracker#"));
             Miscc.Add("predictionerCB", new ComboBox("Which Predictioner?", 0, "EB", "SDK", "OKTW", "SPred", "L#"));
-            Miscc.Add("orbwalkerCB", new ComboBox("Which Orbwalk/TargetSelect?", 1, "NOPE", "L#"));
             Miscc.AddSeparator();
             Miscc.AddGroupLabel("Util Changes");
             Miscc.AddLabel("Please F5 after making any changes below >>");
