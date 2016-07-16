@@ -68,17 +68,19 @@ using EloBuddy;
             {
                 if (!GameObjects.EnemyHeroes.Any(
                     t =>
-                    !Invulnerable.Check(t) &&
-                    t.LSIsValidTarget(Vars.R.Range)))
+                        !Invulnerable.Check(t) &&
+                        t.LSIsValidTarget(Vars.R.Range) &&
+                        Vars.getCheckBoxItem(Vars.WhiteListMenu, Targets.Target.ChampionName.ToLower())))
                 {
                     return;
                 }
 
                 Vars.R.CastOnUnit(
-                    GameObjects.EnemyHeroes.OrderBy(o => o.Health).FirstOrDefault(
+                    GameObjects.EnemyHeroes.Where(
                         t =>
                             !Invulnerable.Check(t) &&
-                            t.LSIsValidTarget(Vars.R.Range)));
+                            t.LSIsValidTarget(Vars.R.Range) &&
+                            Vars.getCheckBoxItem(Vars.WhiteListMenu, Targets.Target.ChampionName.ToLower())).OrderBy(o => o.Health).First());
             }
         }
     }

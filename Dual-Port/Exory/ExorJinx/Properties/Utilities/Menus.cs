@@ -1,5 +1,6 @@
 using EloBuddy.SDK.Menu.Values;
 using ExorAIO.Utilities;
+using LeagueSharp.SDK;
 
  namespace ExorAIO.Champions.Jinx
 {
@@ -52,6 +53,24 @@ using ExorAIO.Utilities;
             {
                 Vars.RMenu.Add("aoe", new Slider("AoE / If can hit >= x enemies", 3, 2, 6));
                 Vars.RMenu.Add("killsteal", new CheckBox("KillSteal", true));
+                Vars.RMenu.AddLabel("The Semi-Automatic R will automatically ult the lowest on health non-invulnerable enemy in range.");
+                Vars.RMenu.Add("bool", new CheckBox("Semi-Automatic R", true));
+                Vars.RMenu.Add("key", new KeyBind("Key:", false, KeyBind.BindTypes.HoldActive, 'T'));
+                {
+                    /// <summary>
+                    ///     Sets the menu for the R Whitelist.
+                    /// </summary>
+                    Vars.WhiteListMenu = Vars.Menu.AddSubMenu("Ultimate: Whitelist Menu");
+                    {
+                        foreach (var target in GameObjects.EnemyHeroes)
+                        {
+                            Vars.WhiteListMenu.Add(
+                                    target.ChampionName.ToLower(),
+                                    new CheckBox($"Use against: {target.ChampionName}",
+                                    true));
+                        }
+                    }
+                }
             }
 
             /// <summary>

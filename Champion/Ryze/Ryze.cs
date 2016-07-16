@@ -1,13 +1,14 @@
 using System;
+using System.Linq;
 using ExorAIO.Utilities;
 using LeagueSharp;
 using LeagueSharp.SDK;
-using EloBuddy;
+using LeagueSharp.SDK.Enumerations;
 using LeagueSharp.SDK.Core.Utils;
 using EloBuddy.SDK;
-using System.Linq;
+using EloBuddy;
 
- namespace ExorAIO.Champions.Ryze
+namespace ExorAIO.Champions.Ryze
 {
     /// <summary>
     ///     The champion class.
@@ -25,11 +26,6 @@ using System.Linq;
             Menus.Initialize();
 
             /// <summary>
-            ///     Initializes the spells.
-            /// </summary>
-            Spells.Initialize();
-
-            /// <summary>
             ///     Initializes the methods.
             /// </summary>
             Methods.Initialize();
@@ -39,7 +35,7 @@ using System.Linq;
             /// </summary>
             Drawings.Initialize();
         }
-        
+
         /// <summary>
         ///     Fired when the game is updated.
         /// </summary>
@@ -51,6 +47,11 @@ using System.Linq;
                 return;
             }
 
+            /// <summary>
+            ///     Updates the spells.
+            /// </summary>
+            Spells.Initialize();
+            
             /// <summary>
             ///     Initializes the Automatic actions.
             /// </summary>
@@ -66,6 +67,9 @@ using System.Linq;
                 return;
             }
 
+            /// <summary>
+            ///     Initializes the orbwalkingmodes.
+            /// </summary>
             if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 Logics.Combo(args);
@@ -90,7 +94,7 @@ using System.Linq;
         public static void OnGapCloser(object sender, Events.GapCloserEventArgs args)
         {
             if (Vars.W.IsReady() &&
-                args.Sender.LSIsValidTarget(Vars.W.Range) &&
+                args.Sender.IsValidTarget(Vars.W.Range) &&
                 !Invulnerable.Check(args.Sender, DamageType.Magical, false) &&
                 Vars.getCheckBoxItem(Vars.WMenu, "gapcloser"))
             {
@@ -107,6 +111,9 @@ using System.Linq;
         {
             if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
+                /// <summary>
+                ///     The 'No AA in Combo' Logic.
+                /// </summary>
                 if (Vars.getCheckBoxItem(Vars.MiscMenu, "noaacombo"))
                 {
                     if (Vars.Q.IsReady() ||
@@ -122,6 +129,9 @@ using System.Linq;
 
             if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LastHit) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
+                /// <summary>
+                ///     The 'Support Mode' Logic.
+                /// </summary>
                 if (Vars.getCheckBoxItem(Vars.MiscMenu, "support"))
                 {
                     if (args.Target is Obj_AI_Minion &&

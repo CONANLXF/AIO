@@ -1,7 +1,7 @@
 using EloBuddy.SDK.Menu.Values;
 using ExorAIO.Utilities;
 
- namespace ExorAIO.Champions.Ryze
+namespace ExorAIO.Champions.Ryze
 {
     /// <summary>
     ///     The menu class.
@@ -18,10 +18,15 @@ using ExorAIO.Utilities;
             /// </summary>
             Vars.QMenu = Vars.Menu.AddSubMenu("Use Q to:");
             {
+                Vars.QMenu.AddLabel("The Shield Logic allows you to manage when to use the shield.");
+                Vars.QMenu.AddLabel("0 = Never use shield, 100 = Always use shield.");
+                Vars.QMenu.Add("shield", new Slider("Shield / If Health <= x%", 25, 0, 100));
+                Vars.QMenu.AddSeparator();
                 Vars.QMenu.Add("combo", new CheckBox("Combo", true));
-                Vars.QMenu.Add("killsteal", new CheckBox("KillSteal", true));
-                Vars.QMenu.Add("harass", new Slider("Harass if Mana >= x%", 50, 0, 101));
-                Vars.QMenu.Add("clear", new Slider("Clear if Mana >= x%", 25, 0, 101));
+                Vars.QMenu.Add("killsteal", new CheckBox("KillSteal"));
+                Vars.QMenu.Add("harass", new Slider("Harass / if Mana >= x%", 50, 0, 101));
+                Vars.QMenu.Add("laneclear", new Slider("LaneClear / if Mana >= x%", 25, 0, 101));
+                Vars.QMenu.Add("jungleclear", new Slider("JungleClear / if Mana >= x%", 25, 0, 101));
             }
 
             /// <summary>
@@ -30,9 +35,8 @@ using ExorAIO.Utilities;
             Vars.WMenu = Vars.Menu.AddSubMenu("Use W to:");
             {
                 Vars.WMenu.Add("combo", new CheckBox("Combo", true));
-                Vars.WMenu.Add("killsteal", new CheckBox("KillSteal", true));
+                Vars.WMenu.Add("killsteal", new CheckBox("KillSteal"));
                 Vars.WMenu.Add("gapcloser", new CheckBox("Anti-Gapcloser", true));
-                Vars.WMenu.Add("clear", new Slider("Clear if Mana >= x%", 50, 0, 101));
             }
 
             /// <summary>
@@ -41,18 +45,10 @@ using ExorAIO.Utilities;
             Vars.EMenu = Vars.Menu.AddSubMenu("Use E to:");
             {
                 Vars.EMenu.Add("combo", new CheckBox("Combo", true));
-                Vars.EMenu.Add("killsteal", new CheckBox("KillSteal", true));
-                Vars.EMenu.Add("harass", new Slider("Harass if Mana >= x%", 50, 0, 101));
-                Vars.EMenu.Add("clear", new Slider("Clear if Mana >= x%", 25, 0, 101));
-            }
-
-            /// <summary>
-            ///     Sets the menu for the R.
-            /// </summary>
-            Vars.RMenu = Vars.Menu.AddSubMenu("Use R to:");
-            {
-                Vars.RMenu.Add("combo", new CheckBox("Combo", true));
-                Vars.RMenu.Add("clear", new CheckBox("Clear", true));
+                Vars.EMenu.Add("killsteal", new CheckBox("KillSteal"));
+                Vars.EMenu.Add("harass", new Slider("Harass / if Mana >= x%", 50, 0, 101));
+                Vars.EMenu.Add("laneclear", new Slider("LaneClear / if Mana >= x%", 25, 0, 101));
+                Vars.EMenu.Add("jungleclear", new Slider("JungleClear / if Mana >= x%", 25, 0, 101));
             }
 
             /// <summary>
@@ -61,9 +57,7 @@ using ExorAIO.Utilities;
             Vars.MiscMenu = Vars.Menu.AddSubMenu("Miscellaneous");
             {
                 Vars.MiscMenu.Add("noaacombo", new CheckBox("Don't AA in Combo", true));
-                Vars.MiscMenu.Add("tear", new Slider("Stack Tear if Mana >= x%", 75, 1, 101));
-                Vars.MiscMenu.Add("stacks", new Slider("Keep Passive Stacks:", 0, 0, 4));
-                Vars.MiscMenu.Add("stacksmana", new Slider("Keep Passive Stacks If Mana >= x%", 50, 1, 101));
+                Vars.MiscMenu.Add("tear", new Slider("Stack Tear / if Mana >= x%", 75, 1, 101));
                 Vars.MiscMenu.AddLabel("The Support mode doesn't attack or throw spells to minions if there are allies nearby.");
                 Vars.MiscMenu.Add("support", new CheckBox("Support Mode"));
             }
@@ -76,6 +70,7 @@ using ExorAIO.Utilities;
                 Vars.DrawingsMenu.Add("q", new CheckBox("Q Range"));
                 Vars.DrawingsMenu.Add("w", new CheckBox("W Range"));
                 Vars.DrawingsMenu.Add("e", new CheckBox("E Range"));
+                Vars.DrawingsMenu.Add("r", new CheckBox("R Range"));
             }
         }
     }

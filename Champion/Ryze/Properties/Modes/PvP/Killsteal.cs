@@ -3,10 +3,10 @@ using System.Linq;
 using ExorAIO.Utilities;
 using LeagueSharp;
 using LeagueSharp.SDK;
-using EloBuddy;
 using LeagueSharp.SDK.Core.Utils;
+using EloBuddy;
 
- namespace ExorAIO.Champions.Ryze
+namespace ExorAIO.Champions.Ryze
 {
     /// <summary>
     ///     The logics class.
@@ -30,9 +30,11 @@ using LeagueSharp.SDK.Core.Utils;
                         t.LSIsValidTarget(Vars.Q.Range - 50f) &&
                         !Invulnerable.Check(t, DamageType.Magical) &&
                         Vars.GetRealHealth(t) <
-                            (float)GameObjects.Player.LSGetSpellDamage(t, SpellSlot.Q)))
+                            (float)GameObjects.Player.LSGetSpellDamage(t, SpellSlot.Q) * (1 + (t.HasBuff("RyzeE")
+                                ? new double[] { 40, 55, 70, 85, 100, 100 }[GameObjects.Player.Spellbook.GetSpell(SpellSlot.Q).Level] / 100
+                                : 0))))
                 {
-                    if (!Vars.Q.GetPrediction(Targets.Target).CollisionObjects.Any(c => Targets.Minions.Contains(c)))
+                    if (!Vars.Q.GetPrediction(target).CollisionObjects.Any())
                     {
                         Vars.Q.Cast(Vars.Q.GetPrediction(target).UnitPosition);
                         return;

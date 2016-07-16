@@ -12,6 +12,7 @@ using iLucian;
 using EloBuddy.SDK;
 using EloBuddy.SDK.Notifications;
 using LeagueSharp.SDK.Core.Utils;
+using System.Linq;
 // ReSharper disable ObjectCreationAsStatement
 
 #endregion
@@ -20,6 +21,44 @@ namespace PortAIO
 {
     internal static class Init
     {
+        /// <summary>
+        ///     Spells that reset the attack timer.
+        /// </summary>
+        private static readonly string[] AttackResets =
+        {
+            "dariusnoxiantacticsonh", "garenq", "gravesmove",
+            "hecarimrapidslash", "jaxempowertwo", "jaycehypercharge", "leonashieldofdaybreak", "luciane",
+            "monkeykingdoubleattack", "mordekaisermaceofspades", "nasusq", "nautiluspiercinggaze", "netherblade",
+            "gangplankqwrapper", "poppypassiveattack", "powerfist", "renektonpreexecute", "rengarq",
+            "shyvanadoubleattack", "sivirw", "takedown", "talonnoxiandiplomacy", "trundletrollsmash", "vaynetumble",
+            "vie", "volibearq", "xenzhaocombotarget", "yorickspectral", "reksaiq", "itemtitanichydracleave", "masochism",
+            "illaoiw"
+        };
+
+        //private static LeagueSharp.Common.Render.Sprite Intro;
+        private static float IntroTimer = Game.Time;
+        public static SCommon.PluginBase.Champion Champion;
+
+        private static System.Drawing.Bitmap LoadImg(string imgName)
+        {
+            var bitmap = Resources.ResourceManager.GetObject(imgName) as System.Drawing.Bitmap;
+            if (bitmap == null)
+            {
+                Console.WriteLine(imgName + ".png not found.");
+            }
+            return bitmap;
+        }
+
+        /// <summary>
+        ///     Returns true if the spellname resets the attack timer.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <returns><c>true</c> if the specified name is an auto attack reset; otherwise, <c>false</c>.</returns>
+        public static bool IsAutoAttackReset(string name)
+        {
+            return AttackResets.Contains(name.ToLower());
+        }
+
         private static void Main()
         {
             Loading.OnLoadingComplete += Initialize;
@@ -36,18 +75,21 @@ namespace PortAIO
             }
         }
 
-        //private static LeagueSharp.Common.Render.Sprite Intro;
-        private static float IntroTimer = Game.Time;
-        public static SCommon.PluginBase.Champion Champion;
-
-        private static System.Drawing.Bitmap LoadImg(string imgName)
+        private static void Obj_AI_Base_OnSpellCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
-            var bitmap = Resources.ResourceManager.GetObject(imgName) as System.Drawing.Bitmap;
-            if (bitmap == null)
+            if (IsAutoAttackReset(args.SData.Name))
             {
-                Console.WriteLine(imgName + ".png not found.");
+                Orbwalker.ResetAutoAttack();
             }
-            return bitmap;
+        }
+
+        private static void OnProcessSpell(Obj_AI_Base unit, GameObjectProcessSpellCastEventArgs Spell)
+        {
+            var spellName = Spell.SData.Name;
+            if (unit.IsMe && IsAutoAttackReset(spellName))
+            {
+                Orbwalker.ResetAutoAttack();
+            }
         }
 
         private static void Initialize(EventArgs args)
@@ -58,6 +100,8 @@ namespace PortAIO
             Loader.Menu();
 
             Game.OnUpdate += Game_OnUpdate;
+            Obj_AI_Base.OnSpellCast += Obj_AI_Base_OnSpellCast;
+            Obj_AI_Base.OnProcessSpellCast += OnProcessSpell;
 
             /*
             if (false)

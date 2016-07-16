@@ -41,7 +41,6 @@ namespace SCommon.Orbwalking
         private bool m_rengarAttack;
         private bool m_Attack;
         private bool m_Move;
-        private bool m_IslastCastedAA;
         private Vector2 m_lastAttackPos;
         private Vector3 m_orbwalkingPoint;
         private ConfigMenu m_Configuration;
@@ -49,9 +48,6 @@ namespace SCommon.Orbwalking
         private AttackableUnit m_forcedTarget;
         private bool m_attackReset;
         private AttackableUnit m_lastTarget;
-        private Obj_AI_Base m_towerTarget;
-        private Obj_AI_Base m_sourceTower;
-        private int m_towerAttackTick;
         private bool m_channelingWait;
         private Func<bool> m_fnCanAttack;
         private Func<bool> m_fnCanMove;
@@ -1134,7 +1130,7 @@ namespace SCommon.Orbwalking
         /// <param name="data"></param>
         private void PacketHandler_AfterAttack(byte[] data)
         {
-            if (BitConverter.ToInt32(data, 2) == ObjectManager.Player.NetworkId && m_IslastCastedAA && m_attackInProgress)
+            if (BitConverter.ToInt32(data, 2) == ObjectManager.Player.NetworkId && m_attackInProgress)
             {
                 m_lastAATick = Utils.TickCount - (int)Math.Ceiling(GetWindupTime()) - Game.Ping;
                 AfterAttack(m_lastTarget);

@@ -1,9 +1,12 @@
 using System;
+using System.Linq;
 using ExorAIO.Utilities;
+using LeagueSharp;
 using LeagueSharp.SDK;
 using LeagueSharp.SDK.Core.Utils;
+using EloBuddy;
 
- namespace ExorAIO.Champions.Ryze
+namespace ExorAIO.Champions.Ryze
 {
     /// <summary>
     ///     The logics class.
@@ -17,7 +20,7 @@ using LeagueSharp.SDK.Core.Utils;
         public static void Combo(EventArgs args)
         {
             if (!Targets.Target.LSIsValidTarget() ||
-                Invulnerable.Check(Targets.Target))
+                Invulnerable.Check(Targets.Target, DamageType.Magical))
             {
                 return;
             }
@@ -31,89 +34,74 @@ using LeagueSharp.SDK.Core.Utils;
             }
 
             /// <summary>
-            ///     The R Combo Logic.
+            ///     Dynamic Combo Logic.
             /// </summary>
-            if (Vars.R.IsReady()  &&
-                Vars.getCheckBoxItem(Vars.RMenu, "combo") && Targets.Target.LSIsValidTarget(Vars.Q.Range))
+            switch (Vars.RyzeStacks)
             {
-                if (!GameObjects.Player.HasBuff("RyzePassiveCharged") &&
-                    GameObjects.Player.GetBuffCount("RyzePassiveStack") == 0)
-                {
-                    return;
-                }
+                case 0:
+                case 1:
+                    if (Vars.RyzeStacks == 0 || (GameObjects.Player.HealthPercent > Vars.getSliderItem(Vars.QMenu, "shield")) || Vars.getSliderItem(Vars.QMenu, "shield") == 0)
+                    {
+                        /// <summary>
+                        ///     The Q Combo Logic.
+                        /// </summary>
+                        if (Vars.Q.IsReady() &&
+                            Targets.Target.LSIsValidTarget(Vars.Q.Range-100f) &&
+                            Vars.getCheckBoxItem(Vars.QMenu, "combo"))
+                        {
+                            if (!Vars.Q.GetPrediction(Targets.Target).CollisionObjects.Any())
+                            {
+                                Vars.Q.Cast(Vars.Q.GetPrediction(Targets.Target).UnitPosition);
+                            }
+                        }
+                    }
 
-                if (Vars.W.IsReady() || Vars.Q.IsReady() &&
-                    GameObjects.Player.GetBuffCount("RyzePassiveStack") == 3)
-                {
-                    Vars.R.Cast();
-                }
-                if (GameObjects.Player.GetBuffCount("RyzePassiveStack") == 2 && !Vars.E.IsReady() )
-                {
-                    Vars.R.Cast();
-                }
-                if (GameObjects.Player.GetBuffCount("RyzePassiveStack") == 1 && !Vars.Q.IsReady() || !Vars.E.IsReady())
-                {
-                    Vars.R.Cast();
-                }
-            }
+                    /// <summary>
+                    ///     The W Combo Logic.
+                    /// </summary>
+                    if (Targets.Target.HasBuff("RyzeE") ||
+                        (GameObjects.Player.HealthPercent >
+                            Vars.getSliderItem(Vars.QMenu, "shield")) ||
+                        Vars.getSliderItem(Vars.QMenu, "shield") == 0)
+                    {
+                        if (Vars.W.IsReady() &&
+                            Targets.Target.LSIsValidTarget(Vars.W.Range) &&
+                            Vars.getCheckBoxItem(Vars.WMenu, "combo"))
+                        {
+                            Vars.W.CastOnUnit(Targets.Target);
+                            
+                            if (Vars.RyzeStacks == 1 &&
+                                (GameObjects.Player.HealthPercent >
+                                    Vars.getSliderItem(Vars.QMenu, "shield")) ||
+                                Vars.getSliderItem(Vars.QMenu, "shield") == 0)
+                            {
+                                return;
+                            }
+                        }
+                    }
 
-            /// <summary>
-            ///     The W Combo Logic.
-            /// </summary>
-            if (Vars.W.IsReady() &&
-                Targets.Target.LSIsValidTarget(Vars.W.Range) &&
-                Vars.getCheckBoxItem(Vars.WMenu, "combo"))
-            {
-                if (!Vars.Q.IsReady() &&
-                    GameObjects.Player.GetBuffCount("RyzePassiveStack") == 1)
-                {
-                    return;
-                }
+                    /// <summary>
+                    ///     The E Combo Logic.
+                    /// </summary>
+                    if (Vars.E.IsReady() &&
+                        Targets.Target.LSIsValidTarget(Vars.E.Range) &&
+                        Vars.getCheckBoxItem(Vars.EMenu, "combo"))
+                    {
+                        Vars.E.CastOnUnit(Targets.Target);
+                    }
+                    break;
 
-                if (GameObjects.Player.HasBuff("RyzePassiveCharged") ||
-                    GameObjects.Player.GetBuffCount("RyzePassiveStack") != 0)
-                {
-                    Vars.W.CastOnUnit(Targets.Target);
-                }
-            }
-
-            /// <summary>
-            ///     The Q Combo Logic.
-            /// </summary>
-            if (Vars.Q.IsReady() &&
-                Targets.Target.LSIsValidTarget(Vars.Q.Range) &&
-                Vars.getCheckBoxItem(Vars.QMenu, "combo") && GameObjects.Player.GetBuffCount("RyzePassiveStack") != 4)
-            {
-                Vars.Q.Cast(Vars.Q.GetPrediction(Targets.Target).UnitPosition);
-            }
-            if (Vars.Q.IsReady() &&
-            Targets.Target.LSIsValidTarget(Vars.Q.Range) &&
-            Vars.getCheckBoxItem(Vars.QMenu, "combo") && GameObjects.Player.GetBuffCount("RyzePassiveStack") == 4 && !Vars.W.IsReady())
-            {
-                Vars.Q.Cast(Vars.Q.GetPrediction(Targets.Target).UnitPosition);
-            }
-            /// <summary>
-            ///     The E Combo Logic.
-            /// </summary>
-            if (Vars.E.IsReady() &&
-                Targets.Target.LSIsValidTarget(Vars.E.Range) &&
-                Vars.getCheckBoxItem(Vars.EMenu, "combo"))
-            {
-                if (!Vars.Q.IsReady() &&
-                    GameObjects.Player.GetBuffCount("RyzePassiveStack") == 1)
-                {
-                    return;
-                }
-
-                if (GameObjects.Player.HasBuff("RyzePassiveCharged") ||
-                    GameObjects.Player.GetBuffCount("RyzePassiveStack") != 0 && GameObjects.Player.GetBuffCount("RyzePassiveStack") != 4)
-                {
-                    Vars.E.CastOnUnit(Targets.Target);
-                }
-                if (GameObjects.Player.GetBuffCount("RyzePassiveStack") == 4 && !Vars.W.IsReady())
-                {
-                    Vars.E.CastOnUnit(Targets.Target);
-                }
+                default:
+                    /// <summary>
+                    ///     The Q Combo Logic.
+                    /// </summary>
+                    if (Vars.Q.IsReady() &&
+                        Targets.Target.LSIsValidTarget(Vars.Q.Range-100f) &&
+                        Vars.getCheckBoxItem(Vars.QMenu, "combo"))
+                    { 
+                        Vars.Q.Cast(Vars.Q.GetPrediction(Targets.Target).UnitPosition);
+                    }
+                    break;
             }
         }
     }

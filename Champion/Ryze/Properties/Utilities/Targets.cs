@@ -3,11 +3,11 @@ using System.Linq;
 using ExorAIO.Utilities;
 using LeagueSharp;
 using LeagueSharp.SDK;
-using EloBuddy;
 using LeagueSharp.SDK.Core.Utils;
+using EloBuddy;
 using EloBuddy.SDK;
 
- namespace ExorAIO.Champions.Ryze
+namespace ExorAIO.Champions.Ryze
 {
     /// <summary>
     ///     The targets class.
@@ -32,11 +32,6 @@ using EloBuddy.SDK;
         /// <summary>
         ///     The jungle minion targets.
         /// </summary>
-        public static List<Obj_AI_Minion> JungleMinions
-            =>
-                GameObjects.Jungle.Where(
-                    m =>
-                        m.LSIsValidTarget(Vars.Q.Range) &&
-                        !GameObjects.JungleSmall.Contains(m)).ToList();
+        public static List<Obj_AI_Minion> JungleMinions => GameObjects.Jungle.Where(m => m.LSIsValidTarget(Vars.Q.Range)).ToList();
     }
 }

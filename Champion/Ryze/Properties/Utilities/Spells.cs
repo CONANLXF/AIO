@@ -4,7 +4,7 @@ using LeagueSharp;
 using LeagueSharp.SDK;
 using LeagueSharp.SDK.Enumerations;
 
- namespace ExorAIO.Champions.Ryze
+namespace ExorAIO.Champions.Ryze
 {
     /// <summary>
     ///     The spells class.
@@ -16,12 +16,12 @@ using LeagueSharp.SDK.Enumerations;
         /// </summary>
         public static void Initialize()
         {
-            Vars.Q = new Spell(SpellSlot.Q, 900f);
-            Vars.W = new Spell(SpellSlot.W, 600f);
-            Vars.E = new Spell(SpellSlot.E, 600f);
-            Vars.R = new Spell(SpellSlot.R);
+            Vars.Q = new Spell(SpellSlot.Q, 1000f);
+            Vars.W = new Spell(SpellSlot.W, Vars.AARange);
+            Vars.E = new Spell(SpellSlot.E, Vars.AARange);
+            Vars.R = new Spell(SpellSlot.R, 1500 * GameObjects.Player.Spellbook.GetSpell(SpellSlot.R).Level);
 
-            Vars.Q.SetSkillshot(0.25f, 55f, 1400f, true, SkillshotType.SkillshotLine);
+            Vars.Q.SetSkillshot(0.25f, 60f, 1400f, true, SkillshotType.SkillshotLine); // Original Width: 55
         }
     }
 }

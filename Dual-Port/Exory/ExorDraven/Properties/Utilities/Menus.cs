@@ -48,7 +48,9 @@ using LeagueSharp.SDK;
             Vars.RMenu = Vars.Menu.AddSubMenu("Use R to:");
             {
                 Vars.RMenu.Add("combo", new CheckBox("Combo", true));
-                Vars.RMenu.Add("killsteal", new CheckBox("KillSteal", true));
+                Vars.RMenu.AddLabel("The Semi-Automatic R will automatically ult the lowest on health non-invulnerable enemy in range.");
+                Vars.RMenu.Add("bool", new CheckBox("Semi-Automatic R", true));
+                Vars.RMenu.Add("key", new KeyBind("Key:", false, KeyBind.BindTypes.HoldActive, 'T'));
                 {
                     /// <summary>
                     ///     Sets the menu for the R Whitelist.

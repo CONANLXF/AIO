@@ -1802,6 +1802,7 @@
     <Compile Include="Utility\EBPredictioner\YasWallManager.cs" />
     <Compile Include="Utility\EBPredictioner\SpellData.cs" />
     <Compile Include="Utility\EBPredictioner\SPredictioner.cs" />
+    <Compile Include="Utility\ElUtilitySuite\Summoners\Cleanse2.cs" />
     <Compile Include="Utility\ElUtilitySuite\Summoners\Smite.cs" />
     <Compile Include="Utility\ElUtilitySuite\Vendor\SFX\IncomingDamageManager.cs" />
     <Compile Include="Utility\EmoteSpammer\Program.cs" />

@@ -389,6 +389,30 @@ using EloBuddy.SDK;
                     }
                 }
             }
+
+            /// <summary>
+            ///     The Semi-Automatic R Management.
+            /// </summary>
+            if (Vars.R.IsReady() &&
+                Vars.getCheckBoxItem(Vars.RMenu, "bool") &&
+                Vars.getKeyBindItem(Vars.RMenu, "key"))
+            {
+                if (!GameObjects.EnemyHeroes.Any(
+                    t =>
+                        !Invulnerable.Check(t) &&
+                        t.IsValidTarget(Vars.R.Range) &&
+                        Vars.getCheckBoxItem(Vars.WhiteListMenu, Targets.Target.ChampionName.ToLower())))
+                {
+                    return;
+                }
+
+                Vars.R.CastOnUnit(
+                    GameObjects.EnemyHeroes.Where(
+                        t =>
+                            !Invulnerable.Check(t) &&
+                            t.IsValidTarget(Vars.R.Range) &&
+                            Vars.getCheckBoxItem(Vars.WhiteListMenu, Targets.Target.ChampionName.ToLower())).OrderBy(o => o.Health).First());
+            }
         }
 
         /// <summary>
