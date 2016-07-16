@@ -52,7 +52,7 @@ namespace HeavenStrikeRyze
         }
         public static int RRAnge()
         {
-            return new int[] {1500,3000 }[Program._r.Level -1];
+            return Program._r.Level == 2 ? 3000 : 1500;
         }
         public static bool HasEBuff(Obj_AI_Base target)
         {
