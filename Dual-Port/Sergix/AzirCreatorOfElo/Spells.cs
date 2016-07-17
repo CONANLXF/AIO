@@ -4,21 +4,38 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Azir_Free_elo_Machine.Math;
 using LeagueSharp;
 using LeagueSharp.Common;
 using SharpDX;
 using EloBuddy;
-using Azir_Free_elo_Machine.Math;
 
- namespace Azir_Creator_of_Elo
+namespace Azir_Creator_of_Elo
 {
     class Spells
     {
-        private Spell _q, _w, _e, _r;
-        public Spell Q { get { return _q; } }
-        public Spell W { get { return _w; } }
-        public Spell E { get { return _e; } }
-        public Spell R { get { return _r; } }
+        public Spell _q, _w, _e, _r;
+
+        public Spell Q
+        {
+            get { return _q; }
+        }
+
+        public Spell W
+        {
+            get { return _w; }
+        }
+
+        public Spell E
+        {
+            get { return _e; }
+        }
+
+        public Spell R
+        {
+            get { return _r; }
+        }
+
         public Spells()
         {
             _q = new Spell(SpellSlot.Q, 825);
@@ -34,27 +51,44 @@ using Azir_Free_elo_Machine.Math;
             //  ignite = ObjectManager.Player.GetSpellSlot("SummonerDot");
         }
 
-        public void castQ(AzirMain azir, AIHeroClient target, bool useQ, int nSoldiersToQ)
+
+
+
+
+    }
+
+
+    internal class StaticSpells
+    {
+        private static Points _pointer;
+        public static void CastQ(AzirMain azir, AIHeroClient target, bool useQ, int nSoldiersToQ)
         {
-            var points = Azir_Free_elo_Machine.Math.Geometry.PointsAroundTheTarget(target.ServerPosition, 320);
-            List<Azir_Free_elo_Machine.Math.Points> pointsAttack = new List<Points>();
-            foreach (Vector3 point in points)
+            var pointsAttack = new Points[120];
+            var points = Azir_Free_elo_Machine.Math.Geometry.PointsAroundTheTarget(target.ServerPosition, 640, 80);
+            var i = 0;
+
+            foreach (var point in points)
             {
+
                 if (point.LSDistance(azir.Hero.ServerPosition) <= azir.Spells.Q.Range)
                 {
+                    _pointer.hits = Azir_Free_elo_Machine.Math.Geometry.Nattacks(azir, point, target);
+                    _pointer.point = point;
+                    pointsAttack[i] = _pointer;
 
-
-                    pointsAttack.Add(new Points(Azir_Free_elo_Machine.Math.Geometry.Nattacks(azir, point, target), point));
-                    //    var spaceAzirQ =azir.Spells.Q.Speed*time;
-                    //  var spacetargetpos = Prediction.GetPrediction(target, time);
 
                 }
+                i++;
+
+
             }
             if (pointsAttack.MaxOrDefault(x => x.hits).hits > 0)
             {
-                //    Game.PrintChat("Attacks : "+ pointsAttack.MaxOrDefault(x => x.hits).hits);
-                Q.Cast(pointsAttack.MaxOrDefault(x => x.hits).point);
+                azir.Spells.Q.Cast(pointsAttack.MaxOrDefault(x => x.hits).point);
             }
         }
+
+
     }
+
 }

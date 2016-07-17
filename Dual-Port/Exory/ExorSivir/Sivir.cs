@@ -116,7 +116,7 @@ using EloBuddy.SDK;
             {
                 Logics.AutoShield(sender, args);
             }
-            if (sender != null && args.Target != null && sender.Type == GameObjectType.AIHeroClient && args.Target.IsMe && sender.IsEnemy && Menus.getCheckBoxItem(Vars.EMenu, "logical") && Vars.E.IsReady())
+            if (sender != null && args.Target != null && sender.Type == GameObjectType.AIHeroClient && args.Target.IsMe && sender.IsEnemy && Vars.getCheckBoxItem(Vars.EMenu, "logical") && Vars.E.IsReady())
             {
                 if (!args.SData.ConsideredAsAutoAttack)
                 {

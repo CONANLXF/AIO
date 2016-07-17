@@ -50,26 +50,10 @@ using EloBuddy;
 
         public int SoldiersAttackingn(AzirMain azir)
         {
-            var soldiersa = 0;
-            foreach (Obj_AI_Minion m in azir.soldierManager.Soldiers)
-            {
-                if (!m.IsDead)
-                    foreach (AIHeroClient h in HeroManager.Enemies)
-                    {
-                        if (!h.IsDead)
-                        if (m.LSDistance(h) > 315)
-                        {
-                            soldiersa++;
-                            break;
-                        }
-                        else
-                        {
+            var soldiersa = azir.soldierManager.Soldiers.Where(m => !m.IsDead).Count(m => HeroManager.Enemies.Where(h => !h.IsDead).Any(h => m.LSDistance(h) > 315));
+            //    Game.PrintChat("soldiersa : " +soldiersa);
+            return (int)(soldiersa);
 
-
-                        }
-                    }
-            }
-            return soldiersa;
         }
         private void Obj_AI_Minion_OnPlayAnimation(Obj_AI_Base sender, GameObjectPlayAnimationEventArgs args)
         {

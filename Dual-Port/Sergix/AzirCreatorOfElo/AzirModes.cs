@@ -9,14 +9,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
- namespace Azir_Creator_of_Elo
+namespace Azir_Creator_of_Elo
 {
     class AzirModes : Modes
     {
         public JumpLogic jump;
-        #pragma warning disable 0649
+#pragma warning disable 0649
         public Insec insec;
-        #pragma warning restore 0649
+#pragma warning restore 0649
         public AzirModes(AzirMain azir)
         {
             jump = new JumpLogic(azir);
@@ -68,16 +68,17 @@ using System.Threading.Tasks;
                 if (target.Distance(azir.Hero.ServerPosition) < 450)
                 {
                     var pred = azir.Spells.W.GetPrediction(target);
-                    if (pred.Hitchance >= HitChance.VeryHigh)
+                    if (pred.Hitchance >= HitChance.Medium)
                     {
-                        if (savew && (wCount == 0))
+                        if (savew && (wCount == 1))
                         {
 
                         }
                         else
                         {
                             if (useW)
-                                azir.Spells.W.Cast(pred.CastPosition);
+                                if (azir.Spells.W.IsReady())
+                                    azir.Spells.W.Cast(pred.CastPosition);
                         }
                     }
                 }
@@ -85,11 +86,18 @@ using System.Threading.Tasks;
                 {
                     //    if (azir.Spells.Q.Level > 0 && azir.Spells.Q.IsReady())
                     //      if((!savew &&(savew&& (wCount > 0))))
-                    if (useW)
-                        azir.Spells.W.Cast(azir.Hero.Position.LSExtend(target.ServerPosition, 450));
+                    if (savew && (wCount == 1))
+                    {
+
+                    }
+                    else
+                    {
+                        if (useW)
+                            azir.Spells.W.Cast(azir.Hero.Position.Extend(target.ServerPosition, 450));
+                    }
                 }
                 if (azir.soldierManager.SoldiersAttackingn(azir) <= nSoldiersToQ)
-                    azir.Spells.castQ(azir, target, useQ, nSoldiersToQ);
+                    StaticSpells.CastQ(azir, target, useQ, nSoldiersToQ);
 
             }
         }
@@ -162,7 +170,7 @@ using System.Threading.Tasks;
                 else
                 {
                     var pred = azir.Spells.W.GetPrediction(target);
-                    if (pred.Hitchance >= HitChance.Medium)
+                    if (pred.Hitchance >= HitChance.VeryHigh)
                     {
                         if (useW)
                             azir.Spells.W.Cast(pred.CastPosition);
@@ -177,12 +185,12 @@ using System.Threading.Tasks;
                             azir.Spells.W.Cast(azir.Hero.Position.Extend(target.ServerPosition, 450));
             }
             //Q
-            if (azir.soldierManager.SoldiersAttackingn(azir) >= nSoldiersToQ)
+
+            if (azir.Spells.Q.IsReady() && azir.soldierManager.Soldiers.Count > 0 && azir.soldierManager.SoldiersAttackingn(azir) >= nSoldiersToQ)
             {
 
-                azir.Spells.castQ(azir, target, useQ, nSoldiersToQ);
+                StaticSpells.CastQ(azir, target, useQ, nSoldiersToQ);
             }
-
             if (azir.Spells.Q.IsKillable(target) && useQ)
             {
                 if (target.Health < azir.Spells.Q.GetDamage(target))
@@ -190,7 +198,7 @@ using System.Threading.Tasks;
                     var pred = azir.Spells.Q.GetPrediction(target);
                     if (pred.Hitchance >= HitChance.High)
                     {
-
+                        //       Game.PrintChat("Killeable with q");
                         azir.Spells.Q.Cast(pred.CastPosition);
                     }
                 }
@@ -213,7 +221,5 @@ using System.Threading.Tasks;
                 }
             }
         }
-
-
     }
 }

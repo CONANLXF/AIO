@@ -63,15 +63,14 @@ namespace Azir_Free_elo_Machine.Math
             var attacksS = 0f;
             foreach (var m in azir.soldierManager.Soldiers)
             {
+                if (m.IsDead) continue;
                 var spaceToDoQ = m.ServerPosition.LSDistance(point);
-                var timeToDoIt = spaceToDoQ / azir.Spells.Q.Speed;
+                var timeToDoIt = (spaceToDoQ / azir.Spells.Q.Speed);
                 var posFinalTarget = Prediction.GetPrediction(target, timeToDoIt);
                 var space = azirSoldierRange - posFinalTarget.UnitPosition.LSDistance(point);
 
                 var time = space / target.MoveSpeed;
-                attacksS += (int)(time / azir.Hero.AttackDelay);
-
-
+                attacksS += (time / azir.Hero.AttackDelay);
             }
             return attacksS;
         }
