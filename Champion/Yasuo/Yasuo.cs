@@ -774,6 +774,11 @@ namespace Valvrave_Sharp.Plugin
             {
                 return;
             }
+            var target = TargetSelector.GetTarget(505, DamageType.Physical);
+            if (target != null && QEB.IsInRange(target) && Player.Distance(target) < 500)
+            {
+                QEB.Cast(target);
+            }
             if (!haveQ3)
             {
                 foreach (Obj_AI_Base minion in LeagueSharp.Common.MinionManager.GetMinions(ObjectManager.Player.ServerPosition, Q3.Range, LeagueSharp.Common.MinionTypes.All, LeagueSharp.Common.MinionTeam.Enemy).OrderByDescending(m => m.Health))
@@ -928,6 +933,22 @@ namespace Valvrave_Sharp.Plugin
                 }
             }
 
+            foreach (Obj_AI_Base minion in LeagueSharp.Common.MinionManager.GetMinions(ObjectManager.Player.ServerPosition, QEB.Range, LeagueSharp.Common.MinionTypes.All, LeagueSharp.Common.MinionTeam.Enemy).OrderByDescending(m => m.Health))
+            {
+                if (minion != null)
+                {
+                    if (QEB.IsReady() && getCheckBoxItem(lcMenu, "Q") && !haveQ3)
+                    {
+                        QEB.Cast(minion);
+                    }
+
+                    if (QEB.IsReady() && getCheckBoxItem(lcMenu, "Q3") && haveQ3)
+                    {
+                        QEB.Cast(minion);
+                    }
+                }
+            }
+
             var allMinionsE = LeagueSharp.Common.MinionManager.GetMinions(ObjectManager.Player.ServerPosition, E.Range, LeagueSharp.Common.MinionTypes.All, LeagueSharp.Common.MinionTeam.Enemy);
             foreach (var minion in allMinionsE.Where(x => x.LSIsValidTarget(E.Range) && CanCastE(x)))
             {
@@ -1072,7 +1093,12 @@ namespace Valvrave_Sharp.Plugin
             {
                 if (minion != null)
                 {
-                    if (QEB.IsReady() && GetDamage(minion, SpellSlot.Q) > minion.Health && getCheckBoxItem(lhMenu, "Q"))
+                    if (QEB.IsReady() && GetDamage(minion, SpellSlot.Q) > minion.Health && getCheckBoxItem(lhMenu, "Q") && !haveQ3)
+                    {
+                        QEB.Cast(minion);
+                    }
+
+                    if (QEB.IsReady() && GetDamage(minion, SpellSlot.Q) > minion.Health && getCheckBoxItem(lhMenu, "Q3") && haveQ3)
                     {
                         QEB.Cast(minion);
                     }
