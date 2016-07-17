@@ -73,12 +73,12 @@ using EloBuddy;
                     return;
                 }
 
-                Vars.R.CastOnUnit(
+                Vars.R.Cast(Vars.R.GetPrediction(
                     GameObjects.EnemyHeroes.Where(
                         t =>
                             !Invulnerable.Check(t) &&
                             t.LSIsValidTarget(Vars.R.Range) &&
-                            Vars.getCheckBoxItem(Vars.WhiteList2Menu, Targets.Target.ChampionName.ToLower())).OrderBy(o => o.Health).First());
+                            Vars.getCheckBoxItem(Vars.WhiteList2Menu, Targets.Target.ChampionName.ToLower())).OrderBy(o => o.Health).First()).UnitPosition);
             }
         }
     }

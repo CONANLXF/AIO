@@ -7,7 +7,7 @@ using LeagueSharp.SDK.Core.Utils;
 using EloBuddy;
 using EloBuddy.SDK;
 
- namespace ExorAIO.Champions.Twitch
+namespace ExorAIO.Champions.Twitch
 {
     /// <summary>
     ///     The champion class.
@@ -39,7 +39,7 @@ using EloBuddy.SDK;
             /// </summary>
             Drawings.Initialize();
         }
-        
+
         /// <summary>
         ///     Fired when the game is updated.
         /// </summary>
@@ -132,7 +132,7 @@ using EloBuddy.SDK;
             {
                 if (GameObjects.Player.GetBuff("TwitchHideInShadows").EndTime - Game.Time >
                     GameObjects.Player.GetBuff("TwitchHideInShadows").EndTime - GameObjects.Player.GetBuff("TwitchHideInShadows").StartTime -
-                    Vars.getSliderItem(Vars.MiscMenu, "stealthtime") / 1000)
+                    (Vars.getSliderItem(Vars.MiscMenu, "stealthtime") - Game.Ping) / 1000)
                 {
                     args.Process = false;
                 }

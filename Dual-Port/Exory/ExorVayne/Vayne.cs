@@ -185,7 +185,7 @@ using EloBuddy.SDK;
                 /// </summary>
                 if (GameObjects.Player.GetBuff("vaynetumblefade").EndTime - Game.Time >
                     GameObjects.Player.GetBuff("vaynetumblefade").EndTime - GameObjects.Player.GetBuff("vaynetumblefade").StartTime -
-                    Vars.getSliderItem(Vars.MiscMenu, "stealthtime") / 1000)
+                    (Vars.getSliderItem(Vars.MiscMenu, "stealthtime") - Game.Ping) / 1000)
                 {
                     args.Process = false;
                 }

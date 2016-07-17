@@ -35,19 +35,7 @@ namespace PortAIO
             "illaoiw"
         };
 
-        //private static LeagueSharp.Common.Render.Sprite Intro;
-        private static float IntroTimer = Game.Time;
         public static SCommon.PluginBase.Champion Champion;
-
-        private static System.Drawing.Bitmap LoadImg(string imgName)
-        {
-            var bitmap = Resources.ResourceManager.GetObject(imgName) as System.Drawing.Bitmap;
-            if (bitmap == null)
-            {
-                Console.WriteLine(imgName + ".png not found.");
-            }
-            return bitmap;
-        }
 
         /// <summary>
         ///     Returns true if the spellname resets the attack timer.
@@ -90,7 +78,6 @@ namespace PortAIO
             {
                 if (spellName.ToLower().Contains("vaynetumble"))
                 {
-                    Console.WriteLine("1");
                     LeagueSharp.Common.Utility.DelayAction.Add(100, Orbwalker.ResetAutoAttack);
                 }
                 else
@@ -104,261 +91,18 @@ namespace PortAIO
         {
             LeagueSharp.SDK.Bootstrap.Init();
 
-            Notifications.Show(new SimpleNotification("PortAIO", "Welcome to PortAIO, this is a complete AIO made for every single champion. If you experience bugs or have suggestions or just have something to report please go to the github and view the instructions to post a new issue. Enjoy using PortAIO and GLHF!"), 8000);
             Loader.Menu();
+
+            LoadUtility();
+            LoadChampion();
 
             Game.OnUpdate += Game_OnUpdate;
             Obj_AI_Base.OnSpellCast += Obj_AI_Base_OnSpellCast;
             Obj_AI_Base.OnProcessSpellCast += OnProcessSpell;
+        }
 
-            /*
-            if (false)
-            {
-                Intro = new LeagueSharp.Common.Render.Sprite(LoadImg("PortLogo"), new Vector2((Drawing.Width / 2) - 175, (Drawing.Height / 2) - 300));
-                Intro.Add(0);
-                Intro.OnDraw();
-                LeagueSharp.Common.Utility.DelayAction.Add(5000, () => Intro.Remove());
-            }
-            */
-
-            if (!Loader.champOnly)
-            {
-                if (Loader.useActivator)
-                {
-                    switch (Loader.activatorCB)
-                    {
-                        case 0:
-                            ElUtilitySuite.Entry.OnLoad();
-                            break;
-                        case 1:
-                            NabbActivator.Index.OnLoad();
-                            break;
-                        case 2:
-                            Activators.Activator.Game_OnGameLoad();
-                            break;
-                        default:
-                            ElUtilitySuite.Entry.OnLoad();
-                            break;
-                    }
-                }
-
-                if (Loader.useRecall)
-                {
-                    UniversalRecallTracker.Program.Main();
-                }
-
-                if (Loader.useSkin)
-                {
-                    SDK_SkinChanger.Program.Load();
-                }
-
-                if (Loader.useTracker)
-                {
-                    switch (Loader.trackerCB)
-                    {
-                        case 0:
-                            NabbTracker.Program.Game_OnGameLoad();
-                            break;
-                        case 1:
-                            Tracker.Program.Game_OnGameLoad();
-                            break;
-                        default:
-                            NabbTracker.Program.Game_OnGameLoad();
-                            break;
-                    }
-                }
-
-                if (Loader.dzaware)
-                {
-                    DZAwarenessAIO.Program.Game_OnGameLoad();
-                }
-
-                if (Loader.godTracker)
-                {
-                    GodJungleTracker.Program.OnGameLoad();
-                    Chat.Print("Berb : Depending on whether packets are updated or not will this work.");
-                }
-
-                if (Loader.ping)
-                {
-                    new UniversalPings.Program();
-                }
-
-                if (Loader.human)
-                {
-                    Humanizer.Program.Game_OnGameLoad();
-                }
-
-                if (Loader.gank)
-                {
-                    UniversalGankAlerter.Program.Main();
-                }
-
-                if (Loader.evade)
-                {
-                    switch (Loader.evadeCB)
-                    {
-                        case 0:
-                            new ezEvade.Evade();
-                            break;
-                        case 1:
-                            EvadeSharp.Program.Game_OnGameStart();
-                            break;
-                        default:
-                            new ezEvade.Evade();
-                            break;
-                    }
-                }
-
-                if (Loader.predictioner)
-                {
-                    switch (Loader.predictionerCB)
-                    {
-                        case 0:
-                            EBPredictioner.Program.Init();
-                            break;
-                        case 1:
-                            SDKPredictioner.Program.Init();
-                            break;
-                        case 2:
-                            OKTWPredictioner.Program.Init();
-                            break;
-                        case 3:
-                            SPredictioner.Program.Init();
-                            break;
-                        case 4:
-                            SharpPredictioner.Program.Init();
-                            break;
-                        default:
-                            EBPredictioner.Program.Init();
-                            break;
-                    }
-                }
-
-                if (Loader.cheat)
-                {
-                    new TheCheater.TheCheater().Load();
-                }
-
-                if (Loader.banwards)
-                {
-                    Sebby_Ban_War.Program.Game_OnGameLoad();
-                }
-
-                if (Loader.antialistar)
-                {
-                    AntiAlistar.AntiAlistar.OnLoad();
-                }
-
-                if (Loader.traptrack)
-                {
-                    AntiTrap.Program.Game_OnGameLoad();
-                }
-
-                if (Loader.limitedShat)
-                {
-                    LimitedShat.Program.Game_OnGameLoad();
-                }
-
-                if (Loader.autoLevel)
-                {
-                    AutoLevelup.Program.Game_OnGameLoad();
-                }
-
-                if (Loader.chatLogger)
-                {
-                    Chat_Logger.Program.Init();
-                }
-
-                if (Loader.autoFF)
-                {
-                    AutoFF.Program.Game_OnGameLoad();
-                }
-
-                if (Loader.urfSpell)
-                {
-                    URF_Spell_Spammer.Program.Game_OnGameLoad();
-                }
-
-                if (Loader.pastingSharp)
-                {
-                    PastingSharp.Program.Game_OnGameLoad();
-                }
-
-                if (Loader.emoteSpammer)
-                {
-                    EmoteSpammer.Program.Game_OnGameLoad();
-                }
-
-                if (Loader.antiStealth)
-                {
-                    new AntiStealth.AntiStealth();
-                }
-
-                if (Loader.reform)
-                {
-                    Toxic_Player_Reform_Program.Program.Main();
-                }
-
-                if (Loader.feed)
-                {
-                    BlackFeeder.Program.Init();
-                }
-
-                if (Loader.mes)
-                {
-                    Mastery_Badge_Spammer.Program.Init();
-                }
-
-                if (Loader.dev)
-                {
-                    DeveloperSharp.Program.Init();
-                }
-
-                if (Loader.cursor)
-                {
-                    VCursor.Program.Game_OnGameLoad();
-                }
-
-                if (Loader.condemn)
-                {
-                    AsunaCondemn.Program.Main();
-                }
-
-                if (Loader.randomult)
-                {
-                    RandomUlt.Program.Main();
-                }
-
-                //if (Loader.orbwalker)
-                //{
-                //PuppyStandaloneOrbwalker.Program.Game_OnGameLoad();
-                //}
-
-                /*
-                if (Loader.stream)
-                {
-                    StreamBuddy.Program.Main();
-                }
-
-                if (RandomUltChampsList.Contains(ObjectManager.Player.ChampionName))
-                {
-                    if (Loader.randomUlt)
-                    {
-                        RandomUlt.Program.Game_OnGameLoad();
-                    }
-                }
-
-                if (BaseUltList.Contains(ObjectManager.Player.ChampionName))
-                {
-                    if (Loader.baseUlt)
-                    {
-                        new BaseUlt3.BaseUlt();
-                    }
-                }
-                */
-            }
-
+        public static void LoadChampion()
+        {
             if (!Loader.utilOnly)
             {
                 switch (ObjectManager.Player.ChampionName.ToLower())
@@ -1946,6 +1690,248 @@ namespace PortAIO
                         Chat.Print("This champion is not supported yet but the utilities will still load! - Berb");
                         break;
                 }
+            }
+        }
+
+        private static void LoadUtility()
+        {
+
+            if (!Loader.champOnly)
+            {
+                if (Loader.useActivator)
+                {
+                    switch (Loader.activatorCB)
+                    {
+                        case 0:
+                            ElUtilitySuite.Entry.OnLoad();
+                            break;
+                        case 1:
+                            NabbActivator.Index.OnLoad();
+                            break;
+                        case 2:
+                            Activators.Activator.Game_OnGameLoad();
+                            break;
+                        default:
+                            ElUtilitySuite.Entry.OnLoad();
+                            break;
+                    }
+                }
+
+                if (Loader.useRecall)
+                {
+                    UniversalRecallTracker.Program.Main();
+                }
+
+                if (Loader.useSkin)
+                {
+                    SDK_SkinChanger.Program.Load();
+                }
+
+                if (Loader.useTracker)
+                {
+                    switch (Loader.trackerCB)
+                    {
+                        case 0:
+                            NabbTracker.Program.Game_OnGameLoad();
+                            break;
+                        case 1:
+                            Tracker.Program.Game_OnGameLoad();
+                            break;
+                        default:
+                            NabbTracker.Program.Game_OnGameLoad();
+                            break;
+                    }
+                }
+
+                if (Loader.dzaware)
+                {
+                    DZAwarenessAIO.Program.Game_OnGameLoad();
+                }
+
+                if (Loader.godTracker)
+                {
+                    GodJungleTracker.Program.OnGameLoad();
+                    Chat.Print("Berb : Depending on whether packets are updated or not will this work.");
+                }
+
+                if (Loader.ping)
+                {
+                    new UniversalPings.Program();
+                }
+
+                if (Loader.human)
+                {
+                    Humanizer.Program.Game_OnGameLoad();
+                }
+
+                if (Loader.gank)
+                {
+                    UniversalGankAlerter.Program.Main();
+                }
+
+                if (Loader.evade)
+                {
+                    switch (Loader.evadeCB)
+                    {
+                        case 0:
+                            new ezEvade.Evade();
+                            break;
+                        case 1:
+                            EvadeSharp.Program.Game_OnGameStart();
+                            break;
+                        default:
+                            new ezEvade.Evade();
+                            break;
+                    }
+                }
+
+                if (Loader.predictioner)
+                {
+                    switch (Loader.predictionerCB)
+                    {
+                        case 0:
+                            EBPredictioner.Program.Init();
+                            break;
+                        case 1:
+                            SDKPredictioner.Program.Init();
+                            break;
+                        case 2:
+                            OKTWPredictioner.Program.Init();
+                            break;
+                        case 3:
+                            SPredictioner.Program.Init();
+                            break;
+                        case 4:
+                            SharpPredictioner.Program.Init();
+                            break;
+                        default:
+                            EBPredictioner.Program.Init();
+                            break;
+                    }
+                }
+
+                if (Loader.cheat)
+                {
+                    new TheCheater.TheCheater().Load();
+                }
+
+                if (Loader.banwards)
+                {
+                    Sebby_Ban_War.Program.Game_OnGameLoad();
+                }
+
+                if (Loader.antialistar)
+                {
+                    AntiAlistar.AntiAlistar.OnLoad();
+                }
+
+                if (Loader.traptrack)
+                {
+                    AntiTrap.Program.Game_OnGameLoad();
+                }
+
+                if (Loader.limitedShat)
+                {
+                    LimitedShat.Program.Game_OnGameLoad();
+                }
+
+                if (Loader.autoLevel)
+                {
+                    AutoLevelup.Program.Game_OnGameLoad();
+                }
+
+                if (Loader.chatLogger)
+                {
+                    Chat_Logger.Program.Init();
+                }
+
+                if (Loader.autoFF)
+                {
+                    AutoFF.Program.Game_OnGameLoad();
+                }
+
+                if (Loader.urfSpell)
+                {
+                    URF_Spell_Spammer.Program.Game_OnGameLoad();
+                }
+
+                if (Loader.pastingSharp)
+                {
+                    PastingSharp.Program.Game_OnGameLoad();
+                }
+
+                if (Loader.emoteSpammer)
+                {
+                    EmoteSpammer.Program.Game_OnGameLoad();
+                }
+
+                if (Loader.antiStealth)
+                {
+                    new AntiStealth.AntiStealth();
+                }
+
+                if (Loader.reform)
+                {
+                    Toxic_Player_Reform_Program.Program.Main();
+                }
+
+                if (Loader.feed)
+                {
+                    BlackFeeder.Program.Init();
+                }
+
+                if (Loader.mes)
+                {
+                    Mastery_Badge_Spammer.Program.Init();
+                }
+
+                if (Loader.dev)
+                {
+                    DeveloperSharp.Program.Init();
+                }
+
+                if (Loader.cursor)
+                {
+                    VCursor.Program.Game_OnGameLoad();
+                }
+
+                if (Loader.condemn)
+                {
+                    AsunaCondemn.Program.Main();
+                }
+
+                if (Loader.randomult)
+                {
+                    RandomUlt.Program.Main();
+                }
+
+                //if (Loader.orbwalker)
+                //{
+                //PuppyStandaloneOrbwalker.Program.Game_OnGameLoad();
+                //}
+
+                /*
+                if (Loader.stream)
+                {
+                    StreamBuddy.Program.Main();
+                }
+
+                if (RandomUltChampsList.Contains(ObjectManager.Player.ChampionName))
+                {
+                    if (Loader.randomUlt)
+                    {
+                        RandomUlt.Program.Game_OnGameLoad();
+                    }
+                }
+
+                if (BaseUltList.Contains(ObjectManager.Player.ChampionName))
+                {
+                    if (Loader.baseUlt)
+                    {
+                        new BaseUlt3.BaseUlt();
+                    }
+                }
+                */
             }
         }
     }

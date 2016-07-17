@@ -36,14 +36,13 @@ using EloBuddy.SDK;
             {
                 if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
                 {
-                    foreach (var target in GameObjects.EnemyHeroes.Where(
+                    if (GameObjects.EnemyHeroes.Any(
                         t =>
                             !Bools.IsImmobile(t) &&
                             !t.HasBuff("luxilluminatingfraulein") &&
                             t.Distance(Lux.EMissile.Position) < Vars.E.Width - 10f))
                     {
                         Vars.E.Cast();
-                        break;
                     }
                 }
 
@@ -66,8 +65,8 @@ using EloBuddy.SDK;
                 foreach (var target in GameObjects.EnemyHeroes.Where(
                     t =>
                         Bools.IsImmobile(t) &&
-                        !Invulnerable.Check(t) &&
-                        t.LSIsValidTarget(Vars.Q.Range)))
+                        t.LSIsValidTarget(Vars.Q.Range) &&
+                        !Invulnerable.Check(t, DamageType.Magical)))
                 {
                     if (!Vars.Q.GetPrediction(target).CollisionObjects.Any())
                     {

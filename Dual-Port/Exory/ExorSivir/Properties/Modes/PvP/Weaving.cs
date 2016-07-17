@@ -29,7 +29,7 @@ using SharpDX;
             ///     The W Weaving Logic.
             /// </summary>
             if (Vars.W.IsReady() &&
-                Menus.getCheckBoxItem(Vars.WMenu, "combo"))
+                Vars.getCheckBoxItem(Vars.WMenu, "combo"))
             {
                 Vars.W.Cast();
                 return;
@@ -39,7 +39,7 @@ using SharpDX;
             ///     The Q Weaving Logic.
             /// </summary>
             if (Vars.Q.IsReady() &&
-                Menus.getCheckBoxItem(Vars.QMenu, "combo"))
+                Vars.getCheckBoxItem(Vars.QMenu, "combo"))
             {
                 Vars.Q.Cast(
                     Vars.Q.GetPrediction(Targets.Target)

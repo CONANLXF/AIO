@@ -103,7 +103,7 @@ using EloBuddy.SDK;
         }
 
         /// <summary>
-        ///     Called while processing Spelaneclearlearast operations.
+        ///     Called while processing spellcast operations.
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="args">The args.</param>
@@ -112,7 +112,7 @@ using EloBuddy.SDK;
             /// <summary>
             ///     The Automatic E Logic.
             /// </summary>
-            if (Vars.E.IsReady() && Menus.getCheckBoxItem(Vars.EMenu, "logical"))
+            if (Vars.E.IsReady() && Vars.getCheckBoxItem(Vars.EMenu, "logical"))
             {
                 Logics.AutoShield(sender, args);
             }

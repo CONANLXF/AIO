@@ -22,7 +22,8 @@ using ExorAIO.Utilities;
                 Vars.QMenu.Add("killsteal", new CheckBox("KillSteal", true));
                 Vars.QMenu.Add("logical", new CheckBox("Logical", true));
                 Vars.QMenu.Add("harass", new Slider("Harass / if Mana >= x%", 50, 0, 101));
-                Vars.QMenu.Add("clear", new Slider("Clear / if Mana >= x%", 50, 0, 101));
+                Vars.QMenu.Add("laneclear", new Slider("LaneClear / if Mana >= x%", 50, 0, 101));
+                Vars.QMenu.Add("jungleclear", new Slider("JungleClear / if Mana >= x%", 50, 0, 101));
             }
 
             /// <summary>
@@ -30,7 +31,7 @@ using ExorAIO.Utilities;
             /// </summary>
             Vars.WMenu = Vars.Menu.AddSubMenu("Use W to:");
             {
-                Vars.WMenu.Add("auto", new CheckBox("Vision", true));
+                Vars.WMenu.Add("vision", new CheckBox("Vision", true));
             }
 
             /// <summary>

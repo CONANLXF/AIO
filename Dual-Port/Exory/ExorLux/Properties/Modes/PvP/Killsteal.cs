@@ -51,7 +51,7 @@ using EloBuddy;
                         Vars.GetRealHealth(t) <
                             (float)GameObjects.Player.LSGetSpellDamage(t, SpellSlot.Q)))
                 {
-                    if (Vars.Q.GetPrediction(target).CollisionObjects.Any(c => Targets.Minions.Contains(c)))
+                    if (!Vars.Q.GetPrediction(target).CollisionObjects.Any())
                     {
                         Vars.Q.Cast(Vars.Q.GetPrediction(target).UnitPosition);
                         return;
@@ -72,8 +72,8 @@ using EloBuddy;
                         Vars.GetRealHealth(t) <
                             (float)GameObjects.Player.LSGetSpellDamage(t, SpellSlot.R)))
                 {
-                    if (Bools.IsImmobile(Targets.Target) ||
-                        !Targets.Target.LSIsValidTarget(Vars.AARange))
+                    if (Bools.IsImmobile(target) ||
+                        !target.LSIsValidTarget(Vars.AARange))
                     {
                         Vars.R.Cast(Vars.R.GetPrediction(target).UnitPosition);
                     }

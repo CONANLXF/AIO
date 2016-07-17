@@ -27,6 +27,7 @@ using LeagueSharp.SDK;
             /// </summary>
             Vars.WMenu = Vars.Menu.AddSubMenu("Use W to:");
             {
+                Vars.WMenu.Add("engager", new CheckBox("Engager", true));
                 Vars.WMenu.Add("combo", new Slider("Combo / If Mana >= x%", 50, 0, 101));
             }
 
@@ -70,7 +71,6 @@ using LeagueSharp.SDK;
             /// </summary>
             Vars.DrawingsMenu = Vars.Menu.AddSubMenu("Drawings");
             {
-                Vars.DrawingsMenu.Add("w", new CheckBox("W Range"));
                 Vars.DrawingsMenu.Add("e", new CheckBox("E Range"));
             }
         }

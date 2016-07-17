@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using ExorAIO.Utilities;
 using LeagueSharp.SDK;
 using LeagueSharp.SDK.Core.Utils;
@@ -27,13 +28,17 @@ using LeagueSharp.SDK.Core.Utils;
             ///     The W Combo Logic.
             /// </summary>
             if (Vars.W.IsReady() &&
-                !Targets.Target.LSIsValidTarget(Vars.AARange) &&
                 !GameObjects.Player.HasBuff("dravenfurybuff") &&
                 GameObjects.Player.ManaPercent >
-                    ManaManager.GetNeededMana(Vars.Q.Slot, Vars.getSliderItem(Vars.WMenu, "combo")) &&
+                    ManaManager.GetNeededMana(Vars.W.Slot, Vars.getSliderItem(Vars.WMenu, "combo")) &&
                 Vars.getSliderItem(Vars.WMenu, "combo") != 101)
             {
-                Vars.W.Cast();
+                if (GameObjects.EnemyHeroes.Any(t => t.LSIsValidTarget(Vars.AARange)) &&
+                    !GameObjects.EnemyHeroes.Any(t => t.LSIsValidTarget(Vars.AARange)) &&
+                    Vars.getCheckBoxItem(Vars.WMenu, "engager"))
+                {
+                    Vars.W.Cast();
+                }
             }
 
             /// <summary>

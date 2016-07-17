@@ -2,9 +2,8 @@ using System;
 using System.Linq;
 using ExorAIO.Utilities;
 using LeagueSharp.SDK;
-using LeagueSharp.SDK.Core.UI;
 
- namespace ExorAIO.Champions.Quinn
+namespace ExorAIO.Champions.Quinn
 {
     /// <summary>
     ///     The logics class.
@@ -21,26 +20,25 @@ using LeagueSharp.SDK.Core.UI;
             ///     The Automatic W Logic.
             /// </summary>
             if (Vars.W.IsReady() &&
-                Vars.getCheckBoxItem(Vars.WMenu, "logical"))
+                Vars.getCheckBoxItem(Vars.WMenu, "vision"))
             {
-                if (GameObjects.EnemyHeroes.Any(
+                foreach (var enemy in GameObjects.EnemyHeroes.Where(
                     x =>
                         !x.IsDead &&
                         !x.IsVisible &&
                         Vars.W.Range >
                             x.Distance(GameObjects.Player.ServerPosition)))
                 {
-                    foreach (var enemy in GameObjects.EnemyHeroes.Where(
-                        x =>
-                            !x.IsDead &&
-                            !x.IsVisible &&
-                            Vars.W.Range >
-                                x.Distance(GameObjects.Player.ServerPosition)))
-                    {
-                        Vars.W.Cast();
-                    }
+                    Vars.W.Cast();
                 }
-                else if (Vars.Locations.Any(h => Vars.W.Range > GameObjects.Player.Distance(h)))
+
+                if (!GameObjects.EnemyHeroes.Any(
+                    x =>
+                        !x.IsDead &&
+                        !x.IsVisible &&
+                        Vars.W.Range >
+                            x.Distance(GameObjects.Player.ServerPosition)) &&
+                    Vars.Locations.Any(h => Vars.W.Range > GameObjects.Player.Distance(h)))
                 {
                     Vars.W.Cast();
                 }

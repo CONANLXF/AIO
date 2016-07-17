@@ -36,7 +36,7 @@ using EloBuddy.SDK;
                 GameObjects.Jungle.Where(
                     m =>
                         m.LSIsValidTarget(Vars.Q.Range) &&
-                        !GameObjects.JungleSmall.Contains(m)).ToList();
+                        (!GameObjects.JungleSmall.Contains(m) || m.CharData.BaseSkinName.Equals("Sru_Crab"))).ToList();
 
         /// <summary>
         ///     The minions hit by the Q missile.

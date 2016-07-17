@@ -31,6 +31,7 @@ using LeagueSharp.SDK;
             /// </summary>
             Vars.WMenu = Vars.Menu.AddSubMenu("Use W to:");
             {
+                Vars.WMenu.Add("combo", new CheckBox("Combo", true));
                 Vars.WMenu.Add("logical", new CheckBox("Logical", true));
                 Vars.WMenu.Add("killsteal", new CheckBox("KillSteal", true));
                 Vars.WMenu.Add("laneclear", new Slider("LaneClear / if Mana >= x%", 50, 0, 101));

@@ -28,29 +28,23 @@ namespace ExorAIO.Utilities
         /// </summary>
         public static bool IsImmobile(Obj_AI_Base target)
         {
-            if (target is Obj_AI_Minion ||
-                target is Obj_AI_Turret)
-            {
-                return target.HasBuff("teleport_target");
-            }
-            else if (target is AIHeroClient)
-            {
-                return 
-                    target.HasBuff("rebirth") ||
-                    target.HasBuff("zhonyasringshield") ||
-                    target.MoveSpeed < 150 ||
-                    (target as AIHeroClient).LSIsRecalling() ||
-                    (target as AIHeroClient).IsCastingInterruptableSpell() ||
-                    IsValidStun(target as AIHeroClient) ||
-                    IsValidSnare(target as AIHeroClient) ||
-                    target.HasBuffOfType(BuffType.Flee) ||
-                    target.HasBuffOfType(BuffType.Taunt) ||
-                    target.HasBuffOfType(BuffType.Charm) ||
-                    target.HasBuffOfType(BuffType.Knockup) ||
-                    target.HasBuffOfType(BuffType.Suppression);
-            }
-            
-            return false;
+            return
+                target.MoveSpeed < 150 ||
+                target.HasBuff("rebirth") ||
+                target.HasBuff("chronorevive") ||
+                target.HasBuff("lissandrarself") ||
+                target.HasBuff("teleport_target") ||
+                target.HasBuff("woogletswitchcap") ||
+                target.HasBuff("zhonyasringshield") ||
+                target.HasBuff("aatroxpassivedeath") ||
+                IsValidStun(target as AIHeroClient) ||
+                IsValidSnare(target as AIHeroClient) ||
+                target.HasBuffOfType(BuffType.Flee) ||
+                target.HasBuffOfType(BuffType.Taunt) ||
+                target.HasBuffOfType(BuffType.Charm) ||
+                target.HasBuffOfType(BuffType.Knockup) ||
+                target.HasBuffOfType(BuffType.Suppression) ||
+                (target as AIHeroClient).IsCastingInterruptableSpell();
         }
 
         /// <summary>

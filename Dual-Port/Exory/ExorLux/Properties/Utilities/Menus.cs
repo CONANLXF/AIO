@@ -22,7 +22,7 @@ using LeagueSharp.SDK;
                 Vars.QMenu.Add("combo", new CheckBox("Combo", true));
                 Vars.QMenu.Add("logical", new CheckBox("Logical", true));
                 Vars.QMenu.Add("killsteal", new CheckBox("KillSteal", true));
-                Vars.QMenu.Add("gapcloser", new CheckBox("Gapcloser", true));
+                Vars.QMenu.Add("gapcloser", new CheckBox("Anti-Gapcloser", true));
                 Vars.QMenu.Add("clear", new Slider("Clear / if Mana >= x%", 50, 0, 101));
             }
 
@@ -54,6 +54,7 @@ using LeagueSharp.SDK;
                 Vars.EMenu.Add("combo", new CheckBox("Combo", true));
                 Vars.EMenu.Add("killsteal", new CheckBox("KillSteal", true));
                 Vars.EMenu.Add("clear", new Slider("Clear / if Mana >= x%", 50, 0, 101));
+                Vars.EMenu.Add("harass", new Slider("Harass / if Mana >= x%", 50, 0, 101));
             }
 
             /// <summary>

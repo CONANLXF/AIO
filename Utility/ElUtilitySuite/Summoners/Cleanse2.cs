@@ -11,9 +11,8 @@
     using EloBuddy;
     using EloBuddy.SDK.Menu.Values;
     using EloBuddy.SDK.Menu;
-    public class Cleanse2
+    public class Cleanse2// : IPlugin
     {
-        // : IPlugin
         #region Properties
 
         /// <summary>
@@ -74,7 +73,8 @@
         /// <param name="rootMenu">The root menu.</param>
         public void CreateMenu(Menu rootMenu)
         {
-            this.BuffsToCleanse = this.Items.SelectMany(x => x.WorksOn);
+            this.CreateItems();
+            this.BuffsToCleanse = this.Items.SelectMany(x => x.WorksOn).Distinct();
 
             this.Menu = rootMenu.AddSubMenu("Cleanse RELOADED", "BuffTypeStyleCleanser");
 
@@ -97,6 +97,21 @@
         ///     Loads this instance.
         /// </summary>
         public void Load()
+        {
+            this.Random = new Random(Environment.TickCount);
+            HeroManager.Allies.ForEach(x => this.BuffIndexesHandled.Add(x.NetworkId, new List<int>()));
+
+            Game.OnUpdate += this.OnUpdate;
+        }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        ///     Creates the items.
+        /// </summary>
+        private void CreateItems()
         {
             this.Items = new List<CleanseItem>
                              {
@@ -184,16 +199,7 @@
                                          WorksOnAllies = true, Priority = 1
                                      }
                              };
-
-            this.Random = new Random(Environment.TickCount);
-            HeroManager.Enemies.ForEach(x => this.BuffIndexesHandled[x.NetworkId] = new List<int>());
-
-            Game.OnUpdate += this.OnUpdate;
         }
-
-        #endregion
-
-        #region Methods
 
         /// <summary>
         ///     Gets the best cleanse item.
@@ -249,7 +255,11 @@
                                     this.Menu["MinHumanizerDelay"].Cast<Slider>().CurrentValue,
                                     this.Menu["MaxHumanizerDelay"].Cast<Slider>().CurrentValue),
                                 (buff.StartTime - buff.EndTime) * 1000),
-                            () => cleanseItem.Cast(ally));
+                            () =>
+                            {
+                                cleanseItem.Cast(ally);
+                                this.BuffIndexesHandled[ally.NetworkId].Remove(buff.Index);
+                            });
                     }
                     else
                     {

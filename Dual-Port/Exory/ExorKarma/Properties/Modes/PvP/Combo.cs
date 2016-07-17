@@ -19,23 +19,23 @@ using LeagueSharp.SDK.Core.Utils;
         /// <param name="args">The <see cref="EventArgs" /> instance containing the event data.</param>
         public static void Combo(EventArgs args)
         {
+            /// <summary>
+            ///     The E Combo Logic.
+            /// </summary>
+            if (Vars.E.IsReady() &&
+                GameObjects.EnemyHeroes.Any(t => t.LSIsValidTarget(Vars.AARange)) &&
+                !GameObjects.EnemyHeroes.Any(t => t.LSIsValidTarget(Vars.AARange)) &&
+                Vars.getCheckBoxItem(Vars.EMenu, "engager"))
+            {
+                Vars.E.CastOnUnit(GameObjects.Player);
+            }
+
             if (Bools.HasSheenBuff() ||
                 !Targets.Target.LSIsValidTarget())
             {
                 return;
             }
 
-            /// <summary>
-            ///     The E Combo Logic.
-            /// </summary>
-            if (Vars.E.IsReady() &&
-                !Targets.Target.LSIsValidTarget(Vars.W.Range) &&
-                Targets.Target.LSIsValidTarget(Vars.W.Range+200f) &&
-                !Invulnerable.Check(Targets.Target, DamageType.Magical, false) &&
-                Vars.getCheckBoxItem(Vars.EMenu, "engager"))
-            {
-                Vars.E.CastOnUnit(GameObjects.Player);
-            }
 
             /// <summary>
             ///     The W Combo Logic.

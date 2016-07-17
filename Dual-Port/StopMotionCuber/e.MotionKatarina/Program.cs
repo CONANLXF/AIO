@@ -195,11 +195,6 @@ using EloBuddy.SDK.Menu.Values;
             performanceMenu.Add("motion.katarina.performance.tickmanager", new CheckBox("Enable Tickmanager", false));
             performanceMenu.Add("motion.katarina.performance.ticks", new Slider("Update Frequency for Tickmanager", 8, 2, 50));
 
-            //Dev-Menü
-            devMenu = _menu.AddSubMenu("Dev", "motion.katarina.dev");
-            devMenu.Add("motion.katarina.dev.enable", new CheckBox("Enable Dev-Tools", false));
-            devMenu.Add("motion.katarina.dev.targetdistance", new KeyBind("Distance to Target", false, KeyBind.BindTypes.HoldActive, 'L'));
-
             //alles zum Hauptmenü hinzufügen
 
             #endregion
@@ -290,7 +285,6 @@ using EloBuddy.SDK.Menu.Values;
             PortAIO.OrbwalkerManager.SetAttack(true);
             PortAIO.OrbwalkerManager.SetMovement(true);
 
-            //Dev();
             Killsteal();
 
             //Combo
@@ -314,19 +308,7 @@ using EloBuddy.SDK.Menu.Values;
                 WardJump(Game.CursorPos);
             }
         }
-
-        private static void Dev()
-        {
-            if (getCheckBoxItem(devMenu, "motion.katarina.dev.enable") && getKeyBindItem(devMenu, "motion.katarina.dev.targetdistance"))
-            {
-                AIHeroClient target = TargetSelector.GetTarget(1000, DamageType.Magical);
-                if (target != null)
-                {
-                    Chat.Print("Distance to Target:" + Player.LSDistance(target));
-                }
-            }
-        }
-
+        
 
         static bool HasRBuff()
         {
@@ -370,7 +352,7 @@ using EloBuddy.SDK.Menu.Values;
                     W.Cast();
                     return;
                 }
-                if (target.LSDistance(Player) < R.Range - 200 && user && KillableByUlt())
+                if (target.LSDistance(Player) < R.Range && user && KillableByUlt())
                 {
                     R.Cast();
                 }
@@ -406,7 +388,7 @@ using EloBuddy.SDK.Menu.Values;
 
                 if (lastLeeQTick - Utils.TickCount <= 10)
                 {
-                    //Game.PrintChat("Trying to Jump undeder Ally Turret - OnProcessSpellCast");
+                    //Console.WriteLine("Trying to Jump undeder Ally Turret - OnProcessSpellCast");
                     JumpUnderTurret(-100, sender.Position);
                 }
                 lastLeeQTick = Utils.TickCount;
@@ -547,26 +529,34 @@ using EloBuddy.SDK.Menu.Values;
             if (Q.IsReady())
             {
                 damage += Player.LSGetSpellDamage(target, SpellSlot.Q) + Player.LSGetSpellDamage(target, SpellSlot.Q, 1);
+                Console.WriteLine("Q:" + Player.LSGetSpellDamage(target, SpellSlot.Q));
+                Console.WriteLine("Q2:" + Player.LSGetSpellDamage(target, SpellSlot.Q, 1));
             }
             if (target.HasBuff("katarinaqmark") || target == qTarget)
             {
                 damage += Player.LSGetSpellDamage(target, SpellSlot.Q, 1);
+                Console.WriteLine("Q2:" + Player.LSGetSpellDamage(target, SpellSlot.Q, 1));
             }
             if (W.IsReady())
             {
-                damage += Player.LSGetSpellDamage(target, SpellSlot.W);
+                damage += W.GetDamage(target);
+                Console.WriteLine("W:" + W.GetDamage(target));
+                Console.WriteLine("TradW:" + Player.LSGetSpellDamage(target, SpellSlot.W));
             }
             if (E.IsReady())
             {
                 damage += Player.LSGetSpellDamage(target, SpellSlot.E);
+                Console.WriteLine("E:" + Player.LSGetSpellDamage(target, SpellSlot.E));
             }
             if (R.IsReady() || (Player.GetSpell(R.Slot).State == SpellState.Surpressed && R.Level > 0))
             {
                 damage += Player.LSGetSpellDamage(target, SpellSlot.R);
+                Console.WriteLine("R:" + Player.LSGetSpellDamage(target, SpellSlot.R));
             }
             if (Player.GetSummonerSpellDamage(target, LeagueSharp.Common.Damage.SummonerSpell.Ignite) > 0 && IgniteSpellSlot != SpellSlot.Unknown && IgniteSpellSlot.IsReady())
             {
                 damage += Player.GetSummonerSpellDamage(target, LeagueSharp.Common.Damage.SummonerSpell.Ignite);
+                Console.WriteLine("F:" + Player.GetSummonerSpellDamage(target, LeagueSharp.Common.Damage.SummonerSpell.Ignite));
                 damage -= target.HPRegenRate * 2.5;
             }
             return (float)damage;

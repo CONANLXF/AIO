@@ -38,6 +38,24 @@ using Geometry = ExorAIO.Utilities.Geometry;
             {
                 Vars.Q.CastOnUnit(Targets.Target);
             }
+
+            /// <summary>
+            ///     The Automatic W Logic.
+            /// </summary>
+            if (Vars.W.IsReady() &&
+                !GameObjects.Player.IsUnderEnemyTurret() &&
+                Vars.getCheckBoxItem(Vars.WMenu, "combo"))
+            {
+                foreach (var target in GameObjects.EnemyHeroes.Where(
+                    t =>
+                        !Invulnerable.Check(t) &&
+                        t.HasBuff("jhinespotteddebuff") &&
+                        t.LSIsValidTarget(Vars.W.Range - 150f) &&
+                        Vars.getCheckBoxItem(Vars.WhiteListMenu, t.ChampionName.ToLower())))
+                {
+                    Vars.W.Cast(Vars.W.GetPrediction(target).UnitPosition);
+                }
+            }
         }
     }
 }

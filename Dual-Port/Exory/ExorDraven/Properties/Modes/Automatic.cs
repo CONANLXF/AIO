@@ -52,12 +52,12 @@ namespace ExorAIO.Champions.Draven
                     return;
                 }
 
-                Vars.R.CastOnUnit(
+                Vars.R.Cast(Vars.R.GetPrediction(
                     GameObjects.EnemyHeroes.Where(
                         t =>
                             !Invulnerable.Check(t) &&
                             t.IsValidTarget(Vars.R.Range) &&
-                            Vars.getCheckBoxItem(Vars.WhiteListMenu, Targets.Target.ChampionName.ToLower())).OrderBy(o => o.Health).First());
+                            Vars.getCheckBoxItem(Vars.WhiteListMenu, Targets.Target.ChampionName.ToLower())).OrderBy(o => o.Health).First()).UnitPosition);
             }
         }
     }

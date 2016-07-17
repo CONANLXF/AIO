@@ -1,10 +1,11 @@
 using System;
 using System.Linq;
 using ExorAIO.Utilities;
-using EloBuddy;
+using LeagueSharp;
 using LeagueSharp.SDK;
 using LeagueSharp.SDK.Core.Utils;
 using LeagueSharp.Data.Enumerations;
+using EloBuddy;
 
 namespace ExorAIO.Champions.Sivir
 {
@@ -28,7 +29,7 @@ namespace ExorAIO.Champions.Sivir
             ///     The Automatic Q Logic.
             /// </summary>
             if (Vars.Q.IsReady() &&
-                Menus.getCheckBoxItem(Vars.QMenu, "logical"))
+                Vars.getCheckBoxItem(Vars.QMenu, "logical"))
             {
                 foreach (var target in GameObjects.EnemyHeroes.Where(
                     t =>
@@ -39,11 +40,44 @@ namespace ExorAIO.Champions.Sivir
                     Vars.Q.Cast(target.ServerPosition);
                 }
             }
+
+            /// <summary>
+            ///     Block Special AoE.
+            /// </summary>
+            foreach (var target in GameObjects.EnemyHeroes)
+            {
+                switch (target.ChampionName)
+                {
+                    case "Jax":
+                        if (target.HasBuff("jaxcounterstrike") &&
+                            target.LSIsValidTarget(355 + GameObjects.Player.BoundingRadius) &&
+                            target.GetBuff("jaxcounterstrike").EndTime - Game.Time >
+                            target.GetBuff("jaxcounterstrike").EndTime - target.GetBuff("jaxcounterstrike").StartTime - (1000 - Game.Ping) / 1000 &&
+                            Vars.getCheckBoxItem(Vars.WhiteListMenu, $"{target.ChampionName.ToLower()}.jaxcounterstrike"))
+                        {
+                            Vars.E.Cast();
+                        }
+                        break;
+
+                    case "KogMaw":
+                        if (target.HasBuff("kogmawicathiansurprise") &&
+                            target.LSIsValidTarget(355 + GameObjects.Player.BoundingRadius) &&
+                            target.GetBuff("kogmawicathiansurprise").EndTime - Game.Time >
+                            target.GetBuff("kogmawicathiansurprise").EndTime - target.GetBuff("kogmawicathiansurprise").StartTime - (4000 - Game.Ping) / 1000 &&
+                            Vars.getCheckBoxItem(Vars.WhiteListMenu, $"{target.ChampionName.ToLower()}.kogmawicathiansurprise"))
+                        {
+                            Vars.E.Cast();
+                        }
+                        break;
+
+                    default:
+                        break;
+                }
+            }
         }
 
         /// <summary>
         ///     Called while processing Spellcasting operations.
-        ///     Port this berbb :^)
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="args">The <see cref="GameObjectProcessSpellCastEventArgs" /> instance containing the event data.</param>
@@ -106,32 +140,36 @@ namespace ExorAIO.Champions.Sivir
                             return;
                         }
 
-                        /// <summary>
-                        ///     Whitelist Block.
-                        /// </summary>
-                        if (Vars.WhiteListMenu[$"{(sender as AIHeroClient).ChampionName.ToLower()}.{(sender as AIHeroClient).Buffs.First(b => AutoAttack.IsAutoAttackReset(b.Name)).Name.ToLower()}"] == null)  
-                        {
-                            if (Vars.WhiteListMenu[$"{(sender as AIHeroClient).ChampionName.ToLower()}.{args.SData.Name.ToLower()}"] == null ||
-                                !Menus.getCheckBoxItem(Vars.WhiteListMenu, $"{(sender as AIHeroClient).ChampionName.ToLower()}.{args.SData.Name.ToLower()}"))
-                            {
-                                return;
-                            }
-                        }
-
                         switch (args.SData.Name)
                         {
+                            case "UdyrBearAttack":
                             case "BraumBasicAttackPassiveOverride":
+                                /// <summary>
+                                ///     Whitelist Block.
+                                /// </summary>
+                                if (Vars.WhiteListMenu[$"{(sender as AIHeroClient).ChampionName.ToLower()}.{args.SData.Name.ToLower()}"] == null ||
+                                    !Vars.getCheckBoxItem(Vars.WhiteListMenu, $"{(sender as AIHeroClient).ChampionName.ToLower()}.{args.SData.Name.ToLower()}"))
+                                {
+                                    return;
+                                }
+
+                                if (GameObjects.Player.HasBuff("udyrbearstuncheck") &&
+                                    (sender as AIHeroClient).ChampionName.Equals("Udyr"))
+                                {
+                                    return;
+                                }
+
                                 Vars.E.Cast();
                                 break;
 
-                            case "UdyrBearAttack":
-                                if (!GameObjects.Player.HasBuff("udyrbearstuncheck"))
-                                {
-                                    Vars.E.Cast();
-                                }
-                                break;
-
                             default:
+                                if (!(sender as AIHeroClient).Buffs.Any(b => AutoAttack.IsAutoAttackReset(b.Name)) ||
+                                    Vars.WhiteListMenu[$"{(sender as AIHeroClient).ChampionName.ToLower()}.{(sender as AIHeroClient).Buffs.First(b => AutoAttack.IsAutoAttackReset(b.Name)).Name.ToLower()}"] == null ||
+                                    !Vars.getCheckBoxItem(Vars.WhiteListMenu, $"{(sender as AIHeroClient).ChampionName.ToLower()}.{(sender as AIHeroClient).Buffs.First(b => AutoAttack.IsAutoAttackReset(b.Name)).Name.ToLower()}"))
+                                {
+                                    return;
+                                }
+
                                 Vars.E.Cast();
                                 break;
                         }
@@ -146,7 +184,7 @@ namespace ExorAIO.Champions.Sivir
                         ///     Whitelist Block.
                         /// </summary>
                         if (Vars.WhiteListMenu[$"{(sender as AIHeroClient).ChampionName.ToLower()}.{args.SData.Name.ToLower()}"] == null ||
-                            !Menus.getCheckBoxItem(Vars.WhiteListMenu, $"{(sender as AIHeroClient).ChampionName.ToLower()}.{args.SData.Name.ToLower()}"))
+                            !Vars.getCheckBoxItem(Vars.WhiteListMenu, $"{(sender as AIHeroClient).ChampionName.ToLower()}.{args.SData.Name.ToLower()}"))
                         {
                             return;
                         }
@@ -167,10 +205,6 @@ namespace ExorAIO.Champions.Sivir
 
                                 switch ((sender as AIHeroClient).ChampionName)
                                 {
-                                    case "Zed":
-                                        DelayAction.Add(200, () => { Vars.E.Cast(); });
-                                        break;
-
                                     case "Caitlyn":
                                         DelayAction.Add(1050, () => { Vars.E.Cast(); });
                                         break;
@@ -179,8 +213,12 @@ namespace ExorAIO.Champions.Sivir
                                         DelayAction.Add(350, () => { Vars.E.Cast(); });
                                         break;
 
+                                    case "Zed":
+                                        DelayAction.Add(200, () => { Vars.E.Cast(); });
+                                        break;
+
                                     default:
-                                        DelayAction.Add(Menus.getSliderItem(Vars.EMenu, "delay"), () => { Vars.E.Cast(); });
+                                        DelayAction.Add(Vars.getSliderItem(Vars.EMenu, "delay"), () => { Vars.E.Cast(); });
                                         break;
                                 }
                                 break;
@@ -193,8 +231,7 @@ namespace ExorAIO.Champions.Sivir
                                 switch ((sender as AIHeroClient).ChampionName)
                                 {
                                     case "Alistar":
-                                        if ((sender as AIHeroClient).DistanceToPlayer() <
-                                                355 + GameObjects.Player.BoundingRadius)
+                                        if ((sender as AIHeroClient).DistanceToPlayer() < 355 + GameObjects.Player.BoundingRadius)
                                         {
                                             Vars.E.Cast();
                                         }
@@ -223,7 +260,7 @@ namespace ExorAIO.Champions.Sivir
                     /// <summary>
                     ///     Block Dragon/Baron/RiftHerald's AutoAttacks.
                     /// </summary>
-                    if (Menus.getCheckBoxItem(Vars.WhiteListMenu, "minions"))
+                    if (Vars.getCheckBoxItem(Vars.WhiteListMenu, "minions"))
                     {
                         if (sender.CharData.BaseSkinName.Equals("SRU_Baron") ||
                             sender.CharData.BaseSkinName.Contains("SRU_Dragon") ||

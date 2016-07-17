@@ -24,7 +24,7 @@ using EloBuddy;
             ///     The KillSteal Q Logic.
             /// </summary>
             if (Vars.Q.IsReady() &&
-                Menus.getCheckBoxItem(Vars.QMenu, "killsteal"))
+                Vars.getCheckBoxItem(Vars.QMenu, "killsteal"))
             {
                 foreach (var target in GameObjects.EnemyHeroes.Where(
                     t =>

@@ -13,27 +13,6 @@ namespace ExorAIO.Champions.Sivir
     /// </summary>
     internal class Menus
     {
-
-        public static bool getCheckBoxItem(Menu m, string item)
-        {
-            return m[item].Cast<CheckBox>().CurrentValue;
-        }
-
-        public static int getSliderItem(Menu m, string item)
-        {
-            return m[item].Cast<Slider>().CurrentValue;
-        }
-
-        public static bool getKeyBindItem(Menu m, string item)
-        {
-            return m[item].Cast<KeyBind>().CurrentValue;
-        }
-
-        public static int getBoxItem(Menu m, string item)
-        {
-            return m[item].Cast<ComboBox>().CurrentValue;
-        }
-
         /// <summary>
         ///     Sets the menu.
         /// </summary>
@@ -89,26 +68,38 @@ namespace ExorAIO.Champions.Sivir
 
                     if (enemy.ChampionName.Equals("Braum"))
                     {
-                        Vars.WhiteListMenu.Add($"{enemy.ChampionName.ToLower()}.braumbasicattackpassiveoverride", new CheckBox($"Shield: {enemy.ChampionName}'s Passive Stun"));
+                        Vars.WhiteListMenu.Add($"{enemy.ChampionName.ToLower()}.braumbasicattackpassiveoverride", new CheckBox($"Shield: {enemy.ChampionName}'s Passive"));
+                    }
+
+                    if (enemy.ChampionName.Equals("Jax"))
+                    {
+                        Vars.WhiteListMenu.Add($"{enemy.ChampionName.ToLower()}.jaxcounterstrike", new CheckBox($"Shield: {enemy.ChampionName}'s E", true));
+                    }
+
+                    if (enemy.ChampionName.Equals("KogMaw"))
+                    {
+                        Vars.WhiteListMenu.Add($"{enemy.ChampionName.ToLower()}.kogmawicathiansurprise", new CheckBox($"Shield: {enemy.ChampionName}'s Passive", true));
                     }
 
                     if (enemy.ChampionName.Equals("Udyr"))
                     {
-                        Vars.WhiteListMenu.Add($"{enemy.ChampionName.ToLower()}.udyrbearattack", new CheckBox($"Shield: {enemy.ChampionName}'s E Stun"));
+                        Vars.WhiteListMenu.Add($"{enemy.ChampionName.ToLower()}.udyrbearattack", new CheckBox($"Shield: {enemy.ChampionName}'s E"));
                     }
 
                     foreach (var spell in SpellDatabase.Get().Where(
                         s =>
                             !s.SpellName.Equals("KatarinaE") &&
                             !s.SpellName.Equals("TalonCutthroat") &&
-                            s.ChampionName.Equals(enemy.ChampionName) &&
-                            (s.CastType.Contains(CastType.EnemyChampions) ||
-                            ((s.CastType.Contains(CastType.Activate) &&
-                            AutoAttack.IsAutoAttackReset(s.SpellName))))))
+                            s.ChampionName.Equals(enemy.ChampionName)))
                     {
-                        if (spell.SpellType.HasFlag(SpellType.Targeted) ||
-                            spell.SpellType.HasFlag(SpellType.Activated) ||
-                            spell.SpellType.HasFlag(SpellType.TargetedMissile))
+                        if ((enemy.IsMelee &&
+                            spell.CastType.Contains(CastType.Activate) &&
+                            spell.SpellType.HasFlag(SpellType.Activated) &&
+                            AutoAttack.IsAutoAttackReset(spell.SpellName)) ||
+
+                            ((spell.SpellType.HasFlag(SpellType.Targeted) ||
+                            spell.SpellType.HasFlag(SpellType.TargetedMissile)) &&
+                            spell.CastType.Contains(CastType.EnemyChampions)))
                         {
                             Vars.WhiteListMenu.Add($"{enemy.ChampionName.ToLower()}.{spell.SpellName.ToLower()}", new CheckBox($"Shield: {enemy.ChampionName}'s {spell.Slot}"));
                         }

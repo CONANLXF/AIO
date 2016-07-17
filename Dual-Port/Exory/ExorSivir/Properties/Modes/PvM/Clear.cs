@@ -30,7 +30,7 @@ using EloBuddy.SDK;
             /// <summary>
             ///     The Clear W Logic.
             /// </summary>
-            if (Vars.W.IsReady() && GameObjects.Player.ManaPercent > ManaManager.GetNeededMana(Vars.W.Slot, Menus.getSliderItem(Vars.WMenu, "clear")) && Menus.getSliderItem(Vars.WMenu, "clear") != 101)
+            if (Vars.W.IsReady() && GameObjects.Player.ManaPercent > ManaManager.GetNeededMana(Vars.W.Slot, Vars.getSliderItem(Vars.WMenu, "clear")) && Vars.getSliderItem(Vars.WMenu, "clear") != 101)
             {
                 /// <summary>
                 ///     The LaneClear W Logic.
@@ -55,7 +55,7 @@ using EloBuddy.SDK;
             /// </summary>
             if (Vars.Q.IsReady() &&
                 GameObjects.Player.ManaPercent >
-                    ManaManager.GetNeededMana(Vars.Q.Slot, Menus.getSliderItem(Vars.QMenu, "clear")) && Menus.getSliderItem(Vars.QMenu, "clear") != 101)
+                    ManaManager.GetNeededMana(Vars.Q.Slot, Vars.getSliderItem(Vars.QMenu, "clear")) && Vars.getSliderItem(Vars.QMenu, "clear") != 101)
             {
                 /// <summary>
                 ///     The JungleClear Q Logic.
@@ -127,7 +127,7 @@ using EloBuddy.SDK;
             /// <summary>
             ///     The W BuildingClear Logic.
             /// </summary>
-            if (Vars.W.IsReady() && GameObjects.Player.ManaPercent > ManaManager.GetNeededMana(Vars.W.Slot, Menus.getSliderItem(Vars.WMenu, "buildings")) && Menus.getSliderItem(Vars.WMenu, "buildings") != 101)
+            if (Vars.W.IsReady() && GameObjects.Player.ManaPercent > ManaManager.GetNeededMana(Vars.W.Slot, Vars.getSliderItem(Vars.WMenu, "buildings")) && Vars.getSliderItem(Vars.WMenu, "buildings") != 101)
             {
                 Vars.W.Cast();
             }

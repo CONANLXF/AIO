@@ -23,7 +23,8 @@ using Geometry = ExorAIO.Utilities.Geometry;
                 t =>
                     !Invulnerable.Check(t) &&
                     !t.LSIsValidTarget(Vars.Q.Range) &&
-                    t.LSIsValidTarget(Vars.Q2.Range-50f)))
+                    t.LSIsValidTarget(Vars.Q2.Range - 50f) &&
+                    Vars.getCheckBoxItem(Vars.WhiteListMenu, t.ChampionName.ToLower())))
             {
                 return;
             }

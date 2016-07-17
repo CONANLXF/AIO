@@ -30,8 +30,8 @@ using LeagueSharp.SDK.Enumerations;
             if (Vars.Q.IsReady() &&
                 Targets.Target.LSIsValidTarget(Vars.Q.Range) &&
                 GameObjects.Player.ManaPercent >
-                    ManaManager.GetNeededMana(Vars.Q.Slot, Menus.getSliderItem(Vars.QMenu, "harass")) &&
-                Menus.getSliderItem(Vars.QMenu, "harass") != 101)
+                    ManaManager.GetNeededMana(Vars.Q.Slot, Vars.getSliderItem(Vars.QMenu, "harass")) &&
+                Vars.getSliderItem(Vars.QMenu, "harass") != 101)
             {
                 if (GameObjects.Player.Distance(Targets.Target) > 650 &&
                     Vars.Q.GetPrediction(Targets.Target).Hitchance >= HitChance.Medium)

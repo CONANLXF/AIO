@@ -18,9 +18,9 @@ using LeagueSharp.SDK.Core.Utils;
         public static void Combo(EventArgs args)
         {
             if (Bools.HasSheenBuff() ||
-                !Targets.Target.LSIsValidTarget() ||
                 Targets.Target.HasBuff("quinnw") ||
-                Invulnerable.Check(Targets.Target))
+                Invulnerable.Check(Targets.Target) ||
+                Targets.Target.LSIsValidTarget(Vars.AARange))
             {
                 return;
             }
@@ -44,15 +44,10 @@ using LeagueSharp.SDK.Core.Utils;
             ///     The Combo E Logic.
             /// </summary>
             if (Vars.E.IsReady() &&
+                Targets.Target.LSIsValidTarget(Vars.E.Range) &&
                 Vars.getCheckBoxItem(Vars.EMenu, "combo"))
             {
-                foreach (var target in GameObjects.EnemyHeroes.Where(
-                    t =>
-                        t.IsMelee &&
-                        t.LSIsValidTarget(200f)))
-                {
-                    Vars.E.CastOnUnit(target);
-                }
+                Vars.E.CastOnUnit(Targets.Target);
             }
         }
     }

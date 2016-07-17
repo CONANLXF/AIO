@@ -28,7 +28,7 @@ using LeagueSharp.SDK.Enumerations;
             /// <summary>
             ///     The Q Combo Logic.
             /// </summary>
-            if (Vars.Q.IsReady() && Targets.Target.LSIsValidTarget(Vars.Q.Range) && Menus.getCheckBoxItem(Vars.QMenu, "combo"))
+            if (Vars.Q.IsReady() && Targets.Target.LSIsValidTarget(Vars.Q.Range) && Vars.getCheckBoxItem(Vars.QMenu, "combo"))
             {
                 if (!Targets.Target.LSIsValidTarget(Vars.AARange) &&
                     Vars.Q.GetPrediction(Targets.Target).Hitchance >= HitChance.High)

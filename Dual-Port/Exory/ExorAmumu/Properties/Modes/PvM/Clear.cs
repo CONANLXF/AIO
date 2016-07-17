@@ -30,7 +30,8 @@ using LeagueSharp.SDK.Core.UI;
                     ManaManager.GetNeededMana(Vars.Q.Slot, Vars.getSliderItem(Vars.QMenu, "junglegrab")) &&
                 Vars.getSliderItem(Vars.QMenu, "junglegrab") != 101)
             {
-                if (Targets.JungleMinions.Any(m => !m.LSIsValidTarget(Vars.E.Range)))
+                if (Targets.JungleMinions.Any(m => !m.LSIsValidTarget(Vars.E.Range)) &&
+                    !Targets.JungleMinions.Any(m => m.LSIsValidTarget(Vars.E.Range)))
                 {
                     Vars.Q.Cast(Targets.JungleMinions.FirstOrDefault(m => !m.LSIsValidTarget(Vars.E.Range)).ServerPosition);
                 }
@@ -47,7 +48,7 @@ using LeagueSharp.SDK.Core.UI;
                 /// <summary>
                 ///     The E LaneClear Logic.
                 /// </summary>
-                if (Targets.Minions.Count() >= 3)
+                if(Targets.Minions.Count(m => m.LSIsValidTarget(Vars.E.Range)) >= 3)
                 {
                     Vars.E.Cast();
                 }
@@ -55,7 +56,7 @@ using LeagueSharp.SDK.Core.UI;
                 /// <summary>
                 ///     The E JungleClear Logic.
                 /// </summary>
-                else if (Targets.JungleMinions.Any())
+                else if (Targets.JungleMinions.Any(m => m.LSIsValidTarget(Vars.E.Range)))
                 {
                     Vars.E.Cast();
                 }

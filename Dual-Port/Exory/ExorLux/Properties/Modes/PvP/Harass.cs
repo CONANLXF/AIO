@@ -31,12 +31,12 @@ using EloBuddy;
             /// </summary>
             if (Vars.E.IsReady() &&
                 Targets.Target.LSIsValidTarget(Vars.E.Range) &&
-                GameObjects.Player.Spellbook.GetSpell(SpellSlot.E).ToggleState == 1 &&
+                GameObjects.Player.Spellbook.GetSpell(SpellSlot.E).ToggleState != 1 &&
                 GameObjects.Player.ManaPercent >
                     ManaManager.GetNeededMana(Vars.E.Slot, Vars.getSliderItem(Vars.EMenu, "harass")) &&
                 Vars.getSliderItem(Vars.EMenu, "harass") != 101)
             {
-                Vars.E.Cast(Vars.E.GetPrediction(Targets.Target).UnitPosition);
+                Vars.E.Cast(Vars.E.GetPrediction(Targets.Target).CastPosition);
             }
         }
     }

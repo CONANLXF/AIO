@@ -1,9 +1,12 @@
 using System;
 using System.Linq;
 using ExorAIO.Utilities;
+using LeagueSharp;
 using LeagueSharp.SDK;
+using EloBuddy;
+using EloBuddy.SDK;
 
- namespace ExorAIO.Champions.Quinn
+namespace ExorAIO.Champions.Quinn
 {
     /// <summary>
     ///     The logics class.
@@ -22,31 +25,43 @@ using LeagueSharp.SDK;
             }
 
             /// <summary>
-            ///     The Q Clear Logic.
+            ///     The Q LaneClear Logic.
+            /// </summary>
+            if (Vars.Q.IsReady() &&
+                Targets.Minions.Any() &&
+                GameObjects.Player.ManaPercent >
+                    ManaManager.GetNeededMana(Vars.Q.Slot, Vars.getSliderItem(Vars.QMenu, "laneclear")) &&
+                Vars.getSliderItem(Vars.QMenu, "laneclear") != 101)
+            {
+                if (Targets.Minions.Count(m => m.Distance(Targets.Minions[0]) < 200f) >= 3)
+                {
+                    Vars.Q.Cast(Targets.Minions[0].ServerPosition);
+                }
+            }
+        }
+
+        /// <summary>
+        ///     Called on do-cast.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="args">The args.</param>
+        public static void JungleClear(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
+        {
+            if (!(Orbwalker.LastTarget is Obj_AI_Minion) ||
+                !Targets.JungleMinions.Contains(Orbwalker.LastTarget as Obj_AI_Minion))
+            {
+                return;
+            }
+
+            /// <summary>
+            ///     The Q JungleClear Logic.
             /// </summary>
             if (Vars.Q.IsReady() &&
                 GameObjects.Player.ManaPercent >
-                    ManaManager.GetNeededMana(Vars.Q.Slot, Vars.getSliderItem(Vars.QMenu, "clear")) &&
-                Vars.getSliderItem(Vars.QMenu, "clear") != 101)
+                    ManaManager.GetNeededMana(Vars.Q.Slot, Vars.getSliderItem(Vars.QMenu, "jungleclear")) &&
+                Vars.getSliderItem(Vars.QMenu, "jungleclear") != 101)
             {
-                /// <summary>
-                ///     The Q LaneClear Logic.
-                /// </summary>
-                if (Targets.Minions.Any())
-                {
-                    if (Targets.Minions.Count(m => m.Distance(Targets.Minions[0]) < 200f) >= 3)
-                    {
-                        Vars.Q.Cast(Targets.Minions[0].ServerPosition);
-                    }
-                }
-
-                /// <summary>
-                ///     The Q JungleClear Logic.
-                /// </summary>
-                else if (Targets.JungleMinions.Any())
-                {
-                    Vars.Q.Cast(Targets.JungleMinions[0].ServerPosition);
-                }
+                Vars.Q.Cast((Orbwalker.LastTarget as Obj_AI_Minion).ServerPosition);
                 return;
             }
 
@@ -54,12 +69,11 @@ using LeagueSharp.SDK;
             ///     The E JungleClear Logic.
             /// </summary>
             if (Vars.E.IsReady() &&
-                Targets.JungleMinions.Any() &&
                 GameObjects.Player.ManaPercent >
                     ManaManager.GetNeededMana(Vars.E.Slot, Vars.getSliderItem(Vars.EMenu, "jungleclear")) &&
                 Vars.getSliderItem(Vars.EMenu, "jungleclear") != 101)
             {
-                Vars.E.CastOnUnit(Targets.JungleMinions[0]);
+                Vars.E.CastOnUnit(Orbwalker.LastTarget as Obj_AI_Minion);
             }
         }
     }

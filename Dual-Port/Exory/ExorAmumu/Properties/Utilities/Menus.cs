@@ -20,7 +20,7 @@ using ExorAIO.Utilities;
             {
                 Vars.QMenu.Add("combo", new CheckBox("Combo", true));
                 Vars.QMenu.Add("killsteal", new CheckBox("KillSteal", true));
-                Vars.QMenu.Add("junglegrab", new CheckBox("JungleGrab", true));
+                Vars.QMenu.Add("junglegrab", new Slider("JungleGrab / if Mana >= x%", 50, 0, 101));
             }
 
             /// <summary>

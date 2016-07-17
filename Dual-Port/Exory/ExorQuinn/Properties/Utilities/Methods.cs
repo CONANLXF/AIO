@@ -16,6 +16,7 @@ using LeagueSharp.SDK;
         public static void Initialize()
         {
             Game.OnUpdate += Quinn.OnUpdate;
+            Obj_AI_Base.OnSpellCast += Quinn.OnDoCast;
             Events.OnGapCloser += Quinn.OnGapCloser;
             Events.OnInterruptableTarget += Quinn.OnInterruptableTarget;
             Orbwalker.OnPreAttack += Quinn.Orbwalker_OnPreAttack;

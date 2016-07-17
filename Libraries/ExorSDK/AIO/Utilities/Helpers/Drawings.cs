@@ -28,7 +28,8 @@ namespace ExorAIO.Utilities
                 if (Vars.R != null &&
                     Vars.R.IsReady())
                 {
-                    if (GameObjects.Player.ChampionName.Equals("Jhin") || 
+                    if (GameObjects.Player.ChampionName.Equals("Lux") ||
+                        GameObjects.Player.ChampionName.Equals("Jhin") ||
                         GameObjects.Player.ChampionName.Equals("Ryze") ||
                         GameObjects.Player.ChampionName.Equals("Taliyah"))
                     {

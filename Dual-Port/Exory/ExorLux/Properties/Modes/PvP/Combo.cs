@@ -23,7 +23,7 @@ using EloBuddy;
             ///     The R Combo Logic.
             /// </summary>
             if (Vars.R.IsReady() &&
-                GameObjects.Player.Spellbook.GetSpell(SpellSlot.E).ToggleState == 1 &&
+                GameObjects.Player.Spellbook.GetSpell(SpellSlot.E).ToggleState != 1 &&
                 Vars.getCheckBoxItem(Vars.RMenu, "combo"))
             {
                 foreach (var target in GameObjects.EnemyHeroes.Where(

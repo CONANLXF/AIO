@@ -42,8 +42,8 @@ using LeagueSharp.SDK;
             /// </summary>
             Vars.EMenu = Vars.Menu.AddSubMenu("Use E to:");
             {
+                Vars.EMenu.Add("vision", new CheckBox("Vision", true));
                 Vars.EMenu.Add("logical", new CheckBox("Logical", true));
-                Vars.EMenu.Add("vision", new Slider("Vision / if Mana >= x%", 50, 0, 101));
             }
 
             /// <summary>
