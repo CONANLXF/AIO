@@ -167,7 +167,7 @@ namespace UnderratedAIO.Champions
                 }
             }
 
-            if (menuM["AutoW"].Cast<CheckBox>().CurrentValue)
+            if (menuC["AutoW"].Cast<CheckBox>().CurrentValue)
             {
                 CleanserManager();
             }
@@ -222,6 +222,7 @@ namespace UnderratedAIO.Champions
                                 KillableBarrel(o, false, -260))
                         .OrderBy(o => o.LSDistance(Game.CursorPos))
                         .FirstOrDefault();
+
                 if (barrel != null)
                 {
                     var cp = Game.CursorPos;
