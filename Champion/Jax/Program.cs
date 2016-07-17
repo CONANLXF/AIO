@@ -18,7 +18,7 @@ namespace JaxQx
 {
     internal class Program
     {
-        
+
         public const string ChampionName = "Jax";
 
         //Orbwalker instance
@@ -94,7 +94,7 @@ namespace JaxQx
 
             // Combo
             comboMenu = Config.AddSubMenu("Combo", "Combo");
-            comboMenu.Add("ComboUseQMinRange", new Slider("Min. Q Range", 250, 250, (int) Q.Range));
+            comboMenu.Add("ComboUseQMinRange", new Slider("Min. Q Range", 250, 250, (int)Q.Range));
             comboMenu.Add("Combo.CastE", new ComboBox("E Setting:", 1, "Cast E Before Q Jump", "Cast E After Q Jump"));
 
             // Harass
@@ -287,7 +287,7 @@ namespace JaxQx
 
             if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
-                var existsMana = Player.MaxMana/100*getSliderItem(harassMenu, "HarassMana");
+                var existsMana = Player.MaxMana / 100 * getSliderItem(harassMenu, "HarassMana");
                 if (Player.Mana >= existsMana)
                 {
                     Harass();
@@ -296,13 +296,13 @@ namespace JaxQx
 
             if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
-                var existsManalc = Player.MaxMana/100*getSliderItem(laneClearMenu, "LaneClearMana");
+                var existsManalc = Player.MaxMana / 100 * getSliderItem(laneClearMenu, "LaneClearMana");
                 if (Player.Mana >= existsManalc)
                 {
                     LaneClear();
                 }
 
-                var existsManajg = Player.MaxMana/100*getSliderItem(jungleMenu, "JungleFarmMana");
+                var existsManajg = Player.MaxMana / 100 * getSliderItem(jungleMenu, "JungleFarmMana");
                 if (Player.Mana >= existsManajg)
                 {
                     JungleFarm();
@@ -385,7 +385,7 @@ namespace JaxQx
                 {
                     if (
                         ObjectManager.Player.CountEnemiesInRange(
-                            (int) Orbwalking.GetRealAutoAttackRange(ObjectManager.Player)) >= 2
+                            (int)Orbwalking.GetRealAutoAttackRange(ObjectManager.Player)) >= 2
                         || t.Health > Player.Health)
                     {
                         R.CastOnUnit(Player);
@@ -409,68 +409,70 @@ namespace JaxQx
             switch (getBoxItem(harassMenu, "HarassMode"))
             {
                 case 0:
-                {
-                    if (Q.IsReady() && W.IsReady() && t != null && useQ && useW)
                     {
-                        if (useQDontUnderTurret)
+                        if (Q.IsReady() && W.IsReady() && t != null && useQ && useW)
                         {
-                            if (!t.UnderTurret())
+                            if (useQDontUnderTurret)
+                            {
+                                if (!t.UnderTurret())
+                                {
+                                    Q.Cast(t);
+                                    W.Cast();
+                                }
+                            }
+                            else
                             {
                                 Q.Cast(t);
                                 W.Cast();
                             }
                         }
-                        else
-                        {
-                            Q.Cast(t);
-                            W.Cast();
-                        }
+                        break;
                     }
-                    break;
-                }
                 case 1:
-                {
-                    if (Q.IsReady() && E.IsReady() && t != null && useQ && useE)
                     {
-                        if (useQDontUnderTurret)
+                        if (Q.IsReady() && E.IsReady() && t != null && useQ && useE)
                         {
-                            if (!t.UnderTurret())
+                            if (useQDontUnderTurret)
+                            {
+                                if (!t.UnderTurret())
+                                {
+                                    Q.Cast(t);
+                                    if (t.LSIsValidTarget(Orbwalking.GetRealAutoAttackRange(null) + 95))
+                                        E.Cast();
+                                }
+                            }
+                            else
                             {
                                 Q.Cast(t);
-                                E.Cast();
+                                if (t.LSIsValidTarget(Orbwalking.GetRealAutoAttackRange(null) + 95))
+                                    E.Cast();
                             }
                         }
-                        else
-                        {
-                            Q.Cast(t);
-                            E.Cast();
-                        }
+                        break;
                     }
-                    break;
-                }
                 case 2:
-                {
-                    if (Q.IsReady() && useQ && t != null && useQ)
                     {
-                        if (useQDontUnderTurret)
+                        if (Q.IsReady() && useQ && t != null && useQ)
                         {
-                            if (!t.UnderTurret()) Q.Cast(t);
+                            if (useQDontUnderTurret)
+                            {
+                                if (!t.UnderTurret()) Q.Cast(t);
+                            }
+                            else Q.Cast(t);
+                            UseItems(t);
                         }
-                        else Q.Cast(t);
-                        UseItems(t);
-                    }
 
-                    if (W.IsReady() && useW && t != null && t.LSIsValidTarget(E.Range))
-                    {
-                        W.Cast();
-                    }
+                        if (W.IsReady() && useW && t != null && t.LSIsValidTarget(E.Range))
+                        {
+                            W.Cast();
+                        }
 
-                    if (E.IsReady() && useE && t != null && t.LSIsValidTarget(E.Range))
-                    {
-                        E.CastOnUnit(Player);
+                        if (E.IsReady() && useE && t != null && t.LSIsValidTarget(Orbwalking.GetRealAutoAttackRange(null) + 95))
+                        {
+                            E.CastOnUnit(Player);
+                        }
+                        break;
                     }
-                    break;
-                }
             }
         }
 
@@ -528,7 +530,7 @@ namespace JaxQx
             var interruptSpells = getCheckBoxItem(miscMenu, "InterruptSpells");
             if (!interruptSpells || !E.IsReady() || unit.IsAlly) return;
 
-            if (Player.LSDistance(unit) <= E.Range)
+            if (unit.LSIsValidTarget(Orbwalking.GetRealAutoAttackRange(null) + 95))
             {
                 E.Cast();
             }
@@ -539,14 +541,14 @@ namespace JaxQx
             return
                 ObjectManager.Player.InventoryItems.FirstOrDefault(
                     item =>
-                        (item.Id == (ItemId) ID && item.Stacks >= 1) || (item.Id == (ItemId) ID && item.Charges >= 1));
+                        (item.Id == (ItemId)ID && item.Stacks >= 1) || (item.Id == (ItemId)ID && item.Charges >= 1));
         }
 
         public static void UseItems(AIHeroClient t)
         {
             if (t == null) return;
 
-            int[] targeted = {3153, 3144, 3146, 3184, 3748};
+            int[] targeted = { 3153, 3144, 3146, 3184, 3748 };
             foreach (var itemId in
                 targeted.Where(
                     itemId =>
@@ -556,7 +558,7 @@ namespace JaxQx
                 LeagueSharp.Common.Items.UseItem(itemId, t);
             }
 
-            int[] nonTarget = {3180, 3143, 3131, 3074, 3077, 3142};
+            int[] nonTarget = { 3180, 3143, 3131, 3074, 3077, 3142 };
             foreach (var itemId in
                 nonTarget.Where(
                     itemId =>
