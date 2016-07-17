@@ -116,6 +116,20 @@ using EloBuddy.SDK;
             {
                 Logics.AutoShield(sender, args);
             }
+            if (sender != null && args.Target != null && sender.Type == GameObjectType.AIHeroClient && args.Target.IsMe && sender.IsEnemy && Menus.getCheckBoxItem(Vars.EMenu, "logical") && Vars.E.IsReady())
+            {
+                if (!args.SData.ConsideredAsAutoAttack)
+                {
+                    if (!args.SData.Name.Contains("summoner") && !args.SData.Name.Contains("TormentedSoil"))
+                    {
+                        Vars.E.Cast();
+                    }
+                }
+                else if (args.SData.Name == "BlueCardAttack" || args.SData.Name == "RedCardAttack" || args.SData.Name == "GoldCardAttack")
+                {
+                    Vars.E.Cast();
+                }
+            }
         }
     }
 }
