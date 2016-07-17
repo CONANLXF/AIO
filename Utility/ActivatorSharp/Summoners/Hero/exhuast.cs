@@ -30,14 +30,15 @@ using EloBuddy.SDK.Menu.Values;
                 if (attacker == null || hid == null)
                     continue;
 
-                if (hero.Player.LSDistance(Player.ServerPosition) > Range)
+                if (hero.Player.LSDistance(Player.ServerPosition) > 1250)
                     continue;
 
-                if (attacker.LSDistance(hero.Player.ServerPosition) <= 1250)
+                if (attacker.LSDistance(hero.Player.ServerPosition) <= Range)
                 {
                     if (hero.HitTypes.Contains(HitType.ForceExhaust))
                     {
                         UseSpellOn(attacker);
+                        continue;
                     }
 
                     if (!Activator.smenu[Parent.UniqueMenuId + "useon" + attacker.NetworkId].Cast<CheckBox>().CurrentValue)
@@ -67,7 +68,7 @@ using EloBuddy.SDK.Menu.Values;
                     if (hero.Player.Health / hero.Player.MaxHealth * 100 <=
                         Menu["a" + Name + "pct"].Cast<Slider>().CurrentValue)
                     {
-                        if (!hero.Player.LSIsFacing(attacker))
+                        if (hero.Player.LSIsFacing(attacker))
                         {
                             if (attacker.NetworkId == hid.Player.NetworkId)
                             {

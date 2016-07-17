@@ -534,13 +534,13 @@ using EloBuddy.SDK.Menu.Values;
                             LeagueSharp.Common.Utility.DelayAction.Add(100 + (100 * i), () =>
                             {
                                 hero.Attacker = attacker;
-                                hero.HitTypes.Add(HitType.Spell);
+                                hero.HitTypes.Add(HitType.Danger);
                                 hero.IncomeDamage += dmg;
 
-                                LeagueSharp.Common.Utility.DelayAction.Add(400 + (100 * i), delegate
+                                LeagueSharp.Common.Utility.DelayAction.Add(300 + (100 * i), delegate
                                 {
                                     hero.Attacker = null;
-                                    hero.HitTypes.Remove(HitType.Spell);
+                                    hero.HitTypes.Remove(HitType.Danger);
                                     hero.IncomeDamage -= dmg;
                                 });
                             });

@@ -94,6 +94,7 @@ using EloBuddy.SDK.Menu.Values;
         private void Game_OnUpdate(EventArgs args)
         {
             return;
+            /*
             if (!azir.Spells.R.IsReady()) return;
             var insecPoint = new Vector3(0, 2, 3);
             if (Clickposition == new Vector3(0, 0, 0))
@@ -157,8 +158,7 @@ using EloBuddy.SDK.Menu.Values;
                     }
                     break;
             }
-
-
+            */
         }
 
         private void castWOnAngle(Vector2 playerPos, Vector2 targetPos, float ag)

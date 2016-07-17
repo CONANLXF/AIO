@@ -92,7 +92,15 @@ using EloBuddy.SDK.Menu.Values;
                                 ? R.GetDamage(tar.Player) * 2 : 0;
                             break;
                         case "Evelynn":
+                        case "Orianna":
+                        case "Lissandra":
+                        case "Karthus":
                             totaldmg += Math.Min(6, Player.Mana / Q.ManaCost) * Q.GetDamage(tar.Player);
+                            break;
+                        case "Vayne":
+                            totaldmg += Orbwalking.InAutoAttackRange(tar.Player)
+                                ? Math.Min(6, Player.Mana / Q.ManaCost) * Q.GetDamage(tar.Player)
+                                : 0;
                             break;
                     }
 
