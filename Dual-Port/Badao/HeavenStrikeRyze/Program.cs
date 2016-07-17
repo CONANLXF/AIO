@@ -69,7 +69,7 @@ namespace HeavenStrikeRyze
 
             laneMenu = _menu.AddSubMenu("LaneClear", "LaneClear");
             laneMenu.Add("QLC", new CheckBox("Use Q Lane Clear"));
-            laneMenu.Add("WJC", new CheckBox("Use W Lane Clear"));
+            laneMenu.Add("WLC", new CheckBox("Use W Lane Clear"));
             laneMenu.Add("ELC", new CheckBox("Use E Lane Clear"));
             laneMenu.Add("ManaLC", new Slider("Min mana for LaneClear", 40, 0, 100));
 
